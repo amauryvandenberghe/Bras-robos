@@ -1,0 +1,7 @@
+# Généré automatiquement (graphe local Graphify, refait par `graphify update .`)
+graphify-out/
+# Fichiers temporaires (Office, SolidWorks, archives)
+~$*
+*.tmp
+*.bak
+_envoi_github_temp.tgz
