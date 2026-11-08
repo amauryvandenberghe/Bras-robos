@@ -1,0 +1,25 @@
+PIECES A IMPRIMER (version finale du 30/10/2026)
+=================================================
+
+Les 7 STL de ce dossier sont les pieces de la version finale : ce sont exactement celles de l'assemblage
+SolidWorks 01_SolidWorks/1_ASSEMBLAGE_FINAL (verifie fichier par fichier le 30/10). Unites : mm. 1 exemplaire de chaque.
+
+  socle.stl           45,9 g   recoit le MG996R du lacet
+  plateau.stl         31,4 g   plateau tournant ; empreinte du palonnier arm01 du lacet DESSOUS, berceau du MG996R d'epaule
+  bras.stl            40,9 g   bras de 25 cm ; empreinte de l'arm01 d'epaule dans la joue ; logement du servo du coude
+  bride_coude.stl      1,7 g   bride du servo du coude (2 vis M3)
+  avant_bras.stl      17,2 g   empreinte de la broche du coude dans le moyeu ; logement du servo du poignet
+  bride_poignet.stl    1,7 g   bride du servo du poignet (2 vis M3)
+  corps_pince.stl     21,4 g   VOTRE pince d'origine + l'empreinte de la broche du poignet : A REIMPRIMER
+                               (remplace votre ancienne piece "pince")
+
+A imprimer aussi depuis VOS fichiers d'origine (inchanges, si ce n'est pas deja fait) :
+  - les 2 machoires     : "pince_a_imprimer_deux_fois" (2 exemplaires)
+  - le pignon           : "petit engrenage pince"
+  (copies dans 01_SolidWorks/2_Pieces d'origine (copies de vos fichiers))
+
+Conseils (PDF chapitre 10) : PLA, 4 perimetres, 20 % de remplissage. Imprimer les empreintes des palonniers face vers le
+haut si possible (pas de support dedans). Jeu : 0,15 mm dans les empreintes (poncer si le palonnier ne rentre pas,
+une goutte de colle s'il a du jeu), 0,4 mm dans les logements des servos.
+Visserie : vis et ecrous M3 des servos et des brides ; 10 vis de 2 mm pour les palonniers (fournies avec les servos).
+Verification des logements : aucune interference, tous les servos entrent (04_Simulation_Gazebo/bras_50cm/verification_logements.txt).

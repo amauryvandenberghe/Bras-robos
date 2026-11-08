@@ -1,0 +1,12 @@
+29/10/2026 20:38
+Test Gazebo (20 sequences de 3 balles, dispositions jamais vues) : reseau du simulateur 16/20, reseau affine 20/20 -> retenu : politique_affine.pt
+
+[17:16:02]   >>> RESEAU SEUL : 5 % de balles deposees {'balle 1': 0.042, 'balle 2': 0.079, 'balle 3': 0.025} (echecs : {'temps': 160, 'tombee': 6, 'collision': 62}, 1185 s)
+[17:26:30]   >>> RESEAU SEUL : 32 % de balles deposees {'balle 1': 0.408, 'balle 2': 0.225, 'balle 3': 0.35} (echecs : {'temps': 109, 'tombee': 5, 'collision': 49}, 626 s)
+[17:38:13]   >>> RESEAU SEUL : 91 % de balles deposees {'balle 1': 0.972, 'balle 2': 0.809, 'balle 3': 0.975} (echecs : {'temps': 6, 'collision': 15}, 702 s)
+[17:50:25]   >>> RESEAU SEUL : 97 % de balles deposees {'balle 1': 0.944, 'balle 2': 0.955, 'balle 3': 1.0} (echecs : {'temps': 5, 'collision': 3}, 729 s)
+[18:01:13]   >>> RESEAU SEUL : 99 % de balles deposees {'balle 1': 0.986, 'balle 2': 0.978, 'balle 3': 1.0} (echecs : {'collision': 3}, 646 s)
+[18:12:04]   >>> RESEAU SEUL : 99 % de balles deposees {'balle 1': 0.972, 'balle 2': 1.0, 'balle 3': 1.0} (echecs : {'temps': 1, 'collision': 1}, 648 s)
+[18:23:25]   >>> RESEAU SEUL : 100 % de balles deposees {'balle 1': 1.0, 'balle 2': 1.0, 'balle 3': 1.0} (echecs : {}, 676 s)
+[18:35:05]   >>> RESEAU SEUL : 100 % de balles deposees {'balle 1': 1.0, 'balle 2': 1.0, 'balle 3': 1.0} (echecs : {}, 696 s)
+[18:49:44]   >>> RESEAU SEUL : 100 % de balles deposees {'balle 1': 1.0, 'balle 2': 0.989, 'balle 3': 1.0} (echecs : {'temps': 1}, 874 s)

@@ -1,0 +1,127 @@
+CE QUI A CHANGE LE 08/11/2026 : DIRECTION
+=========================================
+Images : dossier "Vues 08-11". Archives : 3_Anciennes versions/3i_08-11 Assemblage1v2 avant direction MG996R, ICAM/Pieces tipe/anciennes versions 08-11.
+Vos pieces "support servo moteur direction" et "piece de liason servo moteur tige" sont gardees, mais retirees du robot.
+
+  MG996R a la place du MG90S, meme axe. Nouveau support (memes appuis sur le bati, maintien du 1er roulement inchange).
+  2e roulement dans une cuve sous le bati. Fixation : les 2 vis de l'ancien support + 1 trou neuf dans le bati (Bati : fonction "Trou cuve direction").
+  Entretoise a gradins : elle pousse sur la bague interieure, la poussee de la roue ne passe plus par le servo.
+  Nouvelle liaison : arm01 dans une empreinte, manchon 8,2 mm (9 mm avant), goupille dans le vrai trou de la tige.
+
+TROUVE EN DESSINANT (a regarder sur le vrai robot)
+  La poussee de la roue vers le haut n'etait retenue que par la goupille, donc par le servo.
+  Dans le modele d'origine, la goupille etait 3,6 mm au-dessus du trou de la tige (y 553,1 contre 549,48).
+  La tige n'a son diametre de 8 mm qu'au-dessus de y = 514,6 (carre puis evasement dessous). D'ou 15 mm seulement entre les 2 roulements
+  (22,7 mm avec une tige refaite sans evasement).
+
+CONTROLES
+  Robot complet : 183 contraintes, 0 en erreur, 119 composants. Tige non deplacee par les modifications.
+  MG996R, arm01, liaison : 0 mm3 sur +-90 degres (calcul par pas de 15 degres). Bras contre robot : aucune interference.
+  Restent 132 interferences au total : filets vis / ecrous, moins de 0,4 mm3 pour les pieces neuves, et les anciennes (broches ESP32, moteur / roues).
+  STL du chassis : 7, etanches.
+
+PAS FAIT : rien d'imprime. Resistance de la tige et de la cuve non calculee. Budget : voir chapitre 10 du PDF (environ 78 unites hors ESP32, pour 60).
+
+
+CE QUI A CHANGE LE 07/11/2026
+=============================
+Images : dossier "Vues 07-11". Archive d'avant : 3_Anciennes versions/3h_07-11 avant servo de pince droit et support capteurs
+(et ICAM/Pieces tipe/anciennes versions 07-11 pour vos pieces du robot et Assemblage1v2).
+
+SERVO DE PINCE
+  Avant : tourne de 45 degres autour de son axe, a moitie hors du bloc des machoires, pose sur ses pattes sans vis.
+  Maintenant : droit, le long du bloc, dans un logement ferme. On l'enfile par l'arriere, ses pattes butent contre un
+  epaulement, 2 vis de 2 x 8 (celles du servo) le tirent contre lui. Son axe n'a pas bouge (ecart 0,000 mm) : pignon et
+  machoires inchanges. L'ancien logement penche est rebouche.
+  Controle : servo / corps de pince 0,0 mm3 (5,4 + 5,3 mm3 avant). corps_pince : 21,4 -> 23,3 g (+1,9 g au bout du bras,
+  environ +0,8 % du couple de l'epaule, estime).
+  Bras seul : 99 contraintes (97 + les 2 vis), 0 en erreur, 93 composants.
+
+ROBOT COMPLET (Assemblage1v2, Bureau)
+  Poutre des roues avant (piece avec les bites) : le U est supprime (fonctions Boss.-Extru.8, Enlev. mat.-Extru.3,
+    Conge3, Enlev. mat.-Extru.4 SUPPRIMEES, pas effacees : on peut revenir en arriere), poutre droite d'une roue a l'autre.
+    2 trous de 3,5 mm ajoutes au milieu (a 20 mm de part et d'autre) pour le support des capteurs.
+  Support des capteurs : nouvelle piece "support capteurs 2 rangees" (ICAM/Pieces tipe), votre "support capteur" est garde.
+    Rangee arriere : au meme endroit qu'avant (juste devant la zone balayee par le bloc moteur de direction).
+    Rangee avant : juste devant la poutre, cartes en travers pour rester dans les 200 mm du bati.
+    81 mm entre les 2 rangees, 33 mm entre capteurs (30 avant : en travers, 3 cartes de 31 mm ne tiennent pas a 30).
+    Tout reste sous le bati (x 103 a 212 mm). 45,2 g.
+    Fixation : la plaque passe sous la poutre (2 vis M3 x 20) + la colonne vissee sous le bati au meme trou qu'avant.
+  Bras / bati : 4 vis M3 x 12 + 4 ecrous ajoutes dans les 4 trous du socle (le bati avait deja les trous).
+  Controle : 195 contraintes, 0 en erreur, 105 composants. Aucune interference du bras avec le robot.
+    Capteurs / support : 4 contacts de 0,4 mm3 par capteur, les memes qu'avec votre support d'origine (modele du capteur).
+    Restent les contacts vis / ecrous (filets) et ceux qui existaient deja (broches de l'ESP32 dans le bati, moteur / roues).
+
+PAS FAIT
+  Rien n'est imprime. Le programme de l'ESP32 ne lit pas encore les 3 capteurs de la rangee avant (broches a choisir).
+  Le robot fait toujours plus de 200 mm en longueur a cause des batteries modelisees derriere le bati (x -14 a 6 mm) et
+  des roues avant (jusqu'a x 218) : rien de change par les capteurs, mais a regarder pour le reglement.
+
+
+CE QUI A CHANGE LE 06/11/2026 : A VERIFIER DANS SOLIDWORKS
+==========================================================
+
+A OUVRIR
+  Bras seul     : ce dossier, Bras 50cm.SLDASM
+  Robot complet : Bureau, Assemblage1v2.SLDASM (il utilise le Bras 50cm de ce dossier : ne pas deplacer ce dossier)
+  Apercu        : Robot complet (Assemblage1v2).png
+  Visserie      : dossier Vues visserie, plastique transparent, vis M3 en bleu, ecrous en rouge, vis de 2 mm en vert.
+                  Ces couleurs existent seulement sur les images, pas dans les pieces.
+  Montage       : MONTAGE.txt
+
+ANCIENNES VERSIONS (01_SolidWorks/3_Anciennes versions)
+  3e_06-11 avant roulements                 ancien bras + ses fichiers d'impression
+  3f_06-11 Assemblage1v2 avant mise a jour  votre fichier du robot complet, avant mes modifications
+  3g_06-11 avec roulements sans visserie    version avec roulements, avant allegement et visserie
+
+ALLEGEMENT (masses PLA estimees)
+  bras          47,5 -> 40,8 g   poutre z 20..32, trous tous les 15 mm, fenetres dans les joues
+  avant_bras    17,6 -> 16,4 g   largeur +/-8 mm, 5 trous de 9 mm
+  palier_coude   6,7 ->  5,8 g
+  Total sur l'epaule : 8,8 g de plastique en moins, soit environ 1,5 % du couple de blocage du MG996R, bras a l'horizontale.
+  Gain modeste, chiffre estime. La masse des vis et ecrous en acier n'est comptee ni avant ni apres.
+  Le plateau et le socle ne chargent pas l'epaule : ils n'ont pas ete alleges davantage.
+
+PINCE, PALONNIERS, MONTAGE
+  Corps de pince : les 2 petits trous passent a 2,6 mm, sans lamage. La vis passe librement et se visse dans la broche.
+  Palonnier de la base : arm01, votre piece d'origine, a la place du palonnier rond dont les cotes etaient supposees.
+    4 vis de 2 x 8 par le dessous, trous de 1,7 mm traversants. La pointe depasse d'environ 1,7 mm au-dessus du plateau, sans gene.
+  MG996R d'epaule : ecrous captifs glisses par les cotes dans la face du plateau, avant de poser le servo.
+    On ne visse que cote servo, plus aucun acces necessaire derriere la face.
+  Visserie dessinee : 65 elements, contraints dans l'assemblage (Vis M3x8 x12, M3x12 x4, M3x16 x4, M3x20 x6, Ecrou x26,
+    Rondelle x1, Vis 2x8 x12).
+
+DEFAUT TROUVE ET CORRIGE EN CONTROLANT L'ACCES AUX VIS
+  La collerette du palonnier rebouchait l'axe sur 2 mm, dans le plateau et dans le bras : les vis centrales des 2 MG996R
+  n'auraient pas pu passer. Corrige dans cao_bras.py, passage de 8 mm rouvert. Les autres versions anterieures n'ont pas ete
+  controlees sur ce point.
+
+ACCES AUX VIS, CALCULE VIS PAR VIS (avec les seules pieces deja posees a chaque etape de MONTAGE.txt)
+  38 vis, tige de 4 mm : 36 ont plus de 150 mm libres, tout droit.
+  2 vis du bas du MG996R d'epaule : la jante gene la tige tout droit. Libre des 2 degres d'inclinaison.
+  Vis centrale du lacet : linteau de la face au-dessus de l'axe. Libre des 4 degres d'inclinaison vers +y.
+  Vis centrale de l'epaule : libre, tout droit, par l'exterieur de la joue.
+  26 ecrous : chacun a un chemin d'entree dans sa piece (cercle inscrit de l'ecrou, 20 mm de translation).
+  Ce calcul ne remplace pas un essai : la main et le manche du tournevis ne sont pas modelises.
+
+LE ROBOT COMPLET (Assemblage1v2)
+  Refaire le socle casse les contraintes bati / socle : remplacees par 3 contraintes, face du socle sur le bati + 2 trous opposes
+  en diagonale, (197,26 ; 545,72) et (131,26 ; 479,72). Bras au meme endroit : (164,26 ; 449,70 ; 512,72) mm.
+  Les traits gris qu'on voyait autour du bras etaient des esquisses : masquees (Affichage > Cacher / Montrer > Esquisses).
+
+CONTROLES FAITS
+  Bras seul     : 97 contraintes, 0 en erreur, 91 composants, aucun probleme de reference.
+                  155 interferences. Les plus grosses : vis de 2 mm dans les palonniers et le plateau, 3,5 a 6,7 mm3
+                  (normal, ces vis creusent leur filet) ; pince d'origine, 5,4 mm3 au plus.
+                  Celles de moins de 1 mm3 n'ont pas ete relues une par une.
+  Robot complet : 203 contraintes, 0 en erreur. Aucune interference entre le bras et le reste du robot.
+                  450 interferences au total, entre pieces du reste du robot ou dans le bras : non analysees une par une.
+  Logements     : tous les servos entrent, aucune interference (verifier_logements.py).
+  Base et epaule: aucune collision en rotation de la base. Le bras touche les patins vers 2,1-2,2 rad d'epaule ; le reseau ne depasse pas 1,57.
+  Impression    : plateau, bras, avant_bras, corps_pince, palier_coude : manifold pour PrusaSlicer. Autres pieces non repassees.
+
+PAS ENCORE FAIT
+  Rien n'est imprime ni monte : les jeux, les longueurs de vis et la tenue des vis de 2 mm restent a confirmer sur de vraies pieces.
+  Le bras (286 mm) ne tient sur la Core One qu'en diagonale, a environ 40 degres, avec 3 a 5 mm de marge. A verifier dans
+  PrusaSlicer, ainsi que les supports.
+  Gazebo utilise encore l'ancien maillage : la cinematique est la meme, le reseau n'a pas a etre reentraine.

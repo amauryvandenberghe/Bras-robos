@@ -1,0 +1,54 @@
+NOTICE DE MONTAGE DU BRAS 50 cm (version du 06/11/2026, avec roulements)
+=======================================================================
+Assemblage : Bras 50cm.SLDASM. Pieces a imprimer : dossier 02_Impression_3D.
+Cette version n'a encore ete ni imprimee ni montee : les jeux et les longueurs de vis sont a confirmer.
+
+A MESURER AVANT D'IMPRIMER LE PLATEAU
+  Palonnier rond du MG996R, cotes estimees : diametre 21 mm, epaisseur 2 mm, vis a 7,5 mm du centre.
+  Si elles different : modifier PALONNIER['rond'] et PALONNIERS['palonnier_lacet'] dans bras_50cm/cao_bras.py.
+
+MATERIEL
+  2 roulements 608 (8 x 22 x 7)
+  M3 x 8 ou 10 + ecrou : 8 (4 par bride de SG90)
+  M3 x 16 + ecrou : 4 (2 plaque du coude, 1 axe du coude + rondelle, 1 axe d'epaule)
+  M3 x 20 + ecrou : 6 (2 par patin)
+  M3 + ecrou pour les pattes des 2 MG996R : 8 (longueur a ajuster au montage)
+  4 vis autotaraudeuses du palonnier rond, 4 pour l'arm01 d'epaule, 2 par broche
+  Tous les trous M3 font 3,5 mm. Ecrous dans les empreintes, de l'autre cote.
+
+ORDRE DE MONTAGE
+  Avant tout : essayer chaque roulement dans son logement (22,1 mm, poncer si besoin) et chaque servo dans le sien.
+
+  1. BASE
+     a. Visser le MG996R de lacet dans le socle, ecrous glisses par le cote. Ne pas encore poser les patins.
+     b. Mettre le servo a 90 degres. Visser le palonnier rond SOUS le plateau (4 vis par le dessous).
+     c. Poser le plateau sur le servo, bras du robot vers l'avant. Vis centrale par le dessus, par le trou du plateau :
+        le MG996R d'epaule ne doit pas encore etre en place.
+     d. Glisser un ecrou dans chaque poteau. Poser chaque patin sur son poteau, le pousser vers l'axe jusqu'a ce que son
+        doigt entre dans la gorge et que les trous s'alignent, puis 2 vis M3 x 20. Le plateau doit tourner sans point dur :
+        poncer le doigt s'il frotte trop.
+
+  2. EPAULE
+     a. Enfoncer un 608 dans la joue du plateau, par l'exterieur.
+     b. Visser le MG996R d'epaule sur la face du plateau.
+     c. Visser le palonnier arm01 dans l'empreinte de la joue du bras (4 vis).
+     d. Mettre le servo au bon angle, engager le palonnier sur sa cannelure, vis centrale.
+     e. Mettre l'ecrou dans le bout de l'axe imprime. Passer l'axe de l'exterieur, a travers la joue du bras, jusque dans le
+        roulement, puis serrer avec la vis M3 x 16 par la tete de l'axe.
+
+  3. COUDE (l'avant-bras doit etre libre de la plaque jusqu'a la fin)
+     a. Poser le SG90/MG90S dans le bras. Bride : 4 vis, ecrous sous le bras. Serrer en croix.
+     b. Mettre le servo au bon angle, visser la broche sur la cannelure avec sa vis centrale.
+     c. Glisser l'ecrou M3 dans l'empreinte sous la broche, dans le moyeu de l'avant-bras. Emboiter le moyeu sur la broche,
+        2 vis par le dessous.
+     d. Glisser les 2 ecrous dans le pied de la colonne, par le cote. Enfoncer le 608 dans la plaque.
+     e. Enfiler la plaque sur l'axe de l'avant-bras et emboiter la colonne dans la plaque. 2 vis M3 x 16 par le dessous.
+     f. Vis M3 x 16 + rondelle dans l'axe, par le dessous, a travers le roulement. La rondelle appuie sur la bague interieure.
+
+  4. POIGNET ET PINCE
+     a. Servo dans l'avant-bras, bride a 4 vis, serrage en croix.
+     b. Broche sur le servo, pince sur la broche, 2 vis.
+
+APRES LE MONTAGE
+  Regler SENS et DECALAGE_DEG dans 03_Reseau_de_neurones/esp32/bras_robot/bras_robot.ino, servo par servo (commande USB J).
+  Le bras a la meme geometrie qu'avant : pas de reentrainement du reseau pour cette version.

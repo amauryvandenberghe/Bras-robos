@@ -1,0 +1,13 @@
+{
+ "ecart": 13.0,
+ "x_arriere": 118.8,
+ "x_lateraux_avant": 205.05,
+ "x_central_avant": 190.55,
+ "baisse_arriere": 3.0,
+ "z_lateraux": [
+  499.72,
+  525.72
+ ],
+ "z_milieu": 512.72,
+ "ecart_rangees": 86.25000000000001
+}

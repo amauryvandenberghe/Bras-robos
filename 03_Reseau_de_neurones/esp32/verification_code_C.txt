@@ -1,0 +1,9 @@
+modeles/politique_finale.pt : 279557 poids = 1.12 Mo en float32 -> /home/amaury/ros2_ws/src/mon_bras_robot/ia_50cm/esp32/bras_esp32/reseau_poids.h
+  cas 8 : garde-fou a la limite (pince a z = 0.15411 m)
+  cas 134 : garde-fou a la limite (pince a z = 0.13143 m)
+  cas 346 : garde-fou a la limite (pince a z = 0.05051 m)
+  cas 943 : garde-fou a la limite (pince a z = 0.06348 m)
+  cas 1640 : garde-fou a la limite (pince a z = 0.12357 m)
+  cas 1687 : garde-fou a la limite (pince a z = 0.19681 m)
+  cas 1959 : garde-fou a la limite (pince a z = 0.17065 m)
+2000 cas : ecart maxi point de prise 1.19e-07 m, observation 3.99e-06, sorties du reseau 6.94e-06, consignes 6.00e-02 rad (7 cas differents), pince 1.49e-08 rad

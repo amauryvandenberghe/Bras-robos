@@ -1,0 +1,40 @@
+PIECES A IMPRIMER (mis a jour le 08/11/2026)
+============================================
+Tout est dans ce dossier : 27 STL, ouvrir tout d'un coup dans le slicer. Controle le 08/11 : chaque STL compare a la version finale SolidWorks, tous etanches.
+Rien n'a encore ete imprime ni monte. Notice : 01_SolidWorks/1_VERSION_FINALE (a ouvrir)/Documents/MONTAGE.txt.
+
+ATTENTION AVANT DE LANCER
+  - Quantites : 1 de chaque, sauf "roue avant libre x2" et "roue arriere motrice x2" (2 de chaque).
+  - Les pieces gardent leur position du modele : les coucher a plat dans le slicer, le STL n'est pas oriente pour l'impression.
+  - Pieces d'origine de votre robot, probablement deja imprimees (ne pas les refaire si c'est le cas) : roues, maitient roulement a bille, piece moteur direction.
+  - tige pour direction : c'est la tige de votre modele ; si la votre est en metal, ne pas l'imprimer.
+  - La bati fait 160 x 200 mm et le bras 286 mm (en diagonale sur la Core One, 3 a 5 mm de marge : a verifier).
+
+ROBOT
+  support capteurs 2 rangees     32,0 g  NOUVEAU 08/11, capteurs a 13 mm. Jupes vers le plateau, colonne vers le haut, supports necessaires.
+  piece avec les bites (poutre)          poutre droite, 2 trous de 3,5 mm, encoche de 1,46 mm pour une carte de capteur (NOUVEAU 08/11)
+  bati (avec le trou de la cuve)         1 trou de 3,5 mm de plus que le votre (on peut aussi le percer)
+  support MG996R direction       23,7 g  semelle sur le plateau
+  cuve direction                 10,9 g  siege de 22,1 mm : essayer le roulement, poncer si besoin
+  liaison MG996R tige             3,8 g  manchon vers le haut
+  entretoise direction            0,7 g
+  roue avant libre x2, roue arriere motrice x2, maitient roulement a bille, piece moteur direction, tige pour direction : pieces d'origine
+
+BRAS (masses estimees, 184,6 g au total hors machoires et pignon)
+  socle.stl           52,6 g   recoit le MG996R de lacet + 3 poteaux pour les patins
+  plateau.stl         37,6 g   gorge sur son pourtour, roulement d'epaule, arm01 dessous, ecrous captifs du MG996R d'epaule
+  bras.stl            40,8 g   bras de 25 cm + colonne du palier de coude
+  palier_coude.stl     5,8 g   plaque du roulement du coude
+  axe_epaule.stl       0,8 g   axe de l'epaule
+  patin_a, b, c.stl    1,3 g   3 patins de la base
+  bride_coude.stl      1,7 g   bride a 4 vis
+  avant_bras.stl      16,4 g   axe du coude, logement du servo de poignet
+  bride_poignet.stl    1,7 g   bride a 4 vis
+  corps_pince.stl     23,3 g   votre pince d'origine + empreinte de la broche + logement droit du servo de pince
+  machoire_a.STL, machoire_b.STL, pignon_pince.STL : pieces d'origine de la pince
+
+Conseils : PLA, 4 perimetres, 20 % de remplissage.
+Jeux : 0,15 mm dans les empreintes et autour des SG90, 0,3 mm autour des MG996R, logement du 608 a 22,1 mm, trous M3 a 3,5 mm.
+Avant-trous des vis de 2 mm : 1,7 mm dans le plateau (traversants), 2,6 mm de passage dans le bras, l'avant-bras et le corps de pince.
+La gorge du plateau a un plafond de 1,5 mm en porte-a-faux : faire un petit essai d'impression de cette zone avant la piece entiere.
+Ancien fichier avant_bras...bgcode (ancien avant-bras) : deplace dans 01_SolidWorks/3_Anciennes versions/3k.../Impression.

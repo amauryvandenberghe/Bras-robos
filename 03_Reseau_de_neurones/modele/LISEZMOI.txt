@@ -1,0 +1,19 @@
+RESEAUX DE NEURONES DU BRAS - lequel utiliser ?
+===============================================
+
+1_RESEAU_FINAL (a utiliser)/reseau_final.pt
+    LE SEUL RESEAU A UTILISER (depuis le 30/10/2026). C'est lui qui est dans l'ESP32
+    (03_Reseau_de_neurones/esp32/bras_esp32/reseau_poids.h) et dans les demos Gazebo.
+    = "reseau du parcours, affine" : sait prendre les balles sur les cotes ET devant le robot.
+    Tests Gazebo : scene d'origine 18/20 sequences (54/60 balles) ; reglette devant 17/20 (36/40).
+    Dans Ubuntu : ~/ros2_ws/src/mon_bras_robot/ia_50cm/modeles/politique_finale.pt (meme fichier).
+
+2_Secours (ancien reseau du 29-10)/reseau_secours_29oct.pt
+    Ancien reseau final : 20/20 sur la scene d'origine, mais NE PREND PAS les balles devant le robot
+    (0 prise sur 15). A garder seulement en secours / pour comparer. Ne pas mettre dans l'ESP32.
+
+3_Historique (pour memoire)
+    Resultats d'essais anciens (derniere demo Gazebo). Rien a utiliser.
+
+Prochain reseau : appris sur la vraie disposition du plateau (reglettes pleines) quand le plan cote
+sera connu ; il remplacera reseau_final.pt (et l'actuel passera en secours).

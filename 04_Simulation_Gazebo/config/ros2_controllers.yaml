@@ -1,0 +1,27 @@
+arm_controller:
+  ros__parameters:
+    command_interfaces:
+    - position
+    joints:
+    - joint_base_bras_1
+    - joint_base_bras_2
+    - joint_base_bras_3
+    - joint_base_bras_4
+    - joint_base_bras_44
+    - joint_base_bras_45
+    - joint_base_bras_46
+    state_interfaces:
+    - position
+    - velocity
+# Gain des servos dans Gazebo (defaut 0.1) : vitesse commandee = gain x erreur de position.
+# A 0.1, une machoire bloquee contre la balle ne pousse presque pas et la balle glisse.
+gz_ros2_control:
+  ros__parameters:
+    position_proportional_gain: 5.0
+controller_manager:
+  ros__parameters:
+    arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    update_rate: 100

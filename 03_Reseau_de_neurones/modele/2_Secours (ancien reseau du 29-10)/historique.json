@@ -1,0 +1,158 @@
+[
+  {
+    "tour": 0,
+    "essais": 1500,
+    "part_expert": 1.0,
+    "exemples": 245091,
+    "perte": 0.02766,
+    "reussite": 0.05,
+    "par_balle": {
+      "balle 1": 0.042,
+      "balle 2": 0.079,
+      "balle 3": 0.025
+    },
+    "echecs": {
+      "temps": 160,
+      "tombee": 6,
+      "collision": 62
+    },
+    "duree_s": 1185
+  },
+  {
+    "tour": 1,
+    "essais": 700,
+    "part_expert": 0.5,
+    "exemples": 362425,
+    "perte": 0.03133,
+    "reussite": 0.32083333333333336,
+    "par_balle": {
+      "balle 1": 0.408,
+      "balle 2": 0.225,
+      "balle 3": 0.35
+    },
+    "echecs": {
+      "temps": 109,
+      "tombee": 5,
+      "collision": 49
+    },
+    "duree_s": 626
+  },
+  {
+    "tour": 2,
+    "essais": 700,
+    "part_expert": 0.25,
+    "exemples": 481682,
+    "perte": 0.03498,
+    "reussite": 0.9125,
+    "par_balle": {
+      "balle 1": 0.972,
+      "balle 2": 0.809,
+      "balle 3": 0.975
+    },
+    "echecs": {
+      "temps": 6,
+      "collision": 15
+    },
+    "duree_s": 702
+  },
+  {
+    "tour": 3,
+    "essais": 700,
+    "part_expert": 0.0,
+    "exemples": 614606,
+    "perte": 0.04732,
+    "reussite": 0.9666666666666667,
+    "par_balle": {
+      "balle 1": 0.944,
+      "balle 2": 0.955,
+      "balle 3": 1.0
+    },
+    "echecs": {
+      "temps": 5,
+      "collision": 3
+    },
+    "duree_s": 729
+  },
+  {
+    "tour": 4,
+    "essais": 700,
+    "part_expert": 0.0,
+    "exemples": 740757,
+    "perte": 0.0485,
+    "reussite": 0.9875,
+    "par_balle": {
+      "balle 1": 0.986,
+      "balle 2": 0.978,
+      "balle 3": 1.0
+    },
+    "echecs": {
+      "collision": 3
+    },
+    "duree_s": 646
+  },
+  {
+    "tour": 5,
+    "essais": 700,
+    "part_expert": 0.0,
+    "exemples": 863610,
+    "perte": 0.04747,
+    "reussite": 0.9916666666666667,
+    "par_balle": {
+      "balle 1": 0.972,
+      "balle 2": 1.0,
+      "balle 3": 1.0
+    },
+    "echecs": {
+      "temps": 1,
+      "collision": 1
+    },
+    "duree_s": 648
+  },
+  {
+    "tour": 6,
+    "essais": 700,
+    "part_expert": 0.0,
+    "exemples": 984995,
+    "perte": 0.04681,
+    "reussite": 1.0,
+    "par_balle": {
+      "balle 1": 1.0,
+      "balle 2": 1.0,
+      "balle 3": 1.0
+    },
+    "echecs": {},
+    "duree_s": 676
+  },
+  {
+    "tour": 7,
+    "essais": 700,
+    "part_expert": 0.0,
+    "exemples": 1107955,
+    "perte": 0.04582,
+    "reussite": 1.0,
+    "par_balle": {
+      "balle 1": 1.0,
+      "balle 2": 1.0,
+      "balle 3": 1.0
+    },
+    "echecs": {},
+    "duree_s": 696
+  },
+  {
+    "tour": 8,
+    "essais": 700,
+    "part_expert": 0.0,
+    "exemples": 1228619,
+    "perte": 0.04489,
+    "reussite": 0.9958333333333333,
+    "par_balle": {
+      "balle 1": 1.0,
+      "balle 2": 0.989,
+      "balle 3": 1.0
+    },
+    "echecs": {
+      "temps": 1
+    },
+    "duree_s": 874
+  }
+]

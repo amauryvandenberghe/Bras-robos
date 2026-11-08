@@ -1,0 +1,64 @@
+NOTICE DE MONTAGE DU BRAS 50 cm (version allegee du 06/11/2026, visserie dessinee)
+==================================================================================
+Assemblage : Bras 50cm.SLDASM. Pieces a imprimer : dossier 02_Impression_3D.
+Images de chaque zone, vis en couleur : dossier "Vues visserie" (vis M3 en bleu, ecrous en rouge, vis de 2 mm en vert).
+Cette version n'a encore ete ni imprimee ni montee : les jeux restent a confirmer sur de vraies pieces.
+
+MATERIEL
+  2 roulements 608 (8 x 22 x 7)
+  Vis M3 x 8  : 12  (4 par bride de SG90 = 8, 4 pour le MG996R d'epaule)
+  Vis M3 x 12 :  4  (MG996R de lacet)
+  Vis M3 x 16 :  4  (2 plaque du coude, 1 axe du coude, 1 axe d'epaule)
+  Vis M3 x 20 :  6  (2 par patin)
+  Ecrous M3   : 26, rondelle M3 : 1 (axe du coude)
+  Vis de 2 x 8 autotaraudeuses : 12 (4 arm01 de lacet, 4 arm01 d'epaule, 2 par broche)
+  Plus les 4 vis centrales livrees avec les servos (non dessinees).
+  Tous les trous M3 font 3,5 mm.
+
+OUTILS
+  Tournevis a tige fine et longue : tige de 4 mm de diametre au plus, 70 mm de long au moins.
+  Il sert aux 3 endroits serres, tous verifies par calcul :
+    - vis centrale du lacet : tournevis penche d'au moins 4 degres du cote des tetes de vis de l'epaule (+y), voir etape 1d ;
+    - 2 vis du bas du MG996R d'epaule : penche d'au moins 2 degres vers le haut, sinon la tige frotte sur la jante.
+
+ORDRE DE MONTAGE
+  Avant tout : essayer chaque roulement dans son logement (22,1 mm, poncer si besoin) et chaque servo dans le sien.
+
+  1. BASE
+     a. Glisser les 4 ecrous du lacet dans le socle, par les cotes (+y / -y). Poser le MG996R, 4 vis M3 x 12 par le dessus.
+     b. Mettre le servo a 90 degres.
+     c. Visser l'arm01 SOUS le plateau, avant de le poser : 4 vis de 2 x 8 par le dessous, a travers le palonnier.
+        Les trous sont traversants : la pointe depasse d'environ 1,7 mm sur le dessus du plateau, sans rien gener.
+     d. Poser le plateau sur la cannelure, arm01 oriente suivant y. Le MG996R d'epaule ne doit PAS etre en place.
+        Vis centrale : la descendre a travers la fenetre et le trou de la face, tournevis penche d'au moins 4 degres.
+     e. Glisser les 6 ecrous des patins dans les poteaux, par l'exterieur. Poser chaque patin, le pousser vers l'axe jusqu'a ce
+        que son doigt entre dans la gorge, puis 2 vis M3 x 20 par le dessus. Le plateau doit tourner sans point dur :
+        poncer le doigt s'il frotte trop.
+
+  2. EPAULE
+     a. Glisser les 4 ecrous dans la face du plateau, par les cotes (+x / -x). Ils restent captifs : plus besoin d'y acceder.
+     b. Enfoncer un 608 dans la joue du plateau, par l'exterieur.
+     c. Poser le MG996R d'epaule contre la face. 4 vis M3 x 8 cote servo : aucune main derriere la face, c'est tout l'interet
+        des ecrous captifs. Les 2 du bas : tournevis penche d'au moins 2 degres.
+     d. Visser l'arm01 dans l'empreinte de la joue du bras : 4 vis de 2 x 8 par l'exterieur.
+     e. Mettre le servo au bon angle, engager le palonnier sur sa cannelure. Vis centrale par le trou de la joue, depuis l'exterieur.
+     f. Mettre l'ecrou dans le bout de l'axe imprime. Passer l'axe de l'exterieur, a travers la joue du bras, jusque dans le
+        roulement, puis serrer avec la vis M3 x 16 par la tete de l'axe.
+
+  3. COUDE (l'avant-bras doit etre libre de la plaque jusqu'a la fin)
+     a. Glisser les 4 ecrous sous le bras, poser le SG90/MG90S, bride, 4 vis M3 x 8. Serrer en croix.
+     b. Mettre le servo au bon angle, visser la broche sur la cannelure avec sa vis centrale.
+     c. Mettre l'ecrou M3 dans l'empreinte du moyeu de l'avant-bras, cote broche. Emboiter le moyeu sur la broche,
+        2 vis de 2 x 8 par le dessous.
+     d. Glisser les 2 ecrous dans le pied de la colonne, par le cote (-y). Enfoncer le 608 dans la plaque.
+     e. Enfiler la plaque sur l'axe de l'avant-bras et emboiter la colonne dans la plaque. 2 vis M3 x 16 par le dessous.
+     f. Vis M3 x 16 + rondelle dans l'axe, par le dessous, a travers le roulement. La rondelle appuie sur la bague interieure.
+
+  4. POIGNET ET PINCE
+     a. Glisser les 4 ecrous sous l'avant-bras, servo, bride, 4 vis M3 x 8, serrage en croix.
+     b. Broche sur la cannelure, vis centrale. Pince sur la broche, 2 vis de 2 x 8 par l'exterieur du corps.
+        Les trous font maintenant 2,6 mm dans le corps : la vis y passe librement et se visse dans la broche.
+
+APRES LE MONTAGE
+  Regler SENS et DECALAGE_DEG dans 03_Reseau_de_neurones/esp32/bras_robot/bras_robot.ino, servo par servo (commande USB J).
+  Le bras a la meme geometrie qu'avant : pas de reentrainement du reseau pour cette version.

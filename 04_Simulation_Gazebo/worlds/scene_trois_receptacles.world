@@ -1,0 +1,512 @@
+<?xml version="1.0" ?>
+<!-- FICHIER GENERE par ia_50cm/creer_scene.py : modifier le script plutot que ce fichier.
+     Receptacles 1 et 2 : bord a 15 cm ; receptacle 3 : bord a 50 cm. Une balle par receptacle, du plus proche des balles
+     au plus eloigne ; seul le receptacle vise est solide, les autres sont affiches en fantomes (fantome_i).
+     Positions : ia_50cm/evaluer_receptacles.py les tire au hasard. -->
+<sdf version="1.6">
+  <world name="scene_trois_receptacles">
+    <scene>
+      <ambient>0.6 0.6 0.6 1</ambient>
+      <background>0.8 0.8 0.8 1</background>
+    </scene>
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+    <model name="ground_plane">
+      <static>true</static>
+      <pose>0 0 -0.025 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>20 20 0.05</size></box></geometry></collision>
+        <visual name="visual">
+          <geometry><box><size>20 20 0.02</size></box></geometry>
+          <material><ambient>0.6 0.6 0.6 1</ambient><diffuse>0.7 0.7 0.7 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="receptacle_1">
+      <static>true</static>
+      <pose>-0.6 0.4 0 0 0 0</pose>
+      <link name="link">
+        <collision name="colonne"><pose>0 0 0.049999999999999996 0 0 0</pose><geometry><cylinder><radius>0.05</radius><length>0.09999999999999999</length></cylinder></geometry></collision>
+        <visual name="v_colonne"><pose>0 0 0.049999999999999996 0 0 0</pose><geometry><cylinder><radius>0.05</radius><length>0.09999999999999999</length></cylinder></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.95 0.95 0.95 1</diffuse></material></visual>
+        <collision name="paroi_0_0"><pose>0.04432 0.00000 0.14219 1.74533 -0.00000 1.57080</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_1"><pose>0.04094 0.01696 0.14219 1.74533 -0.00000 1.96350</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_2"><pose>0.03134 0.03134 0.14219 1.74533 -0.00000 2.35619</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_3"><pose>0.01696 0.04094 0.14219 1.74533 -0.00000 2.74889</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_4"><pose>0.00000 0.04432 0.14219 1.74533 -0.00000 3.14159</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_5"><pose>-0.01696 0.04094 0.14219 1.74533 -0.00000 -2.74889</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_6"><pose>-0.03134 0.03134 0.14219 1.74533 -0.00000 -2.35619</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_7"><pose>-0.04094 0.01696 0.14219 1.74533 -0.00000 -1.96350</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_8"><pose>-0.04432 0.00000 0.14219 1.74533 -0.00000 -1.57080</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_9"><pose>-0.04094 -0.01696 0.14219 1.74533 -0.00000 -1.17810</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_10"><pose>-0.03134 -0.03134 0.14219 1.74533 -0.00000 -0.78540</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_11"><pose>-0.01696 -0.04094 0.14219 1.74533 -0.00000 -0.39270</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_12"><pose>-0.00000 -0.04432 0.14219 1.74533 -0.00000 -0.00000</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_13"><pose>0.01696 -0.04094 0.14219 1.74533 -0.00000 0.39270</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_14"><pose>0.03134 -0.03134 0.14219 1.74533 -0.00000 0.78540</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_15"><pose>0.04094 -0.01696 0.14219 1.74533 -0.00000 1.17810</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_0"><pose>0.03897 0.00000 0.12750 2.09440 -0.00000 1.57080</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_1"><pose>0.03600 0.01491 0.12750 2.09440 -0.00000 1.96350</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_2"><pose>0.02756 0.02756 0.12750 2.09440 -0.00000 2.35619</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_3"><pose>0.01491 0.03600 0.12750 2.09440 -0.00000 2.74889</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_4"><pose>0.00000 0.03897 0.12750 2.09440 -0.00000 3.14159</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_5"><pose>-0.01491 0.03600 0.12750 2.09440 -0.00000 -2.74889</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_6"><pose>-0.02756 0.02756 0.12750 2.09440 -0.00000 -2.35619</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_7"><pose>-0.03600 0.01491 0.12750 2.09440 -0.00000 -1.96350</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_8"><pose>-0.03897 0.00000 0.12750 2.09440 -0.00000 -1.57080</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_9"><pose>-0.03600 -0.01491 0.12750 2.09440 -0.00000 -1.17810</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_10"><pose>-0.02756 -0.02756 0.12750 2.09440 -0.00000 -0.78540</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_11"><pose>-0.01491 -0.03600 0.12750 2.09440 -0.00000 -0.39270</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_12"><pose>-0.00000 -0.03897 0.12750 2.09440 -0.00000 -0.00000</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_13"><pose>0.01491 -0.03600 0.12750 2.09440 -0.00000 0.39270</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_14"><pose>0.02756 -0.02756 0.12750 2.09440 -0.00000 0.78540</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_15"><pose>0.03600 -0.01491 0.12750 2.09440 -0.00000 1.17810</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_0"><pose>0.02893 0.00000 0.11553 2.44346 -0.00000 1.57080</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_1"><pose>0.02672 0.01107 0.11553 2.44346 -0.00000 1.96350</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_2"><pose>0.02045 0.02045 0.11553 2.44346 -0.00000 2.35619</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_3"><pose>0.01107 0.02672 0.11553 2.44346 -0.00000 2.74889</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_4"><pose>0.00000 0.02893 0.11553 2.44346 -0.00000 3.14159</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_5"><pose>-0.01107 0.02672 0.11553 2.44346 -0.00000 -2.74889</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_6"><pose>-0.02045 0.02045 0.11553 2.44346 -0.00000 -2.35619</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_7"><pose>-0.02672 0.01107 0.11553 2.44346 -0.00000 -1.96350</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_8"><pose>-0.02893 0.00000 0.11553 2.44346 -0.00000 -1.57080</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_9"><pose>-0.02672 -0.01107 0.11553 2.44346 -0.00000 -1.17810</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_10"><pose>-0.02045 -0.02045 0.11553 2.44346 -0.00000 -0.78540</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_11"><pose>-0.01107 -0.02672 0.11553 2.44346 -0.00000 -0.39270</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_12"><pose>-0.00000 -0.02893 0.11553 2.44346 -0.00000 -0.00000</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_13"><pose>0.01107 -0.02672 0.11553 2.44346 -0.00000 0.39270</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_14"><pose>0.02045 -0.02045 0.11553 2.44346 -0.00000 0.78540</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_15"><pose>0.02672 -0.01107 0.11553 2.44346 -0.00000 1.17810</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_0"><pose>0.01539 0.00000 0.10771 2.79253 -0.00000 1.57080</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_1"><pose>0.01422 0.00589 0.10771 2.79253 -0.00000 1.96350</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_2"><pose>0.01088 0.01088 0.10771 2.79253 -0.00000 2.35619</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_3"><pose>0.00589 0.01422 0.10771 2.79253 -0.00000 2.74889</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_4"><pose>0.00000 0.01539 0.10771 2.79253 -0.00000 3.14159</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_5"><pose>-0.00589 0.01422 0.10771 2.79253 -0.00000 -2.74889</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_6"><pose>-0.01088 0.01088 0.10771 2.79253 -0.00000 -2.35619</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_7"><pose>-0.01422 0.00589 0.10771 2.79253 -0.00000 -1.96350</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_8"><pose>-0.01539 0.00000 0.10771 2.79253 -0.00000 -1.57080</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_9"><pose>-0.01422 -0.00589 0.10771 2.79253 -0.00000 -1.17810</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_10"><pose>-0.01088 -0.01088 0.10771 2.79253 -0.00000 -0.78540</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_11"><pose>-0.00589 -0.01422 0.10771 2.79253 -0.00000 -0.39270</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_12"><pose>-0.00000 -0.01539 0.10771 2.79253 -0.00000 -0.00000</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_13"><pose>0.00589 -0.01422 0.10771 2.79253 -0.00000 0.39270</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_14"><pose>0.01088 -0.01088 0.10771 2.79253 -0.00000 0.78540</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_15"><pose>0.01422 -0.00589 0.10771 2.79253 -0.00000 1.17810</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="fond"><pose>0 0 0.10500 0 0 0</pose><geometry><cylinder><radius>0.0180</radius><length>0.01</length></cylinder></geometry></collision>
+        <visual name="v_coupe"><pose>0 0 0.15 0 0 0</pose><geometry><mesh><uri>/home/amaury/ros2_ws/src/mon_bras_robot/meshes/bras_50cm/coupe_petite.stl</uri></mesh></geometry><material><ambient>0 0.3 0.8 1</ambient><diffuse>0 0.4 1 1</diffuse></material></visual>
+      </link>
+    </model>
+    <model name="fantome_1">
+      <static>true</static>
+      <pose>-1.3 0.4 0 0 0 0</pose>
+      <link name="link">
+        <visual name="v_colonne"><pose>0 0 0.049999999999999996 0 0 0</pose><geometry><cylinder><radius>0.05</radius><length>0.09999999999999999</length></cylinder></geometry>
+          <transparency>0.6</transparency><material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.95 0.95 0.95 1</diffuse></material></visual>
+        <visual name="v_coupe"><pose>0 0 0.15 0 0 0</pose><geometry><mesh><uri>/home/amaury/ros2_ws/src/mon_bras_robot/meshes/bras_50cm/coupe_petite.stl</uri></mesh></geometry>
+          <transparency>0.5</transparency><material><ambient>0 0.3 0.8 1</ambient><diffuse>0 0.4 1 1</diffuse></material></visual>
+      </link>
+    </model>
+    <model name="receptacle_2">
+      <static>true</static>
+      <pose>-0.6 -0.4 0 0 0 0</pose>
+      <link name="link">
+        <collision name="colonne"><pose>0 0 0.049999999999999996 0 0 0</pose><geometry><cylinder><radius>0.05</radius><length>0.09999999999999999</length></cylinder></geometry></collision>
+        <visual name="v_colonne"><pose>0 0 0.049999999999999996 0 0 0</pose><geometry><cylinder><radius>0.05</radius><length>0.09999999999999999</length></cylinder></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.95 0.95 0.95 1</diffuse></material></visual>
+        <collision name="paroi_0_0"><pose>0.04432 0.00000 0.14219 1.74533 -0.00000 1.57080</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_1"><pose>0.04094 0.01696 0.14219 1.74533 -0.00000 1.96350</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_2"><pose>0.03134 0.03134 0.14219 1.74533 -0.00000 2.35619</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_3"><pose>0.01696 0.04094 0.14219 1.74533 -0.00000 2.74889</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_4"><pose>0.00000 0.04432 0.14219 1.74533 -0.00000 3.14159</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_5"><pose>-0.01696 0.04094 0.14219 1.74533 -0.00000 -2.74889</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_6"><pose>-0.03134 0.03134 0.14219 1.74533 -0.00000 -2.35619</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_7"><pose>-0.04094 0.01696 0.14219 1.74533 -0.00000 -1.96350</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_8"><pose>-0.04432 0.00000 0.14219 1.74533 -0.00000 -1.57080</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_9"><pose>-0.04094 -0.01696 0.14219 1.74533 -0.00000 -1.17810</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_10"><pose>-0.03134 -0.03134 0.14219 1.74533 -0.00000 -0.78540</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_11"><pose>-0.01696 -0.04094 0.14219 1.74533 -0.00000 -0.39270</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_12"><pose>-0.00000 -0.04432 0.14219 1.74533 -0.00000 -0.00000</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_13"><pose>0.01696 -0.04094 0.14219 1.74533 -0.00000 0.39270</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_14"><pose>0.03134 -0.03134 0.14219 1.74533 -0.00000 0.78540</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_15"><pose>0.04094 -0.01696 0.14219 1.74533 -0.00000 1.17810</pose><geometry><box><size>0.02001 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_0"><pose>0.03897 0.00000 0.12750 2.09440 -0.00000 1.57080</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_1"><pose>0.03600 0.01491 0.12750 2.09440 -0.00000 1.96350</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_2"><pose>0.02756 0.02756 0.12750 2.09440 -0.00000 2.35619</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_3"><pose>0.01491 0.03600 0.12750 2.09440 -0.00000 2.74889</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_4"><pose>0.00000 0.03897 0.12750 2.09440 -0.00000 3.14159</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_5"><pose>-0.01491 0.03600 0.12750 2.09440 -0.00000 -2.74889</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_6"><pose>-0.02756 0.02756 0.12750 2.09440 -0.00000 -2.35619</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_7"><pose>-0.03600 0.01491 0.12750 2.09440 -0.00000 -1.96350</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_8"><pose>-0.03897 0.00000 0.12750 2.09440 -0.00000 -1.57080</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_9"><pose>-0.03600 -0.01491 0.12750 2.09440 -0.00000 -1.17810</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_10"><pose>-0.02756 -0.02756 0.12750 2.09440 -0.00000 -0.78540</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_11"><pose>-0.01491 -0.03600 0.12750 2.09440 -0.00000 -0.39270</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_12"><pose>-0.00000 -0.03897 0.12750 2.09440 -0.00000 -0.00000</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_13"><pose>0.01491 -0.03600 0.12750 2.09440 -0.00000 0.39270</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_14"><pose>0.02756 -0.02756 0.12750 2.09440 -0.00000 0.78540</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_15"><pose>0.03600 -0.01491 0.12750 2.09440 -0.00000 1.17810</pose><geometry><box><size>0.01760 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_0"><pose>0.02893 0.00000 0.11553 2.44346 -0.00000 1.57080</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_1"><pose>0.02672 0.01107 0.11553 2.44346 -0.00000 1.96350</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_2"><pose>0.02045 0.02045 0.11553 2.44346 -0.00000 2.35619</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_3"><pose>0.01107 0.02672 0.11553 2.44346 -0.00000 2.74889</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_4"><pose>0.00000 0.02893 0.11553 2.44346 -0.00000 3.14159</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_5"><pose>-0.01107 0.02672 0.11553 2.44346 -0.00000 -2.74889</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_6"><pose>-0.02045 0.02045 0.11553 2.44346 -0.00000 -2.35619</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_7"><pose>-0.02672 0.01107 0.11553 2.44346 -0.00000 -1.96350</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_8"><pose>-0.02893 0.00000 0.11553 2.44346 -0.00000 -1.57080</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_9"><pose>-0.02672 -0.01107 0.11553 2.44346 -0.00000 -1.17810</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_10"><pose>-0.02045 -0.02045 0.11553 2.44346 -0.00000 -0.78540</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_11"><pose>-0.01107 -0.02672 0.11553 2.44346 -0.00000 -0.39270</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_12"><pose>-0.00000 -0.02893 0.11553 2.44346 -0.00000 -0.00000</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_13"><pose>0.01107 -0.02672 0.11553 2.44346 -0.00000 0.39270</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_14"><pose>0.02045 -0.02045 0.11553 2.44346 -0.00000 0.78540</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_15"><pose>0.02672 -0.01107 0.11553 2.44346 -0.00000 1.17810</pose><geometry><box><size>0.01306 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_0"><pose>0.01539 0.00000 0.10771 2.79253 -0.00000 1.57080</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_1"><pose>0.01422 0.00589 0.10771 2.79253 -0.00000 1.96350</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_2"><pose>0.01088 0.01088 0.10771 2.79253 -0.00000 2.35619</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_3"><pose>0.00589 0.01422 0.10771 2.79253 -0.00000 2.74889</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_4"><pose>0.00000 0.01539 0.10771 2.79253 -0.00000 3.14159</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_5"><pose>-0.00589 0.01422 0.10771 2.79253 -0.00000 -2.74889</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_6"><pose>-0.01088 0.01088 0.10771 2.79253 -0.00000 -2.35619</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_7"><pose>-0.01422 0.00589 0.10771 2.79253 -0.00000 -1.96350</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_8"><pose>-0.01539 0.00000 0.10771 2.79253 -0.00000 -1.57080</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_9"><pose>-0.01422 -0.00589 0.10771 2.79253 -0.00000 -1.17810</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_10"><pose>-0.01088 -0.01088 0.10771 2.79253 -0.00000 -0.78540</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_11"><pose>-0.00589 -0.01422 0.10771 2.79253 -0.00000 -0.39270</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_12"><pose>-0.00000 -0.01539 0.10771 2.79253 -0.00000 -0.00000</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_13"><pose>0.00589 -0.01422 0.10771 2.79253 -0.00000 0.39270</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_14"><pose>0.01088 -0.01088 0.10771 2.79253 -0.00000 0.78540</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_15"><pose>0.01422 -0.00589 0.10771 2.79253 -0.00000 1.17810</pose><geometry><box><size>0.00695 0.01728 0.01</size></box></geometry></collision>
+        <collision name="fond"><pose>0 0 0.10500 0 0 0</pose><geometry><cylinder><radius>0.0180</radius><length>0.01</length></cylinder></geometry></collision>
+        <visual name="v_coupe"><pose>0 0 0.15 0 0 0</pose><geometry><mesh><uri>/home/amaury/ros2_ws/src/mon_bras_robot/meshes/bras_50cm/coupe_petite.stl</uri></mesh></geometry><material><ambient>0.1 0.5 0.1 1</ambient><diffuse>0.1 0.7 0.1 1</diffuse></material></visual>
+      </link>
+    </model>
+    <model name="fantome_2">
+      <static>true</static>
+      <pose>-1.3 -0.4 0 0 0 0</pose>
+      <link name="link">
+        <visual name="v_colonne"><pose>0 0 0.049999999999999996 0 0 0</pose><geometry><cylinder><radius>0.05</radius><length>0.09999999999999999</length></cylinder></geometry>
+          <transparency>0.6</transparency><material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.95 0.95 0.95 1</diffuse></material></visual>
+        <visual name="v_coupe"><pose>0 0 0.15 0 0 0</pose><geometry><mesh><uri>/home/amaury/ros2_ws/src/mon_bras_robot/meshes/bras_50cm/coupe_petite.stl</uri></mesh></geometry>
+          <transparency>0.5</transparency><material><ambient>0.1 0.5 0.1 1</ambient><diffuse>0.1 0.7 0.1 1</diffuse></material></visual>
+      </link>
+    </model>
+    <model name="receptacle_3">
+      <static>true</static>
+      <pose>-0.9 0.0 0 0 0 0</pose>
+      <link name="link">
+        <collision name="colonne"><pose>0 0 0.2 0 0 0</pose><geometry><cylinder><radius>0.1</radius><length>0.4</length></cylinder></geometry></collision>
+        <visual name="v_colonne"><pose>0 0 0.2 0 0 0</pose><geometry><cylinder><radius>0.1</radius><length>0.4</length></cylinder></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.95 0.95 0.95 1</diffuse></material></visual>
+        <collision name="paroi_0_0"><pose>0.09356 0.00000 0.48350 1.74533 -0.00000 1.57080</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_1"><pose>0.09176 0.01825 0.48350 1.74533 -0.00000 1.76715</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_2"><pose>0.08644 0.03580 0.48350 1.74533 -0.00000 1.96350</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_3"><pose>0.07779 0.05198 0.48350 1.74533 -0.00000 2.15984</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_4"><pose>0.06615 0.06615 0.48350 1.74533 -0.00000 2.35619</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_5"><pose>0.05198 0.07779 0.48350 1.74533 -0.00000 2.55254</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_6"><pose>0.03580 0.08644 0.48350 1.74533 -0.00000 2.74889</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_7"><pose>0.01825 0.09176 0.48350 1.74533 -0.00000 2.94524</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_8"><pose>0.00000 0.09356 0.48350 1.74533 -0.00000 3.14159</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_9"><pose>-0.01825 0.09176 0.48350 1.74533 -0.00000 -2.94524</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_10"><pose>-0.03580 0.08644 0.48350 1.74533 -0.00000 -2.74889</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_11"><pose>-0.05198 0.07779 0.48350 1.74533 -0.00000 -2.55254</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_12"><pose>-0.06615 0.06615 0.48350 1.74533 -0.00000 -2.35619</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_13"><pose>-0.07779 0.05198 0.48350 1.74533 -0.00000 -2.15984</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_14"><pose>-0.08644 0.03580 0.48350 1.74533 -0.00000 -1.96350</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_15"><pose>-0.09176 0.01825 0.48350 1.74533 -0.00000 -1.76715</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_16"><pose>-0.09356 0.00000 0.48350 1.74533 -0.00000 -1.57080</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_17"><pose>-0.09176 -0.01825 0.48350 1.74533 -0.00000 -1.37445</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_18"><pose>-0.08644 -0.03580 0.48350 1.74533 -0.00000 -1.17810</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_19"><pose>-0.07779 -0.05198 0.48350 1.74533 -0.00000 -0.98175</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_20"><pose>-0.06615 -0.06615 0.48350 1.74533 -0.00000 -0.78540</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_21"><pose>-0.05198 -0.07779 0.48350 1.74533 -0.00000 -0.58905</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_22"><pose>-0.03580 -0.08644 0.48350 1.74533 -0.00000 -0.39270</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_23"><pose>-0.01825 -0.09176 0.48350 1.74533 -0.00000 -0.19635</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_24"><pose>-0.00000 -0.09356 0.48350 1.74533 -0.00000 -0.00000</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_25"><pose>0.01825 -0.09176 0.48350 1.74533 -0.00000 0.19635</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_26"><pose>0.03580 -0.08644 0.48350 1.74533 -0.00000 0.39270</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_27"><pose>0.05198 -0.07779 0.48350 1.74533 -0.00000 0.58905</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_28"><pose>0.06615 -0.06615 0.48350 1.74533 -0.00000 0.78540</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_29"><pose>0.07779 -0.05198 0.48350 1.74533 -0.00000 0.98175</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_30"><pose>0.08644 -0.03580 0.48350 1.74533 -0.00000 1.17810</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_0_31"><pose>0.09176 -0.01825 0.48350 1.74533 -0.00000 1.37445</pose><geometry><box><size>0.02113 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_0"><pose>0.08227 0.00000 0.45250 2.09440 -0.00000 1.57080</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_1"><pose>0.08069 0.01605 0.45250 2.09440 -0.00000 1.76715</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_2"><pose>0.07601 0.03148 0.45250 2.09440 -0.00000 1.96350</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_3"><pose>0.06841 0.04571 0.45250 2.09440 -0.00000 2.15984</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_4"><pose>0.05818 0.05818 0.45250 2.09440 -0.00000 2.35619</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_5"><pose>0.04571 0.06841 0.45250 2.09440 -0.00000 2.55254</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_6"><pose>0.03148 0.07601 0.45250 2.09440 -0.00000 2.74889</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_7"><pose>0.01605 0.08069 0.45250 2.09440 -0.00000 2.94524</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_8"><pose>0.00000 0.08227 0.45250 2.09440 -0.00000 3.14159</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_9"><pose>-0.01605 0.08069 0.45250 2.09440 -0.00000 -2.94524</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_10"><pose>-0.03148 0.07601 0.45250 2.09440 -0.00000 -2.74889</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_11"><pose>-0.04571 0.06841 0.45250 2.09440 -0.00000 -2.55254</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_12"><pose>-0.05818 0.05818 0.45250 2.09440 -0.00000 -2.35619</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_13"><pose>-0.06841 0.04571 0.45250 2.09440 -0.00000 -2.15984</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_14"><pose>-0.07601 0.03148 0.45250 2.09440 -0.00000 -1.96350</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_15"><pose>-0.08069 0.01605 0.45250 2.09440 -0.00000 -1.76715</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_16"><pose>-0.08227 0.00000 0.45250 2.09440 -0.00000 -1.57080</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_17"><pose>-0.08069 -0.01605 0.45250 2.09440 -0.00000 -1.37445</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_18"><pose>-0.07601 -0.03148 0.45250 2.09440 -0.00000 -1.17810</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_19"><pose>-0.06841 -0.04571 0.45250 2.09440 -0.00000 -0.98175</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_20"><pose>-0.05818 -0.05818 0.45250 2.09440 -0.00000 -0.78540</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_21"><pose>-0.04571 -0.06841 0.45250 2.09440 -0.00000 -0.58905</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_22"><pose>-0.03148 -0.07601 0.45250 2.09440 -0.00000 -0.39270</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_23"><pose>-0.01605 -0.08069 0.45250 2.09440 -0.00000 -0.19635</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_24"><pose>-0.00000 -0.08227 0.45250 2.09440 -0.00000 -0.00000</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_25"><pose>0.01605 -0.08069 0.45250 2.09440 -0.00000 0.19635</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_26"><pose>0.03148 -0.07601 0.45250 2.09440 -0.00000 0.39270</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_27"><pose>0.04571 -0.06841 0.45250 2.09440 -0.00000 0.58905</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_28"><pose>0.05818 -0.05818 0.45250 2.09440 -0.00000 0.78540</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_29"><pose>0.06841 -0.04571 0.45250 2.09440 -0.00000 0.98175</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_30"><pose>0.07601 -0.03148 0.45250 2.09440 -0.00000 1.17810</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_1_31"><pose>0.08069 -0.01605 0.45250 2.09440 -0.00000 1.37445</pose><geometry><box><size>0.01858 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_0"><pose>0.06106 0.00000 0.42723 2.44346 -0.00000 1.57080</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_1"><pose>0.05989 0.01191 0.42723 2.44346 -0.00000 1.76715</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_2"><pose>0.05642 0.02337 0.42723 2.44346 -0.00000 1.96350</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_3"><pose>0.05077 0.03393 0.42723 2.44346 -0.00000 2.15984</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_4"><pose>0.04318 0.04318 0.42723 2.44346 -0.00000 2.35619</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_5"><pose>0.03393 0.05077 0.42723 2.44346 -0.00000 2.55254</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_6"><pose>0.02337 0.05642 0.42723 2.44346 -0.00000 2.74889</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_7"><pose>0.01191 0.05989 0.42723 2.44346 -0.00000 2.94524</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_8"><pose>0.00000 0.06106 0.42723 2.44346 -0.00000 3.14159</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_9"><pose>-0.01191 0.05989 0.42723 2.44346 -0.00000 -2.94524</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_10"><pose>-0.02337 0.05642 0.42723 2.44346 -0.00000 -2.74889</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_11"><pose>-0.03393 0.05077 0.42723 2.44346 -0.00000 -2.55254</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_12"><pose>-0.04318 0.04318 0.42723 2.44346 -0.00000 -2.35619</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_13"><pose>-0.05077 0.03393 0.42723 2.44346 -0.00000 -2.15984</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_14"><pose>-0.05642 0.02337 0.42723 2.44346 -0.00000 -1.96350</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_15"><pose>-0.05989 0.01191 0.42723 2.44346 -0.00000 -1.76715</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_16"><pose>-0.06106 0.00000 0.42723 2.44346 -0.00000 -1.57080</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_17"><pose>-0.05989 -0.01191 0.42723 2.44346 -0.00000 -1.37445</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_18"><pose>-0.05642 -0.02337 0.42723 2.44346 -0.00000 -1.17810</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_19"><pose>-0.05077 -0.03393 0.42723 2.44346 -0.00000 -0.98175</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_20"><pose>-0.04318 -0.04318 0.42723 2.44346 -0.00000 -0.78540</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_21"><pose>-0.03393 -0.05077 0.42723 2.44346 -0.00000 -0.58905</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_22"><pose>-0.02337 -0.05642 0.42723 2.44346 -0.00000 -0.39270</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_23"><pose>-0.01191 -0.05989 0.42723 2.44346 -0.00000 -0.19635</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_24"><pose>-0.00000 -0.06106 0.42723 2.44346 -0.00000 -0.00000</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_25"><pose>0.01191 -0.05989 0.42723 2.44346 -0.00000 0.19635</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_26"><pose>0.02337 -0.05642 0.42723 2.44346 -0.00000 0.39270</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_27"><pose>0.03393 -0.05077 0.42723 2.44346 -0.00000 0.58905</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_28"><pose>0.04318 -0.04318 0.42723 2.44346 -0.00000 0.78540</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_29"><pose>0.05077 -0.03393 0.42723 2.44346 -0.00000 0.98175</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_30"><pose>0.05642 -0.02337 0.42723 2.44346 -0.00000 1.17810</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_2_31"><pose>0.05989 -0.01191 0.42723 2.44346 -0.00000 1.37445</pose><geometry><box><size>0.01379 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_0"><pose>0.03249 0.00000 0.41073 2.79253 -0.00000 1.57080</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_1"><pose>0.03187 0.00634 0.41073 2.79253 -0.00000 1.76715</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_2"><pose>0.03002 0.01243 0.41073 2.79253 -0.00000 1.96350</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_3"><pose>0.02702 0.01805 0.41073 2.79253 -0.00000 2.15984</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_4"><pose>0.02298 0.02298 0.41073 2.79253 -0.00000 2.35619</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_5"><pose>0.01805 0.02702 0.41073 2.79253 -0.00000 2.55254</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_6"><pose>0.01243 0.03002 0.41073 2.79253 -0.00000 2.74889</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_7"><pose>0.00634 0.03187 0.41073 2.79253 -0.00000 2.94524</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_8"><pose>0.00000 0.03249 0.41073 2.79253 -0.00000 3.14159</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_9"><pose>-0.00634 0.03187 0.41073 2.79253 -0.00000 -2.94524</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_10"><pose>-0.01243 0.03002 0.41073 2.79253 -0.00000 -2.74889</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_11"><pose>-0.01805 0.02702 0.41073 2.79253 -0.00000 -2.55254</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_12"><pose>-0.02298 0.02298 0.41073 2.79253 -0.00000 -2.35619</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_13"><pose>-0.02702 0.01805 0.41073 2.79253 -0.00000 -2.15984</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_14"><pose>-0.03002 0.01243 0.41073 2.79253 -0.00000 -1.96350</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_15"><pose>-0.03187 0.00634 0.41073 2.79253 -0.00000 -1.76715</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_16"><pose>-0.03249 0.00000 0.41073 2.79253 -0.00000 -1.57080</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_17"><pose>-0.03187 -0.00634 0.41073 2.79253 -0.00000 -1.37445</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_18"><pose>-0.03002 -0.01243 0.41073 2.79253 -0.00000 -1.17810</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_19"><pose>-0.02702 -0.01805 0.41073 2.79253 -0.00000 -0.98175</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_20"><pose>-0.02298 -0.02298 0.41073 2.79253 -0.00000 -0.78540</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_21"><pose>-0.01805 -0.02702 0.41073 2.79253 -0.00000 -0.58905</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_22"><pose>-0.01243 -0.03002 0.41073 2.79253 -0.00000 -0.39270</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_23"><pose>-0.00634 -0.03187 0.41073 2.79253 -0.00000 -0.19635</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_24"><pose>-0.00000 -0.03249 0.41073 2.79253 -0.00000 -0.00000</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_25"><pose>0.00634 -0.03187 0.41073 2.79253 -0.00000 0.19635</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_26"><pose>0.01243 -0.03002 0.41073 2.79253 -0.00000 0.39270</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_27"><pose>0.01805 -0.02702 0.41073 2.79253 -0.00000 0.58905</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_28"><pose>0.02298 -0.02298 0.41073 2.79253 -0.00000 0.78540</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_29"><pose>0.02702 -0.01805 0.41073 2.79253 -0.00000 0.98175</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_30"><pose>0.03002 -0.01243 0.41073 2.79253 -0.00000 1.17810</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="paroi_3_31"><pose>0.03187 -0.00634 0.41073 2.79253 -0.00000 1.37445</pose><geometry><box><size>0.00734 0.03648 0.01</size></box></geometry></collision>
+        <collision name="fond"><pose>0 0 0.40500 0 0 0</pose><geometry><cylinder><radius>0.0380</radius><length>0.01</length></cylinder></geometry></collision>
+        <visual name="v_coupe"><pose>0 0 0.5 0 0 0</pose><geometry><mesh><uri>/home/amaury/ros2_ws/src/mon_bras_robot/meshes/bras_50cm/coupe_grande.stl</uri></mesh></geometry><material><ambient>0.8 0.1 0.1 1</ambient><diffuse>0.9 0.2 0.2 1</diffuse></material></visual>
+      </link>
+    </model>
+    <model name="fantome_3">
+      <static>true</static>
+      <pose>-1.6 0.0 0 0 0 0</pose>
+      <link name="link">
+        <visual name="v_colonne"><pose>0 0 0.2 0 0 0</pose><geometry><cylinder><radius>0.1</radius><length>0.4</length></cylinder></geometry>
+          <transparency>0.6</transparency><material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.95 0.95 0.95 1</diffuse></material></visual>
+        <visual name="v_coupe"><pose>0 0 0.5 0 0 0</pose><geometry><mesh><uri>/home/amaury/ros2_ws/src/mon_bras_robot/meshes/bras_50cm/coupe_grande.stl</uri></mesh></geometry>
+          <transparency>0.5</transparency><material><ambient>0.8 0.1 0.1 1</ambient><diffuse>0.9 0.2 0.2 1</diffuse></material></visual>
+      </link>
+    </model>
+    <model name="reglette">
+      <static>true</static>
+      <pose>-0.6 0.0 0 0 0 0.0</pose>
+      <link name="link">
+        <collision name="plaque"><pose>0 0 0.001 0 0 0</pose><geometry><box><size>0.27 0.03 0.002</size></box></geometry></collision>
+        <collision name="s0_0"><pose>-0.09325 0.00000 0.0025 0 0 0.0000</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s0_1"><pose>-0.09523 0.00477 0.0025 0 0 0.7854</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s0_2"><pose>-0.10000 0.00675 0.0025 0 0 1.5708</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s0_3"><pose>-0.10477 0.00477 0.0025 0 0 2.3562</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s0_4"><pose>-0.10675 0.00000 0.0025 0 0 3.1416</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s0_5"><pose>-0.10477 -0.00477 0.0025 0 0 3.9270</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s0_6"><pose>-0.10000 -0.00675 0.0025 0 0 4.7124</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s0_7"><pose>-0.09523 -0.00477 0.0025 0 0 5.4978</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s1_0"><pose>-0.04325 0.00000 0.0025 0 0 0.0000</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s1_1"><pose>-0.04523 0.00477 0.0025 0 0 0.7854</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s1_2"><pose>-0.05000 0.00675 0.0025 0 0 1.5708</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s1_3"><pose>-0.05477 0.00477 0.0025 0 0 2.3562</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s1_4"><pose>-0.05675 0.00000 0.0025 0 0 3.1416</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s1_5"><pose>-0.05477 -0.00477 0.0025 0 0 3.9270</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s1_6"><pose>-0.05000 -0.00675 0.0025 0 0 4.7124</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s1_7"><pose>-0.04523 -0.00477 0.0025 0 0 5.4978</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s2_0"><pose>0.00675 0.00000 0.0025 0 0 0.0000</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s2_1"><pose>0.00477 0.00477 0.0025 0 0 0.7854</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s2_2"><pose>0.00000 0.00675 0.0025 0 0 1.5708</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s2_3"><pose>-0.00477 0.00477 0.0025 0 0 2.3562</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s2_4"><pose>-0.00675 0.00000 0.0025 0 0 3.1416</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s2_5"><pose>-0.00477 -0.00477 0.0025 0 0 3.9270</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s2_6"><pose>-0.00000 -0.00675 0.0025 0 0 4.7124</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s2_7"><pose>0.00477 -0.00477 0.0025 0 0 5.4978</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s3_0"><pose>0.05675 0.00000 0.0025 0 0 0.0000</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s3_1"><pose>0.05477 0.00477 0.0025 0 0 0.7854</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s3_2"><pose>0.05000 0.00675 0.0025 0 0 1.5708</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s3_3"><pose>0.04523 0.00477 0.0025 0 0 2.3562</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s3_4"><pose>0.04325 0.00000 0.0025 0 0 3.1416</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s3_5"><pose>0.04523 -0.00477 0.0025 0 0 3.9270</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s3_6"><pose>0.05000 -0.00675 0.0025 0 0 4.7124</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s3_7"><pose>0.05477 -0.00477 0.0025 0 0 5.4978</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s4_0"><pose>0.10675 0.00000 0.0025 0 0 0.0000</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s4_1"><pose>0.10477 0.00477 0.0025 0 0 0.7854</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s4_2"><pose>0.10000 0.00675 0.0025 0 0 1.5708</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s4_3"><pose>0.09523 0.00477 0.0025 0 0 2.3562</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s4_4"><pose>0.09325 0.00000 0.0025 0 0 3.1416</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s4_5"><pose>0.09523 -0.00477 0.0025 0 0 3.9270</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s4_6"><pose>0.10000 -0.00675 0.0025 0 0 4.7124</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <collision name="s4_7"><pose>0.10477 -0.00477 0.0025 0 0 5.4978</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry></collision>
+        <visual name="v_plaque"><pose>0 0 0.001 0 0 0</pose><geometry><box><size>0.27 0.03 0.002</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s0_0"><pose>-0.09325 0.00000 0.0025 0 0 0.0000</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s0_1"><pose>-0.09523 0.00477 0.0025 0 0 0.7854</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s0_2"><pose>-0.10000 0.00675 0.0025 0 0 1.5708</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s0_3"><pose>-0.10477 0.00477 0.0025 0 0 2.3562</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s0_4"><pose>-0.10675 0.00000 0.0025 0 0 3.1416</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s0_5"><pose>-0.10477 -0.00477 0.0025 0 0 3.9270</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s0_6"><pose>-0.10000 -0.00675 0.0025 0 0 4.7124</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s0_7"><pose>-0.09523 -0.00477 0.0025 0 0 5.4978</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s1_0"><pose>-0.04325 0.00000 0.0025 0 0 0.0000</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s1_1"><pose>-0.04523 0.00477 0.0025 0 0 0.7854</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s1_2"><pose>-0.05000 0.00675 0.0025 0 0 1.5708</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s1_3"><pose>-0.05477 0.00477 0.0025 0 0 2.3562</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s1_4"><pose>-0.05675 0.00000 0.0025 0 0 3.1416</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s1_5"><pose>-0.05477 -0.00477 0.0025 0 0 3.9270</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s1_6"><pose>-0.05000 -0.00675 0.0025 0 0 4.7124</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s1_7"><pose>-0.04523 -0.00477 0.0025 0 0 5.4978</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s2_0"><pose>0.00675 0.00000 0.0025 0 0 0.0000</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s2_1"><pose>0.00477 0.00477 0.0025 0 0 0.7854</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s2_2"><pose>0.00000 0.00675 0.0025 0 0 1.5708</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s2_3"><pose>-0.00477 0.00477 0.0025 0 0 2.3562</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s2_4"><pose>-0.00675 0.00000 0.0025 0 0 3.1416</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s2_5"><pose>-0.00477 -0.00477 0.0025 0 0 3.9270</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s2_6"><pose>-0.00000 -0.00675 0.0025 0 0 4.7124</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s2_7"><pose>0.00477 -0.00477 0.0025 0 0 5.4978</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s3_0"><pose>0.05675 0.00000 0.0025 0 0 0.0000</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s3_1"><pose>0.05477 0.00477 0.0025 0 0 0.7854</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s3_2"><pose>0.05000 0.00675 0.0025 0 0 1.5708</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s3_3"><pose>0.04523 0.00477 0.0025 0 0 2.3562</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s3_4"><pose>0.04325 0.00000 0.0025 0 0 3.1416</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s3_5"><pose>0.04523 -0.00477 0.0025 0 0 3.9270</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s3_6"><pose>0.05000 -0.00675 0.0025 0 0 4.7124</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s3_7"><pose>0.05477 -0.00477 0.0025 0 0 5.4978</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s4_0"><pose>0.10675 0.00000 0.0025 0 0 0.0000</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s4_1"><pose>0.10477 0.00477 0.0025 0 0 0.7854</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s4_2"><pose>0.10000 0.00675 0.0025 0 0 1.5708</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s4_3"><pose>0.09523 0.00477 0.0025 0 0 2.3562</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s4_4"><pose>0.09325 0.00000 0.0025 0 0 3.1416</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s4_5"><pose>0.09523 -0.00477 0.0025 0 0 3.9270</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s4_6"><pose>0.10000 -0.00675 0.0025 0 0 4.7124</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+        <visual name="v_s4_7"><pose>0.10477 -0.00477 0.0025 0 0 5.4978</pose><geometry><box><size>0.0015 0.004 0.005</size></box></geometry><material><ambient>0.1 0.2 0.7 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse></material></visual>
+      </link>
+    </model>
+    <model name="balle_1">
+      <pose>-0.65 0.0 0.0148 0 0 0</pose>
+      <link name="link">
+        <inertial>
+          <mass>0.05</mass>
+          <inertia><ixx>2.645e-06</ixx><iyy>2.645e-06</iyy><izz>2.645e-06</izz><ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia>
+        </inertial>
+        <visual name="visual">
+          <geometry><sphere><radius>0.0115</radius></sphere></geometry>
+          <material><ambient>0.9 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material>
+        </visual>
+        <collision name="collision">
+          <geometry><sphere><radius>0.0115</radius></sphere></geometry>
+          <surface><friction><ode><mu>2.0</mu><mu2>2.0</mu2></ode></friction></surface>
+        </collision>
+      </link>
+    </model>
+    <model name="balle_fixe_1">
+      <static>true</static>
+      <pose>-1.0 0.8 0.0115 0 0 0</pose>
+      <link name="link">
+        <visual name="visual"><geometry><sphere><radius>0.0115</radius></sphere></geometry>
+          <material><ambient>0.9 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual>
+      </link>
+    </model>
+    <model name="balle_2">
+      <pose>-0.6 0.0 0.0148 0 0 0</pose>
+      <link name="link">
+        <inertial>
+          <mass>0.05</mass>
+          <inertia><ixx>2.645e-06</ixx><iyy>2.645e-06</iyy><izz>2.645e-06</izz><ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia>
+        </inertial>
+        <visual name="visual">
+          <geometry><sphere><radius>0.0115</radius></sphere></geometry>
+          <material><ambient>0.9 0.8 0 1</ambient><diffuse>1 0.9 0 1</diffuse></material>
+        </visual>
+        <collision name="collision">
+          <geometry><sphere><radius>0.0115</radius></sphere></geometry>
+          <surface><friction><ode><mu>2.0</mu><mu2>2.0</mu2></ode></friction></surface>
+        </collision>
+      </link>
+    </model>
+    <model name="balle_fixe_2">
+      <static>true</static>
+      <pose>-1.0 0.85 0.0115 0 0 0</pose>
+      <link name="link">
+        <visual name="visual"><geometry><sphere><radius>0.0115</radius></sphere></geometry>
+          <material><ambient>0.9 0.8 0 1</ambient><diffuse>1 0.9 0 1</diffuse></material></visual>
+      </link>
+    </model>
+    <model name="balle_3">
+      <pose>-0.5499999999999999 0.0 0.0148 0 0 0</pose>
+      <link name="link">
+        <inertial>
+          <mass>0.05</mass>
+          <inertia><ixx>2.645e-06</ixx><iyy>2.645e-06</iyy><izz>2.645e-06</izz><ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia>
+        </inertial>
+        <visual name="visual">
+          <geometry><sphere><radius>0.0115</radius></sphere></geometry>
+          <material><ambient>0.9 0.45 0 1</ambient><diffuse>1 0.55 0 1</diffuse></material>
+        </visual>
+        <collision name="collision">
+          <geometry><sphere><radius>0.0115</radius></sphere></geometry>
+          <surface><friction><ode><mu>2.0</mu><mu2>2.0</mu2></ode></friction></surface>
+        </collision>
+      </link>
+    </model>
+    <model name="balle_fixe_3">
+      <static>true</static>
+      <pose>-1.0 0.9 0.0115 0 0 0</pose>
+      <link name="link">
+        <visual name="visual"><geometry><sphere><radius>0.0115</radius></sphere></geometry>
+          <material><ambient>0.9 0.45 0 1</ambient><diffuse>1 0.55 0 1</diffuse></material></visual>
+      </link>
+    </model>
+  </world>
+</sdf>

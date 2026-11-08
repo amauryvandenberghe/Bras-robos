@@ -1,0 +1,39 @@
+Plateau SUPPOSE (a remplacer par le plan cote) - reseau politique_mission_affine.pt
+
+=== Station 1 (1er lot) : repere d'arret a -31.5 cm du trait ; axe du bras a -40.0 cm du trait
+  trou 1 : x   15.0 cm, y  -20.0 cm  (25.0 cm,  -53.1 deg) ok <- prise n°1
+  trou 2 : x   20.0 cm, y  -20.0 cm  (28.3 cm,  -45.0 deg) limite (> 28 cm)
+  trou 3 : x   25.0 cm, y  -20.0 cm  (32.0 cm,  -38.7 deg) limite (> 28 cm)
+  trou 4 : x   30.0 cm, y  -20.0 cm  (36.1 cm,  -33.7 deg) HORS ZONE
+  trou 5 : x   35.0 cm, y  -20.0 cm  (40.3 cm,  -29.7 deg) HORS ZONE
+  petit receptacle : x   10.0 cm, y   25.0 cm  (26.9 cm,  +68.2 deg) ok
+  erreur sur la balle du trou 1 (2 ecarts-types) : repere + capteur arriere 7.1 mm ; repere, sans capteur arriere 14.3 mm ; recul aux codeurs 18.7 mm
+
+=== Station 2 (2e lot) : repere d'arret a +0.0 cm du trait ; axe du bras a -8.5 cm du trait
+  trou 1 : x   25.5 cm, y  -10.0 cm  (27.4 cm,  -21.4 deg) ok
+  trou 2 : x   25.5 cm, y   -5.0 cm  (26.0 cm,  -11.1 deg) ok <- prise n°2
+  trou 3 : x   25.5 cm, y    0.0 cm  (25.5 cm,   +0.0 deg) ok <- prise n°1
+  trou 4 : x   25.5 cm, y    5.0 cm  (26.0 cm,  +11.1 deg) ok
+  trou 5 : x   25.5 cm, y   10.0 cm  (27.4 cm,  +21.4 deg) ok
+  petit receptacle : x    8.5 cm, y   27.0 cm  (28.3 cm,  +72.5 deg) ok
+  erreur sur la balle du trou 3 (2 ecarts-types) : repere + capteur arriere 7.2 mm ; repere, sans capteur arriere 14.5 mm ; recul aux codeurs 18.7 mm
+  erreur sur la balle du trou 2 (2 ecarts-types) : repere + capteur arriere 7.3 mm ; repere, sans capteur arriere 14.7 mm ; recul aux codeurs 18.8 mm
+
+=== Grand receptacle (conduite a la main) : centre a 22.5 cm, +0.0 deg ok
+
+=== Simulateur rapide (60 essais par ligne ; erreurs d'arret tirees au hasard) ===
+  Station 1 (1er lot) | trou 1 -> petit | parfait                             100.0 %  
+  Station 1 (1er lot) | trou 1 -> petit | repere + capteur arriere             90.0 %  {'temps': 6}
+  Station 1 (1er lot) | trou 1 -> petit | repere, sans capteur arriere         55.0 %  {'collision': 5, 'temps': 22}
+  Station 1 (1er lot) | trou 1 -> petit | recul aux codeurs                    48.3 %  {'collision': 15, 'temps': 16}
+  Station 2 (2e lot) | trou 3 -> petit | parfait                               98.3 %  {'temps': 1}
+  Station 2 (2e lot) | trou 3 -> petit | repere + capteur arriere              91.7 %  {'collision': 2, 'tombee': 2, 'temps': 1}
+  Station 2 (2e lot) | trou 3 -> petit | repere, sans capteur arriere          48.3 %  {'collision': 27, 'temps': 4}
+  Station 2 (2e lot) | trou 3 -> petit | recul aux codeurs                     31.7 %  {'collision': 12, 'temps': 29}
+  Station 2 (2e lot) | trou 2 -> petit | parfait                               41.7 %  {'temps': 35}
+  Station 2 (2e lot) | trou 2 -> petit | repere + capteur arriere              48.3 %  {'collision': 1, 'temps': 30}
+  Station 2 (2e lot) | trou 2 -> petit | repere, sans capteur arriere          20.0 %  {'collision': 17, 'tombee': 1, 'temps': 30}
+  Station 2 (2e lot) | trou 2 -> petit | recul aux codeurs                     20.0 %  {'collision': 7, 'tombee': 2, 'temps': 39}
+  Grand receptacle | balle tenue -> grand | parfait                           100.0 %  
+  Grand receptacle | balle tenue -> grand | garage a la main, soigne           90.0 %  {'tombee': 6}
+  Grand receptacle | balle tenue -> grand | garage a la main, approximatif     63.3 %  {'collision': 3, 'tombee': 19}

@@ -1,0 +1,150 @@
+{
+  "modele": "modeles/politique_finale.pt",
+  "reussite": 1.0,
+  "sequences": [
+    {
+      "scene": {
+        "receptacles": [
+          [
+            0.287,
+            0.171
+          ],
+          [
+            0.224,
+            -0.028
+          ],
+          [
+            0.195,
+            -0.266
+          ]
+        ],
+        "balles": [
+          [
+            0.1,
+            0.171,
+            0.015
+          ],
+          [
+            0.132,
+            0.21,
+            0.015
+          ],
+          [
+            0.196,
+            0.287,
+            0.015
+          ]
+        ]
+      },
+      "resultats": [
+        "reussite",
+        "reussite",
+        "reussite"
+      ],
+      "reussite": true,
+      "duree_s": 77.6,
+      "ecart_servos_deg": [
+        6.8,
+        6.1,
+        6.7,
+        6.9
+      ]
+    },
+    {
+      "scene": {
+        "receptacles": [
+          [
+            0.242,
+            -0.119
+          ],
+          [
+            0.227,
+            0.053
+          ],
+          [
+            0.228,
+            0.216
+          ]
+        ],
+        "balles": [
+          [
+            0.087,
+            -0.222,
+            0.015
+          ],
+          [
+            0.107,
+            -0.267,
+            0.015
+          ],
+          [
+            0.127,
+            -0.313,
+            0.015
+          ]
+        ]
+      },
+      "resultats": [
+        "reussite",
+        "reussite",
+        "reussite"
+      ],
+      "reussite": true,
+      "duree_s": 74.0,
+      "ecart_servos_deg": [
+        7.0,
+        6.1,
+        6.6,
+        6.8
+      ]
+    },
+    {
+      "scene": {
+        "receptacles": [
+          [
+            0.294,
+            -0.107
+          ],
+          [
+            0.213,
+            0.034
+          ],
+          [
+            0.094,
+            0.263
+          ]
+        ],
+        "balles": [
+          [
+            0.209,
+            -0.234,
+            0.015
+          ],
+          [
+            0.168,
+            -0.205,
+            0.015
+          ],
+          [
+            0.127,
+            -0.176,
+            0.015
+          ]
+        ]
+      },
+      "resultats": [
+        "reussite",
+        "reussite",
+        "reussite"
+      ],
+      "reussite": true,
+      "duree_s": 71.9,
+      "ecart_servos_deg": [
+        6.8,
+        6.0,
+        6.5,
+        6.9
+      ]
+    }
+  ]
+}

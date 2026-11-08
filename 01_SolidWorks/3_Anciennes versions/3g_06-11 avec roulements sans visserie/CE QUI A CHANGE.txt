@@ -1,0 +1,43 @@
+CE QUI A CHANGE LE 06/11/2026 : A VERIFIER DANS SOLIDWORKS
+==========================================================
+
+A OUVRIR
+  Bras seul     : ce dossier, Bras 50cm.SLDASM
+  Robot complet : Bureau, Assemblage1v2.SLDASM (il utilise le Bras 50cm de ce dossier : ne pas deplacer ce dossier)
+  Apercu        : Robot complet (Assemblage1v2).png
+  Montage       : MONTAGE.txt
+
+ANCIENNES VERSIONS (01_SolidWorks/3_Anciennes versions)
+  3e_06-11 avant roulements               ancien bras + ses fichiers d'impression
+  3f_06-11 Assemblage1v2 avant mise a jour  votre fichier du robot complet, avant mes modifications
+
+LE BRAS
+  Epaule : roulement 608 dans la joue du plateau (Roulement 608-1), nouvel axe vissé axe_epaule.
+  Coude  : colonne sur le bras, cote oppose au debattement de l'avant-bras ; nouvelle plaque palier_coude avec le
+           roulement (Roulement 608-2) ; axe sous le moyeu de l'avant-bras.
+  Base   : gorge sur le pourtour du plateau, 3 poteaux sur le socle a 120 degres, 3 patins (patin_a, b, c).
+           Les 4 anciens piliers du socle sont supprimes.
+  Palonnier de la base : rond (Palonnier rond-1). Sa forme est simplifiee et ses COTES RESTENT A MESURER.
+  Brides des SG90 : 4 vis au lieu de 2. Logements resserres : 0,15 mm au lieu de 0,4 mm.
+  Trous M3 : 3,5 mm partout. Jeu autour des MG996R : 0,3 mm au lieu de 0,4 mm.
+  Geometrie du bras (longueurs, axes, position de la pince) : inchangee, le reseau n'a pas a etre reentraine.
+
+LE ROBOT COMPLET (Assemblage1v2)
+  Refaire le socle avait casse les 4 contraintes bati / socle. Remplacees par 3 contraintes :
+  face du socle sur le bati + 2 trous opposes en diagonale, (197,26 ; 545,72) et (131,26 ; 479,72).
+  L'ancienne en avait une en double. Bras au meme endroit : (164,26 ; 449,70 ; 512,72) mm. Rien d'autre n'est modifie.
+
+CONTROLES FAITS
+  Bras seul     : 32 contraintes, 0 en erreur. Interferences notables seulement dans la pince d'origine.
+  Robot complet : 203 contraintes, 0 en erreur. Aucune interference entre le bras et le reste du robot.
+                  312 interferences au total, entre pieces du reste du robot ou du bras : non analysees une par une.
+  Logements     : tous les servos entrent, aucun choc au coude et au poignet sur tout le debattement.
+  Base et epaule : le bras touche les patins vers 2,1 rad d'epaule ; le reseau ne depasse pas 1,57 rad.
+  Impression    : tous les STL sont fermes pour PrusaSlicer.
+
+PAS ENCORE FAIT
+  Rien n'est imprime ni monte : les jeux restent a confirmer sur de vraies pieces.
+  Le bras (286 mm) ne tient sur la Core One qu'en diagonale, a environ 40 degres, avec 3 a 5 mm de marge. A verifier
+  dans PrusaSlicer, ainsi que les supports.
+  corps_pince vient de votre fichier d'origine et compte 3 volumes : verifier dans PrusaSlicer qu'ils forment bien une
+  seule piece.

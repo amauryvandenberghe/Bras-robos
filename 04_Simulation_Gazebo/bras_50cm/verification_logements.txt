@@ -1,0 +1,39 @@
+== Servos dans leurs logements (volume commun mm3 / jeu mini mm)
+  servo_lacet    / socle         :     0.00 mm3   jeu mini  0.05 mm   ok
+  servo_epaule   / plateau       :     0.00 mm3   jeu mini  0.05 mm   ok
+  servo_coude    / bras          :     0.00 mm3   jeu mini  0.00 mm   ok
+  servo_coude    / bride_coude   :     0.00 mm3   jeu mini  0.05 mm   ok
+  servo_poignet  / avant_bras    :     0.00 mm3   jeu mini  0.00 mm   ok
+  servo_poignet  / bride_poignet :     0.00 mm3   jeu mini  0.05 mm   ok
+== Palonniers dans leur empreinte (volume commun mm3 ; ecart palonnier / fond de l'empreinte en mm)
+  palonnier_lacet  / plateau     :   0.00 mm3 | / servo :   0.00 mm3 | ecart au fond 0.05 mm  ok
+  palonnier_epaule / bras        :   0.00 mm3 | / servo :   0.00 mm3 | ecart au fond 0.05 mm  ok
+  broche_coude     / avant_bras  :   0.00 mm3 | / servo :   0.00 mm3 | ecart au fond 0.05 mm  ok
+  broche_poignet   / corps_pince :   0.00 mm3 | / servo :   0.00 mm3 | ecart au fond 0.05 mm  ok
+== Coude : bras + servo de coude contre avant-bras + servo de poignet ; broche du coude contre le bras (volume commun mm3)
+  q = -0.05 rad :    0.00  (broche  0.00)
+  q =  0.47 rad :    0.00  (broche  0.00)
+  q =  1.00 rad :    0.00  (broche  0.00)
+  q =  1.52 rad :    0.00  (broche  0.00)
+  q =  2.04 rad :    0.00  (broche  0.00)
+  q =  2.57 rad :    0.00  (broche  0.00)
+  q =  3.09 rad :    0.00  (broche  0.00)
+== Poignet : pince d'origine (avec son empreinte) contre avant-bras + vrai servo de poignet ; broche du poignet contre l'avant-bras (volume commun mm3)
+  q = -1.20 rad :    0.00  (broche  0.00)
+  q = -0.68 rad :    0.00  (broche  0.00)
+  q = -0.15 rad :    0.00  (broche  0.00)
+  q =  0.37 rad :    0.00  (broche  0.00)
+  q =  0.89 rad :    0.00  (broche  0.00)
+  q =  1.42 rad :    0.00  (broche  0.00)
+  q =  1.94 rad :    0.00  (broche  0.00)
+== Poignet : pince contre avant-bras (points de la pince a l'interieur / jeu mini mm)
+  q4 = -1.20 rad :    0 points dedans, jeu mini   2.00 mm
+  q4 = -0.81 rad :    0 points dedans, jeu mini   2.00 mm
+  q4 = -0.41 rad :    0 points dedans, jeu mini   2.00 mm
+  q4 = -0.02 rad :    0 points dedans, jeu mini   2.00 mm
+  q4 =  0.37 rad :    0 points dedans, jeu mini   2.00 mm
+  q4 =  0.76 rad :    0 points dedans, jeu mini   2.00 mm
+  q4 =  1.16 rad :    0 points dedans, jeu mini   2.00 mm
+  q4 =  1.55 rad :    0 points dedans, jeu mini   2.00 mm
+  q4 =  1.94 rad :    0 points dedans, jeu mini   2.00 mm
+BILAN : tous les servos entrent, aucune interference

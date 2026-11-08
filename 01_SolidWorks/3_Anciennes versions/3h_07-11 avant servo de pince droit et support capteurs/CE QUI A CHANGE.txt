@@ -1,0 +1,67 @@
+CE QUI A CHANGE LE 06/11/2026 : A VERIFIER DANS SOLIDWORKS
+==========================================================
+
+A OUVRIR
+  Bras seul     : ce dossier, Bras 50cm.SLDASM
+  Robot complet : Bureau, Assemblage1v2.SLDASM (il utilise le Bras 50cm de ce dossier : ne pas deplacer ce dossier)
+  Apercu        : Robot complet (Assemblage1v2).png
+  Visserie      : dossier Vues visserie, plastique transparent, vis M3 en bleu, ecrous en rouge, vis de 2 mm en vert.
+                  Ces couleurs existent seulement sur les images, pas dans les pieces.
+  Montage       : MONTAGE.txt
+
+ANCIENNES VERSIONS (01_SolidWorks/3_Anciennes versions)
+  3e_06-11 avant roulements                 ancien bras + ses fichiers d'impression
+  3f_06-11 Assemblage1v2 avant mise a jour  votre fichier du robot complet, avant mes modifications
+  3g_06-11 avec roulements sans visserie    version avec roulements, avant allegement et visserie
+
+ALLEGEMENT (masses PLA estimees)
+  bras          47,5 -> 40,8 g   poutre z 20..32, trous tous les 15 mm, fenetres dans les joues
+  avant_bras    17,6 -> 16,4 g   largeur +/-8 mm, 5 trous de 9 mm
+  palier_coude   6,7 ->  5,8 g
+  Total sur l'epaule : 8,8 g de plastique en moins, soit environ 1,5 % du couple de blocage du MG996R, bras a l'horizontale.
+  Gain modeste, chiffre estime. La masse des vis et ecrous en acier n'est comptee ni avant ni apres.
+  Le plateau et le socle ne chargent pas l'epaule : ils n'ont pas ete alleges davantage.
+
+PINCE, PALONNIERS, MONTAGE
+  Corps de pince : les 2 petits trous passent a 2,6 mm, sans lamage. La vis passe librement et se visse dans la broche.
+  Palonnier de la base : arm01, votre piece d'origine, a la place du palonnier rond dont les cotes etaient supposees.
+    4 vis de 2 x 8 par le dessous, trous de 1,7 mm traversants. La pointe depasse d'environ 1,7 mm au-dessus du plateau, sans gene.
+  MG996R d'epaule : ecrous captifs glisses par les cotes dans la face du plateau, avant de poser le servo.
+    On ne visse que cote servo, plus aucun acces necessaire derriere la face.
+  Visserie dessinee : 65 elements, contraints dans l'assemblage (Vis M3x8 x12, M3x12 x4, M3x16 x4, M3x20 x6, Ecrou x26,
+    Rondelle x1, Vis 2x8 x12).
+
+DEFAUT TROUVE ET CORRIGE EN CONTROLANT L'ACCES AUX VIS
+  La collerette du palonnier rebouchait l'axe sur 2 mm, dans le plateau et dans le bras : les vis centrales des 2 MG996R
+  n'auraient pas pu passer. Corrige dans cao_bras.py, passage de 8 mm rouvert. Les autres versions anterieures n'ont pas ete
+  controlees sur ce point.
+
+ACCES AUX VIS, CALCULE VIS PAR VIS (avec les seules pieces deja posees a chaque etape de MONTAGE.txt)
+  38 vis, tige de 4 mm : 36 ont plus de 150 mm libres, tout droit.
+  2 vis du bas du MG996R d'epaule : la jante gene la tige tout droit. Libre des 2 degres d'inclinaison.
+  Vis centrale du lacet : linteau de la face au-dessus de l'axe. Libre des 4 degres d'inclinaison vers +y.
+  Vis centrale de l'epaule : libre, tout droit, par l'exterieur de la joue.
+  26 ecrous : chacun a un chemin d'entree dans sa piece (cercle inscrit de l'ecrou, 20 mm de translation).
+  Ce calcul ne remplace pas un essai : la main et le manche du tournevis ne sont pas modelises.
+
+LE ROBOT COMPLET (Assemblage1v2)
+  Refaire le socle casse les contraintes bati / socle : remplacees par 3 contraintes, face du socle sur le bati + 2 trous opposes
+  en diagonale, (197,26 ; 545,72) et (131,26 ; 479,72). Bras au meme endroit : (164,26 ; 449,70 ; 512,72) mm.
+  Les traits gris qu'on voyait autour du bras etaient des esquisses : masquees (Affichage > Cacher / Montrer > Esquisses).
+
+CONTROLES FAITS
+  Bras seul     : 97 contraintes, 0 en erreur, 91 composants, aucun probleme de reference.
+                  155 interferences. Les plus grosses : vis de 2 mm dans les palonniers et le plateau, 3,5 a 6,7 mm3
+                  (normal, ces vis creusent leur filet) ; pince d'origine, 5,4 mm3 au plus.
+                  Celles de moins de 1 mm3 n'ont pas ete relues une par une.
+  Robot complet : 203 contraintes, 0 en erreur. Aucune interference entre le bras et le reste du robot.
+                  450 interferences au total, entre pieces du reste du robot ou dans le bras : non analysees une par une.
+  Logements     : tous les servos entrent, aucune interference (verifier_logements.py).
+  Base et epaule: aucune collision en rotation de la base. Le bras touche les patins vers 2,1-2,2 rad d'epaule ; le reseau ne depasse pas 1,57.
+  Impression    : plateau, bras, avant_bras, corps_pince, palier_coude : manifold pour PrusaSlicer. Autres pieces non repassees.
+
+PAS ENCORE FAIT
+  Rien n'est imprime ni monte : les jeux, les longueurs de vis et la tenue des vis de 2 mm restent a confirmer sur de vraies pieces.
+  Le bras (286 mm) ne tient sur la Core One qu'en diagonale, a environ 40 degres, avec 3 a 5 mm de marge. A verifier dans
+  PrusaSlicer, ainsi que les supports.
+  Gazebo utilise encore l'ancien maillage : la cinematique est la meme, le reseau n'a pas a etre reentraine.

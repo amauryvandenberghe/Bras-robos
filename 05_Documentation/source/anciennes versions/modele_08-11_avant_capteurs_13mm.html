@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Bras robotisé 50 cm – récapitulatif</title>
+<style>
+  @page { size: A4; margin: 13mm 14mm 13mm 14mm; }
+  :root { --orange: #d9772b; --encre: #1d2330; --gris: #5d6575; --fond: #f4f5f8; --vert: #2f7d4f; --rouge: #b03a2e; }
+  body { font-family: "Segoe UI", Calibri, Arial, sans-serif; color: var(--encre); font-size: 9.6pt; line-height: 1.36; margin: 0; }
+  h1 { font-size: 21pt; margin: 0 0 2mm 0; }
+  h1 + .sous { color: var(--gris); margin: 0 0 5mm 0; font-size: 10.5pt; }
+  h2 { font-size: 14pt; border-bottom: 2px solid var(--orange); padding-bottom: 1mm; margin: 0 0 3mm 0; break-after: avoid; }
+  h3 { font-size: 11.2pt; margin: 4mm 0 1.5mm 0; break-after: avoid; }
+  p { margin: 0 0 2mm 0; }
+  ul, ol { margin: 0 0 2.5mm 0; padding-left: 6mm; }
+  li { margin-bottom: 0.8mm; }
+  .page { break-before: page; }
+  .encart { background: var(--fond); border-left: 4px solid var(--orange); padding: 3mm 4mm; margin: 0 0 4mm 0; border-radius: 2px; }
+  .encart.vert { border-left-color: var(--vert); }
+  .encart.rouge { border-left-color: var(--rouge); }
+  .terminaux { display: grid; grid-template-columns: 1fr; gap: 3mm; }
+  pre.ligne { white-space: pre; word-break: normal; }
+  .terminal { border: 1px solid #c9ccd4; border-radius: 3px; overflow: hidden; break-inside: avoid; }
+  .terminal .titre { background: var(--encre); color: white; font-weight: 600; padding: 1.2mm 3mm; font-size: 9.5pt; }
+  .terminal .corps { padding: 2mm 3mm; font-size: 9pt; }
+  pre, code { font-family: Consolas, "Cascadia Mono", monospace; }
+  pre { background: #1d2330; color: #e8ebf2; padding: 2mm 3mm; border-radius: 2px; font-size: 8.3pt; line-height: 1.35;
+        white-space: pre-wrap; word-break: break-word; margin: 1mm 0 2mm 0; break-inside: avoid; }
+  code { background: #eceef3; padding: 0 1mm; border-radius: 2px; font-size: 9pt; }
+  pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+  table { border-collapse: collapse; width: 100%; margin: 1mm 0 3mm 0; font-size: 9.2pt; break-inside: avoid; }
+  th, td { border: 1px solid #d3d6de; padding: 1.2mm 2mm; text-align: left; vertical-align: top; }
+  th { background: #e9ebf0; font-weight: 600; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  .ok { color: var(--vert); font-weight: 600; }
+  .ko { color: var(--rouge); font-weight: 600; }
+  .images { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; margin: 2mm 0 3mm 0; }
+  .images figure { margin: 0; break-inside: avoid; }
+  .images img { width: 100%; height: 62mm; object-fit: contain; background: #f7f8fa; border: 1px solid #d3d6de; border-radius: 2px; }
+  figcaption { font-size: 8.5pt; color: var(--gris); margin-top: 0.8mm; }
+  .petit { font-size: 8.8pt; color: var(--gris); }
+  .etapes { counter-reset: e; list-style: none; padding-left: 0; }
+  .etapes > li { counter-increment: e; padding-left: 8mm; position: relative; margin-bottom: 1.6mm; }
+  .etapes > li::before { content: counter(e); position: absolute; left: 0; top: 0; width: 5.5mm; height: 5.5mm; border-radius: 50%;
+                         background: var(--orange); color: white; font-weight: 700; font-size: 8.5pt; text-align: center; line-height: 5.5mm; }
+  .deux { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+</style>
+</head>
+<body>
+
+<!-- ============================== PAGE 1 ============================== -->
+<h1>Bras robotisé 50 cm – récapitulatif du projet</h1>
+<p class="sous">Challenge TIPe (ICAM) · bras 5 axes piloté par un réseau de neurones · document mis à jour le 08/11/2026</p>
+
+<div class="encart vert">
+<b>En bref</b>
+<ul>
+  <li><b>Le bras</b> : 5 axes (lacet, épaule, coude, poignet, pince), posé sur le robot roulant. 2 MG996R à la base, 3 SG90/MG90S ensuite.
+      Il prend 3 balles de Ø23 mm sur la réglette et les dépose dans deux réceptacles à 15 cm, puis dans le grand réceptacle à <b>50 cm</b>.</li>
+  <li><b>La mécanique</b> (version allégée du 06/11) : pièces en PLA, <b>roulements 608</b> à l'épaule et au coude, plateau guidé par une gorge et 3 patins.
+      Chaque palonnier (vos pièces « arm01 » et « broche ») est <b>emboîté dans une empreinte à sa forme</b>. L'assemblage SolidWorks dessine <b>toutes les vis et tous les écrous</b> :
+      99 contraintes, 0 en erreur ; robot complet <code>Assemblage1v2</code> : 183, 0 en erreur. Les 07 et 08/11 : servo de pince remis droit et vissé, poutre des roues avant droite, <b>6 capteurs de ligne sur 2 rangées</b>, bras vissé au bâti, <b>direction en MG996R avec un 2e roulement</b> (chapitre 3). <b>Rien n'est encore imprimé ni monté dans cette version.</b></li>
+  <li><b>Le réseau de neurones</b> : 27 entrées → 512 → 512 → 5 sorties, appris par imitation d'un « expert » puis corrigé (DAgger).
+      Il dépose <b>100 %</b> des balles dans le simulateur rapide (240 essais jamais vus) et [[RES_GAZEBO_COURT]] dans Gazebo, avec la vraie physique.</li>
+  <li><b>L'ESP32</b> : un <b>programme unique</b> (<code>bras_robot</code>) réunit la conduite Bluetooth et le réseau. Il tourne sur la vraie carte : <b>53,5 ms de calcul par décision</b> sur 100 ms.
+      <b>Le bras n'a pas encore réussi de prise réelle</b> : les servos de la base et de l'épaule ne bougent pas encore correctement, il manque une alimentation séparée (chapitre 6).</li>
+  <li><b>Trouver les balles sans caméra</b> : le plateau est fixe et les balles sont toujours dans les mêmes trous ; le robot s'arrête sur des repères (traits du plateau, scotch posé avec un gabarit)
+      et se recale sur la ligne, ce qui donne la position de chaque balle (chapitres 7 et 11).</li>
+  <li><b>Il reste</b> : l'<b>alimentation séparée des servos</b> et le câblage de la base et de l'épaule, le calage des servos, l'impression et le montage de la version allégée,
+      le suivi de ligne et les arrêts sur repères (vous), le plan coté du plateau, les broches de l'ESP32 pour les 3 nouveaux capteurs, et le <b>budget, largement dépassé</b> (chapitre 10).
+      Et surtout l'<b>accord du professeur pour l'ESP32</b> : le règlement impose une Arduino Uno.</li>
+</ul>
+</div>
+
+<h2>Lancer la simulation Gazebo (2 terminaux)</h2>
+<p>Tout se passe dans <b>Ubuntu (WSL)</b> : ouvrir deux fenêtres « Ubuntu-22.04 » (ou taper <code>wsl -d Ubuntu-22.04</code> dans deux terminaux Windows).
+   <b>Une seule ligne par terminal</b> : les scripts chargent ROS 2 eux-mêmes (pas besoin de <code>source</code>).</p>
+<div class="terminaux">
+  <div class="terminal"><div class="titre">Terminal 1 – le monde 3D (Gazebo)</div><div class="corps">
+<pre class="ligne"><code>bash ~/ros2_ws/src/mon_bras_robot/ia_50cm/demo_gazebo.sh</code></pre>
+  La fenêtre Gazebo s'ouvre avec le bras, la réglette et les 3 réceptacles. <b>Attendre ~40 s</b> que les contrôleurs des servos soient chargés
+  avant de lancer le terminal 2. Sans fenêtre (plus léger) : ajouter <code>gui:=false</code> au bout de la ligne.
+  </div></div>
+  <div class="terminal"><div class="titre">Terminal 2 – le réseau pilote le bras</div><div class="corps">
+<pre class="ligne"><code>bash ~/ros2_ws/src/mon_bras_robot/ia_50cm/demo_reseau.sh</code></pre>
+  Joue <b>3 séquences de 3 balles</b> avec le réseau final, dispositions tirées au hasard (différentes à chaque lancement). Le bilan s'affiche à la fin.
+  Au bout de la ligne : un nombre = nombre de séquences (<code>demo_reseau.sh 5</code>) ; <code>3 --expert</code> : l'expert pilote ; <code>3 --trace</code> : affiche les angles.
+  </div></div>
+  <div class="terminal"><div class="titre">Ensuite (terminal 2)</div><div class="corps">
+<pre class="ligne"><code>bash ~/ros2_ws/src/mon_bras_robot/ia_50cm/demo_repos.sh        # position home : bras replié
+bash ~/ros2_ws/src/mon_bras_robot/ia_50cm/arreter_gazebo.sh     # après Ctrl+C dans le terminal 1</code></pre>
+  </div></div>
+</div>
+<p><b>Arrêter</b> : <code>Ctrl+C</code> dans les deux terminaux, puis <code>arreter_gazebo.sh</code> (ferme les restes de Gazebo).
+   <b>Position home</b> sur le vrai bras : bouton <code>H</code> de l'application, ou <code>H</code> ou <code>R</code> sur le port USB de l'ESP32 (chapitre 6).
+   <b>Test complet sans fenêtre</b> (20 séquences) : voir le chapitre 9. Les commandes ROS 2 complètes, sans script, sont aussi au chapitre 9.</p>
+
+<!-- ============================== SOMMAIRE ============================== -->
+<div class="page"></div>
+<h2>Sommaire</h2>
+<ol>
+  <li>Ce que nous avons fait, étape par étape</li>
+  <li>Le bras : axes, servos, pièces</li>
+  <li>La version allégée, les servos, les palonniers et l'assemblage SolidWorks</li>
+  <li>La simulation Gazebo</li>
+  <li>Le réseau de neurones : comment il est appris, ce qu'il vaut</li>
+  <li>Le programme de l'ESP32 et les essais sur le vrai robot</li>
+  <li>Comment le robot sait où sont les balles (sans caméra)</li>
+  <li>La programmation : outils, fichiers, fonctions</li>
+  <li>Toutes les commandes utiles</li>
+  <li>Règlement du challenge et points d'attention</li>
+  <li>Le plateau et les arrêts du robot (dimensions supposées) – et comment les remplacer par le plan coté</li>
+</ol>
+
+<h2 style="margin-top:6mm">1. Ce que nous avons fait, étape par étape</h2>
+<table>
+<tr><th style="width:24%">Étape</th><th>Ce qui a été fait</th><th style="width:22%">Résultat</th></tr>
+<tr><td>Premier bras (2 coupes)</td><td>Bras d'origine (vos pièces SolidWorks) converti pour Gazebo, scène avec 2 coupes, réseau appris par imitation.</td><td>Réseau « c4 » : 93 % dans Gazebo. Gardé intact dans <code>ia/</code>.</td></tr>
+<tr><td>Dimensionnement 50 cm</td><td>Étude 5 axes contre 6 axes (<code>dimensionnement.py</code>) : longueurs, couples statiques, marges des servos.</td><td>5 axes, bras de 25 cm. Le 6e axe chargeait trop le coude (66 % de son couple).</td></tr>
+<tr><td>CAO des pièces neuves</td><td>Socle, plateau tournant et berceau d'épaule, bras de 25 cm (poutre creuse), brides, avant-bras (CadQuery, exportés en STEP et en STL).</td><td>Pièces légères (18 à 46 g), fixations M3 + écrous.</td></tr>
+<tr><td>Modèle de simulation</td><td>URDF généré avec les masses et les inerties des pièces et les couples réels des servos (<code>generer_urdf.py</code>).</td><td>Les servos tiennent toutes les postures dans Gazebo.</td></tr>
+<tr><td>Scène à 3 réceptacles</td><td>Réglette à 5 trous, 3 balles, 2 demi-sphères Ø100 à 15 cm, 1 demi-sphère Ø200 à 50 cm. Disposition tirée au hasard à chaque essai.</td><td><code>worlds/scene_trois_receptacles.world</code></td></tr>
+<tr><td>L'expert</td><td>Programme classique (cinématique inverse et chemins sûrs) qui sait faire la tâche, pour servir de professeur au réseau.</td><td>12/12 balles dans Gazebo.</td></tr>
+<tr><td>Vos règles</td><td>Seul le réceptacle visé est un obstacle. On vise d'abord le réceptacle le plus proche des balles. Le bras repart replié avant chaque balle.</td><td>Intégrées partout (expert, simulateurs, Gazebo).</td></tr>
+<tr><td>Entraînement « propre »</td><td>Reparti de zéro avec les règles définitives : 9 tours d'imitation + corrections, 1,2 million d'exemples.</td><td>100 % dans le simulateur rapide.</td></tr>
+<tr><td>Corrections Gazebo</td><td>20 séquences pilotées par le réseau dans Gazebo, l'expert note ses corrections, affinage du réseau avec ces corrections (×5).</td><td>[[RES_GAZEBO_LIGNE]]</td></tr>
+<tr><td>ESP32</td><td>Réseau et calculs traduits en C, programme Arduino, vérification contre Python.</td><td>Identique à 10<sup>-5</sup> près.</td></tr>
+<tr><td>SolidWorks</td><td>Assemblage contraint de tout le bras, puis (29/10) logements des servos refaits sur vos modèles MG996R et MG90S, servos ajoutés et contraints.</td><td>41 contraintes, 0 échec, 0 interférence.</td></tr>
+<tr><td>Palonniers (30/10)</td><td>Empreintes à la forme de vos palonniers « arm01 » et « broche » dans le plateau, le bras, l'avant-bras et la plaque de votre pince ; vis de 2 mm ;
+    vos fichiers d'origine dans l'assemblage ; rotation entre palonnier et servo, sans l'arbre métallique.</td><td>0 interférence. Cinématique inchangée. Contraintes refaites le 30/10 au soir : 25, 0 en conflit.</td></tr>
+<tr><td>Démo Gazebo (29/10)</td><td>La commande du terminal 1 du PDF se coupait au copier-coller : remplacée par des scripts d'une ligne (<code>demo_gazebo.sh</code>, <code>demo_reseau.sh</code>, <code>demo_repos.sh</code>).</td><td>Testés : Gazebo + réseau 5/6 séquences au hasard.</td></tr>
+<tr><td>Réseau du parcours (30/10)</td><td>Complément d'apprentissage (balles dans toutes les directions, dont droit devant), puis affinage avec 19 000 corrections Gazebo. Devient le <b>réseau officiel</b>, exporté pour l'ESP32.</td><td>Gazebo : 18/20 (scène d'origine), 17/20 (réglette devant).</td></tr>
+<tr><td>Positions sans caméra (30/10)</td><td>Plateau fixe + arrêts sur repères + capteur de ligne arrière ; plateau supposé en attendant le plan coté ; Gazebo rendu fiable (<code>IGN_IP</code>).</td><td>Chapitres 7 et 11.</td></tr>
+<tr><td>Robot (07-08/11)</td><td>Servo de pince droit, poutre des roues avant droite, support de 6 capteurs, vis bras/bâti, direction MG996R + 2e roulement.</td><td>183 contraintes, 0 en erreur. Pas encore imprimé.</td></tr>
+<tr><td>ESP32 réelle (06/11)</td><td>Programme unique <code>bras_robot</code> (conduite Bluetooth + réseau), téléversé. Premiers essais sur le vrai robot, avec caméra et USB.</td><td>53,5 ms par décision. Pas encore de prise réelle (chapitre 6).</td></tr>
+<tr><td>Refonte mécanique (06/11)</td><td>Roulements 608, gorge + 3 patins, brides à 4 vis, trous M3 de 3,5 mm, écrous captifs, allègement, visserie dessinée, accès aux vis calculé.</td><td>97 contraintes, 0 en erreur. Non imprimé (chapitre 3).</td></tr>
+<tr><td>Dossier du Bureau</td><td>Tout est rangé dans <code>Bureau\Bras robotisé</code> (SolidWorks, impression 3D, réseau, simulation, documentation).</td><td>Ce document en fait partie.</td></tr>
+</table>
+
+<!-- ============================== 2. LE BRAS ============================== -->
+<div class="page"></div>
+<h2>2. Le bras : axes, servos, pièces</h2>
+<table>
+<tr><th>Axe</th><th>Servo</th><th>Course</th><th class="n">Couple statique maxi</th><th class="n">Part du couple de blocage</th></tr>
+<tr><td>1 – lacet (rotation de la base)</td><td>MG996R</td><td>±90°</td><td class="n">0 (axe vertical)</td><td class="n">0 %</td></tr>
+<tr><td>2 – épaule, bras de 25 cm</td><td>MG996R</td><td>180°</td><td class="n">4,4 kg·cm</td><td class="n">47 %</td></tr>
+<tr><td>3 – coude, avant-bras 12,4 cm</td><td>SG90 (MG90S conseillé)</td><td>180°</td><td class="n">1,0 kg·cm *</td><td class="n">55 % *</td></tr>
+<tr><td>4 – poignet</td><td>SG90</td><td>180°</td><td class="n">0,2 kg·cm *</td><td class="n">10 % *</td></tr>
+<tr><td>Pince (engrenages)</td><td>MG90S</td><td>ouverte / fermée</td><td class="n">–</td><td class="n">–</td></tr>
+</table>
+<p class="petit">Épaule recalculée le 06/11 avec les pièces et le roulement actuels : bras à l'horizontale, avant-bras tendu, MG90S partout, sans la balle ni l'acier de la visserie, blocage de 0,92 N·m à 4,8 V.
+Elle était annoncée à 35 % avant l'ajout du roulement et du palier au coude. * Valeurs du 30/10, non recalculées.</p>
+<ul>
+  <li><b>Pourquoi 5 axes</b> : un roulis de poignet (6e axe) ajouterait ~15 g au bout du bras. Le coude passerait de 55 % à 66 % de son couple de blocage, sans rien apporter à la tâche : la réglette est dans l'axe du robot et les mâchoires s'ouvrent sur le côté.</li>
+  <li><b>Pièces</b> (PLA, 4 périmètres, 20 % de remplissage) : socle 52,6 g, plateau 37,6 g, bras de 25 cm 40,8 g, avant-bras 16,4 g, plaque du coude 5,8 g, axe d'épaule 0,8 g, 3 patins de 1,3 g, 2 brides de 1,7 g.
+      La pince est celle d'origine, avec l'empreinte de la broche du poignet et un logement droit pour son servo (23,3 g) : <code>02_Impression_3D\corps_pince.stl</code>.</li>
+  <li><b>Guidage</b> : un roulement 608 à l'épaule, un au coude. Le plateau tourne dans une gorge tenue par 3 patins à 120°.</li>
+  <li><b>Fixations</b> : MG996R vissés par leurs pattes (4 vis M3, <b>écrous glissés par le côté</b>). SG90/MG90S <b>plaqués par une bride à 4 vis M3</b>, écrous par en dessous.
+      Tous les trous M3 font 3,5 mm. Les palonniers sont <b>emboîtés dans des empreintes</b> et tenus par des vis de 2 mm (chapitre 3).</li>
+  <li><b>Posture de repos (« home »)</b> : lacet 0°, épaule −11°, coude 131°, poignet 67°. Le bras est replié à la verticale, pince à 8 cm de l'axe et 26 cm du sol.
+      Il reste <b>au-dessus du robot</b> (de −6 à +9 cm en x, ±4,6 cm en y, robot de ±10 cm) et monte à 43,5 cm du sol.
+      Le bras prend cette posture au démarrage, après chaque balle (message <code>D</code>) et sur l'ordre <code>R</code>. Chaque prise part de là : le réseau a appris à partir d'elle.
+      Un bras couché prendrait moins de hauteur, mais dépasserait du robot de 15 cm.</li>
+  <li><b>Marge de l'épaule</b> : à 47 % du blocage, la marge existe sur le papier, mais avec une alimentation qui tient le courant. Le plastique pèse peu dans ce total : corps de pince, mâchoires et servos en bout de bras en font la plus grande partie.</li>
+</ul>
+<div class="images">
+  <figure><img src="../images/sw_ensemble.png"><figcaption>Assemblage SolidWorks contraint (servos en noir, palonniers en blanc, pince d'origine en gris).</figcaption></figure>
+  <figure><img src="../images/sw_articulation_epaule.png"><figcaption>Base et épaule : le MG996R de lacet sous le plateau, le MG996R d'épaule plaqué contre la face du plateau, le roulement dans la joue.</figcaption></figure>
+</div>
+
+<!-- ============================== 3. LOGEMENTS ============================== -->
+<div class="page"></div>
+<h2>3. Servos, palonniers et assemblage SolidWorks</h2>
+<h3>La version allégée du 06/11</h3>
+<div class="encart rouge"><b>Cette version n'a été ni imprimée ni montée.</b> Tout ce qui suit vient du modèle et du calcul : jeux, longueurs de vis et tenue des vis de 2 mm restent à confirmer sur de vraies pièces.
+Longueurs et axes n'ont pas changé : <b>le réseau n'a pas à être réentraîné</b>. Notice complète : <code>1_ASSEMBLAGE_FINAL (a utiliser)\MONTAGE.txt</code>. Détail des changements : <code>CE QUI A CHANGE.txt</code>.</div>
+<table>
+<tr><th style="width:24%">Point traité</th><th>Solution retenue</th></tr>
+<tr><td>Porte-à-faux de l'épaule et du coude</td><td>Roulement 608 dans la joue du plateau et dans une plaque vissée sous le coude, face au servo.</td></tr>
+<tr><td>Base qui repose sur l'axe du servo</td><td>Gorge sur le pourtour du plateau et 3 patins à 120°, à la place des 4 piliers.</td></tr>
+<tr><td>Poids</td><td>Bras 47,5 → 40,8 g, avant-bras 17,6 → 16,4 g, plaque du coude 6,7 → 5,8 g : 8,8 g de moins, soit environ 1,5 % du blocage de l'épaule (estimé). <b>Gain modeste.</b></td></tr>
+<tr><td>Trous du corps de pince</td><td>2,6 mm, sans lamage : la vis de 2 mm y passe librement et se visse dans la broche.</td></tr>
+<tr><td>Palonnier de la base</td><td>arm01 (cotes réelles, votre pièce), 4 vis de 2 × 8 par le dessous, trous de 1,7 mm traversants. La pointe dépasse d'environ 1,7 mm au-dessus du plateau, sans gêne.</td></tr>
+<tr><td>Vis du bas du MG996R d'épaule</td><td>Écrous captifs glissés par les côtés dans une face de 5 mm, avant de poser le servo. On ne visse plus que côté servo.</td></tr>
+<tr><td>Voir où vont les vis</td><td>67 éléments dessinés dans le bras : vis M3 × 8 (12), × 12 (4), × 16 (4), × 20 (6), 26 écrous, 1 rondelle, 14 vis de 2 × 8.</td></tr>
+</table>
+<div class="images">
+  <figure><img src="../images/visserie_1_base_lacet_vue7.png"><figcaption>Base et épaule, plastique transparent : vis M3 en bleu, écrous en rouge, vis de 2 mm en vert (couleurs des images seulement).</figcaption></figure>
+  <figure><img src="../images/visserie_3_coude_vue7.png"><figcaption>Coude : bride à 4 vis, 2 vis de la colonne, axe vissé dans le roulement, 2 vis de la broche.</figcaption></figure>
+</div>
+<h3>Peut-on atteindre chaque vis ? (calcul vis par vis, avec les seules pièces déjà posées à chaque étape)</h3>
+<table>
+<tr><th>Vis</th><th>Résultat, tige de tournevis de 4 mm</th></tr>
+<tr><td>36 vis sur 38 (dont les 4 du lacet, les 2 du haut de l'épaule, brides, patins, palonniers)</td><td class="ok">Accès tout droit, sans obstacle</td></tr>
+<tr><td>2 vis du bas du MG996R d'épaule</td><td>La tige frotte sur la jante. Libre à partir de <b>2° d'inclinaison</b>.</td></tr>
+<tr><td>Vis centrale du MG996R de lacet</td><td>La partie haute de la face passe au-dessus de l'axe. Libre à partir de <b>4° d'inclinaison</b> du côté des têtes de vis de l'épaule (+y), avant de poser le servo d'épaule.</td></tr>
+<tr><td>Vis centrale du MG996R d'épaule</td><td class="ok">Accès tout droit, par l'extérieur de la joue</td></tr>
+<tr><td>26 écrous</td><td class="ok">Chacun a un chemin d'entrée dans sa pièce (cercle inscrit de l'écrou)</td></tr>
+</table>
+<p class="petit">Il faut un tournevis à tige de 4 mm au plus et de 70 mm au moins. La main et le manche ne sont pas modélisés : seul un montage réel le confirmera.</p>
+<div class="encart"><b>Défaut trouvé par ce calcul, et corrigé.</b> La collerette du palonnier était ajoutée après le perçage, et rebouchait l'axe sur 2 mm dans le plateau et dans le bras.
+Les vis centrales des deux MG996R n'auraient pas pu passer une fois les pièces imprimées. Le passage est maintenant percé après la collerette.</div>
+<div class="images" style="grid-template-columns: 1fr"><figure><img src="../images/sw_robot_complet.png" style="height:70mm"><figcaption>Robot complet (<code>Assemblage1v2</code> sur le Bureau), bras contraint sur le bâti.</figcaption></figure></div>
+
+<h3>Les modifications du robot (07 et 08/11)</h3>
+<div class="encart rouge"><b>Rien de tout cela n'est imprimé ni monté.</b> Tout vient du modèle SolidWorks et des contrôles ci-dessous. Montage : <code>MONTAGE.txt</code>. Pièces : <code>02_Impression_3D\Robot (chassis)</code>. Vos pièces d'origine sont conservées.</div>
+<table>
+<tr><th style="width:24%">Point traité</th><th>Solution retenue</th></tr>
+<tr><td>Servo de pince posé au hasard</td><td>Il était tourné de 45° sur lui-même, à moitié hors du bloc, sans vis. Il est maintenant <b>droit, dans un logement fermé</b> : on l'enfile par l'arrière, ses pattes butent sur un épaulement, 2 vis de 2 × 8. Son axe ne bouge pas (0,000 mm) : pignon et mâchoires inchangés. Corps de pince : 21,4 → 23,3 g.</td></tr>
+<tr><td>Pièce des roues avant (U inutile)</td><td>Les 4 fonctions du U sont supprimées, pas effacées : poutre droite d'une roue à l'autre, avec 2 trous de 3,5 mm pour le support des capteurs.</td></tr>
+<tr><td>Savoir si le robot est parallèle à la ligne</td><td><b>2 rangées de 3 capteurs, à 81 mm l'une de l'autre</b>, sous le bâti (rien ne dépasse des 200 mm du bâti). Rangée arrière à sa place d'origine, juste devant la zone balayée par le moteur de direction ; rangée avant devant la poutre, cartes en travers. 33 mm entre capteurs, dans les 2 rangées (30 mm avant : trois cartes de 31 mm posées en travers n'y tiennent pas). Une plaque unique passe sous la poutre : 2 vis M3 × 20 et une colonne vissée au trou d'origine du bâti.</td></tr>
+<tr><td>Bras sur le bâti</td><td>4 vis M3 × 12 et 4 écrous dans les 4 trous du socle. Le bâti avait déjà ces trous.</td></tr>
+<tr><td>Tige de direction qui plie à l'accélération</td><td><b>Cuve sous le bâti avec un 2e roulement</b> (8 × 22 × 7). Elle se fixe aux 2 vis de l'ancien support, plus <b>1 seul trou à percer dans le bâti</b> (Ø3,5). Une entretoise à gradins appuie sur la bague intérieure : la poussée de la roue passe par le roulement et plus par le servo.</td></tr>
+<tr><td>Servo de direction trop faible</td><td><b>MG996R</b> à la place du MG90S, axe inchangé. Nouveau support (mêmes appuis sur le bâti) : le servo entre par le dessus, 4 vis M3 et écrous glissés. Le palonnier balaie ±90° sans rien toucher. Le servo monte à 77 mm au-dessus du bâti (61 mm avant) et demande l'alimentation séparée (chapitre 6).</td></tr>
+<tr><td>Liaison servo / tige</td><td>Nouvelle pièce : arm01 dans une empreinte, 4 vis de 2 mm, manchon de 8,2 mm (9 mm avant : du jeu), goupille M3 × 20.</td></tr>
+</table>
+<div class="images">
+  <figure><img src="../images/robot_servo_pince.png"><figcaption>Pince vue de l'arrière : le servo droit dans son logement, vissé par ses pattes.</figcaption></figure>
+  <figure><img src="../images/robot_capteurs_dessous.png"><figcaption>Dessous : les 2 rangées de 3 capteurs, la plaque qui passe sous la poutre droite.</figcaption></figure>
+  <figure><img src="../images/robot_direction_cote.png"><figcaption>Direction de côté : MG996R sur son support, liaison, 1er roulement, bâti masqué, cuve du 2e roulement, bloc moteur.</figcaption></figure>
+  <figure><img src="../images/robot_direction_iso.png"><figcaption>Direction, vue générale (bâti masqué).</figcaption></figure>
+</div>
+<div class="encart"><b>Trois défauts du modèle d'origine, trouvés en dessinant la direction.</b>
+<ul>
+  <li><b>Le poids passait par le servo</b> : la roue motrice pousse la tige vers le haut, et seule la goupille de la liaison retenait cette poussée, donc le servo. L'entretoise et la cuve la reprennent.</li>
+  <li><b>La goupille ne tombait pas dans le trou de la tige</b> : 3,6 mm d'écart (y 553,1 contre 549,48). La nouvelle liaison est percée au vrai trou. À contrôler sur votre tige réelle.</li>
+  <li><b>La tige n'a son Ø8 qu'au-dessus de y = 514,6</b> : dessous, le carré et son évasement. Le 2e roulement ne peut donc pas descendre plus bas : <b>15 mm entre les deux roulements</b>. Avec une tige refaite sans évasement, ce serait 22,7 mm, donc moins d'effort sur les roulements.</li>
+</ul></div>
+<table>
+<tr><th>Contrôle dans SolidWorks</th><th class="n">Résultat</th></tr>
+<tr><td>Bras seul / robot complet</td><td class="n ok">99 / 183 contraintes, 0 en erreur (93 / 119 composants)</td></tr>
+<tr><td>Servo de pince contre son corps</td><td class="n ok">0 mm³ (5,4 + 5,3 mm³ avant)</td></tr>
+<tr><td>MG996R, arm01 et liaison, sur tout le débattement de ±90° (pas de 15°)</td><td class="n ok">0 mm³</td></tr>
+<tr><td>Bras contre le reste du robot</td><td class="n ok">aucune interférence</td></tr>
+<tr><td>Pièces neuves : vis, écrous, capteurs</td><td class="n">filets des vis dans leurs écrous, sinon moins de 0,4 mm³ ; capteurs contre support 4 × 0,4 mm³, identiques avec votre support d'origine</td></tr>
+<tr><td>15 STL du bras et 7 du châssis</td><td class="n ok">étanches, à jour</td></tr>
+</table>
+
+<h3>La transmission de la rotation : le palonnier dans une empreinte</h3>
+<p>Comme dans vos supports d'origine (<code>support1</code> et <code>support 2</code> : empreinte de 5 mm à la forme du palonnier double du MG996R ; <code>support 3</code> : celle de la broche),
+   chaque palonnier est maintenant <b>emboîté dans une empreinte à sa forme</b>, creusée dans la pièce qu'il entraîne (jeu de 0,15 mm). C'est l'empreinte qui transmet le couple.
+   De petites <b>vis autotaraudeuses de 2 mm</b> (celles livrées avec les servos) traversent la pièce et se vissent dans les trous du palonnier pour le tenir.
+   Les palonniers sont <b>vos pièces d'origine</b> : « Servo MG996R arm01 » (MG996R) et « broche » (SG90/MG90S).</p>
+<table>
+<tr><th style="width:11%">Articulation</th><th style="width:10%">Palonnier</th><th>Empreinte</th><th style="width:30%">Vis de 2 mm</th></tr>
+<tr><td>Lacet</td><td>arm01</td><td>Sous le plateau, dans une collerette. Bras du palonnier le long de y. Passage de 8 mm sur l'axe pour sa vis centrale.</td>
+    <td>4, par le dessous, à travers le palonnier (à ±10,5 et ±16,5 mm), avant de poser le plateau. Trous de 1,7 mm traversants.</td></tr>
+<tr><td>Épaule</td><td>arm01</td><td>Face intérieure de la joue du bras, dans une collerette. Bras du palonnier le long du bras. Passage de 8 mm sur l'axe.</td>
+    <td>4, par l'extérieur de la joue (à ±10,5 et ±16,5 mm), têtes lamées.</td></tr>
+<tr><td>Coude</td><td>broche</td><td>Dans le moyeu de l'avant-bras : la plaque de la broche y entre entièrement, avec un logement pour son moyeu et sa nervure. Bras de la broche vers le poignet.</td>
+    <td>2, par le dessous (à 7,9 et 12,9 mm), têtes lamées. Un trou Ø6 sur l'axe laisse passer le tournevis de la vis centrale.</td></tr>
+<tr><td>Poignet</td><td>broche</td><td>Dans la plaque de 5 mm de votre pince. Seule place pour le bras de la broche (20 mm) : le long de l'axe x de la pince, l'empreinte s'arrête 2 mm avant le bloc des mâchoires.</td>
+    <td>2, par l'extérieur de la plaque, trous de 2,6 mm sans lamage. Le trou Ø5 d'origine, sur l'axe, laisse passer le tournevis.</td></tr>
+</table>
+<div class="images">
+  <figure><img src="../images/empreinte_plateau.png"><figcaption>Dessous du plateau : empreinte du arm01 dans sa collerette, 4 trous de vis, passage de la vis centrale.</figcaption></figure>
+  <figure><img src="../images/empreinte_corps_pince.png"><figcaption>Corps de pince : la plaque reçoit la broche du poignet, 2 trous de 2,6 mm, trou Ø5 d'origine.</figcaption></figure>
+  <figure><img src="../images/empreinte_avant_bras.png"><figcaption>Avant-bras, vu de dessous : poche du servo de poignet, trous d'allègement, moyeu du coude.</figcaption></figure>
+  <figure><img src="../images/sw_articulation_poignet.png"><figcaption>Poignet monté : le servo dans l'avant-bras sous sa bride à 4 vis, la pince sur sa broche.</figcaption></figure>
+</div>
+<p><b>Montage d'une articulation</b> (ordre complet des pièces dans <code>MONTAGE.txt</code>) :</p>
+<ol class="etapes">
+  <li>Mettre le servo à l'angle qui correspond à l'angle 0 de l'articulation (celui où la direction des bras du tableau est définie) :
+      <b>lacet 90°, épaule 54,5°, coude 3°, poignet 69°</b> (sur 0–180° ; servo monté à l'envers : 180° moins cette valeur).</li>
+  <li><b>MG996R</b> : visser d'abord l'arm01 dans son empreinte, puis engager l'ensemble sur la cannelure et serrer la vis centrale par le passage de l'axe.
+      <b>SG90/MG90S</b> : enfoncer la broche sur la cannelure, serrer sa vis centrale, puis emboîter la pièce sur la broche et mettre les 2 vis de 2 mm.</li>
+  <li>La cannelure ne permet qu'un cran sur 25 (MG996R, 14,4°) ou sur 21 (SG90, 17°) : l'écart restant est corrigé ensuite par <code>DECALAGE_DEG</code> dans le programme de l'ESP32 (chapitre 6).</li>
+</ol>
+<div class="encart">
+<b>Correction trouvée en faisant les empreintes : la cannelure des SG90.</b> Votre modèle MG90S s'arrête au-dessus de la <b>tour des engrenages</b> (Ø12,4 mm, 4,3 mm au-dessus du boîtier) :
+la cannelure n'y est pas dessinée. Je l'avais prise pour le bout de la cannelure. La broche (alésage cannelé de 2,8 mm de profondeur) se pose en réalité 0,2 mm au-dessus de cette tour.
+Conséquences : au coude, la broche s'enfonce entièrement dans le moyeu de l'avant-bras ; au poignet, le servo est reculé de 2 mm le long de son axe.
+<b>Les axes ne bougent pas</b> : la cinématique et le réseau de neurones restent valables.
+</div>
+<h3>Ce que vous aviez vu, et pourquoi</h3>
+<table>
+<tr><th style="width:28%">Problème</th><th>Cause</th><th style="width:34%">Correction</th></tr>
+<tr><td>(06/11) Les 2 petits trous du corps de pince : vis trop serrée</td><td>Les trous étaient trop justes pour une vis de 2 mm dans une pièce imprimée.</td><td>Trous de 2,6 mm : la vis passe et ne se visse que dans la broche.</td></tr>
+<tr><td>(06/11) Vis du bas du MG996R difficiles à atteindre</td><td>Il fallait tenir les écrous derrière la face du plateau, derrière le servo.</td><td>Écrous captifs glissés par les côtés, avant de poser le servo.</td></tr>
+<tr><td>(30/10) Pas d'emplacement pour les palonniers (arm01, broches)</td><td>Les palonniers étaient seulement plaqués contre les pièces, avec 4 trous en croix qui ne correspondaient même pas au arm01 ; aucune broche n'était dans l'assemblage. Au poignet, la broche aurait même traversé la plaque de la pince de 1,2 mm.</td><td>Empreintes à la forme des palonniers + vis de 2 mm (ci-dessus) ; vos palonniers et servos d'origine dans l'assemblage.</td></tr>
+<tr><td>Pas de place pour le MG996R du socle</td><td>J'avais pris les cotes d'une fiche technique (pattes à 26,5 mm du fond). <b>Votre modèle</b> a ses pattes à 28,1 mm, une sortie de câble sous l'axe, et 47 mm du fond au-dessus du palonnier. Le servo aurait touché le fond du socle.</td><td>Logement recoté sur votre modèle : le fond du servo passe dans une fenêtre de la plaque, un tunnel laisse passer le câble, et les pattes reposent sur deux blocs.</td></tr>
+<tr><td>Pas d'emplacement pour le servo du poignet</td><td>L'avant-bras venait de l'ancien maillage, où le servo était <b>collé à côté de la poutre</b> sans aucun logement.</td><td>Nouvel avant-bras : poutre creuse, moyeu avec l'empreinte de la broche du coude, logement + bride pour le servo du poignet.</td></tr>
+<tr><td>Un servo « soudé » au bras, au coude</td><td>Dans les maillages d'origine, le servo du poignet faisait partie de l'avant-bras, et le servo de pince faisait partie de la pince.</td><td>Les deux sont maintenant des <b>pièces séparées</b>, contraintes dans leur logement.</td></tr>
+<tr><td>(trouvé en vérifiant) SG90 du coude trop haut</td><td>Le palonnier n'aurait pas atteint la cannelure : 7 mm d'écart avec l'axe du coude de la cinématique.</td><td>Servo abaissé : dessus de sa tour d'engrenages sur l'axe du coude (la broche se pose dessus : encadré ci-dessus).</td></tr>
+<tr><td>(trouvé en vérifiant) la pince frotte le poignet</td><td>La paroi de la pince d'origine remonte de 30 mm le long du poignet, à 17 mm de l'axe ou plus. En tournant, elle balaie tout le côté du poignet opposé au coude.</td><td>Servo du poignet <b>retourné vers le coude</b> (même axe, même cinématique) et avant-bras limité à 15 mm de l'axe de ce côté.</td></tr>
+</table>
+<h3>Vérification par calcul (<code>verifier_logements.py</code>)</h3>
+<p>Les vrais modèles SolidWorks des servos et des palonniers sont placés dans les pièces, puis on calcule le volume commun (intersection booléenne). Ensuite, on fait tourner les joints sur toute leur course.
+   En plus, la <b>détection d'interférences de SolidWorks</b> a été lancée sur l'assemblage complet.</p>
+<table>
+<tr><th>Vérification</th><th class="n">Résultat</th></tr>
+<tr><td>MG996R de lacet / socle, MG996R d'épaule / plateau</td><td class="n ok">0 mm³ (pattes posées sur leurs appuis)</td></tr>
+<tr><td>SG90 du coude / bras et bride ; SG90 du poignet / avant-bras et bride</td><td class="n ok">0 mm³</td></tr>
+<tr><td>Les 4 palonniers contre la pièce qui les porte, et contre leur servo (hors cannelure)</td><td class="n ok">0 mm³</td></tr>
+<tr><td>Appui des 4 palonniers au fond de leur empreinte</td><td class="n ok">écart 0,05 mm (mesure)</td></tr>
+<tr><td>Coude de −3° à 177° : bras + servo contre avant-bras + servo, et la broche contre le bras (7 positions)</td><td class="n ok">0 mm³ partout</td></tr>
+<tr><td>Poignet de −69° à 111° : pince (avec son empreinte) contre avant-bras + servo, et la broche (7 positions)</td><td class="n ok">0 mm³ partout, jeu mini 2 mm</td></tr>
+<tr><td>Bilan refait le 06/11 sur la version allégée (<code>verifier_logements.py</code>)</td><td class="n ok">tous les servos entrent, aucune interférence</td></tr>
+<tr><td>Rotation de la base sur tout le débattement, contre patins et socle</td><td class="n ok">aucune collision</td></tr>
+<tr><td>Rotation de l'épaule : le bras touche les patins vers 2,1–2,2 rad</td><td class="n">le réseau ne dépasse pas 1,57 rad</td></tr>
+</table>
+<p class="petit">SolidWorks signale 154 recouvrements sur le bras. Les plus gros : les vis de 2 mm dans les palonniers, le plateau et le corps de pince (3,5 à 6,7 mm³, normal, elles creusent leur filet), et les dents en prise de la pince (2,7 mm³). Ceux de moins de 1 mm³ n'ont pas été relus un par un. Robot complet : aucun recouvrement entre le bras et le reste ; 132 au total, ceux qui touchent aux pièces anciennes (broches de l'ESP32 dans le bâti, moteur et roues) n'ont pas été corrigés.</p>
+<div class="images">
+  <figure><img src="../images/sw_articulation_coude.png"><figcaption>Coude : le roulement dans sa plaque, la colonne, la bride à 4 vis du servo.</figcaption></figure>
+  <figure><img src="../images/sw_articulation_lacet.png"><figcaption>Base vue de face : le MG996R de lacet dans le socle, les poteaux et les patins, le plateau.</figcaption></figure>
+</div>
+<h3>Les contraintes de l'assemblage <code>01_SolidWorks\1_ASSEMBLAGE_FINAL (a utiliser)\Bras 50cm.SLDASM</code></h3>
+<ul>
+  <li><b>Total : 99 contraintes, 0 en erreur</b> après reconstruction, 93 composants, aucune référence perdue (vérifié par l'API SolidWorks le 07/11) : 32 pour les pièces et les servos, 67 pour la visserie.</li>
+  <li><b>4 rotations des servos du bras</b> : <b>entre le palonnier et le servo</b> (axe commun + centre commun), sans la pièce métallique. Chaque pièce ne garde que sa rotation : on peut faire bouger le bras à la souris.</li>
+  <li><b>3 pivots dans la pince</b> (pignon et deux mâchoires) : axe commun + centre commun.</li>
+  <li><b>Servos, palonniers, brides, roulements, vis et écrous</b> : chacun inséré à sa place exacte, puis tenu par une contrainte de verrouillage. Le socle est fixe.</li>
+  <li><b>Robot complet</b> <code>Bureau\Assemblage1v2.SLDASM</code> : 183 contraintes, 0 en erreur, 119 composants. Il utilise le <code>Bras 50cm</code> de ce dossier : <b>ne pas déplacer le dossier</b>.
+      Le socle tient sur le bâti par 3 contraintes : sa face et 2 trous opposés. Régénérer le socle casse ces 3 contraintes : les refaire (chapitre 9).</li>
+  <li>Les pièces du commerce sont des <b>copies de vos fichiers d'origine</b>, avec une esquisse « Repere » ajoutée. Vos fichiers dans <code>ICAM\Pieces tipe</code> ne sont pas modifiés.</li>
+  <li>Noms dans l'arbre : <code>Servo MG996R-1</code> = lacet, <code>-2</code> = épaule ; <code>Servo MG996R arm01-1</code> = lacet, <code>-2</code> = épaule ;
+      <code>Servo MG90S-1</code> = coude, <code>-2</code> = poignet, <code>-3</code> = pince ; <code>broche-1</code> = coude, <code>-2</code> = poignet ; <code>Roulement 608-1</code> = épaule, <code>-2</code> = coude.</li>
+  <li>Versions précédentes dans <code>01_SolidWorks\3_Anciennes versions</code> (3a à 3i). Images par zone avec la visserie en couleur : <code>1_ASSEMBLAGE_FINAL (a utiliser)\Vues visserie</code> ; modifications du robot : <code>Vues 07-11</code> et <code>Vues 08-11</code>.</li>
+</ul>
+
+<!-- ============================== 4. GAZEBO ============================== -->
+<h2 style="margin-top:6mm">4. La simulation Gazebo</h2>
+<ul>
+  <li><b>Logiciels</b> : ROS 2 Humble et Ignition Gazebo Fortress (moteur physique DART), dans Ubuntu 22.04 sous WSL. Les servos sont commandés en position par <code>ros2_control</code> (JointTrajectoryController), avec les <b>vrais couples</b> des MG996R et des SG90 comme limites.</li>
+  <li><b>La scène</b> : robot roulant 200 × 200 × 80 mm. Réglette de 5 trous au pas de 50 mm, avec 3 balles sur 3 trous tirés au hasard. Deux petits réceptacles et un grand réceptacle, placés au hasard à chaque séquence.</li>
+  <li><b>Vos règles</b> : on vise d'abord le réceptacle le plus proche des balles. Seul le réceptacle visé est un obstacle. Les deux autres sont affichés en « fantômes », sans collision, avec les balles déjà déposées. Le bras repart replié avant chaque balle, comme quand le robot roule d'une station à l'autre.</li>
+  <li><b>La balle simulée pèse 50 g et non 2 g</b> : dans Gazebo, une balle de 2 g est chassée par les mâchoires dès qu'elles serrent. Nous avons essayé 2, 10 et 20 g, des frottements et une inertie différents, et le couple réaliste de la pince, sans succès.
+      Pour garder les servos honnêtes, chaque servo reçoit en plus le couple exact de ces 48 g, au pire bras de levier. Leur marge reste donc celle d'une vraie balle de 2 g.</li>
+  <li><b>Une séquence est réussie</b> si les 3 balles finissent dans leur réceptacle, sans collision avec la cible et sans chute.</li>
+</ul>
+<div class="encart">
+<b>Ce que la simulation n'a pas</b> : la version allégée du 06/11 (roulements, patins, nouvelles pièces). Gazebo utilise encore l'ancien modèle, avec la même cinématique (mêmes axes, mêmes longueurs), mais des masses qui ne sont plus à jour : environ 25 g de plus au coude.
+Les résultats sur les trajectoires restent valables. <b>La marge de couple de l'épaule, non.</b> Pour le mettre à jour : <code>bash preparer_gazebo.sh</code>, après avoir copié les nouveaux STL dans <code>meshes/bras_50cm</code>, puis refaire un test.
+</div>
+
+<!-- ============================== 5. RESEAU ============================== -->
+<div class="page"></div>
+<h2>5. Le réseau de neurones</h2>
+<h3>Ce qu'il voit et ce qu'il décide (10 fois par seconde)</h3>
+<div class="deux">
+<div>
+<b>27 entrées</b>
+<ul>
+  <li>Consignes des 4 servos du bras, et ouverture de la pince ;</li>
+  <li>Position de la balle, du point de lâcher et de la pince (calculée par la cinématique) ;</li>
+  <li>Écarts balle – pince et lâcher – pince, plus une version « zoomée » ×50, limitée à ±2 cm, pour la précision au millimètre ;</li>
+  <li>Indicateur « grand réceptacle » : lâcher pince inclinée, à 56 cm.</li>
+</ul>
+</div>
+<div>
+<b>5 sorties</b>
+<ul>
+  <li>De combien tourner chaque servo du bras : au plus 0,06 rad par pas, soit 0,6 rad/s ;</li>
+  <li>Fermer ou ouvrir la pince : fermeture progressive, lente au contact.</li>
+</ul>
+<b>Architecture</b> : 27 → 512 → 512 → 5, activation tanh, <b>279 557 poids</b>.
+<br><b>Garde-fou</b> (hors réseau) : butées des servos, pince jamais sous 9 mm du sol ni dans le robot, bras immobile pendant le serrage.
+</div>
+</div>
+<h3>Comment il apprend</h3>
+<ol class="etapes">
+  <li><b>Un expert montre</b> : un programme classique fait la tâche (cinématique inverse, passage par l'intérieur à 8 cm de l'axe et 26 cm de haut, montée à 56 cm pour le grand réceptacle). On enregistre (situation → geste).</li>
+  <li><b>Le réseau imite</b> (apprentissage supervisé) dans un <b>simulateur rapide</b> : la vraie géométrie du bras, le retard des servos, une prise réaliste et les collisions, environ 100 fois plus vite que Gazebo.</li>
+  <li><b>DAgger</b> : le réseau pilote seul, l'expert note à chaque pas ce qu'il aurait fait, et ces corrections sont ajoutées aux exemples. 9 tours, 1,2 million d'exemples, ~2 heures sur 5 cœurs.</li>
+  <li><b>Affinage Gazebo</b> : 20 séquences pilotées par le réseau dans la vraie physique, 11 154 corrections de l'expert, pesées ×5.</li>
+</ol>
+<table>
+<tr><th>Tour</th><th class="n">0</th><th class="n">1</th><th class="n">2</th><th class="n">3</th><th class="n">4</th><th class="n">5</th><th class="n">6</th><th class="n">7</th><th class="n">8</th></tr>
+<tr><td>Balles déposées, simulateur rapide (240 essais jamais vus)</td><td class="n">5 %</td><td class="n">32 %</td><td class="n">91 %</td><td class="n">97 %</td><td class="n">99 %</td><td class="n">99 %</td><td class="n">100 %</td><td class="n">100 %</td><td class="n">100 %</td></tr>
+</table>
+<h3>Résultats dans Gazebo (vraie physique, dispositions jamais vues)</h3>
+[[RES_GAZEBO_TABLE]]
+
+<!-- ============================== 6. ESP32 ============================== -->
+<div class="page"></div>
+<h2>6. Le programme de l'ESP32 et les essais sur le vrai robot</h2>
+<div class="encart rouge"><b>État au 06/11 au soir.</b> Le programme tourne sur la vraie carte et enchaîne une séquence complète. Mais <b>aucune balle n'a encore été prise en réel</b> : pendant cet essai, le bras était tenu à la main, sans retour de position.
+Au dernier essai, seuls le coude, le poignet et la pince bougeaient. La base et l'épaule n'ont pas bougé, et aucune alimentation séparée n'a encore été essayée.</div>
+<h3>Validé</h3>
+<ul>
+  <li class="ok"><b>Programme unique</b> <code>03_Reseau_de_neurones\esp32\bras_robot</code> (4 fichiers à garder ensemble) : conduite Bluetooth + réseau officiel. Compile (70 % de 3 Mo), téléversé sur l'ESP32 (ESP32-D0WD-V3, COM4).
+      Paquet esp32 3.3.12, bibliothèque ESP32Servo 3.2.1, carte « ESP32 Dev Module », <b>partition « Huge APP (3MB No OTA) » obligatoire</b>.</li>
+  <li class="ok"><b>Temps de calcul mesuré sur la carte : 53,5 ms par décision</b> (53,6 au plus), sur 100 ms disponibles.</li>
+  <li class="ok"><b>Séquence logicielle sur la carte</b> : <code>H</code>, <code>1</code>, 160 décisions du réseau, <code>D</code> au bout de 16 s, <code>H</code> 5 s plus tard. Cela prouve le programme, pas la prise.</li>
+  <li class="ok">Calcul en C (<code>cerveau.cpp</code>) comparé à Python sur 2 000 états : écarts de 7×10<sup>-6</sup> sur les sorties ; 7 cas à la limite d'un garde-fou diffèrent d'un pas.</li>
+  <li class="ok">Signaux : 50 Hz relus sur les broches. Base en 22 : 1499 µs, plus aucun parasite sur la liaison série depuis que l'épaule a quitté la broche 23.</li>
+</ul>
+<div class="encart"><b>Bug majeur corrigé : la balle tenue.</b> Le réseau a appris en voyant la balle suivre la pince une fois prise, alors que l'ESP32 lui donnait la position fixe du plan : il n'aurait jamais déposé une balle réelle.
+Au simulateur, 60 tirages : position fixe <b>0/60</b> ; pince fermée à moins de 2 cm de la balle = balle suit la pince <b>60/60</b> (59/60 avec 3 mm d'erreur de pose). L'ESP32 estime ainsi la prise, faute de capteur.</div>
+<h3>Pas encore vérifié</h3>
+<ul>
+  <li class="ko">Une prise et un dépôt réels. Les réglages <code>SENS</code>, <code>DECALAGE_DEG</code> et <code>PINCE_CENTRE</code> n'ont jamais été faits.</li>
+  <li class="ko">L'épaule et la base avec une alimentation suffisante. Le manque de courant reste une hypothèse, non mesurée.</li>
+  <li class="ko">La démo (balles 1 et 2) : 48/48 au simulateur, jamais jouée dans Gazebo ni en réel.</li>
+  <li class="ko"><code>esp32\test_servos</code> : compile, n'a jamais tourné. Corrections de l'application M.A.V.E. : leur application n'est pas confirmée.</li>
+  <li class="ko">Le programme du parcours (suivi de ligne, repères, stations) n'est pas écrit.</li>
+</ul>
+<h3>Câblage (fait foi : le manuel technique est périmé pour le bras)</h3>
+<table>
+<tr><th>Fonction</th><th class="n">Direction</th><th class="n">Base</th><th class="n">Épaule</th><th class="n">Coude</th><th class="n">Poignet</th><th class="n">Pince</th><th class="n">L298N ENA / IN1 / IN2</th></tr>
+<tr><td>Broche ESP32</td><td class="n">18</td><td class="n">22</td><td class="n">17</td><td class="n">33</td><td class="n">21</td><td class="n">32</td><td class="n">25 / 26 / 27</td></tr>
+</table>
+<p class="petit">À éviter : 34, 35, 36, 39 (entrée seule, ne pilotent rien) ; 12 (démarrage) ; 23 (avec elle, la 22 relisait 983 µs et la liaison série recevait 50 octets parasites par seconde). <b>La masse de l'ESP32 doit être reliée à celle des servos.</b></p>
+<h3>Commandes</h3>
+<table>
+<tr><th style="width:24%">Message</th><th style="width:14%">Par</th><th>Rôle</th></tr>
+<tr><td><code>S</code></td><td>Bluetooth, USB</td><td>Arrêt : propulsion coupée, direction au centre, bras immobile sur place.</td></tr>
+<tr><td><code>H</code></td><td>Bluetooth, USB</td><td>Position home. Si le bras y est déjà : rouvre seulement la pince.</td></tr>
+<tr><td><code>1</code>, <code>2</code></td><td>Bluetooth, USB</td><td>Démo : prend la balle 1 ou 2 et la dépose dans le panier. Balles (x ; y) : 20,45 ; 16,02 cm et 23,27 ; 5,47 cm. Panier : 12,04 ; −24,92 cm, lâcher à 18 cm. Refusé hors du home.</td></tr>
+<tr><td><code>V&lt;n&gt;A</code>, <code>V&lt;n&gt;B</code></td><td>Bluetooth, USB</td><td>Recule, avance, vitesse de 0 à 255. Pendant une prise, <code>V</code> ou <code>R&lt;n&gt;</code> l'annule.</td></tr>
+<tr><td><code>R&lt;n&gt;</code></td><td>Bluetooth, USB</td><td>Direction : angle absolu de 0 à 180 (curseur), 90 = centre. Remplace <code>R&lt;n&gt;C/D</code>.</td></tr>
+<tr><td><code>C x y z g</code></td><td>USB</td><td>Point de lâcher en mètres, <code>g</code> = 1 pour le grand réceptacle. Repère : origine sur l'axe du bras au sol, x vers l'avant, z vers le haut.</td></tr>
+<tr><td><code>B x y z</code></td><td>USB</td><td>Balle visée. Le réseau démarre dès qu'il a C et B.</td></tr>
+<tr><td><code>R</code> seul</td><td>USB</td><td>Position home.</td></tr>
+<tr><td><code>J i d</code></td><td>USB</td><td>Réglage : bouge le servo <code>i</code> (0 base … 4 pince) de <code>d</code> degrés, puis <code>H</code> pour revenir.</td></tr>
+<tr><td><code>P</code></td><td>USB</td><td>Diagnostic : temps depuis le démarrage, cause du démarrage, impulsions relues.</td></tr>
+<tr><td><code>E …</code>, <code>D</code>, <code>H</code></td><td>sorties</td><td><code>E</code> : un pas et son temps de calcul (USB). <code>D</code> : balle déposée. <code>H</code> : bras arrivé en home.</td></tr>
+</table>
+<h3>La position home</h3>
+<div class="encart">
+<b>Posture</b> : lacet 0°, épaule −11°, coude 131°, poignet 67° (sans correction, servos à 90 ; 43,6 ; 133,8 ; 135,8 ; pince 104,3°). <b>Le bras s'y active au démarrage</b>, un servo toutes les 500 ms : allumer le bras à peu près replié.
+<br><b>Comment elle bouge, et pourquoi</b> : un retour direct <b>heurtait le grand réceptacle une fois sur quatre</b>. L'ESP32 garde ses 300 dernières consignes (30 s) et refait d'abord ce chemin <b>à l'envers</b>, jusqu'au passage intérieur bas (à moins de 10 cm de l'axe et 31 cm de haut).
+Puis l'épaule, le coude et le poignet vont au repos, puis le lacet. Rien ne bloque : <code>S</code> est lu pendant le retour.
+<br><b>Vérifié au simulateur</b> sur la version Python (<code>essai_retour_repos.py</code>) : <b>200/200</b> retours sans choc après un dépôt et <b>199/199</b> sur un ordre à un instant au hasard (retour direct : 150/200 et 179/199). Dans <code>bras_robot</code>, ce retour n'a pas encore été observé sur le vrai bras.
+</div>
+<h3>Ce qu'ont montré les essais du 06/11</h3>
+<table>
+<tr><th style="width:27%">Constat</th><th>Explication</th><th style="width:29%">État</th></tr>
+<tr><td>Base et épaule jamais pilotées</td><td>Elles étaient sur les broches 34 et 35, en entrée seule.</td><td class="ok">Déplacées sur 22 et 17.</td></tr>
+<tr><td>Plantage au premier <code>H</code></td><td><code>Servo::setTimerWidth()</code> faisait redémarrer la carte (chien de garde).</td><td class="ok">Corrigé : <code>ESP32PWM</code> direct, 16 bits.</td></tr>
+<tr><td>Masse de l'ESP32 non reliée</td><td>Les signaux n'avaient pas de référence commune.</td><td class="ok">Reliée par vous.</td></tr>
+<tr><td>Base immobile sur son connecteur</td><td>Sur le connecteur de la direction, elle <b>tourne</b>, y compris avec le signal direct de la 22. Servo et signal sont donc bons.</td><td class="ko">Rouge et marron d'origine à contrôler (5 V, masse).</td></tr>
+<tr><td>Épaule : résiste, mais retombe à l'horizontale</td><td>Le servo vit. Hypothèse principale : le 5 V du L298N est trop faible pour un MG996R en charge.</td><td class="ko">Alimentation séparée à essayer.</td></tr>
+<tr><td>Servos qui tremblent</td><td>Les impulsions sont fixes au repos : l'alimentation est probablement en cause, pas le code.</td><td>À revoir avec l'alimentation.</td></tr>
+</table>
+<h3>Ce qu'il reste à faire, dans l'ordre</h3>
+<ol class="etapes">
+  <li><b>Alimentation séparée</b> de 5–6 V pour les servos : 3 A au minimum, 5 A conseillés (un MG996R bloqué tire 2,5 A). Masses reliées.</li>
+  <li><b>Câblage</b> : amener le 5 V et la masse aux connecteurs de la base et de l'épaule, puis tester chaque servo avec <code>J i d</code>. Remettre le servo de direction en place.</li>
+  <li><b>Calage</b> (<code>SENS</code>, <code>DECALAGE_DEG</code>, <code>PINCE_CENTRE</code> en tête de <code>bras_robot.ino</code>) : vérifier la posture home et corriger servo par servo. 2° d'erreur à l'épaule déplacent la pince de 1 cm.</li>
+  <li><b>Démo réelle</b> : mesurer la vraie position de la balle à la règle, l'envoyer avec <code>C</code> puis <code>B</code>, d'abord sans balle et lentement.</li>
+  <li><b>Le parcours</b> : positions de chaque station (chapitres 7 et 11), arrêt sur repère, <code>C</code>, <code>B</code>, attendre <code>D</code>, repartir.</li>
+</ol>
+<p><b>Faut-il réentraîner ?</b> Pas pour la version allégée : longueurs et axes n'ont pas changé. Seulement si les essais réels montrent un écart systématique, et, dès que le plan coté du plateau est connu, pour apprendre la <b>vraie disposition</b> (chapitre 11).</p>
+
+<!-- ============================== 7. POSITIONS SANS CAMERA ============================== -->
+<div class="page"></div>
+<h2>7. Comment le robot sait où sont les balles (sans caméra)</h2>
+<p>Le réseau ne cherche pas les balles : il a besoin de deux positions, celle de la balle (<code>B x y z</code>) et celle du réceptacle (<code>C x y z g</code>), dans le repère du bras.
+Une caméra n'est <b>pas</b> utilisée (hors de la liste du matériel). À la place, on profite de ce que <b>le plateau est fixe</b> : la réglette (10 balles en tout : 2 lots de 5, tous les trous occupés)
+et les réceptacles sont toujours au même endroit. Si le robot sait <b>où il s'est arrêté</b>, toutes les positions se calculent d'avance, une fois pour toutes, à partir du plan coté (chapitre 11).</p>
+<h3>L'enchaînement à une station</h3>
+<ol class="etapes">
+  <li><b>Approche</b> : votre suivi de ligne amène le robot ; les codeurs des roues comptent la distance et le font <b>ralentir</b> avant le repère de la station.</li>
+  <li><b>Arrêt sur le repère</b> : un trait en travers de la ligne (trait du plateau, ou notre scotch posé avec un gabarit) est vu par les 3 capteurs avant en même temps.
+      Le robot le dépasse un peu, puis revient tout doucement et s'arrête <b>sur son bord</b> : position le long de la ligne à ~2 mm près.</li>
+  <li><b>Recalage de l'angle</b> : le robot pivote sur place jusqu'à avoir la ligne centrée sous la rangée avant <b>et</b> sous la rangée arrière (81 mm d'écart, chapitre 3) : il est alors parallèle à la ligne (~0,5°),
+      et centré dessus (~2 mm).</li>
+  <li><b>Positions</b> : l'ESP32 lit dans son tableau les positions de cette station (calculées par <code>parcours/plateau.py</code>) et envoie <code>C</code> puis <code>B</code>.</li>
+  <li><b>Mode IA</b> : le réseau prend la balle et la dépose. À « <b>D</b> », le bras se replie (« <b>H</b> ») ; s'il reste une balle à prendre ici, l'ESP32 envoie la suivante, sinon le robot repart.</li>
+</ol>
+<h3>Quelle précision faut-il ? (mesuré sur le réseau, simulateur rapide)</h3>
+<p>Le réseau a joué 90 balles par niveau en voyant la balle avec une erreur <b>constante</b> dans une direction horizontale au hasard (<code>tolerance_vision.py</code>) :</p>
+<table>
+<tr><th>Erreur sur la position de la balle</th><th class="n">0 mm</th><th class="n">3 mm</th><th class="n">6 mm</th><th class="n">9 mm</th></tr>
+<tr><td>Balles déposées</td><td class="n ok">99 %</td><td class="n ok">99 %</td><td class="n">64 %</td><td class="n ko">0 %</td></tr>
+</table>
+<p><b>Il faut donc la balle à ~3 mm près</b>. Les mâchoires attrapent une balle décalée de 6 mm au plus. L'erreur d'arrêt du robot se retrouve telle quelle sur la balle, et
+<b>c'est l'angle qui compte le plus</b> : 1° d'erreur décale une balle à 25 cm de 4,4 mm (0,5° : 2,2 mm). D'où les 2 rangées de capteurs, le plus loin possible l'une de l'autre. Avec 81 mm entre elles, <b>1 mm d'écart de lecture entre les deux rangées fait 0,7°</b> : pour tenir les 0,5°, il faut lire la ligne à 0,7 mm près. À mesurer sur les vrais capteurs.</p>
+<table>
+<tr><th>Distance de la balle à l'axe du bras</th><th class="n">0,5° d'erreur</th><th class="n">1°</th><th class="n">2°</th></tr>
+<tr><td>20 cm</td><td class="n">1,7 mm</td><td class="n">3,5 mm</td><td class="n">7,0 mm</td></tr>
+<tr><td>30 cm</td><td class="n">2,6 mm</td><td class="n">5,2 mm</td><td class="n">10,5 mm</td></tr>
+<tr><td>35 cm</td><td class="n">3,1 mm</td><td class="n">6,1 mm</td><td class="n">12,2 mm</td></tr>
+</table>
+<h3>Matériel (liste du challenge)</h3>
+<table>
+<tr><th style="width:34%">Élément</th><th>Rôle</th><th class="n">Unités</th></tr>
+<tr><td>3 capteurs de ligne analogiques (rangée d'origine)</td><td>Suivi de ligne ; détection des traits en travers ; centrage sur la ligne.</td><td class="n">déjà comptés</td></tr>
+<tr><td>3 capteurs de ligne analogiques en plus (2e rangée, 08/11)</td><td>Angle du robot à l'arrêt : les deux rangées centrées sur la ligne. Le calcul de ce chapitre et du chapitre 11 supposait 1 seul capteur en plus.</td><td class="n">6</td></tr>
+<tr><td>2 codeurs incrémentaux + roues de mesure</td><td>Distance parcourue : ralentir avant le repère, savoir à quelle station on est.</td><td class="n">0</td></tr>
+<tr><td>Scotch noir + gabarit imprimé</td><td>Nos repères d'arrêt (FAQ précision n°4 : moins de 30 s de pose, sans résidu).</td><td class="n">0</td></tr>
+<tr><td>Butée imprimée à l'avant</td><td>Garage au grand réceptacle, piloté à la main : avancer jusqu'au contact.</td><td class="n">0</td></tr>
+<tr><td>(option) capteur noir/blanc sous la pince</td><td>Retrouver le bord de notre repère avec le bras avant la prise, pour corriger l'erreur d'arrêt restante.</td><td class="n">2</td></tr>
+</table>
+<div class="encart">
+<b>Le réseau du parcours (30/10) – c'est désormais le réseau officiel</b>
+<ul>
+  <li><b>Pourquoi</b> : le réseau final du 29/10 n'avait jamais vu de balle <b>droit devant</b> le robot (pendant l'apprentissage, le grand réceptacle était toujours en face) :
+      0 prise sur 15 à ±20°. Or à la station 2, les balles sont devant.</li>
+  <li><b>Complément d'apprentissage</b> : balles dans toutes les directions, sur la réglette ou par terre ; dépôt en partant du repos, balle tenue ; grand réceptacle garé à 20,5–25 cm.
+      Simulateur rapide : 100 % des prises (58 % avant), 100 % des dépôts, 100 % sur la scène d'origine.</li>
+  <li><b>Affinage avec 19 000 corrections notées dans Gazebo</b> (comme pour le réseau final) puis test Gazebo sur les mêmes dispositions :
+      scène d'origine <b>18/20</b> (le réseau du 29/10 : 20/20), réglette devant <b>17/20</b> (36 balles sur 39 tentées, toutes celles à 30–35 cm comprises ; 2 collisions vers 24 cm).</li>
+  <li><b>Fichiers</b> : dans le dossier du Bureau, <code>03_Reseau_de_neurones\modele\1_RESEAU_FINAL (a utiliser)\reseau_final.pt</code> (le seul à utiliser, exporté pour l'ESP32) ;
+      l'ancien en secours dans <code>2_Secours (ancien reseau du 29-10)</code>. Dans Ubuntu : <code>modeles/politique_finale.pt</code> et <code>politique_finale_29oct.pt</code>.
+      Tests : <code>valider_mission_gazebo.sh</code>, <code>affinage_mission.sh</code>.</li>
+  <li><b>Point faible trouvé</b> : le réseau a appris avec 3 balles sur 5 trous. Avec une <b>réglette pleine</b>, prendre une balle qui a encore des voisines est plus difficile (chapitre 11).
+      Prochain apprentissage : réglettes pleines, sur la vraie disposition du plateau.</li>
+</ul>
+</div>
+
+<!-- ============================== 8. PROGRAMMATION ============================== -->
+<div class="page"></div>
+<h2>8. La programmation : outils, fichiers, fonctions</h2>
+<table>
+<tr><th style="width:26%">Outil</th><th>Utilisé pour</th></tr>
+<tr><td>Ubuntu 22.04 (WSL) + ROS 2 Humble</td><td>Simulation, communication avec les servos simulés (topics, <code>ros2_control</code>).</td></tr>
+<tr><td>Ignition Gazebo Fortress</td><td>Physique 3D : contacts, prise de la balle, couples des servos.</td></tr>
+<tr><td>Python 3.10, NumPy, PyTorch</td><td>Cinématique, expert, simulateur rapide, réseau de neurones, apprentissage.</td></tr>
+<tr><td>CadQuery / OpenCascade, trimesh</td><td>CAO des pièces par programme, export STEP/STL, vérification des interférences.</td></tr>
+<tr><td>API SolidWorks (C#, appelée par PowerShell)</td><td>Import des STEP, esquisses d'axes, assemblage et contraintes, images.</td></tr>
+<tr><td>C / Arduino (ESP32Servo), g++</td><td>Programme embarqué, et sa vérification sur PC contre Python.</td></tr>
+</table>
+<h3>Fichiers principaux (dans <code>~/ros2_ws/src/mon_bras_robot/</code>, copiés dans le dossier du Bureau)</h3>
+<table>
+<tr><th style="width:30%">Fichier</th><th>Rôle et fonctions importantes</th></tr>
+<tr><td><code>bras_50cm/dimensionnement.py</code></td><td>Étude 5 / 6 axes : longueurs, couples, marges.</td></tr>
+<tr><td><code>bras_50cm/cao_bras.py</code></td><td>Pièces : <code>socle()</code>, <code>plateau()</code>, <code>bras()</code>, <code>avant_bras()</code>, <code>bride_sg90()</code>, <code>corps_pince()</code>. <code>SERVOS</code> place chaque modèle de servo là où l'impose la cinématique ;
+    <code>PALONNIERS</code> et <code>empreinte()</code> : position des palonniers, empreintes, collerettes et vis. <code>visserie()</code> : place de chaque vis et de chaque écrou.</td></tr>
+<tr><td><code>bras_50cm/preparer_palonniers.py</code></td><td>Copie vos palonniers et votre pince d'origine (STEP), et calcule leur recalage (<code>servos/recalages.json</code>).</td></tr>
+<tr><td><code>bras_50cm/verifier_logements.py</code></td><td>Interférences servos/palonniers/pièces, appui des palonniers, rotation du coude et du poignet.</td></tr>
+<tr><td><code>bras_50cm/acces_outils.py</code>, <code>acces_ecrous.py</code></td><td>Accès d'un outil à chaque vis, à chaque étape du montage ; chemin d'entrée de chaque écrou.</td></tr>
+<tr><td><code>bras_50cm/generer_assemblage_sw.py</code></td><td>Écrit <code>assembler.ps1</code>, qui construit l'assemblage SolidWorks contraint.</td></tr>
+<tr><td><code>bras_50cm/generer_urdf.py</code></td><td>Modèle du bras pour Gazebo (masses, inerties, couples des servos).</td></tr>
+<tr><td><code>ia_50cm/cinematique.py</code></td><td>Classe <code>Bras</code> : lecture de l'URDF, <code>outil(q)</code> (cinématique directe), <code>ik()</code> (inverse), butées.</td></tr>
+<tr><td><code>ia_50cm/zone.py</code></td><td><code>tirer_scene()</code> : disposition au hasard, ordre des réceptacles ; <code>cible_lacher()</code>.</td></tr>
+<tr><td><code>ia_50cm/obstacles.py</code></td><td><code>heurte()</code> : collisions du bras avec la cible, le robot, les balles.</td></tr>
+<tr><td><code>ia_50cm/expert.py</code></td><td>L'expert : <code>preparer()</code> (chemin vérifié), <code>action()</code> (geste à chaque pas).</td></tr>
+<tr><td><code>ia_50cm/politique.py</code></td><td><code>observation()</code> (27 entrées), <code>Reseau</code>, <code>securite()</code> (garde-fou).</td></tr>
+<tr><td><code>ia_50cm/sim_cinematique.py</code></td><td>Simulateur rapide <code>SimReceptacles</code> : retard des servos, prise, lâcher, collisions.</td></tr>
+<tr><td><code>ia_50cm/entrainer_imitation.py</code></td><td>Imitation + DAgger, et <code>--affiner</code> avec les corrections Gazebo.</td></tr>
+<tr><td><code>ia_50cm/evaluer_receptacles.py</code></td><td>Séquences de 3 balles dans Gazebo (réseau ou expert), et collecte des corrections.</td></tr>
+<tr><td><code>ia_50cm/creer_scene.py</code>, <code>scene_gazebo.py</code></td><td>Monde Gazebo ; placement des réceptacles, des fantômes et des balles.</td></tr>
+<tr><td><code>ia_50cm/esp32/</code></td><td><code>cerveau.cpp/.h</code> (le calcul en C), <code>exporter_esp32.py</code> (poids → C + vérification). Le programme à utiliser est sur le Bureau : <code>03_Reseau_de_neurones\esp32\bras_robot\bras_robot.ino</code>.</td></tr>
+<tr><td><code>ia_50cm/tolerance_vision.py</code></td><td>Précision nécessaire sur la position de la balle (chapitre 7).</td></tr>
+<tr><td><code>ia_50cm/entrainer_mission.py</code>, <code>affiner_mission.py</code></td><td>Complément « parcours » (balles dans toutes les directions) et son affinage avec les corrections Gazebo.</td></tr>
+<tr><td><code>ia_50cm/evaluer_mission_gazebo.py</code></td><td>Tests Gazebo du réseau (scène d'origine, réglette devant) et collecte des corrections ; résultats dans <code>modeles/mission/</code>.</td></tr>
+<tr><td><code>ia_50cm/parcours/plateau.py</code></td><td>Plateau et arrêts : positions vues du bras, verdicts, erreurs d'arrêt, essais (chapitre 11).</td></tr>
+</table>
+
+<!-- ============================== 9. COMMANDES ============================== -->
+<div class="page"></div>
+<h2>9. Toutes les commandes utiles</h2>
+<p class="petit">Dans Ubuntu (WSL), après <code>source /opt/ros/humble/setup.bash</code> et <code>source ~/ros2_ws/install/setup.bash</code>. Les tâches longues tournent en priorité basse : le PC reste utilisable.</p>
+<h3>Simulation et tests (dossier <code>~/ros2_ws/src/mon_bras_robot/ia_50cm</code>)</h3>
+<pre class="ligne"><code>bash demo_gazebo.sh                                            # démo, terminal 1 : Gazebo avec fenêtre
+bash demo_reseau.sh                                            # démo, terminal 2 : 3 séquences au hasard
+bash demo_repos.sh                                             # POSITION HOME : bras replié (Gazebo lancé)
+bash gazebo_auto.sh 20 --modele modeles/politique_finale.pt   # test sans fenêtre, 20 séquences de 3 balles
+bash gazebo_auto.sh 5 --expert                                 # l'expert pilote (vérifier la physique)
+python3 essai_retour_repos.py 200                              # sécurité du retour home (simulateur rapide)
+python3 essai_expert.py 40                                     # l'expert dans le simulateur rapide
+python3 tolerance_vision.py modeles/politique_finale.pt 90     # précision nécessaire sur la balle
+bash valider_mission_gazebo.sh 20                              # test Gazebo : scène d'origine + réglette devant
+python3 -W ignore parcours/plateau.py                          # plateau et arrêts (chapitre 11)
+bash arreter_gazebo.sh                                         # ferme les restes de Gazebo</code></pre>
+<p class="petit">Les scripts de démo font ceci (pour taper à la main : une ligne du PDF = une commande ; ne jamais couper la ligne <code>ros2 launch</code>) :</p>
+<pre class="ligne" style="font-size: 7.3pt"><code>source /opt/ros/humble/setup.bash
+source ~/ros2_ws/install/setup.bash
+ros2 launch mon_bras_robot_moveit_config gazebo.launch.py robot:=bras_50cm monde:=scene_trois_receptacles
+python3 evaluer_receptacles.py 3 --modele modeles/politique_finale.pt --graine $RANDOM</code></pre>
+<h3>Entraînement du réseau</h3>
+<pre><code>bash entrainement_propre.sh          # repart de zéro (l'ancien est archivé), ~2 h
+bash entrainer.sh --reprendre 3      # 3 tours de correction de plus
+bash fin_automatique.sh              # corrections Gazebo + affinage + test officiel + dossier du Bureau</code></pre>
+<h3>ESP32</h3>
+<p>Ouvrir <code>03_Reseau_de_neurones\esp32\bras_robot\bras_robot.ino</code> dans l'IDE Arduino (ESP32 Dev Module, Huge APP), téléverser, moniteur série à 115 200 bauds, fin de ligne « New Line ».</p>
+<div class="encart rouge"><b>Attention</b> : <code>exporter_esp32.py</code> génère encore <code>B1</code> et écrit dans <code>bras_esp32</code>, et <code>exporter_dossier.sh</code> recrée l'ancien dossier. <b>Un nouvel export ne met pas à jour <code>bras_robot</code></b> : à adapter avant le prochain réentraînement.</div>
+<h3>CAO et SolidWorks (dossier <code>~/ros2_ws/src/mon_bras_robot/bras_50cm</code>)</h3>
+<pre><code>~/venv_cao/bin/python preparer_palonniers.py      # palonniers + pince d'origine, recalages (une fois)
+~/venv_cao/bin/python cao_bras.py                # pièces -> pieces/*.step, *.stl, masses.json
+~/venv_cao/bin/python verifier_logements.py       # interférences servos / pièces / mouvements
+~/venv_cao/bin/python generer_assemblage_sw.py "/mnt/c/Users/amaur/Desktop/Bras robotisé/01_SolidWorks/1_ASSEMBLAGE_FINAL (a utiliser)"
+# puis dans PowerShell Windows (SolidWorks fermé) :
+#   powershell -ExecutionPolicy Bypass -File "C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_ASSEMBLAGE_FINAL (a utiliser)\assembler.ps1"
+#   puis le robot complet, SolidWorks fermé : 04_Simulation_Gazebo\bras_50cm\solidworks\reparer_v2.ps1
+~/venv_cao/bin/python acces_outils.py             # accès d'un outil à chaque vis
+~/venv_cao/bin/python acces_ecrous.py             # chemin d'entrée de chaque écrou
+cd robot ; ~/venv_cao/bin/python support_capteurs.py . ; ~/venv_cao/bin/python direction.py . ; cd ..   # pièces du châssis
+bash ../ia_50cm/preparer_gazebo.sh                # régénère l'URDF et la scène Gazebo
+# exporter_dossier.sh : ne plus le lancer sans l'adapter (il recrée esp32/bras_esp32)</code></pre>
+
+<div class="page"></div>
+<h2>10. Règlement du challenge et points d'attention</h2>
+<div class="encart rouge">
+<b>Le règlement impose une seule carte Arduino Uno</b>. Avec 32 Ko de mémoire flash et 2 Ko de RAM, elle ne peut pas porter ce réseau (280 000 poids, 1,1 Mo).
+La FAQ du challenge (précision n°2, 02/09) <b>autorise une ESP32</b> si le groupe la fait valider par le responsable matériel. En cas d'accord, le groupe doit être autonome : fourniture, programmation, dépannage.
+Il faut donc passer le voir avec ce document. Sinon, il faudrait un réseau ~100 fois plus petit (environ 2 000 poids en 8 bits), avec une tâche simplifiée et moins de précision.
+</div>
+<ul>
+  <li><b>Coude</b> : c'est l'axe le plus chargé (55 % de son couple). Préférer un MG90S à engrenages métal.</li>
+  <li><b>Épaule</b> : 47 % du blocage dans le pire cas, à condition que l'alimentation suive (chapitre 6). Leviers restants, non appliqués : un SG90 à la pince si son couple suffit (−4,4 g en bout de bras), un roulement 688 au coude (plus léger que le 608, à acheter), un ressort de compensation.</li>
+  <li><b>Pince</b> : la pince d'origine a reçu l'empreinte de la broche du poignet et 2 trous de 2,6 mm (<code>02_Impression_3D\corps_pince.stl</code>, à réimprimer).
+      Son servo est maintenant droit dans un logement fermé, tenu par 2 vis de 2 × 8 : <b>l'ancienne pince imprimée ne convient plus</b>.</li>
+  <li><b>Impression</b> : 0,3 mm de jeu autour des MG996R, 0,15 mm autour des SG90 et dans les empreintes, logement du 608 à 22,1 mm, trous M3 à 3,5 mm. La gorge du plateau a un plafond de 1,5 mm : faire un petit essai de cette zone avant la pièce entière.
+      Le bras (286 mm) ne tient sur la Core One qu'en diagonale, avec 3 à 5 mm de marge : à vérifier dans PrusaSlicer.</li>
+  <li><b>Vis des palonniers</b> : 14 vis autotaraudeuses de 2 × 8 (lacet 4, épaule 4, coude 2, poignet 2, servo de pince 2), plus 4 pour la direction, plus les 4 vis centrales livrées avec les servos.</li>
+  <li><b>Balle de 2 g</b> : les mâchoires engrenées se ferment ensemble, et le serrage final est lent. Sur le vrai bras, la balle légère ne pose pas le problème de Gazebo.</li>
+</ul>
+<h3>Respect du cahier des charges</h3>
+<table>
+<tr><th style="width:34%">Exigence</th><th>Où on en est</th></tr>
+<tr><td>Balles Ø23 mm, 2 g, à ne pas abîmer</td><td class="ok">Prise par mâchoires engrenées, serrage final lent. Couple des servos vérifié avec la balle.</td></tr>
+<tr><td>Trois réceptacles, dont un à 50 cm</td><td class="ok">Réseau officiel : 54/60 balles dans Gazebo sur la scène d'origine et 36/40 avec la réglette devant (dispositions jamais vues) ; le réseau du 29/10 faisait 60/60 mais ne prenait pas devant le robot.</td></tr>
+<tr><td>Match de 3 minutes au plus (phase finale)</td><td class="ok">Le bras met 16 à 21 s par balle, soit environ 1 minute pour les 3. Il reste ~2 minutes pour rouler.</td></tr>
+<tr><td>Une seule carte Arduino Uno</td><td>ESP32 <b>autorisé sous conditions</b> (FAQ, précision n°2) : il faut le faire valider par le responsable matériel, et le groupe doit être autonome (fourniture, programmation, dépannage).</td></tr>
+<tr><td>Base dans un carré de 200 mm (FAQ)</td><td>Bâti de 200 mm. En position home, le bras ne dépasse pas de la base (de −6 à +9 cm, ±4,6 cm) et la préhension peut dépasser légèrement pendant la prise. <b>À vérifier</b> : dans le modèle, les batteries (26 mm derrière le bâti) et les roues avant (6 mm devant) portent la longueur à environ 232 mm.</td></tr>
+<tr><td>Coût du robot ≤ 60 unités</td><td class="ko">Environ 78 unités hors ESP32 après les ajouts des 07 et 08/11 : 18 de trop (détail ci-dessous). À arbitrer.</td></tr>
+</table>
+<h3>Coût en unités (tableau « Matériel » du challenge)</h3>
+<table>
+<tr><th>Bras</th><th class="n">Prix unitaire</th><th class="n">Nombre</th><th class="n">Unités</th></tr>
+<tr><td>Servomoteur MG996R (lacet, épaule)</td><td class="n">10</td><td class="n">2</td><td class="n">20</td></tr>
+<tr><td>Servomoteur MG90 (coude, pince)</td><td class="n">4</td><td class="n">2</td><td class="n">8</td></tr>
+<tr><td>Servomoteur SG90 (poignet)</td><td class="n">3</td><td class="n">1</td><td class="n">3</td></tr>
+<tr><td>Impression 3D PLA, visserie M3, vis de 2 mm des palonniers</td><td class="n">0</td><td class="n">–</td><td class="n">0</td></tr>
+<tr><td>2 roulements 608 (épaule, coude)</td><td class="n">0,5</td><td class="n">2</td><td class="n">1 **</td></tr>
+<tr><td>ESP32</td><td class="n">« à définir »</td><td class="n">1</td><td class="n">?</td></tr>
+<tr><td><b>Total du bras</b></td><td></td><td></td><td class="n"><b>31 + ESP32</b></td></tr>
+</table>
+<p class="petit">** Le groupe compte déjà 4 roulements dans ses 49 unités : si ce sont des 608, le total ne change pas. À vérifier. Ne pas rendre les 2 roulements du bras.</p>
+<p>Le groupe A5 (si c'est bien le vôtre) en est à <b>49 unités</b>, dont 1 MG996R et 2 MG90 déjà empruntés pour le bras. Pour finir le bras, il manque <b>1 MG996R (10) et 1 SG90 (3)</b>, soit <b>62 unités</b> : 2 de trop.
+Pistes, sachant qu'un composant rendu en bon état est remboursé :
+rendre le <b>moteur pas à pas 28BYJ</b> (3 unités), s'il ne sert plus, ce qui ramène à <b>59/60</b> ; sinon le ressort (1) et un roulement 608zz (0,5) ne suffisent pas.
+Mettre un SG90 au coude au lieu d'un MG90 économise 1 unité, mais le coude est l'axe le plus chargé : à éviter.
+<br><b>Mise à jour du 08/11</b> (prix du tableau ci-dessus ; l'Excel n'est plus dans Téléchargements, donc non relu) : 3 capteurs de ligne en plus (2e rangée, <b>6 unités</b>) et le MG996R de direction (<b>10 unités</b>) font <b>78 unités</b>, 75 en rendant le 28BYJ. Le servo de direction n'apparaît pas dans la liste du groupe ci-dessus : s'il y figurait comme MG90, le MG996R ne coûte que 6 de plus (74 ou 71). Il y aura aussi 6 roulements sur le robot (2 roues avant, 2 direction, 2 bras) pour 4 comptés, soit jusqu'à 1 unité de plus.
+<b>Il faut donc faire des choix</b> : par exemple ne mettre qu'1 capteur dans la 2e rangée (−4) ; garder un MG90S à la direction n'est pas souhaitable, puisqu'il ne suffit pas. Les codeurs, le scotch et les pièces imprimées comptent 0.
+Le prix de l'ESP32 est « à définir » : à demander au responsable matériel, car il peut faire dépasser le budget. La carte Arduino Uno, elle, compte 0 unité si elle est utilisée dans le robot.</p>
+<h3>Améliorations possibles, par ordre d'importance</h3>
+<ol>
+  <li><b>Règlement</b> : faire valider l'ESP32 par le responsable matériel et demander son prix en unités. Revenir sous 60 unités, par exemple en rendant le moteur pas à pas 28BYJ s'il ne sert plus.
+      Échéance : validation du système de préhension le 10/03/2027 (PT A) ou le 11/03/2027 (PT B), challenge le 19/05/2027.</li>
+  <li><b>Plateau</b> : dès le plan coté reçu, refaire le chapitre 11 et <b>réentraîner sur la vraie disposition, réglettes pleines</b> (~1–2 h), puis test Gazebo.
+      C'est ce qui fera le plus monter le taux de réussite (2e balle de la station 2 surtout).</li>
+  <li><b>Vitesse</b> (classement au temps en qualification) : le réseau limite les servos à 0,6 rad/s, par prudence. Un MG996R va bien plus vite.
+      En autorisant 1,2 rad/s puis en réentraînant, on gagnerait environ 2× sur le temps par balle. À valider dans Gazebo, puis sur le vrai bras.</li>
+  <li><b>Vrai bras d'abord</b> : alimentation séparée, câblage de la base et de l'épaule, calage, première prise réelle (chapitre 6).</li>
+  <li><b>Coude</b> : MG90S à engrenages métal à la place du SG90 (55 % du couple de blocage).</li>
+  <li><b>Arrêts</b> : 2e rangée de capteurs (indispensable, à câbler), codeurs, gabarit des repères, butée du grand réceptacle (chapitres 7 et 11) ; en option, capteur noir/blanc sous la pince.</li>
+  <li><b>Gazebo</b> : mettre la version allégée (masses, roulements) dans le modèle de simulation, puis refaire un test de 20 séquences. La cinématique n'a pas changé.</li>
+  <li><b>Affichage Gazebo</b> : retirer <code>export LIBGL_ALWAYS_SOFTWARE=1</code> du <code>~/.bashrc</code> si l'affichage par la carte graphique fonctionne (simulation ~7× plus fluide).</li>
+</ol>
+
+<!-- ============================== 11. PLATEAU ============================== -->
+<div class="page"></div>
+<h2>11. Le plateau et les arrêts du robot (dimensions supposées)</h2>
+<div class="encart rouge"><b>Toutes les cotes de ce chapitre sont inventées</b>, en attendant le plan coté : seules la réglette (5 trous au pas de 50 mm, 270 × 30 mm), les réceptacles
+(Ø100 mm bord à 15 cm, Ø200 mm bord à 50 cm) et le robot (200 × 200 mm, bras au centre) sont des dimensions connues. La méthode, elle, ne changera pas :
+la page suivante explique comment remplacer les valeurs et refaire tous les calculs en une commande.</div>
+<p><b>Le principe</b> : le robot ne mesure rien autour de lui. Le plateau est fixe et les balles sont toujours dans les mêmes trous : si le robot sait <b>où il s'est arrêté</b>
+(position le long de la ligne, écart à la ligne, angle), la position de chaque balle et de chaque réceptacle <b>par rapport au bras</b> se calcule d'avance.
+Ce sont ces valeurs que l'ESP32 envoie au réseau (<code>B x y z</code>, <code>C x y z g</code>). Les traits du plateau servent à savoir où l'on est.</p>
+<div class="images" style="grid-template-columns: 1fr"><figure><img src="../images/plateau_suppose.png" style="height:56mm"><figcaption>Plateau supposé, vu dans le repère de chaque trait (X le long de la ligne dans le sens de marche, Y vers la gauche).
+Bleu : robot arrêté et zone où le réseau réussit toutes ses prises (19–28 cm de l'axe). Orange plein : trous occupés. Rouge : notre repère en scotch.</figcaption></figure></div>
+<h3>Le déroulé et les capteurs</h3>
+<table>
+<tr><th style="width:20%">Étape</th><th>Ce que fait le robot</th><th style="width:30%">Capteurs (unités)</th></tr>
+<tr><td><b>Station 1</b> (1er lot, petit trait juste après les balles)</td><td>Le trait est <b>après</b> les balles : arrêté dessus, le bras les aurait derrière lui (le lacet ne tourne que de ±85°).
+On s'arrête donc sur <b>notre repère</b> en scotch noir, posé avant le départ avec un <b>gabarit imprimé</b> calé contre le trait officiel et la ligne (ici 31,5 cm avant le trait).
+Prise de la balle la plus proche (trou 1), dépôt dans le petit réceptacle 1.</td><td rowspan="2">3 capteurs de ligne analogiques à l'avant (déjà prévus) : suivi de ligne, et un trait en travers est vu par les 3 en même temps.
+<b>1 capteur analogique à l'arrière</b> (2) : à l'arrêt, le robot pivote jusqu'à avoir la ligne centrée à l'avant et à l'arrière → angle à ~0,5° près.
+<b>2 codeurs</b> sur les roues (0) : ralentir avant le repère, approche lente et retour sur son bord.</td></tr>
+<tr><td><b>Station 2</b> (2e lot, grand trait)</td><td>Arrêt directement sur le grand trait (réglette supposée devant, en travers de la ligne).
+Balle du milieu (trou 3) → petit réceptacle 2 ; puis une 2e balle (sa voisine de droite, trou 2, ou celle du bout, trou 1), <b>gardée</b> dans la pince, bras replié.</td></tr>
+<tr><td><b>Grand réceptacle</b></td><td>Après la fin de la ligne, pilotage à la main (application) en faisant le tour, jusqu'à avoir le grand réceptacle <b>22,5 cm devant l'axe du bras</b> (zone apprise : 20,5–25 cm, ±15°), puis dépôt.</td><td>Conseillé : une <b>butée imprimée</b> à l'avant du robot qui touche le pied du réceptacle (0) : le pilote avance jusqu'au contact.</td></tr>
+</table>
+<h3>Positions vues depuis le bras, et résultats (réseau officiel, simulateur rapide, 60 essais par case, réglettes pleines : 5 balles)</h3>
+<table>
+<tr><th>Prise</th><th class="n">Balle (x ; y)</th><th class="n">Distance, angle</th><th class="n">Réceptacle (x ; y)</th><th class="n">Arrêt parfait</th><th class="n">Repère + capteur arrière<br>(±2 mm, ±0,5°)</th><th class="n">Sans capteur arrière<br>(±2 mm, ±1,5°)</th><th class="n">Recul aux codeurs<br>(±8 mm, ±1°)</th></tr>
+<tr><td>Station 1, trou 1</td><td class="n">15,0 ; −20,0 cm</td><td class="n">25,0 cm, −53°</td><td class="n">10,0 ; 25,0 cm</td><td class="n ok">100 %</td><td class="n">90 %</td><td class="n ko">55 %</td><td class="n ko">48 %</td></tr>
+<tr><td>Station 2, trou 3</td><td class="n">25,5 ; 0,0 cm</td><td class="n">25,5 cm, 0°</td><td class="n">8,5 ; 27,0 cm</td><td class="n ok">98 %</td><td class="n">92 %</td><td class="n ko">48 %</td><td class="n ko">32 %</td></tr>
+<tr><td>Station 2, 2e balle : trou 2 (voisine)</td><td class="n">25,5 ; −5,0 cm</td><td class="n">26,0 cm, −11°</td><td class="n">(gardée)</td><td class="n ko">42 %</td><td class="n ko">48 %</td><td class="n ko">20 %</td><td class="n ko">20 %</td></tr>
+<tr><td>Station 2, 2e balle : trou 1 (bout)</td><td class="n">25,5 ; −10,0 cm</td><td class="n">27,4 cm, −21°</td><td class="n">(gardée)</td><td class="n">75 %</td><td class="n">77 %</td><td class="n ko">52 %</td><td class="n ko">32 %</td></tr>
+<tr><td>Grand réceptacle (balle tenue)</td><td class="n">–</td><td class="n">–</td><td class="n">22,5 ; 0 cm</td><td class="n ok">100 %</td><td class="n" colspan="2">garage soigné (±1 cm, ±3°) : 90 %</td><td class="n ko">approximatif (±2 cm, ±6°) : 63 %</td></tr>
+</table>
+<p class="petit">« ±2 mm, ±0,5° » = écarts-types de l'erreur d'arrêt tirée au hasard. Le réseau vise la position <b>calculée</b> ; la balle est à la position <b>réelle</b>. 2 écarts-types d'erreur d'arrêt
+font ~7 mm sur la balle avec le capteur arrière, ~15 mm sans. La 2e balle de la station 2 est testée en la déposant dans le petit réceptacle 2 (même geste de prise).</p>
+<div class="encart"><b>Ce qu'on en retient</b>
+<ul>
+  <li><b>Réglettes pleines</b> : la 1re balle de chaque station passe bien (90–100 %), mais la <b>2e balle de la station 2</b>, encore entourée de voisines, est mal prise
+      (42 % pour la voisine du milieu, 75 % pour celle du bout), même avec un arrêt parfait : le réseau a appris avec 3 balles sur 5 trous, jamais avec une réglette pleine.
+      Prendre plutôt la balle du <b>bout</b>, et surtout <b>réentraîner avec des réglettes pleines</b> sur la vraie disposition (le plan coté).</li>
+  <li><b>Le capteur arrière est indispensable</b> : sans lui, une prise sur deux est ratée. L'angle du robot est l'erreur qui compte le plus (1° = 4–5 mm sur la balle).</li>
+  <li>Même avec lui, on reste vers <b>85–90 %</b> pour une balle bien dégagée. Trois façons de gagner, à faire dans cet ordre une fois le plan connu :
+      (1) <b>réentraîner le réseau sur la vraie disposition, réglettes pleines</b> (positions fixes = tâche plus simple ; 1 à 2 h) ;
+      (2) des <b>doigts de pince en V</b> qui recentrent la balle (0 unité) ;
+      (3) un <b>capteur noir/blanc sous la pince</b> (2 unités) qui retrouve le bord de notre repère en scotch avant la prise, pour corriger l'erreur d'arrêt.</li>
+  <li>Le <b>recul mesuré aux codeurs</b> (s'arrêter sur le trait officiel puis reculer) est trop imprécis : d'où le repère posé avec le gabarit.</li>
+  <li>Le <b>grand réceptacle</b> pardonne beaucoup (100 % à l'arrêt parfait), mais le garage à la main doit être soigné : d'où la butée.</li>
+</ul></div>
+
+<div class="page"></div>
+<h2>11 bis. Le jour où vous avez le plan coté : comment tout refaire</h2>
+<ol class="etapes">
+  <li><b>Mesurer sur le plan</b>, pour chaque station, dans le <b>repère du trait</b> : origine au milieu du trait, sur l'axe de la ligne ; <b>X</b> le long de la ligne dans le sens de marche du robot ; <b>Y</b> vers la gauche du robot ; en mètres.
+      <ul>
+        <li><code>trou1</code> : centre du trou 1 de la réglette (le premier que le robot rencontre) ;</li>
+        <li><code>direction_deg</code> : direction trou 1 → trou 5 (0 = parallèle à la ligne, dans le sens de marche ; 90 = vers la gauche ; −90 = vers la droite) ;</li>
+        <li><code>trous</code> : numéros des trous occupés (ici les 5) ; <code>prises</code> : les balles prises à cette station, dans l'ordre ; <code>petit</code> : centre du petit réceptacle de cette station.</li>
+      </ul></li>
+  <li><b>Mesurer sur le robot</b> : <code>D_CAPTEURS_AVANT</code> = distance entre la rangée de capteurs avant et l'axe du bras (et <code>D_CAPTEUR_ARRIERE</code>).</li>
+  <li><b>Remplacer les valeurs</b> dans le bloc « MESURES DU PLATEAU » au début de <code>ia_50cm/parcours/plateau.py</code> (rien d'autre à toucher) :
+<pre><code>STATION_1 = dict(nom='Station 1 (1er lot)',
+    trou1=(-0.250, -0.200), direction_deg=0.0, trous=(1, 2, 3, 4, 5), prises=(1,),
+    petit=(-0.300, 0.250),
+    decalage_repere=-0.315)      # où mettre NOTRE repère : distance au trait (négatif = avant le trait)
+STATION_2 = dict(nom='Station 2 (2e lot)', trou1=(0.170, -0.100), direction_deg=90.0,
+    trous=(1, 2, 3, 4, 5), prises=(3, 2),        # milieu, puis la 2e balle (gardée pour le grand)
+    petit=(0.000, 0.270), decalage_repere=0.0)   # 0 = on s'arrête sur le trait officiel lui-même
+GRAND_GARAGE = (0.225, 0.0)      # où doit être le centre du grand réceptacle, vu du bras
+D_CAPTEURS_AVANT = 0.085</code></pre></li>
+  <li><b>Lancer le calcul</b> (2 à 5 minutes, dans Ubuntu) :
+<pre><code>cd ~/ros2_ws/src/mon_bras_robot/ia_50cm && nice -n 10 python3 -W ignore parcours/plateau.py</code></pre>
+      Il écrit <code>parcours/resultats_plateau.txt</code> (positions vues du bras, verdict, erreurs, essais), <code>parcours/plateau.json</code> (les valeurs pour l'ESP32) et <code>parcours/plateau.png</code> (la figure de la page précédente).</li>
+  <li><b>Lire les verdicts</b> : chaque balle <b>prise</b> doit être « ok » (19 à 28 cm de l'axe du bras, moins de 83° de côté) et chaque petit réceptacle « ok » (21 à 34 cm, moins de 76°).
+      Sinon, <b>déplacer l'arrêt</b> : changer <code>decalage_repere</code> (plus négatif = s'arrêter plus tôt, les balles s'éloignent vers l'avant) et relancer, jusqu'à ce que tout soit « ok ».
+      La valeur retenue est la <b>longueur du gabarit</b> : distance entre le trait officiel et le bord de notre repère, mesurée le long de la ligne.</li>
+  <li><b>Le gabarit</b> : une règle imprimée, avec une butée qui se plaque contre le bord du trait officiel et une rainure qui suit la ligne ; une fente à <code>decalage_repere</code> indique où coller le scotch
+      (bande de 2 cm × 8 cm, coupée d'avance). Pose : ~10 s par repère (FAQ : moins de 30 s en tout, sans résidu).</li>
+  <li><b>Ensuite</b> (avec moi) : réentraîner le réseau sur cette disposition exacte, refaire le test Gazebo, et écrire les valeurs de <code>plateau.json</code> dans le programme de l'ESP32.</li>
+</ol>
+<div class="encart"><b>Comment le calcul est fait</b> (pour vérifier à la main) : l'axe du bras est à <code>decalage_repere − D_CAPTEURS_AVANT</code> du trait, sur la ligne.
+Une position du plan (X ; Y) vue du bras vaut donc (X − X<sub>axe</sub> ; Y) ; distance = √(x² + y²), angle = atan2(y, x).
+Trou <i>k</i> = trou 1 + (<i>k</i> − 1) × 50 mm dans la direction <code>direction_deg</code>.
+Erreur sur une balle à la distance <i>r</i> pour une erreur d'arrêt (Δx, Δy, Δθ) : environ √(Δx² + Δy² + (<i>r</i>·Δθ)²) — c'est l'angle qui domine.
+Les essais rejouent le réseau dans le simulateur rapide : il vise les positions calculées, alors que la scène réelle est décalée d'une erreur d'arrêt tirée au hasard.</div>
+<h3>Le dossier <code>Bureau\Bras robotisé</code></h3>
+<table>
+<tr><th style="width:24%">Dossier</th><th>À utiliser</th><th style="width:32%">À côté (secours, anciennes versions)</th></tr>
+<tr><td><code>Recapitulatif_bras_robotise.pdf</code></td><td><b>Ce document</b> : le seul PDF, toujours à jour.</td><td>–</td></tr>
+<tr><td><code>01_SolidWorks</code></td><td><code>1_ASSEMBLAGE_FINAL (a utiliser)</code> : <code>Bras 50cm.SLDASM</code>, ses pièces, <code>MONTAGE.txt</code>, <code>Vues visserie</code>, <code>Vues 07-11</code>, <code>Vues 08-11</code>. Robot complet : <code>Bureau\Assemblage1v2.SLDASM</code>.</td><td><code>2_Pieces d'origine</code> (copies de vos fichiers) ; <code>3_Anciennes versions</code>.</td></tr>
+<tr><td><code>02_Impression_3D</code></td><td>Les 15 STL du bras, avec <code>LISEZMOI.txt</code> ; <code>Robot (chassis)</code> : les 7 STL du châssis modifiées.</td><td>–</td></tr>
+<tr><td><code>03_Reseau_de_neurones</code></td><td><code>modele\1_RESEAU_FINAL (a utiliser)\reseau_final.pt</code> ; <code>esp32\bras_robot</code> (programme Arduino unique) ; <code>code_python</code>.</td><td><code>modele\2_Secours</code> (réseau du 29/10) ; <code>modele\3_Historique</code> ; <code>esp32\3_Anciennes versions</code>.</td></tr>
+<tr><td><code>04_Simulation_Gazebo</code></td><td>Modèle du bras, scène, lancement ; <code>parcours</code> (plateau, chapitre 11) ; <code>bras_50cm</code> (scripts CAO).</td><td>–</td></tr>
+<tr><td><code>05_Documentation</code></td><td><code>images</code> (celles de ce PDF) ; <code>source</code> (modèle du PDF).</td><td><code>images\anciennes analyses</code>.</td></tr>
+</table>
+</body>
+</html>

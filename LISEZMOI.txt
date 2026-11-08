@@ -1,0 +1,38 @@
+BRAS ROBOTISE 50 cm - CE QU'IL Y A DANS CE DOSSIER
+===================================================
+
+A LIRE EN PREMIER : Recapitulatif_bras_robotise.pdf  (le seul PDF, toujours a jour)
+
+Dans chaque dossier, ce qui est numerote "1_... (a utiliser)" est la version finale.
+Le reste est rangé à part : copies de vos fichiers d'origine, versions de secours, anciennes versions.
+
+01_SolidWorks
+    1_VERSION_FINALE (a ouvrir)            LA version finale, tout dedans
+        Assemblage1v2.SLDASM               le robot complet (a ouvrir dans SolidWorks)
+        Bras 50cm.SLDASM                   le bras seul
+        Pieces bras, Pieces robot, Visserie   les pieces
+        Documents                          MONTAGE.txt, CE QUI A CHANGE.txt, images, schema des capteurs
+    2_Pieces d'origine (copies de vos fichiers)   copies de vos pieces (vos originaux ne sont pas touches)
+    3_Anciennes versions                   3a a 3k, la plus recente est 3k (etat complet avant rangement)
+
+02_Impression_3D                            les 27 STL a jour, tous dans ce dossier, + LISEZMOI.txt (quantites, ce qui est deja imprime)
+
+03_Reseau_de_neurones
+    modele/1_RESEAU_FINAL (a utiliser)     reseau_final.pt = le reseau du bras (celui de l'ESP32 et des demos)
+    modele/2_Secours (ancien reseau du 29-10)   ancien reseau, garde en secours
+    modele/3_Historique (pour memoire)      anciens essais
+    esp32/bras_robot                        programme Arduino unique de l'ESP32 : conduite + bras (poids du reseau final inclus)
+    esp32/test_servos                       test d'un seul servo a la fois (diagnostic : signal ou alimentation)
+    esp32/3_Anciennes versions            bras_esp32, codebrasrobot, pilotage_manuel (remplaces par bras_robot)
+    code_python                             entrainement, tests Gazebo, scripts
+
+04_Simulation_Gazebo                        modele du bras pour Gazebo, scene, lancement ROS 2,
+    parcours                                plateau suppose et arrets du robot (PDF chapitre 11)
+    bras_50cm                               scripts de CAO et de verification
+
+05_Documentation
+    images                                  images du PDF (images/anciennes analyses : anciennes)
+    source                                  modele du PDF (le PDF se regenere avec finaliser_document.py)
+    LISEZMOI_reseau.md                      notes detaillees sur le reseau
+
+CLAUDE.md                                   fichier de reprise pour Claude (etat du projet) - ne pas supprimer

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FICHIER GENERE par bras_50cm/generer_urdf.py : modifier le script plutot que ce fichier. -->
+<robot name="bras_50cm">
+<link name="world"/>
+<link name="robot"><inertial><origin xyz="0 0 0.04" rpy="0 0 0"/><mass value="1.00000"/><inertia ixx="3.8667e-03" ixy="0.0000e+00" ixz="0.0000e+00" iyy="3.8667e-03" iyz="0.0000e+00" izz="6.6667e-03"/></inertial><visual><origin xyz="0 0 0.04" rpy="0 0 0"/><geometry><box size="0.2 0.2 0.08"/></geometry><material name="chassis"><color rgba="0.25 0.35 0.55 1"/></material></visual><collision name="chassis"><origin xyz="0 0 0.04" rpy="0 0 0"/><geometry><box size="0.2 0.2 0.08"/></geometry></collision></link>
+<joint name="world_joint" type="fixed"><parent link="world"/><child link="robot"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<link name="base_link"><inertial><origin xyz="0.00606381 0.000390067 0.017139" rpy="0 0 0"/><mass value="0.10490"/><inertia ixx="2.0595e-05" ixy="1.8429e-07" ixz="-2.5328e-06" iyy="2.8321e-05" iyz="2.4178e-07" izz="2.4626e-05"/></inertial><visual><origin xyz="0 0 0" rpy="0 0 0"/><geometry><mesh filename="package://mon_bras_robot/meshes/bras_50cm/socle.stl" scale="0.001 0.001 0.001"/></geometry><material name="socle.stl"><color rgba="0.95 0.55 0.15 1"/></material></visual><visual><origin xyz="0.01015 0 0.0225" rpy="0 0 0"/><geometry><box size="0.0407 0.0197 0.037"/></geometry><material name="servo_lacet"><color rgba="0.1 0.1 0.12 1"/></material></visual><collision name="socle_c"><origin xyz="0 0 0.025" rpy="0 0 0"/><geometry><box size="0.08 0.08 0.05"/></geometry></collision></link>
+<joint name="robot_socle" type="fixed"><parent link="robot"/><child link="base_link"/><origin xyz="0 0 0.08" rpy="0 0 0"/></joint>
+<link name="bras un"><inertial><origin xyz="0 -0.0061611 0.0250861" rpy="0 0 0"/><mass value="0.08650"/><inertia ixx="2.9955e-05" ixy="0.0000e+00" ixz="0.0000e+00" iyy="2.5371e-05" iyz="-8.9246e-07" izz="1.6541e-05"/></inertial><visual><origin xyz="0 0 0" rpy="0 0 0"/><geometry><mesh filename="package://mon_bras_robot/meshes/bras_50cm/plateau.stl" scale="0.001 0.001 0.001"/></geometry><material name="plateau.stl"><color rgba="0.95 0.55 0.15 1"/></material></visual><visual><origin xyz="0 -0.0054 0.03285" rpy="0 0 0"/><geometry><box size="0.0197 0.037 0.0407"/></geometry><material name="servo_epaule"><color rgba="0.1 0.1 0.12 1"/></material></visual><collision name="plateau_c"><origin xyz="0 0 0.002" rpy="0 0 0"/><geometry><box size="0.08 0.08 0.004"/></geometry></collision><collision name="berceau_c"><origin xyz="0 -0.012 0.034" rpy="0 0 0"/><geometry><box size="0.03 0.04 0.06"/></geometry></collision></link>
+<joint name="joint_base_bras_1" type="revolute"><parent link="base_link"/><child link="bras un"/><origin xyz="0 0 0.05" rpy="0 0 0"/><axis xyz="0 0 1"/><limit lower="-1.5708" upper="1.5708" effort="0.922" velocity="3.0"/><dynamics damping="0.01" friction="0.0"/></joint>
+<link name="bras deux"><inertial><origin xyz="0.133762 0 0.0193081" rpy="0 0 0"/><mass value="0.05050"/><inertia ixx="9.2371e-06" ixy="0.0000e+00" ixz="-2.2669e-05" iyy="2.4202e-04" iyz="0.0000e+00" izz="2.3570e-04"/></inertial><visual><origin xyz="0 0 0" rpy="0 0 0"/><geometry><mesh filename="package://mon_bras_robot/meshes/bras_50cm/bras.stl" scale="0.001 0.001 0.001"/></geometry><material name="bras.stl"><color rgba="0.95 0.55 0.15 1"/></material></visual><visual><origin xyz="0 0 0" rpy="0 0 0"/><geometry><mesh filename="package://mon_bras_robot/meshes/bras_50cm/bride_coude.stl" scale="0.001 0.001 0.001"/></geometry><material name="bride_coude.stl"><color rgba="0.95 0.55 0.15 1"/></material></visual><visual><origin xyz="0.24465 0 0.03485" rpy="0 0 0"/><geometry><box size="0.0225 0.0122 0.0227"/></geometry><material name="servo_coude"><color rgba="0.1 0.1 0.12 1"/></material></visual><collision name="poutre_c"><origin xyz="0.133 0 0.028" rpy="0 0 0"/><geometry><box size="0.186 0.02 0.016"/></geometry></collision><collision name="bout_c"><origin xyz="0.245 0 0.034" rpy="0 0 0"/><geometry><box size="0.038 0.025 0.028"/></geometry></collision></link>
+<joint name="joint_base_bras_2" type="revolute"><parent link="bras un"/><child link="bras deux"/><origin xyz="0 0 0.043" rpy="-1.5708 -1.5708 0"/><axis xyz="0 0 1"/><limit lower="-0.9500" upper="2.1916" effort="1.145" velocity="3.0"/><dynamics damping="0.01" friction="0.0"/></joint>
+<link name="bras trois">
+    <inertial>
+      <origin xyz="-0.0780396626279546 0.00316439933155362 -0.0016940811901137" rpy="0 0 0" />
+      <mass value="0.0369782505920219" />
+      <inertia ixx="1.75150658246354E-06" ixy="-4.61862927441755E-10" ixz="1.36473946231703E-07" iyy="5.48854784926714E-05" iyz="-1.07935893983314E-11" izz="5.53037991047925E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mon_bras_robot/meshes/bras_trois.stl" />
+      </geometry>
+      <material name="">
+        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mon_bras_robot/meshes/bras_trois.stl" />
+      </geometry>
+    </collision>
+  </link>
+  
+<link name="bras quatre">
+    <inertial>
+      <origin xyz="-0.0100003809921647 0.0326942165911668 -0.00707384736034357" rpy="0 0 0" />
+      <mass value="0.02992570231592" />
+      <inertia ixx="6.53282069618434E-06" ixy="9.40989329507091E-07" ixz="-8.25253336588081E-08" iyy="4.89300238052937E-06" iyz="1.58938255018113E-07" izz="4.54094036433435E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mon_bras_robot/meshes/bras_quatre.stl" />
+      </geometry>
+      <material name="">
+        <color rgba="0.627450980392157 0.627450980392157 0.627450980392157 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mon_bras_robot/meshes/bras_quatre.stl" />
+      </geometry>
+    </collision>
+  </link>
+  
+<link name="vis un 4">
+    <inertial>
+      <origin xyz="7.49400541621981E-16 8.60422844084496E-16 -0.00299999742525112" rpy="0 0 0" />
+      <mass value="0.00032029451347206" />
+      <inertia ixx="3.71727847457094E-09" ixy="-3.86907770651389E-18" ixz="-1.11669382694659E-23" iyy="3.71727851257662E-09" iyz="-1.78877807464592E-23" izz="5.51296877290383E-09" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mon_bras_robot/meshes/vis_un_4.stl" />
+      </geometry>
+      <material name="">
+        <color rgba="0.627450980392157 0.627450980392157 0.627450980392157 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mon_bras_robot/meshes/vis_un_4.stl" />
+      </geometry>
+    </collision>
+  </link>
+  
+<link name="vis deux 4">
+    <inertial>
+      <origin xyz="-0.00400009342546376 0.00323162650935457 0.00898622682931155" rpy="0 0 0" />
+      <mass value="0.00534125492950892" />
+      <inertia ixx="1.89840990204917E-06" ixy="-3.25443536151305E-13" ixz="-3.45484193289163E-13" iyy="1.48626546917161E-06" iyz="-4.7522935414772E-07" izz="4.4419376511344E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mon_bras_robot/meshes/vis_deux_4.stl" />
+      </geometry>
+      <material name="">
+        <color rgba="0.627450980392157 0.627450980392157 0.627450980392157 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mon_bras_robot/meshes/vis_deux_4.stl" />
+      </geometry>
+    </collision>
+    
+    <visual><origin xyz="-0.01505 0.02217 0.03701" rpy="2.0550 -1.1376 1.8840" /><geometry><box size="0.012 0.008 0.002" /></geometry><material name="patin"><color rgba="0.15 0.15 0.15 1" /></material></visual>
+    <visual><origin xyz="-0.00109 0.02043 0.03977" rpy="-3.0065 -1.1376 1.8840" /><geometry><box size="0.012 0.008 0.002" /></geometry><material name="patin"><color rgba="0.15 0.15 0.15 1" /></material></visual>
+    <visual><origin xyz="-0.00784 0.01786 0.03504" rpy="2.6658 -1.1376 1.8840" /><geometry><box size="0.012 0.008 0.0093" /></geometry><material name="patin"><color rgba="0.15 0.15 0.15 1" /></material></visual>
+    <collision name="patin_a1"><origin xyz="-0.01505 0.02217 0.03701" rpy="2.0550 -1.1376 1.8840" /><geometry><box size="0.012 0.008 0.002" /></geometry></collision>
+    <collision name="patin_a2"><origin xyz="-0.00109 0.02043 0.03977" rpy="-3.0065 -1.1376 1.8840" /><geometry><box size="0.012 0.008 0.002" /></geometry></collision>
+    <collision name="patin_a_pont"><origin xyz="-0.00784 0.01786 0.03504" rpy="2.6658 -1.1376 1.8840" /><geometry><box size="0.012 0.008 0.0093" /></geometry></collision>
+  </link>
+  
+<link name="vis trois 4">
+    <inertial>
+      <origin xyz="-0.00400010838307335 0.00603097006912057 0.00740465592992989" rpy="0 0 0" />
+      <mass value="0.00534100483215718" />
+      <inertia ixx="1.89836771058217E-06" ixy="-4.26902015986817E-13" ixz="-7.8197410459258E-13" iyy="1.14157716378015E-06" iyz="-6.8280109604667E-07" izz="7.88838918237282E-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mon_bras_robot/meshes/vis_trois_4.stl" />
+      </geometry>
+      <material name="">
+        <color rgba="0.627450980392157 0.627450980392157 0.627450980392157 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://mon_bras_robot/meshes/vis_trois_4.stl" />
+      </geometry>
+    </collision>
+    
+    <visual><origin xyz="0.00099 0.02242 0.04154" rpy="-0.7961 -0.9445 1.7933" /><geometry><box size="0.012 0.008 0.002" /></geometry><material name="patin"><color rgba="0.15 0.15 0.15 1" /></material></visual>
+    <visual><origin xyz="-0.01323 0.02140 0.03999" rpy="0.4257 -0.9445 1.7933" /><geometry><box size="0.012 0.008 0.002" /></geometry><material name="patin"><color rgba="0.15 0.15 0.15 1" /></material></visual>
+    <visual><origin xyz="-0.00655 0.02713 0.04131" rpy="-0.1852 -0.9445 1.7933" /><geometry><box size="0.012 0.008 0.0071" /></geometry><material name="patin"><color rgba="0.15 0.15 0.15 1" /></material></visual>
+    <collision name="patin_b1"><origin xyz="0.00099 0.02242 0.04154" rpy="-0.7961 -0.9445 1.7933" /><geometry><box size="0.012 0.008 0.002" /></geometry></collision>
+    <collision name="patin_b2"><origin xyz="-0.01323 0.02140 0.03999" rpy="0.4257 -0.9445 1.7933" /><geometry><box size="0.012 0.008 0.002" /></geometry></collision>
+    <collision name="patin_b_pont"><origin xyz="-0.00655 0.02713 0.04131" rpy="-0.1852 -0.9445 1.7933" /><geometry><box size="0.012 0.008 0.0071" /></geometry></collision>
+  </link>
+  
+<joint name="joint_base_bras_3" type="revolute"><parent link="bras deux"/><child link="bras trois"/><origin xyz="0.25 0 0.0126" rpy="0 0 -3.01265"/><axis xyz="0 0 1"/><limit lower="-0.0500" upper="3.0916" effort="0.282" velocity="3.0"/><dynamics damping="0.01" friction="0.0"/></joint>
+<joint name="joint_base_bras_4" type="revolute"><parent link="bras trois"/><child link="bras quatre"/><origin xyz="-0.1234 0.016 -0.0236" rpy="3.1416 0 -1.5708"/><axis xyz="0 0 -1"/><limit lower="-1.2000" upper="1.9416" effort="0.224" velocity="3.0"/><dynamics damping="0.01" friction="0.0"/></joint>
+<joint name="joint_base_bras_44" type="revolute">
+    <origin xyz="-0.022617 0.026325 -0.01764" rpy="-1.5708 0.7854 1.955" />
+    <parent link="bras quatre" />
+    <child link="vis un 4" />
+    <axis xyz="0 0 -1" />
+    <limit lower="-1.57" upper="1.57" effort="10.0" velocity="1.0" /><mimic joint="joint_base_bras_4" multiplier="0.5" offset="0.0" /></joint>
+  
+<joint name="joint_base_bras_45" type="revolute">
+    <origin xyz="-0.031918 0.044263 -0.0222" rpy="2.1509 0 -2.7574" />
+    <parent link="bras quatre" />
+    <child link="vis deux 4" />
+    <axis xyz="-1 0 0" />
+    <limit lower="-1.57" upper="1.57" effort="10.0" velocity="1.0" /><mimic joint="joint_base_bras_4" multiplier="-0.5" offset="0.0" /></joint>
+  
+<joint name="joint_base_bras_46" type="revolute">
+    <origin xyz="-0.031918 0.044263 0.0078" rpy="2.1509 0 -2.7574" />
+    <parent link="bras quatre" />
+    <child link="vis trois 4" />
+    <axis xyz="-1 0 0" />
+    <limit lower="-1.57" upper="1.57" effort="10.0" velocity="1.0" /><mimic joint="joint_base_bras_4" multiplier="0.5" offset="0.0" /></joint>
+
+<gazebo><plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin"><parameters>/home/amaury/ros2_ws/src/mon_bras_robot_moveit_config/config/ros2_controllers.yaml</parameters></plugin></gazebo>
+  
+  
+<gazebo reference="vis deux 4"><mu1>2.0</mu1><mu2>2.0</mu2></gazebo>
+  
+<gazebo reference="vis trois 4"><mu1>2.0</mu1><mu2>2.0</mu2></gazebo>
+
+  
+<ros2_control name="IgnitionSystem" type="system">
+    <hardware>
+      <plugin>ign_ros2_control/IgnitionSystem</plugin>
+    </hardware>
+    <joint name="joint_base_bras_1">
+      <command_interface name="position" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+    </joint>
+    <joint name="joint_base_bras_2">
+      <command_interface name="position" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+    </joint>
+    <joint name="joint_base_bras_3">
+      <command_interface name="position" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+    </joint>
+    <joint name="joint_base_bras_4">
+      <command_interface name="position" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+    </joint>
+    <joint name="joint_base_bras_44"><command_interface name="position" /><state_interface name="position" /><state_interface name="velocity" /></joint><joint name="joint_base_bras_45"><command_interface name="position" /><state_interface name="position" /><state_interface name="velocity" /></joint><joint name="joint_base_bras_46"><command_interface name="position" /><state_interface name="position" /><state_interface name="velocity" /></joint></ros2_control>
+
+
+</robot>
