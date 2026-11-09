@@ -1,0 +1,36 @@
+#!/bin/sh
+# Après chaque commit (dossier « Bras robotisé ») :
+#  1. met à jour le graphe local graphify-out/ (analyse du code seulement, 0 token) ;
+#  2. pousse vers GitHub, ce qui permet à Graphify en ligne de réindexer.
+# Activé par : git config core.hooksPath .githooks
+# Un échec ici n'annule jamais le commit.
+
+racine="$(git rev-parse --show-toplevel)" || exit 0
+cd "$racine" || exit 0
+
+# 1. Graphe local
+GRAPHIFY=""
+if command -v graphify >/dev/null 2>&1; then
+  GRAPHIFY="graphify"
+elif [ -x "$HOME/.local/bin/graphify.exe" ]; then
+  GRAPHIFY="$HOME/.local/bin/graphify.exe"
+elif [ -x "$HOME/.local/bin/graphify" ]; then
+  GRAPHIFY="$HOME/.local/bin/graphify"
+fi
+if [ -n "$GRAPHIFY" ]; then
+  if git diff-tree --no-commit-id --name-only -r HEAD | grep -Eqi '\.(py|ino|cpp|c|h|hpp|ps1|sh|js|ts)$'; then
+    "$GRAPHIFY" update . >/dev/null 2>&1 \
+      && echo "[graphify] graphe local mis à jour" \
+      || echo "[graphify] échec de la mise à jour du graphe local (commit conservé)"
+  fi
+else
+  echo "[graphify] commande introuvable : graphe local non mis à jour"
+fi
+
+# 2. Envoi vers GitHub (Graphify en ligne)
+if git push -q origin HEAD 2>/dev/null; then
+  echo "[git] poussé vers GitHub"
+else
+  echo "[git] push impossible (réseau ou connexion GitHub) : relancer « git push » plus tard"
+fi
+exit 0

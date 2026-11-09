@@ -1,311 +1,45 @@
-# Projet « Bras robotisé 50 cm » — fichier de reprise pour Claude
+# Projet « Bras robotisé 50 cm » : mémo de démarrage pour Claude
 
-Ce fichier permet de reprendre le projet dans une nouvelle conversation sans rien perdre.
-Il est lu automatiquement quand la session est ouverte sur ce dossier (`C:\Users\amaur\Desktop\Bras robotisé`).
-Une copie identique est dans le code : `~/ros2_ws/src/mon_bras_robot/CLAUDE.md` (Ubuntu WSL).
-Dernière mise à jour : 08/11/2026. **À tenir à jour à la fin de chaque session de travail** (section 12).
+Version courte, chargée à chaque session. Tout le détail (géométrie, IA, ESP32, essais réels, décisions, pièges SolidWorks, commandes) est dans **`HISTORIQUE.md`**.
+Dernière mise à jour : 09/11/2026.
 
----
+## Comment travailler (économie de tokens)
+1. **Question sur le code** : interroger d'abord le graphe (`graphify query "..."`, `graphify path "A" "B"`, `graphify explain "X"`, ou les outils Graphify en ligne sur `amauryvandenberghe/Bras-robos`). Ne lire ensuite que les lignes localisées, pas des fichiers entiers.
+2. **Question sur une décision, un essai, un piège, une cote** : chercher par mot-clé (Grep) dans `HISTORIQUE.md`. Ne pas le lire en entier. Sections : 1 projet, 3 emplacements, 4 environnement et pièges, 5 bras, 6 IA et simulation, 7 ESP32, 8 localisation, 9 budget et règlement, 10 commandes, 11 décisions, 12 reste à faire et essais réels.
+3. **Fin de session** : ajouter les nouveautés en fin de section 12 de `HISTORIQUE.md`. Ne modifier ce fichier que pour ce qui change le travail de toutes les sessions.
+4. **Commits** : après chaque modification de ce dossier, `git add -A` puis `git commit -m "<résumé en français>"`. Le hook `.githooks/post-commit` met alors à jour le graphe local (`graphify update .`) et pousse vers GitHub (Graphify en ligne) tout seul. Si le hook ne s'exécute pas : `git config core.hooksPath .githooks`.
 
-## 1. Le projet en bref
-- Challenge **TIPe PT** de l'ICAM (Lille), 2026-2027. Robot roulant (suivi de ligne, fait par les étudiants) + **bras robotisé** (fait avec Claude).
-- Tâche du bras : prendre 3 balles (Ø23 mm, **2 g**, à ne pas abîmer) sur une réglette à 5 trous et les déposer dans 3 réceptacles :
-  2 demi-sphères Ø100 mm dont le bord est à **15 cm**, 1 demi-sphère Ø200 mm dont le bord est à **50 cm**.
-- Bras **5 axes** : lacet (MG996R), épaule (MG996R, bras de 25 cm), coude (SG90, MG90S conseillé), poignet (SG90), pince à engrenages (MG90S).
-  Posé au centre du dessus du robot (base 200 × 200 mm, dessus à 80 mm).
-- Pilotage par un **réseau de neurones** (imitation + DAgger) entraîné en simulation, puis exporté en C pour un **ESP32**.
-- Le PDF récapitulatif complet pour l'utilisateur : `Recapitulatif_bras_robotise.pdf` (17 pages), à la racine de ce dossier (le seul PDF).
-
-## 2. Préférences de l'utilisateur (à respecter)
+## Préférences de l'utilisateur (à respecter)
 - Répondre **en français**. Travailler vite mais bien, sans attendre de validation quand la tâche est claire.
 - Tâches longues (entraînement, tests Gazebo) dans des **onglets Terminal visibles** (`run_in_terminal`), pas en arrière-plan caché.
 - PC portable (i5-1334U, 12 cœurs logiques, 7,6 Go dans WSL) : `nice -n 10`, **4 à 6 ouvriers**, Gazebo **sans fenêtre** (`gui:=false`) pour les tests.
-- Démo **avec** fenêtre Gazebo : c'est l'utilisateur qui lance Gazebo lui-même et qui dit quand c'est prêt. Ne pas ouvrir la fenêtre Gazebo à sa place.
-- Ne jamais saisir de clés API (la clé Claude de `ia/cerveau_ia.py` est à régler par l'utilisateur).
-- L'utilisateur a accès à un bureau ICAM via Citrix ; Claude n'y a aucun accès.
-- Il préfère des explications concrètes et un bilan honnête (ce qui est vérifié / ce qui ne l'est pas).
+- Démo **avec** fenêtre Gazebo : c'est l'utilisateur qui lance Gazebo lui-même et qui dit quand c'est prêt.
+- Ne jamais saisir de clés API. Pas d'accès au bureau ICAM (Citrix).
+- Explications concrètes et bilan honnête (ce qui est vérifié / ce qui ne l'est pas).
 
-## 3. Où sont les choses
-### Code (Ubuntu 22.04 sous WSL, distribution `Ubuntu-22.04`, utilisateur `amaury`)
-Accès depuis Windows : `\\wsl.localhost\Ubuntu-22.04\home\amaury\ros2_ws\src\mon_bras_robot\`
+## Le projet en bref
+- Challenge **TIPe PT** de l'ICAM (Lille), 2026-2027 : robot suiveur de ligne + **bras 5 axes** (lacet et épaule MG996R, coude, poignet, pince) qui prend des balles de 2 g et les dépose dans 3 réceptacles. Pilotage par un **réseau de neurones** (imitation + DAgger) entraîné en simulation, exporté en C pour un **ESP32**.
+- **Code de référence : WSL** `~/ros2_ws/src/mon_bras_robot/` (`ia_50cm/`, `bras_50cm/`). Ce dossier du Bureau = livrable + copies. Le dépôt GitHub et Graphify ne contiennent **que le Bureau** ; pour le code actuel, vérifier le fichier WSL. La copie WSL de `CLAUDE.md` n'a pas été raccourcie.
+- Versions à utiliser : `01_SolidWorks/1_VERSION_FINALE (a ouvrir)` ; `02_Impression_3D` (27 STL) ; `03_Reseau_de_neurones/modele/1_RESEAU_FINAL (a utiliser)` (`politique_finale.pt` dans WSL) ; programme ESP32 unique `03_Reseau_de_neurones/esp32/bras_robot/`.
+- PDF `Recapitulatif_bras_robotise.pdf` : modifier `05_Documentation/source/Recapitulatif_bras_robotise.modele.html`, puis `python3 finaliser_document.py` (jamais le `.html` généré).
 
-| Dossier | Contenu |
-|---|---|
-| `ia_50cm/` | **Tout le projet actuel** : IA, simulateurs, Gazebo, ESP32. Doc : `ia_50cm/LISEZMOI.md` |
-| `ia_50cm/modeles/` | Réseaux et journaux. **`politique_finale.pt` = réseau retenu** (= `politique_affine.pt`) |
-| `ia_50cm/esp32/` | Code C (`cerveau.cpp/.h`), export (`exporter_esp32.py`), programme Arduino `bras_esp32/bras_esp32.ino` |
-| `bras_50cm/` | CAO CadQuery, URDF, dimensionnement, vérifications, générateur d'assemblage SolidWorks |
-| `bras_50cm/servos/` | Modèles des servos de l'utilisateur en STEP (`mg996r.step`, `mg996r_palonnier.step`, `mg90s.step`) |
-| `bras_50cm/pieces/` | Pièces générées (STEP, STL, `masses.json`, images, `verification_logements.txt`) |
-| `urdf/bras_50cm.urdf`, `worlds/scene_trois_receptacles.world`, `meshes/bras_50cm/` | Simulation Gazebo |
-| `ia/` | **Ancien bras** (2 coupes, réseau « c4 » à 93 %). À garder intact, ne pas modifier |
-| `../mon_bras_robot_moveit_config/launch/gazebo.launch.py` | Lancement Gazebo (arguments `robot`, `monde`, `gui`) |
-| fichiers `*ppo*`, `train_*.py` à la racine | Anciens essais d'apprentissage par renforcement (abandonnés) |
+## État actuel (au 08/11)
+- Rien d'imprimé ni monté pour la dernière version. Essais réels du 06/11 : coude, poignet et pince bougent ; l'épaule tient mais ne soulève pas le bras → **alimentation séparée 5–6 V de plusieurs ampères** à trouver, masses reliées.
+- Broches du bras (`BROCHE`) : 22, 17, 33, 21, 32 (base, épaule, coude, poignet, pince). Ne pas utiliser la 23 (parasites sur la liaison série). `SENS` et `DECALAGE_DEG` pas encore réglés sur le vrai bras.
+- En attente : plan coté du plateau, puis apprentissage « réglettes pleines ». Budget 78/60 hors ESP32 : c'est à l'utilisateur d'arbitrer.
+- Programme ESP32 du parcours (suivi de ligne, repères) : ne pas l'écrire sans nouvelle demande.
 
-### Dossier du Bureau `C:\Users\amaur\Desktop\Bras robotisé\` (livrable)
-**VERSION FINALE depuis le 08/11 : `01_SolidWorks/1_VERSION_FINALE (a ouvrir)` (robot complet + bras) ; `02_Impression_3D` : 27 STL à plat. Le tableau ci-dessous décrit l'état d'avant, voir section 12.**
-| Dossier | Contenu |
-|---|---|
-**Rangé le 30/10 au soir à la demande de l'utilisateur** : dans chaque dossier, `1_... (a utiliser)` = version finale ; `LISEZMOI.txt` à la racine ;
-**un seul PDF**, à la racine (`finaliser_document.py` n'écrit plus dans `05_Documentation`). Garder ce rangement à chaque mise à jour.
-
-| Dossier | Contenu |
-|---|---|
-| `01_SolidWorks/1_ASSEMBLAGE_FINAL (a utiliser)` | **`Bras 50cm.SLDASM`** + toutes ses pièces `.SLDPRT`/`.step`, `assembler.ps1`, copies `Servo MG996R`, `Servo MG996R arm01`, `Servo MG90S`, `broche` (+ esquisse « Repere »). **Refait le 30/10 au soir : 25 contraintes, 0 en erreur après reconstruction**, aucun composant sur-contraint (socle et servo de lacet complètement contraints, les autres sous-contraints = leur rotation). Servos/palonniers/brides = **1 contrainte de verrouillage (swMateLOCK)** chacun ; rotations palonnier/servo et pivots de pince = axe + centre. Ancienne version à 47 contraintes (axe + centre + parallèle → 18 en conflit : codes 46/47) dans `3_Anciennes versions/3d_30-10 contraintes en conflit`. Vérification : `Temp/bras50/verifier_assemblage.ps1` (copie dans `04_Simulation_Gazebo/bras_50cm`), interférences : seulement la pince d'origine (servo de pince 5,4 + 5,3 mm³, mâchoires ≤ 2,7 mm³) |
-| `01_SolidWorks/2_Pieces d'origine (copies de vos fichiers)` | copies des pièces d'origine (source de `Servo MG90S` pour `generer_assemblage_sw.py`) |
-| `01_SolidWorks/3_Anciennes versions` | `3a_premiere version sans contraintes`, `3b_28-10 sans servos`, `3c_29-10 sans empreintes de palonniers`, `3d_30-10 contraintes en conflit` |
-| `02_Impression_3D` | 7 STL : socle, plateau, bras, avant_bras, bride_coude, bride_poignet, corps_pince |
-| `03_Reseau_de_neurones` | `modele/1_RESEAU_FINAL (a utiliser)/reseau_final.pt`, `modele/2_Secours (ancien reseau du 29-10)/` (+ `RESULTATS_29oct.txt`), `modele/3_Historique`, `modele/LISEZMOI.txt` ; `esp32/` ; `code_python/` |
-| `04_Simulation_Gazebo` | URDF, maillages, monde, launch, `parcours/` (plateau), `bras_50cm/` (scripts CAO) |
-| `05_Documentation` | `images/` (du PDF ; `images/anciennes analyses/`), **source du PDF** (`source/Recapitulatif_bras_robotise.modele.html`), `LISEZMOI_reseau.md` |
-
-Pièces SolidWorks d'origine de l'utilisateur : `C:\Users\amaur\Desktop\ICAM\Pieces tipe\` (robot complet : `Assemblage1.SLDASM` est le ROBOT, pas le bras) et copies du bras d'origine dans `01_SolidWorks\2_Pieces d'origine (copies de vos fichiers)` (MG996R : `MG996R SERVO\MG996R SBORKA.SLDASM`).
-Règlement : fichier Excel `C:\Users\amaur\Downloads\Challenge Robotique 2026-2027  _ Matériel, FAQ, Créneaux et Échéances.xlsx` (onglets Matériel, FAQ, Échéances…). Le PDF du règlement n'est plus dans Téléchargements.
-
-## 4. Environnement et pièges techniques (important)
-- **Python** : `python3` du système = ROS 2 Humble + PyTorch + NumPy (pas CadQuery). **`~/venv_cao/bin/python`** = CadQuery, OCP, trimesh, matplotlib, networkx, rtree, shapely, pymupdf, openpyxl (pas PyTorch). Pour un script qui a besoin des deux : `PYTHONPATH=/home/amaury/venv_cao/lib/python3.10/site-packages python3 ...`.
-- **ROS** : `source /opt/ros/humble/setup.bash && source ~/ros2_ws/install/setup.bash`. Le paquet est compilé en `--symlink-install` (pas besoin de recompiler pour les scripts Python).
-- **PowerShell → WSL** : les guillemets imbriqués dans `wsl -- bash -c "..."` cassent souvent (`$`, `'`, parenthèses). **Écrire un script `.sh` ou `.py`** (par ex. dans `C:\Users\amaur\AppData\Local\Temp\bras50\`) puis `wsl -d Ubuntu-22.04 -- bash /mnt/c/.../script.sh`.
-- Les chemins avec « é » (Bras robotisé) passent mal en argument de ligne de commande PowerShell : les écrire **dans** le script, fichier `.ps1` encodé en **UTF-8 avec BOM**.
-- Le chemin du dossier des transcriptions Claude est trop long pour PowerShell 5.1 : utiliser l'outil Grep/Read.
-- **Affichage Gazebo lent** : `~/.bashrc` ligne 120 contient `export LIBGL_ALWAYS_SOFTWARE=1` (rendu par le processeur → simulation à 0,14× le temps réel avec fenêtre). Proposé à l'utilisateur : lancer avec `unset LIBGL_ALWAYS_SOFTWARE && ...` (carte graphique via `/dev/dxg`, pilote d3d12). **Pas encore essayé** ; ne retirer la ligne du `.bashrc` qu'avec son accord.
-- `bash ia_50cm/arreter_gazebo.sh` ferme les restes de Gazebo (sinon « Controller already loaded »).
-- **SolidWorks** (API) : pilotage par **C# compilé dans PowerShell** (`Add-Type`, DLL `C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS\api\redist\SolidWorks.Interop.*.dll`, charger d'abord avec `[Reflection.Assembly]::LoadFrom`). VBScript et la liaison tardive PowerShell ne marchent pas (pas de ByRef).
-  - Vérifier que SolidWorks est **fermé** avant (le script se connecte à l'instance ouverte et la ferme à la fin).
-  - Après un `ExitApp`, un `SLDWORKS.exe` caché peut rester plusieurs minutes : attendre, ou l'arrêter s'il n'a pas de fenêtre.
-  - `AddComponent5` exige que la pièce soit **ouverte**. Les composants gardent leurs noms de fichier (`Servo MG90S-1`…) : le renommage par l'API ne marche pas.
-  - Un STEP issu d'un maillage s'importe comme assemblage : l'enregistrer en `.SLDPRT`.
-- **Commandes dans le PDF** : l'utilisateur les **copie depuis le PDF**. Chrome coupe les lignes trop longues et le copier-coller garde ces coupures (le 29/10, la commande du terminal 1, sur 2 colonnes, est partie en morceaux → « Gazebo ne se lance pas »). Règle : commandes courtes d'une ligne (scripts `demo_*.sh`), blocs `<pre class="ligne">` (sans retour à la ligne), terminaux sur toute la largeur ; vérifier avec `pypdf` (`extract_text`) que chaque commande ressort sur une seule ligne.
-- **PDF** : HTML → PDF avec **Chrome sans fenêtre** (`C:\Program Files\Google\Chrome\Application\chrome.exe --headless=new --print-to-pdf=...`, profil séparé `C:\Users\amaur\AppData\Local\Temp\bras50\chrome_profil`). Edge n'est pas installé. Lecture d'un PDF : `pypdf` (python3) ; rendu en images : `pymupdf` dans `~/venv_cao`.
-- **IDE Arduino installé (constaté le 06/11)** : `arduino-cli.exe` dans `%LOCALAPPDATA%\Programs\Arduino IDE\resources\app\lib\backend\resources\`, paquet esp32 3.3.12, bibliothèque ESP32Servo. Compilation : `arduino-cli compile --fqbn esp32:esp32:esp32 <dossier>`. `BluetoothSerial` ne sera plus fourni par défaut en version 4.0.0 du paquet : ne pas monter de version sans vérifier.
-- **SolidWorks sans fenêtre** : `ShowNamedView2(nom, -1)` est ignoré, passer le numéro (1 avant, 2 arrière, 7 isométrique). Ne pas couper la sortie d'un script SolidWorks avec
-  `Select-Object -First` (le script est interrompu avant `ExitApp` : instance cachée qui reste). Détection d'interférences : `AssemblyDoc.InterferenceDetectionManager`.
-- **OpenCascade** plante (erreur de segmentation) sur les longues suites de booléens et sur les corps qui se chevauchent (la broche contient vis + insert) : `verifier_logements.py` lance chaque
-  angle des balayages dans un programme à part (`balayage_un_angle.py`) ; `fork` ne marche pas avec OCC. Recalage ICP : KD-tree sur points (pas `trimesh.registration.icp`, trop lent).
-- `pkill -f motif` dans un `bash -c "..."` qui contient ce motif se tue lui-même : passer par un script `.sh`. `repr()` d'un float NumPy 2 donne `np.float64(...)`.
-
-## 5. Le bras (géométrie et choix)
-- Repère du robot : origine sur l'axe du bras **au sol**, x vers l'avant, z vers le haut. Dessus du robot à z = 0,08 m.
-- Lacet (J1) à z = 0,13 ; épaule (J2) 43 mm au-dessus du plateau ; bras de **250 mm** ; avant-bras de 124 mm (cinématique de l'ancien bras, inchangée).
-- Butées (fenêtre de 180° de chaque servo) : J1 ±π/2, J2 [−0,95 ; 2,19], J3 [−0,05 ; 3,09], J4 [−1,2 ; 1,94] rad.
-- **Posture de repos (« home »)** : q = (0 ; −0,189 ; 2,286 ; 1,170) rad = (0 ; −10,9 ; 131 ; 67,1)°. Pince à 8 cm de l'axe et 26 cm de haut. Encombrement : x de −6 à +9 cm, y ±4,6 cm (au-dessus de la base), 43,5 cm de haut.
-- Couples statiques : épaule 35 % du blocage, coude 55 % (le point faible), poignet 10 %. **5 axes et pas 6** : un roulis de poignet ferait passer le coude à 66 %.
-- Masses PLA (80 % de matière) : socle 46 g, plateau 31 g, bras 40 g, avant-bras 18,5 g, brides 1,7 g.
-- Fixations : MG996R vissés par leurs pattes (M3 + écrous en empreintes). SG90/MG90S **plaqués par une bride** (2 vis M3 à côté du boîtier, écrous par-dessous), car leurs trous de pattes sont trop petits pour du M3.
-- **Cotes réelles des servos** (mesurées sur les modèles de l'utilisateur, `bras_50cm/mesure_fine.py`) — MG996R : fond → dessous des pattes 27,95 mm (pattes de 39,55 à 41,95 dans le repère du modèle), fond → dessus du palonnier 47,0 mm, câble qui sort sous l'axe. MG90S : pattes 2,45 mm d'épaisseur, 4,4 mm sous la face de sortie, bout de cannelure 4,3 mm au-dessus de la face de sortie.
-- Positions des servos : dictionnaire `SERVOS` dans `bras_50cm/cao_bras.py` (pose du modèle → repère du lien URDF). Le **servo du poignet est tourné vers le coude** : la paroi de la pince d'origine tourne autour de l'axe du poignet à 17 mm et plus, et l'avant-bras est limité à 15 mm de l'axe côté bout (`R_LIBRE`).
-- La pince est celle d'origine (maillages `meshes/bras_quatre.stl`, `vis_*_4.stl`). Son servo est séparé du maillage dans l'assemblage SolidWorks (recalage exact, écart 0,000 mm).
-  Dans la CAO, le corps de pince = `pince.SLDPRT` d'origine (`servos/pince_origine.step`, recalé dans « bras quatre » : rotation 112° autour de z, 0,01 mm) + empreinte de broche.
-- **Palonniers (30/10)** : pièces d'origine de l'utilisateur, `arm01` (« Servo MG996R arm01 », MG996R) et `broche` (SG90), **emboîtées dans une empreinte à leur forme** (jeu 0,15) creusée dans la
-  pièce entraînée, comme dans ses supports d'origine (support1/2 : empreinte 5 mm du arm01 ; support 3 : de la broche). Vis autotaraudeuses de 2 mm dans les trous du palonnier.
-  `cao_bras.py` : `PALONNIER` (cotes), `PALONNIERS` (servo, pièce, direction des bras, vis), `pose_palonnier()`, `empreinte()` ; recalages dans `servos/recalages.json` (`preparer_palonniers.py`).
-  Lacet : sous le plateau (collerette), 2 vis bras −y ; épaule : joue du bras (collerette), 4 vis ; coude : moyeu de l'avant-bras, 2 vis par-dessous ; poignet : plaque de la pince (bras le long de x de la pince), 2 vis.
-- **Modèle MG90S de l'utilisateur** : il s'arrête au **dessus de la tour des engrenages** (r 6,2, z = −3,2 = `SG_REF`) : la cannelure n'est pas dessinée. La broche se pose 0,2 mm au-dessus
-  (`ref_z = −3`). Servo du poignet reculé de 2 mm le long de son axe (`DECALAGE_POIGNET = −2`). Cinématique inchangée (servos déplacés le long de leur axe uniquement).
-- MG996R : le modèle `servos/mg996r.step` n'a plus l'arbre métallique (rotation palonnier/servo). Corps « Servo MG996R » d'origine = SBORKA translaté de (25,45 ; 37,23 ; 19,12).
-- **Gazebo utilise encore l'ancien maillage de l'avant-bras** (même cinématique, masse à 5 g près). Mise à jour possible via `generer_urdf.py` / `preparer_gazebo.sh`, puis il faudra refaire un test.
-
-## 6. La simulation et l'IA
-- **Scène** (`zone.py` → `tirer_scene`) : grand réceptacle à ±15°, à 21,5–23,5 cm ; réglette radiale à ≥ 40° de lui ; 3 balles sur 5 trous, à 19–35 cm.
-  **Règles de l'utilisateur** : on vise d'abord le réceptacle le plus proche des balles ; **seul le réceptacle visé est un obstacle** (les autres sont des « fantômes » dans Gazebo) ; chaque balle part de la posture de repos.
-- **Balle simulée à 50 g** dans Gazebo (une balle de 2 g est chassée par la pince ; 2/10/20 g, frottements, inertie, couple réaliste : tout a échoué). Chaque servo reçoit en plus le couple de 48 g au pire bras de levier (`SURPLUS_BALLE` dans `generer_urdf.py`), donc la marge est celle d'une vraie balle de 2 g.
-- **Expert** (`expert.py`) : IK + chemins sûrs par un passage intérieur (R_INT = 0,08 m, Z_INT = 0,26 m). Grand réceptacle : montée à 0,56 m près de l'axe, puis avancée pince inclinée, lâcher à 6 cm du centre côté robot.
-- **Réseau** (`politique.py`) : 27 entrées → 512 → 512 → 5 sorties (tanh), 279 557 poids. 10 décisions par seconde, au plus 0,06 rad par pas et par servo (0,6 rad/s). Garde-fou `securite()` (butées, sol, robot, pas de mouvement pendant le serrage).
-- **Simulateur rapide** (`sim_cinematique.py`, `SimReceptacles`) : retard des servos (SUIVI 0,5), prise si la pince est à moins de 6 mm, bruit de vue 0,5 mm, collisions (`obstacles.py` : cylindre plein du réceptacle + marges).
-- **Entraînement** (`entrainer_imitation.py`) : 9 tours d'imitation + DAgger, 1,23 million d'exemples, ~2 h sur 5 ouvriers. Simulateur rapide : 5 → 32 → 91 → 97 → 99 → 99 → 100 → 100 → 100 %.
-  Puis `--affiner` avec 11 154 corrections de l'expert notées dans Gazebo (poids ×5).
-- **Résultats Gazebo** (20 dispositions jamais vues, graine 40 000 000) : réseau du simulateur 16/20 séquences (51/60 balles) ; **réseau affiné 20/20 séquences, 60/60 balles → retenu (`politique_finale.pt`)**. Expert : 4/4. Ancien réseau : 6/10.
-- **Tolérance de vision** (`tolerance_vision.py`, erreur constante sur la position de la balle) : 0 mm → 99 %, **3 mm → 99 %**, 6 mm → 64 %, 9 mm → 0 %. La caméra doit donner la balle à 3 mm près.
-- Chaque balle prend 16 à 21 s (environ 1 minute pour les 3, dans la limite des 3 minutes du match).
-
-## 7. ESP32 (programme `ia_50cm/esp32/bras_esp32/bras_esp32.ino`)
-- Réseau = `politique_finale.pt` du 30/10 (réseau du parcours affiné). Calcul en C (`cerveau.cpp`) vérifié contre Python sur 2 000 cas : sorties du réseau à 7×10⁻⁶ près ; 7 cas à la limite d'un garde-fou diffèrent d'un pas.
-- Poids dans `reseau_poids.h` (1,1 Mo en flash) : partition **« Huge APP (3MB No OTA) »**, carte « ESP32 Dev Module », bibliothèque **ESP32Servo**. Broches **13, 25, 14, 27, 26** (lacet, épaule, coude, poignet, pince ; plus la 12 = broche de démarrage, changé le 30/10 soir). Servos commandés en `writeMicroseconds` (~0,1°). À régler sur le vrai bras : `SENS[]`, `DECALAGE_DEG[]`, `PINCE_CENTRE`.
-- Aucune caméra dans le programme : les positions viennent du plan (`parcours/plateau.py`). Essai PC (fausses bibliothèques `mission_esp32/test_pc/`) le 30/10 soir : compile sans avertissement, 400 pas sur `C 0.10 0.25 0.18 0` / `B 0.15 -0.20 0.0148` (station 1 supposée), `R` → `H`.
-- **Protocole série 115 200 bauds** : `C x y z g` (point de lâcher, g = 1 pour le grand) puis `B x y z` (balle, une fois suffit) → le réseau démarre ; `R` → position home ; sorties `E q1 q2 q3 q4 pince (µs)`, **`D`** (balle déposée : pince rouverte à plus de 12 cm de haut après une prise), **`H`** (arrivé en home).
-- **Position home : `aller_repos()`**. Refait **à l'envers** les dernières consignes du réseau (mémoire de 300 pas) jusqu'au passage intérieur bas (< 10 cm de l'axe, < 31 cm de haut), puis épaule/coude/poignet vers le repos, puis le lacet. La pince garde son état.
-  Raison : un retour direct heurtait le grand réceptacle 1 fois sur 4. Vérifié : 200/200 et 199/199 sans choc (`essai_retour_repos.py`) ; la version C refait le même chemin (`esp32/verifier_repos_c.py`). Gazebo : `aller_repos_gazebo.py`.
-- **Non vérifié** : compilation pour l'ESP32 lui-même (pas d'IDE Arduino), temps de calcul réel (estimé 30–40 ms sur 100 ms), essais sur le vrai bras.
-- Export après un nouvel entraînement : `python3 esp32/exporter_esp32.py modeles/politique_finale.pt` (écrit `reseau_poids.h` + vérification C/Python).
-- Pas de fichier TensorFlow Lite (inutile ; l'utilisateur n'en veut pas).
-
-## 8. Localisation de la balle (retenu : sans caméra, arrêts sur repères — voir PDF chapitres 7 et 11)
-**30/10 : l'utilisateur refuse toute caméra** (Pixy2/HuskyLens/OpenMV/ESP32-CAM : hors liste du matériel, trop cher). Il faut rester dans
-l'onglet « Matériel » de l'Excel. Piste proposée le 30/10 (non validée) : le plateau est fixe → position des trous de la réglette connue sur le plan ;
-robot localisé **aux arrêts seulement** : repère en scotch noir perpendiculaire à la ligne (FAQ précision n°4, < 30 s, sans résidu), approche lente
-+ retour sur le bord du repère, capteur de ligne arrière en plus des 3 avant pour mesurer/corriger l'angle (pivot sur place), codeurs (0 unité) pour
-ralentir avant le repère. Estimé : ±2 mm le long, ±2 mm en travers, ±0,5–1° → 3 à 6 mm sur la balle (limite). Secours : capteur infrarouge
-noir/blanc (2 unités) sous la pince qui « palpe » un repère en scotch près de la réglette et détecte quels trous ont une balle ; doigts de pince en V.
-Budget : déjà 62/60 avec le bras. Ancienne proposition caméra (abandonnée) ci-dessous.
-Précisions de l'utilisateur (30/10) : positions exactes des réceptacles et des réglettes connues (plan à récupérer) ; **les balles sont toujours dans
-les mêmes trous** ; 1er réceptacle → balle la plus proche, puis balle du milieu et balle de droite ou de gauche (même réglette servie deux fois).
-Souci : poser les repères vite (< 30 s) et précisément → proposé : **gabarit imprimé** calé sur la réglette (ou la ligne) avec une fente pour
-le scotch prédécoupé ; fin de ligne et virages = repères naturels sans scotch. Codeurs : ligne 24 de l'onglet Matériel (« codeur incrémental +
-roue de mesure », 0 unité, se monte sur la sortie du MCC, stock limité) ; ~20 fentes → ~5–10 mm par impulsion : sert à ralentir, pas au millimètre.
-Une fois le plan coté reçu : vérifier que chaque trou et chaque réceptacle vus depuis l'arrêt sont dans la zone d'entraînement (sinon réentraîner sur la vraie disposition).
-
-Une seule caméra au bout du bras, sur le corps de la pince. Le parcours est fixe, donc l'ESP32 suit une machine à états :
-arrivée à la station (suivi de ligne) → **postures de regard** enregistrées par station, avec balayage du lacet si rien n'est vu → détection par couleur (HSV), rayon de caméra ∩ plan z = hauteur de la balle → `B` ; même chose pour le bord du réceptacle → `C` → mode IA, avec des mesures de plus en plus précises à l'approche → `D` → home → `H` → le robot repart.
-Matériel conseillé : ESP32-CAM / ESP32-S3 caméra (~10 g, carte séparée reliée en série). Étalonnage par damier (OpenCV). La FAQ autorise des repères (post-it de couleur) sur le plateau.
-Avec 10 g au bout du bras, le coude passe à ~65 % de son couple : mettre un MG90S. Une fois la précision réelle mesurée, réentraîner avec cette erreur.
-
-## 9. Règlement et budget (Excel du challenge)
-- Une seule Arduino Uno en principe ; **ESP32 autorisé sous conditions** (FAQ précision n°2) : validation par le responsable matériel, groupe autonome.
-- La base doit tenir dans un carré de 200 mm ; la préhension peut dépasser légèrement. Match final : 3 minutes au plus. Les balles ne doivent pas être abîmées.
-- Prix : MG996R 10 unités, MG90 4, SG90 3, impression 3D 0, visserie 0 (quantités raisonnables), Arduino Uno 0 si elle est utilisée, ESP32 « à définir ». **Limite : 60 unités.**
-- Groupe supposé : **A5** (Amaury Vandenberghe, d'après le nom du PC). Il en est à 49 unités : 2 MCC, 28BYJ, 1 MG996R, 2 MG90, L298N, câbles, 3 capteurs analogiques, 4 roulements, ressort, roulette, 4 joints.
-  Le bras demande en plus 1 MG996R + 1 SG90, soit **62/60**. Piste : rendre le 28BYJ (3 unités) s'il ne sert plus → 59.
-- Échéances : validation de la préhension le 10/03/2027 (PT A) ou le 11/03/2027 (PT B) ; challenge le 19/05/2027.
-
-## 10. Commandes utiles
-```bash
-# Démo avec fenêtre (2 terminaux Ubuntu ; c'est l'utilisateur qui lance le terminal 1). Scripts courts = ce que donne le PDF page 1
-bash ~/ros2_ws/src/mon_bras_robot/ia_50cm/demo_gazebo.sh     # terminal 1 (args en plus -> launch, ex. gui:=false)
-bash ~/ros2_ws/src/mon_bras_robot/ia_50cm/demo_reseau.sh     # terminal 2 : [N séquences, défaut 3] [--expert|--trace|--graine G]
-bash ~/ros2_ws/src/mon_bras_robot/ia_50cm/demo_repos.sh      # position home dans Gazebo
-# Équivalent sans script (une seule ligne chacune) :
-source /opt/ros/humble/setup.bash && source ~/ros2_ws/install/setup.bash && ros2 launch mon_bras_robot_moveit_config gazebo.launch.py robot:=bras_50cm monde:=scene_trois_receptacles
-source /opt/ros/humble/setup.bash && source ~/ros2_ws/install/setup.bash && cd ~/ros2_ws/src/mon_bras_robot/ia_50cm && python3 evaluer_receptacles.py 3 --modele modeles/politique_finale.pt --graine $RANDOM$RANDOM
-# Dans ia_50cm/
-bash gazebo_auto.sh 20 --modele modeles/politique_finale.pt   # test sans fenêtre (relance Gazebo s'il se fige)
-bash gazebo_auto.sh 5 --expert                                 # l'expert pilote
-python3 aller_repos_gazebo.py                                  # position home dans Gazebo
-bash entrainement_propre.sh                                    # réentraîne depuis zéro (archive l'ancien)
-bash fin_automatique.sh                                        # corrections Gazebo + affinage + test officiel + Bureau
-bash exporter_dossier.sh modeles/politique_finale.pt           # met à jour le dossier du Bureau
-python3 finaliser_document.py                                  # régénère le PDF (modèle HTML + résultats Gazebo)
-# Dans bras_50cm/ (avec ~/venv_cao/bin/python)
-cao_bras.py ; verifier_logements.py ; generer_assemblage_sw.py "/mnt/c/Users/amaur/Desktop/Bras robotisé/01_SolidWorks/1_ASSEMBLAGE_FINAL (a utiliser)"
-# puis sous Windows, SolidWorks fermé : powershell -ExecutionPolicy Bypass -File "<01_SolidWorks\1_ASSEMBLAGE_FINAL (a utiliser)>\assembler.ps1"
-# (Temp/bras50/vues_empreintes.ps1 pointe encore sur l'ancien chemin 01_SolidWorks\ : à corriger avant de refaire les images)
-```
-Le PDF se modifie dans `05_Documentation/source/Recapitulatif_bras_robotise.modele.html` (repères `[[RES_...]]` remplis par `finaliser_document.py`), **jamais** dans le `.html` généré.
-
-## 11. Historique des décisions et problèmes résolus (pour ne pas les refaire)
-- 6 axes rejeté (poids) ; l'utilisateur avait dit « on était parti sur un 5 axes ».
-- L'IK avec la seule contrainte d'inclinaison (`approche_z`) a été nécessaire pour atteindre le grand réceptacle.
-- Dans Gazebo, attendre le temps **simulé** (`attendre_sim`) ; le bras est figé après le lâcher pendant l'évaluation.
-- Le « manque de couple » du coude était en fait une collision avec le grand réceptacle placé par défaut (positions de garage, `ranger()`).
-- Le premier assemblage SolidWorks n'avait pas de logements de servos réels : refait le 29/10 sur les modèles de l'utilisateur (MG996R : pattes 1,5 mm plus hautes que la fiche ; SG90 du coude placé 7 mm trop haut ; servo du poignet fondu dans l'ancien maillage).
-- Le retour home direct heurtait le grand réceptacle → retour à rebours.
-- Affinage Gazebo indispensable : sans lui, 16/20 ; avec, 20/20.
-- 30/10 : l'utilisateur a vu qu'aucune pièce ne recevait les palonniers (arm01, broches) → empreintes + vis 2 mm, ses fichiers d'origine dans l'assemblage, rotation palonnier/servo sans arbre.
-  Vérifié : 0 mm³ palonniers/pièces/servos, appui au fond 0,05 mm, détection SolidWorks : rien hors de la pince d'origine (engrenages en prise 0–2,7 mm³, servo de pince 5 mm³, préexistants).
-- 29-30/10 (ESP32 du parcours, **en pause à la demande de l'utilisateur**, « on en discutera plus tard ») : choix = vidéo analysée par le PC (ESP32-CAM relais Wi-Fi), une seule ESP32, son appli,
-  balles colorées. Le réseau final ne prend PAS les balles droit devant (0/15 à ±20°) → `entrainer_mission.py` (sortie `modeles/mission/`, ne touche pas `politique_finale.pt`).
-  Brouillons : `ia_50cm/mission_esp32/` (robot_esp32/, camera_pont/, vision_pc/, test_pc/, essai_mission.py, essai_angles.py). Trouvé : GPIO12 = broche de démarrage, `servo.write()` = degrés entiers.
-- 29/10 soir : commande du terminal 1 du PDF cassée au copier-coller → scripts `ia_50cm/demo_gazebo.sh`, `demo_reseau.sh`, `demo_repos.sh` (aussi dans `03_Reseau_de_neurones/code_python`), PDF page 1 et chapitre 9 refaits. Testés : Gazebo + réseau 5/6 séquences (graine officielle 2/2, hasard 3/3 ; une séquence au hasard ratée, balle 1 tombée). `demo_repos.sh` (retour direct, `aller_repos_gazebo.py`) : 0,0° après des séquences réussies, mais resté bloqué (68°) après la balle tombée.
-
-## 12. Ce qui reste à faire (à mettre à jour)
-1. Côté étudiants : faire valider l'ESP32 et le budget par le responsable matériel ; écrire le suivi de ligne et l'enchaînement `C`/`B` → `D`/`H`.
-2. Programme ESP32 du parcours : les brouillons de `ia_50cm/mission_esp32/` supposaient une caméra → **abandonnés** (plus de caméra). Ne pas l'écrire sans nouvelle demande. Résultats du complément d'apprentissage : `modeles/mission/mission.log` (à valider dans Gazebo avant tout usage).
-   Complément terminé le 30/10 à 13 h 42 : meilleur = tour 3 → `modeles/mission/politique_mission.pt` (simulateur : prises 100 %, dépôts 100 %,
-   scène d'origine 240/240) ; tour 4 : prises 97,4 %. **Non validé dans Gazebo, non exporté pour l'ESP32.** Couverture : balles à 19–35 cm,
-   ±83° (devant le robot seulement), réglette à ±15° de la direction radiale. Une réglette sur le côté (±90°) ou parallèle au robot n'est pas couverte.
-   **Gazebo, 30/10 après-midi** (`valider_mission_gazebo.sh` → `evaluer_mission_gazebo.py`, résultats dans `modeles/mission/eval_gazebo_*.json`,
-   ne touche pas `modeles/eval_gazebo.json`) : scène officielle (graine 40 000 000) **17/20 séquences, 52 balles sur 55 tentées** (2 tombées, 1 poussée)
-   contre 20/20 pour le réseau final ; réglette devant (−35 à +35°, 2 balles → petits réceptacles, graine 41 000 000) **16/20, 34/38** :
-   < 25 cm 19/19, 25–30 cm 8/9, ≥ 30 cm 7/10 (échecs = « temps », balles à 29–35 cm presque droit devant). Pas d'affinage Gazebo fait sur ce réseau.
-   `valider_gazebo_modele.sh <modele>` = même test pour un autre réseau (suffixe = nom du réseau).
-   **Piège trouvé** : après un redémarrage de WSL, chaque `ign service` prenait ~3 s (« Host unreachable ») → balles mal placées, balles tombées.
-   Corrigé par `export IGN_IP=127.0.0.1` (0,3 s) dans `valider_*.sh` ; **pas encore ajouté** à `gazebo_auto.sh` ni aux `demo_*.sh`.
-   **Affinage Gazebo lancé le 30/10 à 17 h 17** (`affinage_mission.sh`, onglet « affinage mission ») : collecte 20 + 20 séquences
-   (`evaluer_mission_gazebo.py --collecter`, graines 52 M / 51 M → `modeles/mission/donnees_gazebo_mission.npz`), `affiner_mission.py`
-   (15 époques, corrections x5) → `politique_mission_affine.pt`, puis test sur les graines 40 M / 41 M (`eval_gazebo_*_politique_mission_affine.json`).
-   Fin estimée vers 20 h. Ne remplace aucun réseau : comparer ensuite avec 17/20 et 16/20.
-   Résultats : 18 969 corrections ; simulateur rapide prises 97 %, dépôts 100 %, origine 100 % ; Gazebo scène d'origine **18/20 (54/60)**
-   (mêmes 2 échecs : poussée à −83°, tombée à 58°) ; réglette devant : voir `eval_gazebo_devant_politique_mission_affine.json`.
-- **Plateau SUPPOSÉ (30/10 soir)** : `ia_50cm/parcours/plateau.py` (bloc « MESURES DU PLATEAU » = seule chose à changer quand le plan coté arrive),
-  sorties `parcours/resultats_plateau.txt`, `plateau.json`, `plateau.png` ; PDF chapitre 11 + 11 bis (méthode pour remplacer les cotes).
-  Déroulé donné par l'utilisateur : petit trait juste APRÈS le 1er lot (début) → prise de la balle la plus proche → petit réceptacle 1 ;
-  grand trait (2e lot) → balle du milieu → petit réceptacle 2, puis balle de droite/gauche gardée ; tour à la main jusqu'au grand réceptacle.
-  Trouvé : arrêté sur un trait situé après les balles, le bras les a derrière lui (lacet ±85°) → notre repère en scotch AVANT, posé avec un gabarit
-  calé sur le trait officiel. Simulateur (réseau affiné, 60 essais) : arrêt parfait 88–100 % ; repère + capteur arrière (±2 mm, ±0,5°) 83–92 % ;
-  sans capteur arrière 50–57 % ; recul aux codeurs 32–48 % ; grand réceptacle garage soigné 90 %, approximatif 63 %.
-  Piège : `zone.py` reconnaît le grand réceptacle par `is GRAND` → après passage à un processus (pickle) il faut remapper les types.
-- **30/10 soir, décisions de l'utilisateur** : 2e lot = même réglette que le 1er ; **tous les trous occupés** (2 × 5 = 10 balles) ; plus de caméra du tout.
-  → **`politique_finale.pt` = réseau affiné du parcours** (copie de `mission/politique_mission_affine.pt`), ancien gardé en `politique_finale_29oct.pt`
-  (20/20 scène d'origine mais 0/15 droit devant). Exporté ESP32 (`exporter_dossier.sh`, 7 cas sur 2000 à un pas près au garde-fou).
-  `finaliser_document.py` lit maintenant les tests de `modeles/mission/` (officiel : 18/20, 54/60 ; devant : 17/20, 36/40).
-  `IGN_IP=127.0.0.1` ajouté à `demo_gazebo.sh`, `demo_reseau.sh`, `demo_repos.sh`, `gazebo_auto.sh`.
-  `plateau.py` : `trous=(1..5)`, `prises` par station (S1 : (1,) ; S2 : (3, 2)), `PRISES_2=3,1` pour essayer un autre ordre.
-  Réglettes pleines (simulateur, réseau officiel) : S1 trou 1 100/90 % ; S2 trou 3 98/92 % ; **S2 2e balle trou 2 : 42/48 %**, trou 1 : 75/77 %
-  (parfait / repère + capteur arrière) → le réseau n'a jamais appris avec une réglette pleine : **prochain apprentissage = réglettes pleines, vraie disposition**.
-  **Dossier du Bureau rangé** : `03_Reseau_de_neurones/modele/1_RESEAU_FINAL (a utiliser)/reseau_final.pt` (+ tests, journal),
-  `2_Secours (ancien reseau du 29-10)/reseau_secours_29oct.pt`, `3_Historique (pour memoire)`, `LISEZMOI.txt`. `exporter_dossier.sh` écrit dans `1_RESEAU_FINAL`.
-  **Décision 30/10 : on ATTEND le plan coté** avant l'apprentissage « réglettes pleines » (le faire directement sur la vraie disposition).
-  PDF (13 pages) : chapitre 7 réécrit sans caméra (arrêts sur repères, précision, matériel, encadré réseau officiel), chapitre 11 réglettes pleines, budget 64 → 61 unités.
-  **30/10 tard : programme du bras `bras_esp32.ino` mis à jour** (plus de mention de caméra, broche 25, microsecondes), PDF chapitre 6 mis à jour.
-  L'utilisateur : « une fois qu'on aura fait ça, on aura fini » → **projet considéré comme terminé de notre côté** ; le programme ESP32 du PARCOURS
-  (suivi de ligne, repères, stations) n'est PAS à écrire sauf nouvelle demande. Reste en attente : le plan coté (apprentissage réglettes pleines).
-3. Compiler pour l'ESP32 réel, mesurer le temps de calcul, régler `SENS`/`DECALAGE_DEG`, faire les premiers essais lents.
-4. Améliorations possibles, non demandées : vitesse ×2 (proposée, **refusée** par l'utilisateur le 29/10) ; nouvel avant-bras dans l'URDF de Gazebo ; affichage Gazebo par la carte graphique.
-5. **Dépôt git depuis le 08/11** : ce dossier du Bureau = dépôt `https://github.com/amauryvandenberghe/Bras-robos` (branche `main`), indexé par Graphify en ligne (espace `amaury-s-workspace`). Voir « Dépôt GitHub et Graphify en ligne » à la fin. Le code de référence dans WSL n'est **pas** dans ce dépôt.
-6. **Constaté le 06/11 (travail de l'utilisateur après le 30/10, sur le Bureau seulement, pas dans WSL)** :
-   - Référence du câblage : `C:\Users\amaur\Downloads\Manuel Technique Complet - Robot ESP32 IA.pdf`. Direction 18 ; L298N ENA 25, IN1 26, IN2 27 ; bras 17, 16, 33, 21, 32 (base, épaule, coude, poignet, pince). **Remplace les broches de la section 7.**
-   - Application MIT App Inventor « M.A.V.E. » : `S`, `H`, `1`, `2`, `3`, `V<n>A` (recule), `V<n>B` (avance), `R<n>D` (gauche), `R<n>C` (droite), `L` à la connexion.
-   - `03_Reseau_de_neurones/esp32/codebrasrobot/` = programme de l'utilisateur, réseau + conduite. `B1` y est renommé `BIAIS1`, mais `exporter_esp32.py` génère encore `B1`. `bras_esp32.ino` du Bureau a reçu du Bluetooth le 04/11 : **`exporter_dossier.sh` l'écraserait** (`cp -r esp32/bras_esp32`).
-   - **`03_Reseau_de_neurones/esp32/pilotage_manuel/pilotage_manuel.ino` (06/11)** : avancer, tourner, home, sans réseau ; 1, 2, 3 ignorés. Bras mou jusqu'au premier `H`, puis un servo toutes les 500 ms ; home = 90 ; 43,6 ; 133,8 ; 135,8 ; 104,3° ; braquage limité à 45° ; moteur via `ESP32PWM` ; arrêt si le Bluetooth est perdu. Compile pour l'ESP32 et essai de logique sur PC réussi. **Pas encore essayé sur le vrai robot.**
-   - Application, corrections proposées, application par l'utilisateur non confirmée : balle 1 calculée avec `Yactuel` au lieu de `Xactuel` ; balle 2 sans arrêt quand on revient entre 65 et 85 ; lâcher une balle envoie `S` et coupe aussi l'autre axe (proposé : `R0C` et `V0A`) ; bouton S et balle 2 mal visibles dans l'aperçu.
-   - **`03_Reseau_de_neurones/esp32/bras_robot/` (06/11) = PROGRAMME UNIQUE À UTILISER** (`bras_robot.ino`, `cerveau.cpp`, `cerveau.h`, `reseau_poids.h`), demandé par l'utilisateur : fusion de `codebrasrobot`, `bras_esp32` et `pilotage_manuel`, **rangés le 06/11 à la demande de l'utilisateur dans `esp32/3_Anciennes versions/`** (les chemins cités plus haut dans ce point sont d'avant ce rangement). `exporter_dossier.sh` recréerait `esp32/bras_esp32` et recopierait ses fichiers à la racine de `esp32/` : à adapter avant de le relancer. `arduino-cli compile` écrit un dossier `build` dans le programme, même avec `--output-dir` : le sortir après compilation. Partition « Huge APP » obligatoire : compile (70 % de 3 Mo). Sans elle, erreur « text section exceeds available space in board » (168 %) : Tools > Partition Scheme > « Huge APP (3MB No OTA/1MB SPIFFS) », sélectionné dans l'IDE de l'utilisateur le 06/11 et vérifié (bouton Verify), téléversement non fait. Essais PC avec le vrai `cerveau.cpp` : logique OK. **Pas encore essayé sur le vrai robot.**
-     Bluetooth : `S`, `H`, `1`/`2`/`3`, `V<n>A/B`, `R<n>C/D`. USB en plus : `C x y z g`, `B x y z`, `R` seul ; sorties `E`, `D`, `H`. Rien ne bloque : `S` est lu pendant le retour au repos. `S` immobilise aussi le bras sur place (choix à confirmer) ; `V` ou `R` annule une prise ; 1/2/3 arrêtent la propulsion et refusent de partir hors du home.
-     Boutons 1/2/3 : tirage au hasard refait dans la zone apprise (l'ancien tirage de `codebrasrobot` demandait le grand réceptacle à z 0,18–0,25 au lieu de 0,56 et pouvait placer le réceptacle sur la balle). Simulateur rapide, 100 essais par type : petit 93/100 (5 temps, 2 collisions), grand 84/100 (16 collisions). Pas testé dans Gazebo. À remplacer par les vraies positions (`tirer_positions()`).
-     `exporter_esp32.py` génère encore `B1` et écrit dans `bras_esp32` : un nouvel export ne met pas à jour `bras_robot`.
-   - **Premier essai réel (06/11, utilisateur)** : le coude bouge ; le servo que l'utilisateur appelle « à la base », branché sur la broche 16, ne tourne pas ; les servos tremblent. L'utilisateur confirme : **c'est bien l'épaule sur la broche 16**, le branchement est conforme. Épaule calculée depuis l'URDF : servo 0° = bras à −54° de la verticale, 43,6° (home) = −10,8° (presque sans charge), 60° = +5,6°, 90° = +35,6°, 136,4° = +82°, 180° = +125,6° ; plus de degrés = vers l'avant. Avec `SENS` inversé, le home enverrait le bras à +82° (presque la charge maximale) : piste à vérifier avec l'alimentation, le calage du palonnier et une butée. `SENS`/`DECALAGE_DEG` ne sont toujours pas réglés sur le vrai bras. Trouvé dans ESP32Servo : `attach()` remet 10 bits (pas de 19,5 µs, 1,8°, ~7 mm au bout du bras par l'épaule) → **ne pas utiliser `Servo::setTimerWidth()`** : il détache et rattache le canal et a fait planter l'ESP32 au premier `H` (Interrupt wdt, `ledc_update_duty`, décodé avec `xtensa-esp32-elf-addr2line`). `bras_robot.ino` et `test_servos.ino` pilotent donc `ESP32PWM` directement, en 16 bits dès `attachPin(broche, 50.0, 16)`. Vérifié sur l'ESP32 (ESP32-D0WD-V3, COM4) : `H` répond sans plantage ; posture réelle à contrôler. Le nouveau `test_servos.ino` compile mais n'a pas tourné (`detachPin` entre deux tests à surveiller). Envoi USB sans redémarrage : ouvrir le port avec DTR et RTS coupés. Au repos, les impulsions matérielles sont fixes : le tremblement vient très probablement de l'alimentation, pas du code. Diagnostic ajouté : `esp32/test_servos/test_servos.ino` (un seul servo à la fois, ±15° autour du home), résultat attendu de l'utilisateur.
-   - **Bug majeur corrigé le 06/11 dans `bras_robot.ino`** : le réseau a appris en voyant la balle suivre la pince une fois tenue, mais l'ESP32 lui donnait la position fixe du plan. Simulateur rapide, physique identique, 60 tirages : position fixe **0/60**, suivi `balle_tenue` (pince fermée à moins de 2 cm de la balle → balle = pince) **60/60**, 59/60 avec 3 mm d'erreur de pose. Le bug existe aussi dans les programmes archivés et aurait empêché tout dépôt réel. Aussi corrigé : pince remise ouverte au départ d'une mission (sinon faux `D`).
-     **Démo (`DEMO_BALLES`, `DEMO_PANIER`)** : même repère que le robot, balle 1 x 20,45 y +16,02 cm ; balle 2 x 23,27 y +5,47 cm ; petit panier x 12,04 y −24,92 cm ; lâcher z = 0,18 m, centre de balle z = 0,0148 m. Tirées au hasard, 48/48 au simulateur (dont 3 mm d'erreur de pose). Boutons 1 et 2 ; 3 ignoré ; l'ancien tirage au hasard est retiré. Pas testé dans Gazebo.
-   - **Dernier état (06/11 soir)** : l'utilisateur constate direction avec force, servos du bras sans force, « ça ne marche plus depuis la correction des vibrations ». Hypothèse principale, non confirmée : c'est l'état normal après un démarrage de `bras_robot` (direction attachée au `setup`, bras libre jusqu'à `H`), car l'ESP32 a pu être débranchée ou redémarrée ; `codebrasrobot` attachait au contraire tout le bras au démarrage. L'utilisateur a ensuite appuyé sur `H` dans l'application : toujours libres (connexion Bluetooth et alimentation de la carte à ce moment non vérifiées).
-     **Mesuré sur l'ESP32 après `H` par USB (`P`)** : 50 Hz sur toutes les broches ; direction 18 = 1499 µs, base 17 = 1499, épaule 16 = 983, coude 33 = 1986, poignet 21 = 2008, pince 32 = 1658 ; pas de redémarrage à la fermeture du port (cause 1 = mise sous tension) ; relecture à la broche ESP32, pas au connecteur du servo. Le signal logiciel est donc bon. Résistance à la main dans cet état : **toujours libres** (utilisateur, 06/11), la direction gardant sa force. Cause donc très probablement matérielle, entre les broches de l'ESP32 et les servos du bras (5 V, masse, signal) ; localisation par échange de connecteurs avec la direction demandée, résultat attendu. Ne pas relancer la balle avant que le bras résiste.
-     **Version téléversée sur l'ESP32 le 06/11 à 20 h 39** : direction `R<n>` = angle absolu 0–180 (curseur, appliqué à la lettre suivante ou après 30 ms de silence ; plus de `R<n>C/D`, `DIR_MIN_DEG`/`DIR_MAX_DEG` remplacent le braquage ±45°) ; commande USB `P` (temps depuis le démarrage, cause du démarrage, impulsions mesurées par broche). Script `diagnostic.ps1` : temporaire, à refaire au besoin (`H`, `P`, fermeture, réouverture, `P`). Balle 1 jamais lancée en réel.
-   - **Essai réel du 06/11, 21 h 36 (caméra + USB)** : l'utilisateur avait la base et l'épaule sur les broches 34 et 35, entrée seule sur ESP32, jamais pilotables ; déplacées par l'utilisateur : **base 22, épaule 23** (dans `BROCHE` de `bras_robot` et `test_servos`, manuel technique périmé sur ce point). `bras_robot` active maintenant le bras au démarrage (plus besoin de `H`), commande USB `J i d` pour bouger un servo de d degrés. Impulsions correctes sur toutes les broches à la relecture ESP32, pas de redémarrage. Vu à la caméra : coude +15° = avant-bras replié vers le bas (sens correct), poignet semble répondre. **Épaule ±20° et base ±30° : aucun mouvement visible.** Hypothèses : alimentation trop faible pour les MG996R, signal 3,3 V insuffisant, câblage. La « résistance » d'un MG996R à la main ne prouve pas qu'il est alimenté (frottement des engrenages). Réseau jamais lancé sur le vrai bras : `SENS`/`DECALAGE_DEG` à régler ensuite, l'avant-bras semble plus ouvert que le home attendu.
-     **Robot complet** : Bureau `Assemblage1v2.SLDASM`, utilise `1_ASSEMBLAGE_FINAL/Bras 50cm.SLDASM` : ne pas déplacer ce dossier. Le 06/11, 4 contraintes bâti/socle (code 48) remplacées par 3 (face + 2 trous opposés) : 203 contraintes, 0 en erreur, aucune interférence bras/robot ; ancien fichier dans `3_Anciennes versions/3f_...`. Récapitulatif : `1_ASSEMBLAGE_FINAL/CE QUI A CHANGE.txt`. Refaire le socle casse à nouveau ces 3 contraintes (faces recréées à l'import STEP). Piège : `open_application` sur SolidWorks lance une 2e session si une instance cachée reste ; attendre sa fermeture. Trimesh dit la pince non fermée, PrusaSlicer `--info` la dit manifold (3 volumes).
-     **SolidWorks** : refonte avec roulements 608 (épaule, coude), gorge + 3 patins, brides 4 vis, palonnier rond à cotes à mesurer, trous M3 de 3,5 ; ancienne version dans `3_Anciennes versions/3e_06-11 avant roulements`. Roulement réorienté : 32 contraintes, 0 en erreur, interférences notables seulement dans la pince d'origine ; servos dans leurs logements vérifiés sur les vrais modèles. Notice : `1_ASSEMBLAGE_FINAL/MONTAGE.txt`. Non imprimé, non monté ; poids ajouté au coude ~26 g (+7 % du blocage de l'épaule), piste 688 pour alléger. Le bras touche les patins à partir de q2 = 2,1 rad (réseau : 1,57 au maximum). Géométrie cinématique inchangée : pas de réentraînement nécessaire.
-   - **Suite de l'essai du 06/11, 21 h 53** : la masse de l'ESP32 n'était pas reliée aux servos, corrigé par l'utilisateur ; la base restait immobile sur son connecteur. Branché à la place du servo de direction (`R60`, `R120`, broche 18), le MG996R de la base **tourne** (confirmé par l'utilisateur). Le servo et le signal 3,3 V sont donc bons : panne dans le câblage d'origine de la base (signal vers 22 ou alimentation de ce connecteur), l'épaule est à vérifier de la même façon. Un SG90 sur le connecteur de l'épaule n'avait pas bougé avant la correction de masse. Puis, rouge et marron sur le connecteur de direction et signal directement sur la broche 22 (`J 0`) : **tourne plusieurs fois** (confirmé par l'utilisateur). La broche 22 est bonne : la panne venait du 5 V, de la masse ou de l'ancien fil de signal de la base. Épaule branchée par l'utilisateur sur la broche 18 (`R75`, `R105`, `R90`) : à la caméra, bras effondré à l'horizontale, pince au niveau de la table, aucun mouvement visible. Hypothèse principale : couple insuffisant, 5 V du L298N trop faible pour le MG996R en charge, à confirmer. Branchée entièrement sur le connecteur de direction : **l'épaule résiste** (utilisateur), mais retombe à l'horizontale une fois lâchée. Le servo n'est donc pas hors service. Prochaine étape : alimentation séparée 5–6 V de plusieurs ampères pour les servos, masses reliées, puis retester. Servo de direction à remettre en place après les essais. Vérifier aussi 22 et 23 : la broche 22 a relu 983 µs au lieu de 1500 µs (pont possible).
-     **Essai de prise demandé le 06/11 à 22 h 11 (`H` puis `1`, alimentation inchangée)** : 0 pas du réseau journalisé, ni `H` ni `D`, caractères illisibles sur l'USB, puis l'ESP32 ne répond plus à `P` (COM4 reste visible). Prise de balle non réalisée, temps de calcul réel toujours inconnu. Contrôle, servos coupés : la puce répond à esptool et démarre (`Robot pret`), puis la liaison série reçoit ~30 octets illisibles par seconde et `P` reste sans réponse. Mesure : exactement 50 octets 0x00 par seconde sur la liaison série. Origine non trouvée (hypothèse : un signal de servo vers TX0, voisine de D22, D23 et D21 sur les cartes 30 broches). En filtrant ces 0x00, relance à 22 h 17 : **la séquence complète s'exécute sur l'ESP32 : `H`, `1`, 160 pas du réseau, `D` au bout de 16 s, `H` 5 s plus tard ; calcul 53,5 ms par pas (max 53,6) sur 100 ms disponibles.** Les ordres USB arrivent donc bien. Dernière consigne : q = (−1,123 ; 0,622 ; 1,526 ; 1,114). Ce n'est PAS une prise réelle prouvée : aucun retour des servos, bras tenu à la main pendant l'essai, épaule trop faible sans aide. L'utilisateur a vu bouger les 3 derniers servos, pas la base ni l'épaule. `P` relit 983 µs sur 22 ET 23 (22 devrait être à 1500) : **pont très probable D23–D22, peut-être jusqu'à TX0 (cohérent avec les 50 Hz sur la liaison série)**. À chercher sur la plaque d'essai avant tout nouveau mouvement. Pince retirée par l'utilisateur pour un essai de mime, balle posée sur la table. **22 h 25 : épaule déplacée sur la broche 17 (`BROCHE` = 22, 17, 33, 21, 32) : la 22 relit 1499 µs et les parasites tombent à 0 octet : le problème venait donc du branchement sur la 23.** Alimentation forte toujours à trouver.
-   - **v3 SolidWorks (06/11, 23 h 30), demandée par l'utilisateur : allègement + visserie + montage.** bras 40,8 g (47,5), avant-bras 16,4 (17,6), plaque 5,8 (6,7) : −8,8 g, ~1,5 % du blocage de l'épaule seulement (estimé) ; leviers plus forts non faits : SG90 au poignet et à la pince, 688 au coude, ressort. Corps de pince : trous 2,6 sans lamage. Base : arm01 (palonnier rond retiré), 4 vis 2×8 par le dessous, trous 1,7 traversants. Face du plateau 5 mm + écrous captifs par les côtés. `visserie()` = 65 éléments dans `Bras 50cm.SLDASM` (97 contraintes, 0 en erreur). `Assemblage1v2` : 203 contraintes, 0 en erreur, bras/robot 0 interférence (à refaire à chaque régénération : `bras_50cm/solidworks/reparer_v2.ps1` = 3 contraintes face + 2 trous ; `vues_visserie.ps1`, `images_pdf.ps1` dans le même dossier ; `acces_outils.py`, `acces_ecrous.py` dans `bras_50cm/`). **Couple épaule recalculé : 47 % du blocage** (0,92 N·m, pire cas, sans balle ni acier ; la section 5 dit encore 35 %). Doc : `CE QUI A CHANGE.txt`, `MONTAGE.txt`, images `Vues visserie/`. Archive `3g_06-11 avec roulements sans visserie`. Non imprimé, non monté.
-     **Défaut trouvé par le calcul d'accès aux vis** : `avec_empreinte` ajoutait la collerette après le perçage, l'axe restait bouché sur 2 mm (plateau et bras) ; corrigé (passage r 4 percé après). Accès : 36 vis sur 38 tout droit ; 2 du bas du MG996R d'épaule à ≥ 2° ; vis centrale du lacet à ≥ 4° vers +y (linteau). Les 26 écrous ont un chemin d'entrée. Tournevis tige ≤ 4 mm, ≥ 70 mm. Main et manche non modélisés. Piège API : ne pas enregistrer `Assemblage1v2` par Ctrl+S (entraîne `capteur`, `esp32_dev_kit`, `Servo Motor Micro`) : `Save3(1)` n'enregistre que le document de tête. Les traits gris du robot = esquisses, masquées dans le fichier.
-   - **PDF mis à jour le 06/11 à 23 h 42 (16 pages), demande de l'utilisateur** : `maj_pdf.py` a réécrit le modèle (ancien : `05_Documentation/source/anciennes versions/modele_30-10.html`), chapitre 6 refait sur les essais réels, chapitre 3 version allégée, images refaites (anciennes : `images/anciennes analyses/avant 06-11`). Modifier désormais le modèle directement, puis `python3 finaliser_document.py`.
-   - **07/11 (demande de l'utilisateur) : servo de pince, poutre des roues avant, 6 capteurs, vis bras/bâti.** Archives : `01_SolidWorks/3_Anciennes versions/3h_07-11 ...`, `ICAM/Pieces tipe/anciennes versions 07-11/` (pièces du robot + Assemblage1v2), code `bras_50cm/anciennes_versions/07-11_avant_pince/`.
-     - Servo de pince : il était tourné de 45° autour de son axe, à moitié hors du bloc, sans vis. Maintenant droit (`cao_bras.pose_servo_pince`, `logement_servo_pince`). Bloc rempli, logement fermé enfilé par l'arrière, pattes en butée sur un épaulement à y = −3,58 (repère propre de la pince), 2 vis 2×8 (`visserie()`), avant-trous 1,7 mm. Axe inchangé (0,000 mm). corps_pince 23,3 g (+1,9 g). Bras : 99 contraintes, 0 erreur, servo/corps 0,0 mm³.
-     - Robot (`Assemblage1v2`, 195 contraintes, 0 erreur, 105 composants, bras/robot 0 interférence) :
-       - **Poutre** : `piece avec les bites` (pièce native de l'utilisateur) a 4 fonctions SUPPRIMÉES (U : Boss.-Extru.8, Enlèv.-Extru.3, Congé3, Enlèv.-Extru.4) et 2 trous Ø3,5 à ±20 mm (« Trous vis support capteurs »).
-       - **Support** : nouveau `support capteurs 2 rangees.SLDPRT` (CadQuery `bras_50cm/robot/support_capteurs.py`, dessiné dans le repère de l'assemblage, inséré à l'origine, verrouillé au bâti). L'ancien `support capteur.SLDPRT` est gardé. Rangée arrière : élément x 118,26. Rangée avant : cartes en travers, x 199,3. Écart latéral 33 mm (z 479,72 / 512,72 / 545,72). Plaque sous la poutre (2 M3×20) + colonne au trou du bâti d'origine (107,26 ; 512,72).
-       - **Bras/bâti** : 4 M3×12 + écrous (trous ±33 du socle).
-       - **Capteurs** : 4 contacts de 0,4 mm³ par capteur, identiques avec l'ancien support (modèle du capteur).
-     - **Pièges API** :
-       - Dans `piece avec les bites`, « Plan de face » n'est pas le plan de la poutre : prendre le parent d'Esquisse3 (« Plan de dessus ») et convertir les points par `ModelToSketchTransform`.
-       - `FeatureCut4` ne réussit qu'avec (Sd = true, Dir selon la pièce, à travers tout 2 sens) ; `Flip` = côté de coupe, pas le sens.
-       - `AddComponent5` sur une pièce Toolbox ignore la configuration demandée : fixer ensuite `Component2.ReferencedConfiguration`.
-       - **Ne pas relancer `solidworks/robot_v3.ps1`** : historique ; il effacerait le nouveau support, dont le nom commence par « support capteur ».
-     - STL : `02_Impression_3D/Robot (chassis)/` (poutre, support) ; les 12 STL du bras sont identiques à `bras_50cm/pieces`, toutes étanches.
-     - **Pas fait** : rien d'imprimé, programme ESP32 sans les 3 capteurs avant (broches à choisir), PDF non mis à jour pour ces changements. Le robot dépasse 200 mm en x (batteries modélisées à x −14…6, roues avant à 218) : signalé, rien changé.
-   - **08/11 (fait, demande de l'utilisateur) : direction MG996R, 2e roulement, PDF.** PDF à jour (17 pages, ancien modèle : `source/anciennes versions/modele_06-11.html`, à modifier désormais directement). `Assemblage1v2` : 183 contraintes, 0 erreur, 119 composants.
-     Pièces : `bras_50cm/robot/direction.py` (repère de l'assemblage, insérées à l'origine) : `support MG996R direction`, `cuve direction`, `entretoise direction`, `liaison MG996R tige` (`ICAM/Pieces tipe`, STL dans `02_Impression_3D/Robot (chassis)`). Anciens support et liaison gardés mais retirés de l'assemblage. Bâti : 1 trou neuf Ø3,5 en (18,26 ; 512,72), fonction « Trou cuve direction ». Archives : `3i_08-11 ...`, `ICAM/Pieces tipe/anciennes versions 08-11`.
-     Servo : sortie vers le bas, axe (37,26 ; 512,72), boîtier vers +x ; `Y_PAL` = 560 (face du palonnier). Il utilise les fichiers `Servo MG996R` et `arm01` de `1_ASSEMBLAGE_FINAL` (noms déjà chargés par le bras : un autre chemin serait ignoré). `direction_sw.ps1` : **ne pas relancer** (historique), `direction_sw2.ps1` = réimport des 4 pièces et contrôle.
-     Trouvé : poussée de la roue reprise seulement par la goupille/le servo (corrigé : entretoise sur la bague intérieure, levre en haut de la cuve) ; goupille du modèle d'origine 3,6 mm au-dessus du trou de la tige (549,48) ; tige Ø8 seulement au-dessus de y = 514,6 (carré + évasement jusqu'à 510 puis 514,6), d'où 15 mm entre roulements (22,7 avec une tige refaite). Rotation de la tige libre dans l'assemblage (rien ne la fixe). Résistance non calculée.
-     Budget (prix du PDF, l'Excel n'est plus dans Téléchargements) : 62 + 3 capteurs (6) + MG996R direction (10) = **78/60 hors ESP32**, 75 en rendant le 28BYJ ; le servo de direction n'apparaît pas dans la liste du groupe (si c'était un MG90 déjà compté : 74/71). L'utilisateur doit arbitrer.
-     Reste : impression, broches ESP32 des 3 capteurs de la 2e rangée, montage, alimentation séparée.
-   - **08/11 après-midi (fait, demande de l'utilisateur) : capteurs à 13 mm, version finale rangée, STL regroupés.**
-     Largeur de ligne : **19 mm**, rayon mini 200, lignes voisines 100 mm (`ICAM/PT I2/TIPE/Règlement Challenge 2026-2027.pdf`, p. 4 ; matériel : même dossier). Écart retenu 13 mm dans les 2 rangées (≈ demi-ligne + demi-tache). Modèle : `bras_50cm/robot/etude_ecartement_capteurs.py` (optique TCRT5000 d'après sa fiche + robot simulé, essieu fixe x 177,26, roue directrice x 37,26), `etude2.py`, `etude3.py`. Simulation : 33 mm aucun réglage ne suit ; 13 mm : 20 cm/s RMS 2,8 mm, 30 cm/s RMS 6,7 mm, 40 cm/s échec. **Rangée avant à 7 mm de l'essieu : aucun réglage ne suit (à ne pas refaire), il faut garder l'avance.**
-     Support `bras_50cm/robot/support_capteurs.py` (ancien : `anciennes_versions/08-11_capteurs_33mm`) : latéraux cartes en travers vers l'extérieur ; avant latéraux x 205,05, central x 190,55 ; arrière les 3 à x 118,8 (descendus de 3 mm) ; 86,25 mm entre rangées ; 32 g. Poutre : encoche 1,46 mm, fonction « Encoche carte capteur ». Hauteur au sol estimée 11–12 mm ; dans le modèle les roues avant touchent 5,4 mm plus haut que les arrière (y 448,20 contre 442,81).
-     **Rangement : `01_SolidWorks/1_VERSION_FINALE (a ouvrir)`** (Pack and Go puis `ReplaceReferencedDocument`) : `Assemblage1v2.SLDASM`, `Bras 50cm.SLDASM`, `Pieces bras`, `Pieces robot`, `Visserie`, `Documents`. Robot 183 contraintes, bras 99, 0 erreur, 0 fichier manquant, ancienne version absente. `1_ASSEMBLAGE_FINAL` et l'`Assemblage1v2` du Bureau sont dans `3_Anciennes versions/3k_...` ; les chemins `1_ASSEMBLAGE_FINAL` cités plus haut dans ce fichier sont d'avant ce rangement. `ICAM/Pieces tipe` reste en place mais la finale ne l'utilise plus. `SetDocumentSaveToNames` est refusé par Pack and Go (d'où le classement ensuite). `assembler.ps1`/`generer_assemblage_sw.py` régénèrent un bras séparé : à refaire ensuite dans la finale. Scripts : `bras_50cm/solidworks/capteurs_sw.ps1` (**ne pas relancer**), `packgo.ps1`, `classer.ps1`, `archiver.ps1`.
-     STL : 27, tous à plat dans `02_Impression_3D` (plus de `Robot (chassis)`), comparés en volume à la finale (< 0,5 %, tige 1,3 % de facettage), étanches. PDF mis à jour (chapitres 3, 7, 12 selon le modèle). Rien d'imprimé.
-   - À vérifier : servos alimentés par le 5 V du L298N d'après le manuel (probablement trop faible) ; `socle.SLDPRT` modifié le 01/11 alors que `socle.stl` date du 30/10.
-7. **Outils installés le 07/11, à la demande de l'utilisateur** (Windows seulement, rien dans WSL) : Python 3.14.10 (`winget`, compte utilisateur) et Graphify 0.9.103 (`uv tool install graphifyy`, `graphify install`, `graphify claude install` ; guide Notion de Dimitri @malinx.ia).
-   - Choix de l'utilisateur : **carte du code seul** (`graphify extract . --code-only`, puis `graphify cluster-only .`), 0 token. Dans `graphify-out/` : 828 nœuds, 1 993 liens, 52 communautés. Ni images, ni PDF, ni documents, ni fichiers SolidWorks/STEP/STL.
-   - La carte porte sur **les copies du Bureau, pas sur le code de référence dans WSL** (`~/ros2_ws/src/mon_bras_robot/`), et inclut des doublons (`3_Anciennes versions`). Pour une question sur le code actuel, vérifier le fichier WSL.
-   - La section `## graphify` ci-dessous et `.claude/settings.json` (hooks) n'existent que côté Bureau : la copie WSL de ce fichier n'a pas été mise à jour. Pas de `graphify hook install` : ce dossier n'est pas un dépôt git. Retrait : `graphify uninstall`.
-   - Node.js 26.13.0 installé le 07/11 (`winget`, Windows) pour FreeLLMAPI. **FreeLLMAPI 0.16.21 installé par l'utilisateur lui-même** (`.exe` non signé, donc non lancé par Claude), serveur sur `http://127.0.0.1:31415` (pas 3001), clé Google AI Studio ajoutée. Choix de l'utilisateur : **pas de `setup-claude`**, configuration de Claude Code inchangée ; session à part avec `npx.cmd freellmapi launch --url http://127.0.0.1:31415`, depuis son PowerShell (clé mise dans `$env:FREELLMAPI_API_KEY`), hors du dossier du bras. **Essai réussi le 07/11 à 21 h 10** dans `~\test-freellmapi` : `bonjour` a obtenu une réponse (modèle affiché « fusion », `claude` 2.1.319 installé par l'utilisateur). Ne jamais saisir ses clés.
-   - **Économie de tokens, demandée par l'utilisateur le 07/11** : règle générale dans `~/.claude/CLAUDE.md` (Graphify à chaque projet de code, délégation des tâches simples). Skill `~/.claude/skills/deleguer-freellmapi/` (`deleguer.py` appelle `http://127.0.0.1:31415/v1/chat/completions`, clé lue dans `~/.freellmapi_cle` ou `FREELLMAPI_API_KEY`, jamais affichée ; modèle `fusion` par défaut : le 07/11, `auto` a expiré 2 fois sur 2, `fusion` a réussi 2 fois sur 2, résumé d'un fichier de 8 Ko vérifié juste). `.graphifyignore` ajouté : carte réduite à 619 nœuds, sans les anciennes versions (ancienne carte de 828 nœuds remplacée).
-   - **ECC (07/11), choix de l'utilisateur : seulement deux agents**, `~/.claude/agents/planner.md` et `code-reviewer.md`, adaptés de `affaan-m/ECC` (commit d2ef268, MIT), raccourcis d'environ 70 %, sonnet, lancés **uniquement sur demande** de l'utilisateur (décision du 07/11, après une relecture à environ 59 000 tokens ; règle dans `~/.claude/CLAUDE.md`). ECC lui-même n'est pas installé (exécution de son installateur bloquée par l'application). Chargement à vérifier dans une nouvelle session : ils n'apparaissent pas dans celle qui les a créés.
-   - **Guide « Claude + Gemini : 3 Gaps » (07/11)** : skill `~/.claude/skills/gemini-medias/` (vidéo YouTube ou fichier de moins de 18 Mo, voix WAV ; clé dans `~/.gemini_cle`). Images non incluses : aucun modèle d'image gratuit dans l'API, l'abonnement Gemini Pro ne vaut que dans l'application et le site AI Studio. Testé le 07/11 : 7 modèles gratuits disponibles, analyse YouTube juste en 7,5 s, voix OK. Gemini renvoie tantôt du son brut, tantôt un WAV complet : les deux sont gérés. Relecture `code-reviewer` (environ 59 000 tokens) : 2 défauts élevés corrigés dans les deux scripts (réponse tronquée non signalée, fichiers UTF-16 ou binaires qui passaient le filtre de secrets), plus clé limitée à l'hôte local, redirections refusées et filtres élargis.
-   - **Piège (07/11) : l'application Claude est un paquet MSIX.** Ce que Claude écrit dans `%APPDATA%` depuis sa session atterrit en réalité dans `%LOCALAPPDATA%\Packages\AnthropicPBC.Claude_fnn82j28hfe8t\LocalCache\Roaming`, invisible des terminaux de l'utilisateur (`npm install -g` : `claude` introuvable chez lui, alors qu'il répond côté Claude). Les installations `winget` ne sont pas touchées. Un outil pour le terminal de l'utilisateur doit donc être installé **depuis son terminal**. Même chose pour `HKCU\Environment` : la session voit une copie isolée (une variable enregistrée par l'utilisateur n'y apparaît pas, et le PATH écrit par `uv tool update-shell` depuis la session n'a pas atteint le vrai registre) . Testé : même après un redémarrage de l'application, la variable n'arrive pas. Le skill de délégation lit donc la clé dans `~/.freellmapi_cle`, fichier créé par l'utilisateur, à ne jamais lire ni afficher.
+## Pièges à connaître à chaque session (détails : `HISTORIQUE.md` section 4)
+- WSL : `python3` = ROS 2 + PyTorch ; `~/venv_cao/bin/python` = CadQuery, trimesh, pymupdf. ROS : `source /opt/ros/humble/setup.bash && source ~/ros2_ws/install/setup.bash`.
+- PowerShell → WSL : écrire un script `.sh`/`.py` plutôt que `wsl -- bash -c "..."`. Chemins avec « é » : dans un `.ps1` encodé en UTF-8 avec BOM.
+- L'application Claude est un paquet MSIX : ce qu'elle installe dans `%APPDATA%` est invisible du terminal de l'utilisateur. Ses outils s'installent depuis son terminal.
+- SolidWorks : le fermer avant un script. Ne jamais relancer `robot_v3.ps1`, `direction_sw.ps1`, `capteurs_sw.ps1` (historiques).
+- `exporter_dossier.sh` et `exporter_esp32.py` écraseraient ou ne mettraient pas à jour `bras_robot` (nom `B1`) : à adapter avant usage.
 
 ## Dépôt GitHub et Graphify en ligne (depuis le 08/11)
-- Ce dossier est relié à `https://github.com/amauryvandenberghe/Bras-robos` (branche `main`). Graphify en ligne indexe ce dépôt GitHub, pas le dossier local : il ne voit que ce qui est poussé.
-- **Après chaque modification de fichiers dans ce dossier** : `git add -A`, `git commit -m "<résumé en français>"`, puis `git push`. Ne pas pousser de secrets (clés API) ; `graphify-out/` et les fichiers temporaires sont exclus par `.gitignore`.
-- Si Graphify en ligne n'a pas repris le dernier push, le relancer avec **Sync** sur la page Repositories de app.graphify.com.
-- Réglages du dépôt : `core.autocrlf=false`, `core.filemode=false` (fichiers enregistrés en 100755, ne pas « corriger »).
+- Ce dossier est relié à `https://github.com/amauryvandenberghe/Bras-robos` (branche `main`). Graphify en ligne (espace `amaury-s-workspace`) indexe le dépôt GitHub, pas le dossier local : il ne voit que ce qui est poussé. S'il n'a pas repris le dernier push : bouton **Sync** sur la page Repositories de app.graphify.com.
+- Ne pas pousser de secrets. `graphify-out/` et les fichiers temporaires sont exclus par `.gitignore`.
+- Réglages du dépôt : `core.autocrlf=false`, `core.filemode=false`, `core.hooksPath=.githooks` (fichiers enregistrés en 100755, ne pas « corriger »).
 
 ## graphify
 
