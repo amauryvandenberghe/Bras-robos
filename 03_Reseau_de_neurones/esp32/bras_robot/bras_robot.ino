@@ -35,13 +35,13 @@
 
 BluetoothSerial SerialBT;
 
-// ---- BROCHES (manuel technique) ----
-const int PIN_DIR = 18;
+// ---- BROCHES (cablage refait le 11/11, remplace le manuel technique) ----
+const int PIN_DIR = 17;
 const int PIN_ENA = 25;
-const int PIN_IN1 = 26;
-const int PIN_IN2 = 27;
+const int PIN_IN1 = 33;
+const int PIN_IN2 = 32;
 //                     base, epaule, coude, poignet, pince (sorties seulement : pas 34, 35, 36, 39)
-const int BROCHE[5] = {22, 17, 33, 21, 32};
+const int BROCHE[5] = {19, 18, 23, 22, 16};
 
 // ---- A REGLER SUR LE VRAI ROBOT ----
 // Chaque servo couvre la fenetre [BUTEE_BAS, BUTEE_HAUT] de son axe sur 180 degres.
