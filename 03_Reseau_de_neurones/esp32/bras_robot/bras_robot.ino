@@ -14,6 +14,8 @@
 //            puis revient seul en home (renvoie D au lacher, H a l'arrivee)
 //   V<n>A    recule a la vitesse n (0 a 255, l'application envoie au plus 126) ; V<n>B avance ; V0A ou V0B coupe le moteur
 //   O<n>     direction : angle absolu du servo, de 0 a 180 (curseur de l'application), 90 = centre (R<n> accepte aussi)
+//   N        suivi de ligne : attend qu'un capteur voie la ligne noire, puis avance et la suit sans s'arreter.
+//            S, V ou O l'arretent (la conduite a la main reprend). Lancer une prise (1, 2, 3) l'arrete aussi ; H non.
 //   V ou O pendant une prise annule la prise.
 //
 // COMMANDES USB EN PLUS (115 200 bauds, une ligne par commande, fin de ligne "New Line"), positions en metres,
@@ -23,6 +25,7 @@
 //   R           position home (seul sur la ligne)
 //   J i d       reglage : bouge le servo i (0 base, 1 epaule, 2 coude, 3 poignet, 4 pince) de d degres, puis H pour revenir
 //   T           test : depuis le home, la base tourne de +-30 degres puis l'epaule de 15, tous les servos tenus
+//   L           valeurs brutes des 6 capteurs de ligne (0 a 4095)
 //   P           diagnostic : temps depuis le demarrage, cause du dernier demarrage, impulsions mesurees sur les broches
 //
 // MESSAGES RENVOYES
@@ -61,6 +64,24 @@ const unsigned long PERIODE_MS = 100;           // 10 decisions par seconde, com
 const unsigned long ECART_ATTACHE_MS = 500;     // un servo apres l'autre, pour limiter l'appel de courant
 const unsigned long PAUSE_DEPOT_MS = 500;       // la balle tombe dans le receptacle
 const unsigned long DELAI_TRAME_MS = 200;       // une trame V incomplete est oubliee apres ce delai
+// ---- SUIVI DE LIGNE (commande N) : 6 capteurs TCRT5000 analogiques, ecart 13 mm (voir support_capteurs.py) ----
+// Gauche / droite vus depuis l'arriere du robot, en regardant vers l'avant (la direction est a l'arriere).
+const int CAPT_AV[3] = {27, 15, 34};            // avant gauche, avant milieu, avant droite
+const int CAPT_AR[3] = {26, 14, 35};            // arriere gauche, arriere milieu, arriere droite
+const bool NOIR_ELEVE = true;                   // TCRT5000 : valeur haute sur le noir. A inverser si le suivi fuit la ligne
+const int VITESSE_SUIVI = 130;                  // 0 a 255, a regler sur la piste (simulation : 20 cm/s bien, 40 cm/s decroche)
+const int SIGNE_BRAQUAGE = 1;                   // -1 si le robot tourne du mauvais cote
+const float BRAQUAGE_MAX_DEG = 45.0f;           // angle maxi du servo de direction autour de 90
+const float ECART_CAPTEURS_MM = 13.0f;
+const float K_SUIVI = 1.3e-3f;                  // courbure (1/mm) par mm d'ecart, regle en simulation (etude3.py, 20 cm/s)
+const float EMPATTEMENT_MM = 140.0f;
+const int CONTRASTE_MIN = 300;                  // ecart noir / blanc minimal (sur 4095) pour croire a une ligne
+const unsigned long PERIODE_SUIVI_MS = 10;
+enum Suivi { SUIVI_OFF, SUIVI_ATTENTE, SUIVI_ROULE };
+Suivi suivi = SUIVI_OFF;
+int capt_min[6], capt_max[6];
+float dernier_ecart = 0;
+unsigned long prochain_suivi = 0, prochain_affichage = 0;
 const unsigned long FIN_ANGLE_MS = 30;          // R<n> n'a pas de lettre de fin : applique apres ce silence
 const uint32_t FREQ_MOTEUR_HZ = 1000;
 const float Z_BALLE = 0.0148f;                  // centre d'une balle posee sur la reglette
@@ -157,10 +178,94 @@ static void commander_direction(int angle) {
 }
 
 static void arreter_conduite() {
+    suivi = SUIVI_OFF;
     commander_moteur(0, 'A');
     ecrire_us(servo_dir, vers_us(CENTRE_DIR));
 }
 
+// ---- SUIVI DE LIGNE ----
+static void lire_capteurs(int brut[6]) {
+    for (int i = 0; i < 3; i++) {
+        brut[i] = (analogRead(CAPT_AV[i]) + analogRead(CAPT_AV[i])) / 2;
+        brut[3 + i] = (analogRead(CAPT_AR[i]) + analogRead(CAPT_AR[i])) / 2;
+    }
+}
+
+static void lancer_suivi() {
+    oublier_mission();
+    if (mode == RESEAU || mode == PAUSE_DEPOT) mode = LIBRE;
+    commander_moteur(0, 'B');
+    ecrire_us(servo_dir, vers_us(CENTRE_DIR));
+    int brut[6];
+    lire_capteurs(brut);
+    for (int i = 0; i < 6; i++) capt_min[i] = capt_max[i] = brut[i];
+    suivi = SUIVI_ATTENTE;
+    prochain_suivi = millis();
+    signaler("N suivi de ligne : attente de la ligne");
+}
+
+// Noirceur 0 (blanc) a 1 (noir) de chaque capteur. Etalonnage continu : chaque capteur garde le plus clair et le plus
+// sombre qu'il a vus ; tant qu'il n'a pas vu les deux, on prend le blanc et le noir vus par les 6 capteurs ensemble.
+static bool noirceurs(const int brut[6], float n[6]) {
+    int gmin = 4095, gmax = 0;
+    for (int i = 0; i < 6; i++) {
+        if (brut[i] < capt_min[i]) capt_min[i] = brut[i];
+        if (brut[i] > capt_max[i]) capt_max[i] = brut[i];
+        if (capt_min[i] < gmin) gmin = capt_min[i];
+        if (capt_max[i] > gmax) gmax = capt_max[i];
+    }
+    if (gmax - gmin < CONTRASTE_MIN) return false;  // tout est de la meme couleur : pas de ligne en vue
+    for (int i = 0; i < 6; i++) {
+        bool propre = capt_max[i] - capt_min[i] >= CONTRASTE_MIN;
+        float bas = propre ? capt_min[i] : gmin, haut = propre ? capt_max[i] : gmax;
+        float x = (brut[i] - bas) / (haut - bas);
+        x = x < 0 ? 0 : (x > 1 ? 1 : x);
+        n[i] = NOIR_ELEVE ? x : 1.0f - x;
+    }
+    return true;
+}
+
+// Position de la ligne sous une rangee (mm, > 0 = ligne a droite), par barycentre ; faux si la rangee ne la voit pas.
+static bool position_ligne(const float *n, float &e) {
+    float t = n[0] + n[1] + n[2];
+    if (t < 0.5f) return false;
+    e = ECART_CAPTEURS_MM * (n[2] - n[0]) / t;
+    return true;
+}
+
+static void pas_suivi() {
+    int brut[6];
+    float n[6], e_av = 0, e_ar = 0;
+    lire_capteurs(brut);
+    bool contraste = noirceurs(brut, n);
+    bool vu_av = contraste && position_ligne(n, e_av);
+    bool vu_ar = contraste && position_ligne(n + 3, e_ar);
+    if (suivi == SUIVI_ATTENTE) {
+        if (!vu_av && !vu_ar) return;
+        suivi = SUIVI_ROULE;
+        signaler("N ligne trouvee : on avance");
+    }
+    float e;
+    if (vu_av) e = e_av;
+    else if (vu_ar) e = e_ar;                                    // l'avant a decroche : la rangee arriere guide
+    else e = (dernier_ecart >= 0 ? 1.5f : -1.5f) * ECART_CAPTEURS_MM;  // perdue : braquer du cote ou on l'a vue
+    if (vu_av || vu_ar) dernier_ecart = e;
+    // Ligne a droite (e > 0) : tourner a droite, courbure negative. Roue directrice a l'arriere : SIGNE_BRAQUAGE.
+    float braquage = atanf(-K_SUIVI * e * EMPATTEMENT_MM) * 180.0f / (float)M_PI;
+    braquage = constrain(braquage, -BRAQUAGE_MAX_DEG, BRAQUAGE_MAX_DEG);
+    commander_direction((int)lroundf(CENTRE_DIR + SIGNE_BRAQUAGE * braquage));
+    commander_moteur(VITESSE_SUIVI, 'B');                        // ne s'arrete jamais : seul S (ou V, O) l'arrete
+    if ((long)(millis() - prochain_affichage) >= 0) {
+        prochain_affichage = millis() + 200;
+        Serial.printf("N av %.1f mm (%d) ar %.1f mm (%d) braquage %.0f\n", e_av, vu_av, e_ar, vu_ar, braquage);
+    }
+}
+
+static void afficher_capteurs() {
+    int brut[6];
+    lire_capteurs(brut);
+    Serial.printf("L avant G %d M %d D %d | arriere G %d M %d D %d\n", brut[0], brut[1], brut[2], brut[3], brut[4], brut[5]);
+}
 static void oublier_mission() {
     balle_vue = cible_connue = serree = 0;
     balle_tenue = false;
@@ -265,6 +370,7 @@ static void annuler_prise() {  // reprendre la conduite annule la prise
 }
 
 static void appliquer_angle(int angle) {
+    suivi = SUIVI_OFF;  // la conduite a la main reprend la main sur le suivi de ligne
     commander_direction(angle);
     annuler_prise();
 }
@@ -324,9 +430,13 @@ static void traiter_octet(char c) {
         case 'A':
         case 'B':
             if (en_cours == 'V' && n >= 0) {
+                suivi = SUIVI_OFF;
                 commander_moteur(n, c);
                 annuler_prise();
             }
+            break;
+        case 'N':
+            lancer_suivi();
             break;
         default:  // par exemple le L envoye par l'application a la connexion
             break;
@@ -367,6 +477,8 @@ static void traiter_ligne_usb(char *ligne) {
         demarrer_si_pret();
     } else if (ligne[0] == 'R' && ligne[1] == 0) {
         lancer_home();
+    } else if (ligne[0] == 'L' && ligne[1] == 0) {
+        afficher_capteurs();
     } else if (ligne[0] == 'T' && ligne[1] == 0) {
         lancer_test();
     } else if (ligne[0] == 'P' && ligne[1] == 0) {
@@ -511,6 +623,11 @@ void loop() {
         Serial.println("Bluetooth perdu : robot arrete");
     }
     client_connecte = connecte;
+
+    if (suivi != SUIVI_OFF && (long)(millis() - prochain_suivi) >= 0) {
+        prochain_suivi = millis() + PERIODE_SUIVI_MS;
+        pas_suivi();
+    }
 
     if (mode == LIBRE || (long)(millis() - prochain) < 0) return;
     prochain = millis() + PERIODE_MS;
