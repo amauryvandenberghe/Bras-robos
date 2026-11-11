@@ -5,13 +5,15 @@
 // Bibliotheque : ESP32Servo. Dans ce dossier : bras_robot.ino, cerveau.cpp, cerveau.h, reseau_poids.h.
 // Cablage : voir le manuel technique. L'ESP32 a sa propre alimentation, masses reliees.
 //
-// COMMANDES BLUETOOTH (application) - aussi acceptees au moniteur serie USB
-//   S        arret : propulsion coupee, direction au centre, le bras s'immobilise sur place (sans se relacher)
+// COMMANDES BLUETOOTH (application MIT App Inventor, nom Bluetooth "Bras_ESP32_Robot") - aussi acceptees en USB
+//   L        envoye par l'application a la connexion : ignore
+//   S        arret (bouton S, ou balle de conduite relachee) : propulsion coupee, direction au centre,
+//            le bras s'immobilise sur place (sans se relacher) et une prise en cours est abandonnee
 //   H        position home. Si le bras y est deja : rouvre seulement la pince
-//   1 2      demo : prend la balle 1 ou 2 et la depose dans le panier (positions : DEMO_BALLES, DEMO_PANIER)
-//   V<n>A    recule a la vitesse n (0 a 255) ; V<n>B avance ; V0A ou V0B coupe le moteur seul
-//   R<n>     direction : angle absolu du servo, de 0 a 180 (curseur de l'application), 90 = centre
-//   V ou R pendant une prise annule la prise.
+//   1 2      demo : prend la balle 1 ou 2 et la depose dans le panier (positions : DEMO_BALLES, DEMO_PANIER) ; 3 ignore
+//   V<n>A    recule a la vitesse n (0 a 255, l'application envoie au plus 126) ; V<n>B avance ; V0A ou V0B coupe le moteur
+//   O<n>     direction : angle absolu du servo, de 0 a 180 (curseur de l'application), 90 = centre (R<n> accepte aussi)
+//   V ou O pendant une prise annule la prise.
 //
 // COMMANDES USB EN PLUS (115 200 bauds, une ligne par commande, fin de ligne "New Line"), positions en metres,
 // repere du robot : origine sur l'axe du bras au sol, x vers l'avant, z vers le haut
@@ -250,6 +252,7 @@ static void diagnostic() {
 static void traiter_octet(char c) {
     c = toupper(c);
     if (c == '\r' || c == '\n' || c == ' ') return;
+    if (c == 'O') c = 'R';  // l'application (curseur "Ascenseur1") envoie O<n> pour la direction
 
     if (c >= '0' && c <= '9') {
         if (trame) {
