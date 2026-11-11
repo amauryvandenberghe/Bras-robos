@@ -10,8 +10,8 @@
 //   S        arret (bouton S, ou balle de conduite relachee) : propulsion coupee, direction au centre,
 //            le bras s'immobilise sur place (sans se relacher) et une prise en cours est abandonnee
 //   H        position home. Si le bras y est deja : rouvre seulement la pince
-//   1 2      demo : prend la balle 1 ou 2 et la depose dans le panier (positions : DEMO_BALLES, DEMO_PANIER)
-//   3        test : depuis le home, la base tourne de +-30 degres puis l'epaule de 15, tous les servos tenus
+//   1 2 3    depuis le home : prend la balle 1, 2 ou 3 (DEMO_BALLES), la depose dans le panier (DEMO_PANIER),
+//            puis revient seul en home (renvoie D au lacher, H a l'arrivee)
 //   V<n>A    recule a la vitesse n (0 a 255, l'application envoie au plus 126) ; V<n>B avance ; V0A ou V0B coupe le moteur
 //   O<n>     direction : angle absolu du servo, de 0 a 180 (curseur de l'application), 90 = centre (R<n> accepte aussi)
 //   V ou O pendant une prise annule la prise.
@@ -22,6 +22,7 @@
 //   B x y z     balle visee. Le reseau demarre quand C et B sont connus
 //   R           position home (seul sur la ligne)
 //   J i d       reglage : bouge le servo i (0 base, 1 epaule, 2 coude, 3 poignet, 4 pince) de d degres, puis H pour revenir
+//   T           test : depuis le home, la base tourne de +-30 degres puis l'epaule de 15, tous les servos tenus
 //   P           diagnostic : temps depuis le demarrage, cause du dernier demarrage, impulsions mesurees sur les broches
 //
 // MESSAGES RENVOYES
@@ -70,7 +71,7 @@ const float R_BALLE_TENUE = 0.02f;              // pince fermee a moins de 2 cm 
 
 // Positions de la demo, en metres (x vers l'avant, y vers la gauche, depuis l'axe du bras). Tirees au hasard puis
 // retenues apres 48 essais reussis sur 48 au simulateur, avec jusqu'a 3 mm d'erreur de pose.
-const float DEMO_BALLES[2][2] = {{0.2045f, 0.1602f}, {0.2327f, 0.0547f}};
+const float DEMO_BALLES[3][2] = {{0.2045f, 0.1602f}, {0.2327f, 0.0547f}, {0.2600f, -0.0500f}};  // balle 3 : 12/12 (11/11)
 const float DEMO_PANIER[3] = {0.1204f, -0.2492f, 0.18f};  // z = hauteur de lacher apprise pour un petit receptacle
 
 // Memoire des consignes du reseau : le retour au repos refait ce chemin a l'envers, car un retour direct
@@ -214,7 +215,7 @@ static void demarrer_si_pret() {
     }
 }
 
-static void choisir_demo(int numero) {  // numero : 1 ou 2
+static void choisir_demo(int numero) {  // numero : 1, 2 ou 3
     balle[0] = DEMO_BALLES[numero - 1][0];
     balle[1] = DEMO_BALLES[numero - 1][1];
     balle[2] = Z_BALLE;
@@ -223,7 +224,7 @@ static void choisir_demo(int numero) {  // numero : 1 ou 2
     balle_vue = cible_connue = 1;
 }
 
-// ---- TEST DE LA BASE ET DE L'EPAULE (bouton 3), tous les servos du bras tenus ----
+// ---- TEST DE LA BASE ET DE L'EPAULE (T en USB), tous les servos du bras tenus ----
 // Base : +30, -30, retour (10 degres/s) ; epaule : +15 puis retour ; puis retour en home.
 // Si la base et l'epaule bougent seules (test_servos) mais pas ici : l'alimentation ne tient pas 5 servos a la fois.
 static void lancer_test() {
@@ -295,11 +296,9 @@ static void traiter_octet(char c) {
                 nb_chiffres++;
                 debut_trame = millis();
             }
-        } else if ((c == '1' || c == '2') && mode == LIBRE) {
+        } else if (c >= '1' && c <= '3' && mode == LIBRE) {
             choisir_demo(c - '0');
             demarrer_si_pret();
-        } else if (c == '3') {
-            lancer_test();
         }
         return;
     }
@@ -368,6 +367,8 @@ static void traiter_ligne_usb(char *ligne) {
         demarrer_si_pret();
     } else if (ligne[0] == 'R' && ligne[1] == 0) {
         lancer_home();
+    } else if (ligne[0] == 'T' && ligne[1] == 0) {
+        lancer_test();
     } else if (ligne[0] == 'P' && ligne[1] == 0) {
         diagnostic();
     } else {
