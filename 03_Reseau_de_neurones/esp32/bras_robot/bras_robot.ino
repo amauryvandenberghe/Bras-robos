@@ -10,7 +10,8 @@
 //   S        arret (bouton S, ou balle de conduite relachee) : propulsion coupee, direction au centre,
 //            le bras s'immobilise sur place (sans se relacher) et une prise en cours est abandonnee
 //   H        position home. Si le bras y est deja : rouvre seulement la pince
-//   1 2      demo : prend la balle 1 ou 2 et la depose dans le panier (positions : DEMO_BALLES, DEMO_PANIER) ; 3 ignore
+//   1 2      demo : prend la balle 1 ou 2 et la depose dans le panier (positions : DEMO_BALLES, DEMO_PANIER)
+//   3        test : depuis le home, la base tourne de +-30 degres puis l'epaule de 15, tous les servos tenus
 //   V<n>A    recule a la vitesse n (0 a 255, l'application envoie au plus 126) ; V<n>B avance ; V0A ou V0B coupe le moteur
 //   O<n>     direction : angle absolu du servo, de 0 a 180 (curseur de l'application), 90 = centre (R<n> accepte aussi)
 //   V ou O pendant une prise annule la prise.
@@ -78,7 +79,8 @@ const int N_HISTO = 300;                        // 30 s de consignes
 float histo[N_HISTO][4];
 int n_histo = 0, debut_histo = 0;
 
-enum Mode { LIBRE, ATTACHE, RESEAU, PAUSE_DEPOT, REBOURS, REPLI_BRAS, REPLI_BASE };
+enum Mode { LIBRE, ATTACHE, RESEAU, PAUSE_DEPOT, REBOURS, REPLI_BRAS, REPLI_BASE, TEST_BRAS };
+int test_pas = 0;               // avancement du test de la base et de l'epaule (bouton 3)
 Mode mode = LIBRE;
 bool au_home = false;           // bras alimente et dans la posture de repos
 bool mission_attente = false;   // 1, 2 ou 3 demande avant le premier home : le reseau part apres l'attache
@@ -221,6 +223,38 @@ static void choisir_demo(int numero) {  // numero : 1 ou 2
     balle_vue = cible_connue = 1;
 }
 
+// ---- TEST DE LA BASE ET DE L'EPAULE (bouton 3), tous les servos du bras tenus ----
+// Base : +30, -30, retour (10 degres/s) ; epaule : +15 puis retour ; puis retour en home.
+// Si la base et l'epaule bougent seules (test_servos) mais pas ici : l'alimentation ne tient pas 5 servos a la fois.
+static void lancer_test() {
+    if (mode != LIBRE || !bras_attache()) {
+        signaler("3 refuse : bras pas encore en home ou en mouvement");
+        return;
+    }
+    arreter_conduite();
+    oublier_mission();
+    test_pas = 0;
+    au_home = false;
+    n_histo = debut_histo = 0;
+    mode = TEST_BRAS;
+    prochain = millis();
+    signaler("T base +-30 puis epaule +15");
+}
+
+static void pas_test() {
+    const float D = (float)M_PI / 180.0f;
+    int k = test_pas++;
+    int i = (k < 120) ? 0 : 1;
+    float d;
+    if (k < 30) d = D; else if (k < 90) d = -D; else if (k < 120) d = D;
+    else if (k < 135) d = D; else if (k < 150) d = -D;
+    else { mode = REPLI_BRAS; return; }  // retour en home, qui renvoie H
+    float q = etat.q[i] + d;
+    etat.q[i] = q < BUTEE_BAS[i] ? BUTEE_BAS[i] : (q > BUTEE_HAUT[i] ? BUTEE_HAUT[i] : q);
+    commander();
+    if (k % 10 == 0) Serial.printf("T base %.1f epaule %.1f degres servo\n", vers_degres(0, etat.q[0]), vers_degres(1, etat.q[1]));
+}
+
 // ---- LECTURE DES COMMANDES ----
 static void annuler_prise() {  // reprendre la conduite annule la prise
     if (mode == RESEAU || mode == PAUSE_DEPOT) {
@@ -264,6 +298,8 @@ static void traiter_octet(char c) {
         } else if ((c == '1' || c == '2') && mode == LIBRE) {
             choisir_demo(c - '0');
             demarrer_si_pret();
+        } else if (c == '3') {
+            lancer_test();
         }
         return;
     }
@@ -490,6 +526,9 @@ void loop() {
             break;
         case REBOURS:
             pas_rebours();
+            break;
+        case TEST_BRAS:
+            pas_test();
             break;
         case REPLI_BRAS:
             if (pas_repli(1, 3)) mode = REPLI_BASE;
