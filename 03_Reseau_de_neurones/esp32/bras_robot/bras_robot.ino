@@ -10,8 +10,8 @@
 //   S        arret (bouton S, ou balle de conduite relachee) : propulsion coupee, direction au centre,
 //            le bras s'immobilise sur place (sans se relacher) et une prise en cours est abandonnee
 //   H        position home. Si le bras y est deja : rouvre seulement la pince
-//   1 2 3    depuis le home : prend la balle 1, 2 ou 3 (DEMO_BALLES), la depose dans le panier (DEMO_PANIER),
-//            puis revient seul en home (renvoie D au lacher, H a l'arrivee)
+//   1 2 3    depuis le home : sequence mimee SANS le reseau (balle a gauche, devant, a droite) : descend, ferme la pince,
+//            remonte, lache en haut, revient en home (renvoie D au lacher, H a l'arrivee)
 //   V<n>A    recule a la vitesse n (0 a 255, l'application envoie au plus 126) ; V<n>B avance ; V0A ou V0B coupe le moteur
 //   O<n>     direction : angle absolu du servo, de 0 a 180 (curseur de l'application), 90 = centre (R<n> accepte aussi)
 //   N        suivi de ligne : attend qu'un capteur voie la ligne noire, puis avance et la suit sans s'arreter.
@@ -24,6 +24,7 @@
 //   B x y z     balle visee. Le reseau demarre quand C et B sont connus
 //   R           position home (seul sur la ligne)
 //   J i d       reglage : bouge le servo i (0 base, 1 epaule, 2 coude, 3 poignet, 4 pince) de d degres, puis H pour revenir
+//   I1 I2 I3    prise par le reseau de neurones de la balle 1, 2 ou 3 (DEMO_BALLES -> DEMO_PANIER)
 //   T           test : depuis le home, la base tourne de +-30 degres puis l'epaule de 15, tous les servos tenus
 //   L           valeurs brutes des 6 capteurs de ligne (0 a 4095)
 //   P           diagnostic : temps depuis le demarrage, cause du dernier demarrage, impulsions mesurees sur les broches
@@ -70,6 +71,8 @@ const unsigned long DELAI_TRAME_MS = 200;       // une trame V incomplete est ou
 // Gauche / droite vus depuis l'arriere du robot, en regardant vers l'avant (la direction est a l'arriere).
 const int CAPT_AV[3] = {27, 15, 34};            // avant gauche, avant milieu, avant droite
 const int CAPT_AR[3] = {26, 14, 35};            // arriere gauche, arriere milieu, arriere droite
+const bool UTILISER_ARRIERE = false;            // 12/11 : seulement les 3 capteurs avant (sous le bras), l'arriere est ignore
+const int N_CAPT = UTILISER_ARRIERE ? 6 : 3;
 const bool NOIR_ELEVE = true;                   // TCRT5000 : valeur haute sur le noir. A inverser si le suivi fuit la ligne
 const int VITESSE_SUIVI = 115;                  // 0 a 255, a regler sur la piste (12/11 : 130 trop vite, on commence plus doucement)
 const char SENS_AVANCE = 'A';                   // essai du 12/11 : avec 'B' le robot partait en arriere (l'application avance avec A)
@@ -106,7 +109,26 @@ const int N_HISTO = 300;                        // 30 s de consignes
 float histo[N_HISTO][4];
 int n_histo = 0, debut_histo = 0;
 
-enum Mode { LIBRE, ATTACHE, RESEAU, PAUSE_DEPOT, REBOURS, REPLI_BRAS, REPLI_BASE, TEST_BRAS };
+enum Mode { LIBRE, ATTACHE, RESEAU, PAUSE_DEPOT, REBOURS, REPLI_BRAS, REPLI_BASE, TEST_BRAS, SEQUENCE };
+
+// ---- SEQUENCE MIMEE (boutons 1, 2, 3) : sans le reseau, postures fixes calculees par IK (sequence_mime.py, 12/11) ----
+// Balle supposee a 22 cm de l'axe du bras : 1 = 35 degres a gauche, 2 = droit devant, 3 = 35 degres a droite.
+// Au-dessus (pince a 12 cm du sol), descente a 3,5 cm, fermeture, remontee a 15 cm, lacher en haut (pince a ~46 cm),
+// retour au repos. Trajets verifies : jamais sous 3,5 cm, jamais dans le robot.
+const float SEQ_LACET[3] = {0.6108f, 0.0f, -0.6109f};
+const float SEQ_POSE[4][3] = {      // epaule, coude, poignet
+    {0.8409f, 2.1856f, 0.2410f},    // 0 au-dessus de la balle
+    {1.2587f, 2.1881f, -0.1799f},   // 1 en bas
+    {0.7005f, 2.1196f, 0.4461f},    // 2 remontee
+    {-0.1000f, 1.2000f, 1.0000f}};  // 3 lacher en haut (poignet <= 1,2 rad : au-dela le poignet inverse est en butee)
+const int SEQ_N = 7;
+const int SEQ_ETAPE_POSE[SEQ_N] = {0, 1, 1, 2, 3, 3, -1};   // -1 = repos
+const bool SEQ_ETAPE_OUVERT[SEQ_N] = {true, true, false, false, false, true, true};
+const unsigned long SEQ_ETAPE_MS[SEQ_N] = {2500, 1500, 1000, 1500, 2500, 1000, 3000};
+const unsigned long PERIODE_SEQ_MS = 20;
+int seq_lacet = 1, seq_etape = 0;
+unsigned long seq_debut = 0, prochain_seq = 0;
+float seq_q0[4], seq_servo0;
 int test_pas = 0;               // avancement du test de la base et de l'epaule (bouton 3)
 Mode mode = LIBRE;
 bool au_home = false;           // bras alimente et dans la posture de repos
@@ -203,7 +225,7 @@ static void lancer_suivi() {
     ecrire_us(servo_dir, vers_us(CENTRE_DIR));
     int brut[6];
     lire_capteurs(brut);
-    for (int i = 0; i < 6; i++) capt_min[i] = capt_max[i] = brut[i];
+    for (int i = 0; i < N_CAPT; i++) capt_min[i] = capt_max[i] = brut[i];
     suivi = SUIVI_ATTENTE;
     dernier_ecart = ecart_filtre = braquage_actuel = 0;
     prochain_suivi = millis();
@@ -214,14 +236,14 @@ static void lancer_suivi() {
 // sombre qu'il a vus ; tant qu'il n'a pas vu les deux, on prend le blanc et le noir vus par les 6 capteurs ensemble.
 static bool noirceurs(const int brut[6], float n[6]) {
     int gmin = 4095, gmax = 0;
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < N_CAPT; i++) {
         if (brut[i] < capt_min[i]) capt_min[i] = brut[i];
         if (brut[i] > capt_max[i]) capt_max[i] = brut[i];
         if (capt_min[i] < gmin) gmin = capt_min[i];
         if (capt_max[i] > gmax) gmax = capt_max[i];
     }
     if (gmax - gmin < CONTRASTE_MIN) return false;  // tout est de la meme couleur : pas de ligne en vue
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < N_CAPT; i++) {
         bool propre = capt_max[i] - capt_min[i] >= CONTRASTE_MIN;
         float bas = propre ? capt_min[i] : gmin, haut = propre ? capt_max[i] : gmax;
         float x = (brut[i] - bas) / (haut - bas);
@@ -245,7 +267,7 @@ static void pas_suivi() {
     lire_capteurs(brut);
     bool contraste = noirceurs(brut, n);
     bool vu_av = contraste && position_ligne(n, e_av);
-    bool vu_ar = contraste && position_ligne(n + 3, e_ar);
+    bool vu_ar = UTILISER_ARRIERE && contraste && position_ligne(n + 3, e_ar);
     if (suivi == SUIVI_ATTENTE) {
         if (!vu_av && !vu_ar) return;
         suivi = SUIVI_ROULE;
@@ -338,6 +360,56 @@ static void choisir_demo(int numero) {  // numero : 1, 2 ou 3
     balle_vue = cible_connue = 1;
 }
 
+// ---- SEQUENCE MIMEE ----
+static void lancer_sequence(int k) {
+    if (!bras_attache()) {
+        signaler("Bras pas encore actif : attendre H");
+        return;
+    }
+    if (!au_home) {
+        signaler("Bras hors de la position home : envoyer H d'abord");
+        return;
+    }
+    arreter_conduite();
+    oublier_mission();
+    seq_lacet = k;
+    seq_etape = 0;
+    memcpy(seq_q0, etat.q, sizeof(seq_q0));
+    seq_servo0 = etat.servo;
+    seq_debut = prochain_seq = millis();
+    n_histo = debut_histo = 0;
+    au_home = false;
+    mode = SEQUENCE;
+    char m[48];
+    snprintf(m, sizeof(m), "Sequence %d", k + 1);
+    signaler(m);
+}
+
+static void pas_sequence() {
+    unsigned long t = millis() - seq_debut;
+    float s = t >= SEQ_ETAPE_MS[seq_etape] ? 1.0f : (float)t / SEQ_ETAPE_MS[seq_etape];
+    s = s * s * (3.0f - 2.0f * s);  // depart et arrivee en douceur
+    int p = SEQ_ETAPE_POSE[seq_etape];
+    float but[4];
+    if (p < 0) memcpy(but, Q_REPOS, sizeof(but));
+    else { but[0] = SEQ_LACET[seq_lacet]; but[1] = SEQ_POSE[p][0]; but[2] = SEQ_POSE[p][1]; but[3] = SEQ_POSE[p][2]; }
+    float servo_but = SEQ_ETAPE_OUVERT[seq_etape] ? SERVO_OUVERT : SERVO_FERME;
+    for (int j = 0; j < 4; j++) etat.q[j] = seq_q0[j] + (but[j] - seq_q0[j]) * s;
+    etat.servo = seq_servo0 + (servo_but - seq_servo0) * s;
+    commander();
+    if (t < SEQ_ETAPE_MS[seq_etape]) return;
+    if (seq_etape == 5) signaler("D");
+    if (++seq_etape >= SEQ_N) {
+        au_home = true;
+        mode = LIBRE;
+        signaler("H");
+        return;
+    }
+    memcpy(seq_q0, etat.q, sizeof(seq_q0));
+    seq_servo0 = etat.servo;
+    seq_debut = millis();
+}
+
 // ---- TEST DE LA BASE ET DE L'EPAULE (T en USB), tous les servos du bras tenus ----
 // Base : +30, -30, retour (10 degres/s) ; epaule : +15 puis retour ; puis retour en home.
 // Si la base et l'epaule bougent seules (test_servos) mais pas ici : l'alimentation ne tient pas 5 servos a la fois.
@@ -372,7 +444,7 @@ static void pas_test() {
 
 // ---- LECTURE DES COMMANDES ----
 static void annuler_prise() {  // reprendre la conduite annule la prise
-    if (mode == RESEAU || mode == PAUSE_DEPOT) {
+    if (mode == RESEAU || mode == PAUSE_DEPOT || mode == SEQUENCE) {
         oublier_mission();
         mode = LIBRE;
     }
@@ -412,8 +484,7 @@ static void traiter_octet(char c) {
                 debut_trame = millis();
             }
         } else if (c >= '1' && c <= '3' && mode == LIBRE) {
-            choisir_demo(c - '0');
-            demarrer_si_pret();
+            lancer_sequence(c - '1');
         }
         return;
     }
@@ -486,6 +557,9 @@ static void traiter_ligne_usb(char *ligne) {
         demarrer_si_pret();
     } else if (ligne[0] == 'R' && ligne[1] == 0) {
         lancer_home();
+    } else if (ligne[0] == 'I' && ligne[1] >= '1' && ligne[1] <= '3' && ligne[2] == 0 && mode == LIBRE) {
+        choisir_demo(ligne[1] - '0');  // prise par le reseau de neurones (USB seulement depuis le 12/11)
+        demarrer_si_pret();
     } else if (ligne[0] == 'L' && ligne[1] == 0) {
         afficher_capteurs();
     } else if (ligne[0] == 'T' && ligne[1] == 0) {
@@ -633,6 +707,10 @@ void loop() {
     }
     client_connecte = connecte;
 
+    if (mode == SEQUENCE && (long)(millis() - prochain_seq) >= 0) {
+        prochain_seq = millis() + PERIODE_SEQ_MS;
+        pas_sequence();
+    }
     if (suivi != SUIVI_OFF && (long)(millis() - prochain_suivi) >= 0) {
         prochain_suivi = millis() + PERIODE_SUIVI_MS;
         pas_suivi();
