@@ -69,18 +69,21 @@ const unsigned long DELAI_TRAME_MS = 200;       // une trame V incomplete est ou
 const int CAPT_AV[3] = {27, 15, 34};            // avant gauche, avant milieu, avant droite
 const int CAPT_AR[3] = {26, 14, 35};            // arriere gauche, arriere milieu, arriere droite
 const bool NOIR_ELEVE = true;                   // TCRT5000 : valeur haute sur le noir. A inverser si le suivi fuit la ligne
-const int VITESSE_SUIVI = 130;                  // 0 a 255, a regler sur la piste (simulation : 20 cm/s bien, 40 cm/s decroche)
+const int VITESSE_SUIVI = 115;                  // 0 a 255, a regler sur la piste (12/11 : 130 trop vite, on commence plus doucement)
+const char SENS_AVANCE = 'A';                   // essai du 12/11 : avec 'B' le robot partait en arriere (l'application avance avec A)
 const int SIGNE_BRAQUAGE = 1;                   // -1 si le robot tourne du mauvais cote
-const float BRAQUAGE_MAX_DEG = 45.0f;           // angle maxi du servo de direction autour de 90
+const float BRAQUAGE_MAX_DEG = 20.0f;           // angle maxi du servo de direction autour de 90 (12/11 : +-30 = trop d'a-coups)
+const float VITESSE_BRAQUAGE_DEG_S = 60.0f;     // la direction tourne au plus de 60 degres par seconde (0,6 degre tous les 10 ms)
+const float FILTRE_ECART = 0.2f;                // lissage de l'ecart mesure (0 a 1 : plus petit = plus doux)
 const float ECART_CAPTEURS_MM = 13.0f;
-const float K_SUIVI = 1.3e-3f;                  // courbure (1/mm) par mm d'ecart, regle en simulation (etude3.py, 20 cm/s)
+const float K_SUIVI = 4.0e-4f;                  // courbure (1/mm) par mm d'ecart ; simulation 1,3e-3, divise par 3 le 12/11 (a-coups)
 const float EMPATTEMENT_MM = 140.0f;
 const int CONTRASTE_MIN = 300;                  // ecart noir / blanc minimal (sur 4095) pour croire a une ligne
 const unsigned long PERIODE_SUIVI_MS = 10;
 enum Suivi { SUIVI_OFF, SUIVI_ATTENTE, SUIVI_ROULE };
 Suivi suivi = SUIVI_OFF;
 int capt_min[6], capt_max[6];
-float dernier_ecart = 0;
+float dernier_ecart = 0, ecart_filtre = 0, braquage_actuel = 0;
 unsigned long prochain_suivi = 0, prochain_affichage = 0;
 const unsigned long FIN_ANGLE_MS = 30;          // R<n> n'a pas de lettre de fin : applique apres ce silence
 const uint32_t FREQ_MOTEUR_HZ = 1000;
@@ -194,12 +197,13 @@ static void lire_capteurs(int brut[6]) {
 static void lancer_suivi() {
     oublier_mission();
     if (mode == RESEAU || mode == PAUSE_DEPOT) mode = LIBRE;
-    commander_moteur(0, 'B');
+    commander_moteur(0, SENS_AVANCE);
     ecrire_us(servo_dir, vers_us(CENTRE_DIR));
     int brut[6];
     lire_capteurs(brut);
     for (int i = 0; i < 6; i++) capt_min[i] = capt_max[i] = brut[i];
     suivi = SUIVI_ATTENTE;
+    dernier_ecart = ecart_filtre = braquage_actuel = 0;
     prochain_suivi = millis();
     signaler("N suivi de ligne : attente de la ligne");
 }
@@ -251,13 +255,16 @@ static void pas_suivi() {
     else e = (dernier_ecart >= 0 ? 1.5f : -1.5f) * ECART_CAPTEURS_MM;  // perdue : braquer du cote ou on l'a vue
     if (vu_av || vu_ar) dernier_ecart = e;
     // Ligne a droite (e > 0) : tourner a droite, courbure negative. Roue directrice a l'arriere : SIGNE_BRAQUAGE.
-    float braquage = atanf(-K_SUIVI * e * EMPATTEMENT_MM) * 180.0f / (float)M_PI;
+    ecart_filtre += FILTRE_ECART * (e - ecart_filtre);
+    float braquage = atanf(-K_SUIVI * ecart_filtre * EMPATTEMENT_MM) * 180.0f / (float)M_PI;
     braquage = constrain(braquage, -BRAQUAGE_MAX_DEG, BRAQUAGE_MAX_DEG);
-    commander_direction((int)lroundf(CENTRE_DIR + SIGNE_BRAQUAGE * braquage));
-    commander_moteur(VITESSE_SUIVI, 'B');                        // ne s'arrete jamais : seul S (ou V, O) l'arrete
+    float pas = VITESSE_BRAQUAGE_DEG_S * PERIODE_SUIVI_MS / 1000.0f;
+    braquage_actuel += constrain(braquage - braquage_actuel, -pas, pas);
+    ecrire_us(servo_dir, vers_us(constrain(CENTRE_DIR + SIGNE_BRAQUAGE * braquage_actuel, (float)DIR_MIN_DEG, (float)DIR_MAX_DEG)));
+    commander_moteur(VITESSE_SUIVI, SENS_AVANCE);                        // ne s'arrete jamais : seul S (ou V, O) l'arrete
     if ((long)(millis() - prochain_affichage) >= 0) {
         prochain_affichage = millis() + 200;
-        Serial.printf("N av %.1f mm (%d) ar %.1f mm (%d) braquage %.0f\n", e_av, vu_av, e_ar, vu_ar, braquage);
+        Serial.printf("N av %.1f mm (%d) ar %.1f mm (%d) braquage %.1f\n", e_av, vu_av, e_ar, vu_ar, braquage_actuel);
     }
 }
 
