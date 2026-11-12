@@ -1,6 +1,6 @@
 // Test des 6 servos (cablage du 11/11) : chacun fait une course de 90 degres, un seul a la fois.
 // Au demarrage, le test passe tout seul sur les 6 servos, dans l'ordre :
-//   direction (17), base (19), epaule (18), coude (23), poignet (22), pince (16).
+//   direction (17), base (21), epaule (4), coude (13), poignet (22), pince (16).
 // Pour chaque servo : va a 90 (milieu), descend lentement a 45, monte a 135 (= 90 degres de course),
 // revient a 90, puis redevient libre avant de passer au suivant.
 // Moniteur serie 115 200 bauds : "T" relance les 6, "0" a "5" teste un seul servo (0 = direction ... 5 = pince).
@@ -11,7 +11,7 @@
 
 const int N = 6;
 const char *NOM[N] = {"direction", "base", "epaule", "coude", "poignet", "pince"};
-const int BROCHE[N] = {17, 19, 18, 23, 22, 16};
+const int BROCHE[N] = {17, 21, 4, 13, 22, 16};
 const int PIN_IN1 = 33, PIN_IN2 = 32, PIN_ENA = 25;  // pont en H L298N
 const float MILIEU = 90.0f, BAS = 45.0f, HAUT = 135.0f;
 

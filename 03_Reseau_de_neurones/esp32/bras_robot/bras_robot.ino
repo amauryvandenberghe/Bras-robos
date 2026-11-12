@@ -49,7 +49,7 @@ const int PIN_ENA = 25;
 const int PIN_IN1 = 33;
 const int PIN_IN2 = 32;
 //                     base, epaule, coude, poignet, pince (sorties seulement : pas 34, 35, 36, 39)
-const int BROCHE[5] = {19, 18, 23, 22, 16};
+const int BROCHE[5] = {21, 4, 13, 22, 16};       // 12/11 soir : base 19->21, epaule 18->4, coude 23->13
 
 // ---- A REGLER SUR LE VRAI ROBOT ----
 // Chaque servo couvre la fenetre [BUTEE_BAS, BUTEE_HAUT] de son axe sur 180 degres.
