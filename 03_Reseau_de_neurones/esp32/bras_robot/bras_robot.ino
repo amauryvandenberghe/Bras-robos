@@ -53,8 +53,10 @@ const int BROCHE[5] = {19, 18, 23, 22, 16};
 // ---- A REGLER SUR LE VRAI ROBOT ----
 // Chaque servo couvre la fenetre [BUTEE_BAS, BUTEE_HAUT] de son axe sur 180 degres.
 // Home sans correction : 90 ; 43,6 ; 133,8 ; 135,8 ; pince 104,3 degres.
-const int SENS[5] = {1, 1, 1, 1, 1};            // -1 si le servo est monte a l'envers
-const float DECALAGE_DEG[5] = {0, 0, 0, 0, 0};  // corrige le calage d'un palonnier
+const int SENS[5] = {1, 1, 1, -1, 1};           // 12/11 : poignet a l'envers (il butait contre l'avant-bras)            // -1 si le servo est monte a l'envers
+// Palonniers cales le 12/11 bras vertical (q = 0 -> 90 ; 54,4 ; 2,9 ; 68,8 degres). Un servo inverse tourne autour de ce
+// calage : DECALAGE = 2 x calage - 180 (poignet : 2 x 68,75 - 180 = -42,5).
+const float DECALAGE_DEG[5] = {0, 0, 0, -42.5f, 0};  // corrige le calage d'un palonnier
 const float PINCE_CENTRE = 0.0f;                // angle du pignon (rad) quand le servo de pince est a 90 degres
 const int CENTRE_DIR = 90;                      // roues droites
 const int DIR_MIN_DEG = 0, DIR_MAX_DEG = 180;   // a reduire si la direction arrive en butee mecanique
