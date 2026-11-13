@@ -23,9 +23,9 @@ Dernière mise à jour : 09/11/2026.
 - Versions à utiliser : `01_SolidWorks/1_VERSION_FINALE (a ouvrir)` ; `02_Impression_3D` (27 STL) ; `03_Reseau_de_neurones/modele/1_RESEAU_FINAL (a utiliser)` (`politique_finale.pt` dans WSL) ; programme ESP32 unique `03_Reseau_de_neurones/esp32/bras_robot/`.
 - PDF `Recapitulatif_bras_robotise.pdf` : modifier `05_Documentation/source/Recapitulatif_bras_robotise.modele.html`, puis `python3 finaliser_document.py` (jamais le `.html` généré).
 
-## État actuel (au 08/11)
-- Rien d'imprimé ni monté pour la dernière version. Essais réels du 06/11 : coude, poignet et pince bougent ; l'épaule tient mais ne soulève pas le bras → **alimentation séparée 5–6 V de plusieurs ampères** à trouver, masses reliées.
-- Broches du bras (`BROCHE`) : 22, 17, 33, 21, 32 (base, épaule, coude, poignet, pince). Ne pas utiliser la 23 (parasites sur la liaison série). `SENS` et `DECALAGE_DEG` pas encore réglés sur le vrai bras.
+## État actuel (au 13/11)
+- Bras monté, servos alimentés par un abaisseur de tension. Poignet probablement grillé (coupé : `ACTIF[3] = false`).
+- Programme unique `esp32/bras_robot/` : `bras_robot.ino` + `servo.h`/`servo.cpp` (broches 21, 4, 13, 22, 16 pour base, épaule, coude, poignet, pince ; direction 17 ; calage et bornes 10–170°) + `reseau.h` (poids + calcul). **Ne jamais commander un servo hors 10–170° ni le laisser forcer en butée.** Ne pas utiliser la 23.
 - En attente : plan coté du plateau, puis apprentissage « réglettes pleines ». Budget 78/60 hors ESP32 : c'est à l'utilisateur d'arbitrer.
 - Programme ESP32 du parcours (suivi de ligne, repères) : ne pas l'écrire sans nouvelle demande.
 
