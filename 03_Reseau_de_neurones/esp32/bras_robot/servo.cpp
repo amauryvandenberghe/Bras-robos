@@ -10,16 +10,16 @@ static const int BROCHE[N_BRAS] = {21, 4, 13, 22, 16};
 static const int BROCHE_DIRECTION = 17;
 // Servo hors service = false. Poignet coupe le 12/11 (tres chaud, ne bougeait plus) : a remettre a true une fois
 // le servo remplace ET cale (voir CENTRE_DEG). Sans poignet, le bouton 1 fait la sequence fixe, pas le reseau.
-bool ACTIF[N_BRAS] = {true, true, true, false, true};
+bool ACTIF[N_BRAS] = {true, true, true, true, true};
 // Calage des palonniers : angle du servo (degres) quand q = 0, c'est-a-dire bras vertical et droit (calage du 12/11 :
 // base 90 droit devant, epaule 54,4, coude 15). GAIN = degres de servo par radian (negatif si le servo tourne a l'envers).
-// Poignet (a caler sur le servo neuf) : servo a 107 degres quand la pince est dans le prolongement de l'avant-bras.
-// Il couvre alors -1,10 a +1,69 rad, ce qu'utilise le reseau. L'ancien calage mettait le poignet a 2 degres au repos,
+// Poignet (servo neuf, mesure le 13/11 avec l'utilisateur) : pince dans le prolongement de l'avant-bras a 30 degres,
+// elle se plie quand l'angle augmente (sens +). Il couvre -0,35 a +1,94 rad ; repos du reseau = 97 degres. L'ancien calage mettait le poignet a 2 degres au repos,
 // colle a sa butee : c'est probablement ce qui l'a fait chauffer puis griller.
 // Pince : le reseau commande l'angle du pignon de SERVO_FERME (-0,13) a SERVO_OUVERT (+0,25). Sur la vraie pince,
 // fermee = 60 degres, a demi ouverte = 90, ouverte = 110 : d'ou 77,1 degres a q = 0 et 131,6 degres par radian.
-static const float CENTRE_DEG[N_BRAS] = {90.0f, 54.4f, 15.0f, 107.0f, 77.1f};
-static const float GAIN[N_BRAS] = {57.29578f, 57.29578f, 57.29578f, -57.29578f, 131.6f};
+static const float CENTRE_DEG[N_BRAS] = {90.0f, 54.4f, 15.0f, 30.0f, 77.1f};
+static const float GAIN[N_BRAS] = {57.29578f, 57.29578f, 57.29578f, 57.29578f, 131.6f};
 // Plage du reseau (butees de l'URDF ; pince : SERVO_FERME a SERVO_OUVERT).
 static const float Q_BAS[N_BRAS] = {-1.5708f, -0.95f, -0.05f, -1.2f, -0.13f};
 static const float Q_HAUT[N_BRAS] = {1.5708f, 2.1916f, 3.0916f, 1.9416f, 0.25f};
