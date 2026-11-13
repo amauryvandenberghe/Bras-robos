@@ -1,0 +1,102 @@
+NOTICE DE MONTAGE DU BRAS 50 cm (version allegee du 06/11/2026, visserie dessinee ; servo de pince et capteurs : 07/11)
+==================================================================================
+Assemblage : Bras 50cm.SLDASM (robot complet : Assemblage1v2.SLDASM), dans 1_VERSION_FINALE. Pieces a imprimer : dossier 02_Impression_3D.
+Images de chaque zone, vis en couleur : dossier "Vues visserie" (vis M3 en bleu, ecrous en rouge, vis de 2 mm en vert).
+Cette version n'a encore ete ni imprimee ni montee : les jeux restent a confirmer sur de vraies pieces.
+
+MATERIEL
+  2 roulements 608 (8 x 22 x 7)
+  Vis M3 x 8  : 12  (4 par bride de SG90 = 8, 4 pour le MG996R d'epaule)
+  Vis M3 x 12 :  4  (MG996R de lacet)
+  Vis M3 x 16 :  4  (2 plaque du coude, 1 axe du coude, 1 axe d'epaule)
+  Vis M3 x 20 :  6  (2 par patin)
+  Ecrous M3   : 26, rondelle M3 : 1 (axe du coude)
+  Vis de 2 x 8 autotaraudeuses : 14 (4 arm01 de lacet, 4 arm01 d'epaule, 2 par broche, 2 servo de pince)
+  Plus les 4 vis centrales livrees avec les servos (non dessinees).
+  Tous les trous M3 font 3,5 mm.
+
+OUTILS
+  Tournevis a tige fine et longue : tige de 4 mm de diametre au plus, 70 mm de long au moins.
+  Il sert aux 3 endroits serres, tous verifies par calcul :
+    - vis centrale du lacet : tournevis penche d'au moins 4 degres du cote des tetes de vis de l'epaule (+y), voir etape 1d ;
+    - 2 vis du bas du MG996R d'epaule : penche d'au moins 2 degres vers le haut, sinon la tige frotte sur la jante.
+
+ORDRE DE MONTAGE
+  Avant tout : essayer chaque roulement dans son logement (22,1 mm, poncer si besoin) et chaque servo dans le sien.
+
+  1. BASE
+     a. Glisser les 4 ecrous du lacet dans le socle, par les cotes (+y / -y). Poser le MG996R, 4 vis M3 x 12 par le dessus.
+     b. Mettre le servo a 90 degres.
+     c. Visser l'arm01 SOUS le plateau, avant de le poser : 4 vis de 2 x 8 par le dessous, a travers le palonnier.
+        Les trous sont traversants : la pointe depasse d'environ 1,7 mm sur le dessus du plateau, sans rien gener.
+     d. Poser le plateau sur la cannelure, arm01 oriente suivant y. Le MG996R d'epaule ne doit PAS etre en place.
+        Vis centrale : la descendre a travers la fenetre et le trou de la face, tournevis penche d'au moins 4 degres.
+     e. Glisser les 6 ecrous des patins dans les poteaux, par l'exterieur. Poser chaque patin, le pousser vers l'axe jusqu'a ce
+        que son doigt entre dans la gorge, puis 2 vis M3 x 20 par le dessus. Le plateau doit tourner sans point dur :
+        poncer le doigt s'il frotte trop.
+
+  2. EPAULE
+     a. Glisser les 4 ecrous dans la face du plateau, par les cotes (+x / -x). Ils restent captifs : plus besoin d'y acceder.
+     b. Enfoncer un 608 dans la joue du plateau, par l'exterieur.
+     c. Poser le MG996R d'epaule contre la face. 4 vis M3 x 8 cote servo : aucune main derriere la face, c'est tout l'interet
+        des ecrous captifs. Les 2 du bas : tournevis penche d'au moins 2 degres.
+     d. Visser l'arm01 dans l'empreinte de la joue du bras : 4 vis de 2 x 8 par l'exterieur.
+     e. Mettre le servo au bon angle, engager le palonnier sur sa cannelure. Vis centrale par le trou de la joue, depuis l'exterieur.
+     f. Mettre l'ecrou dans le bout de l'axe imprime. Passer l'axe de l'exterieur, a travers la joue du bras, jusque dans le
+        roulement, puis serrer avec la vis M3 x 16 par la tete de l'axe.
+
+  3. COUDE (l'avant-bras doit etre libre de la plaque jusqu'a la fin)
+     a. Glisser les 4 ecrous sous le bras, poser le SG90/MG90S, bride, 4 vis M3 x 8. Serrer en croix.
+     b. Mettre le servo au bon angle, visser la broche sur la cannelure avec sa vis centrale.
+     c. Mettre l'ecrou M3 dans l'empreinte du moyeu de l'avant-bras, cote broche. Emboiter le moyeu sur la broche,
+        2 vis de 2 x 8 par le dessous.
+     d. Glisser les 2 ecrous dans le pied de la colonne, par le cote (-y). Enfoncer le 608 dans la plaque.
+     e. Enfiler la plaque sur l'axe de l'avant-bras et emboiter la colonne dans la plaque. 2 vis M3 x 16 par le dessous.
+     f. Vis M3 x 16 + rondelle dans l'axe, par le dessous, a travers le roulement. La rondelle appuie sur la bague interieure.
+
+  4. POIGNET ET PINCE
+     a. Glisser les 4 ecrous sous l'avant-bras, servo, bride, 4 vis M3 x 8, serrage en croix.
+     b. SERVO DE PINCE (07/11), a faire sur la pince seule, avant de la poser sur le bras :
+        enfiler le MG90S par l'ARRIERE du bloc des machoires, sortie en premier, boitier le long du bloc (il n'entre que
+        dans un sens : le logement suit la forme du boitier et de la tour des engrenages). Le pousser jusqu'a ce que ses pattes butent contre l'epaulement, puis 2 vis de 2 x 8 (celles
+        du servo) par l'arriere, a travers les pattes, dans les avant-trous de 1,7 mm. Le boitier depasse a l'arriere.
+        Mettre le servo a l'angle "pince ouverte", puis engager le pignon sur sa cannelure, en prise avec les machoires.
+     c. Broche sur la cannelure du servo de poignet, vis centrale. Pince sur la broche, 2 vis de 2 x 8 par l'exterieur du corps.
+        Les trous font maintenant 2,6 mm dans le corps : la vis y passe librement et se visse dans la broche.
+
+  5. BRAS SUR LE ROBOT (Assemblage1v2)
+     4 vis M3 x 12 dans les 4 trous du socle (aux coins, hors du plateau tournant : accessibles par le dessus),
+     ecrous M3 sous le bati. Le bati a deja les 4 trous (66 mm d'entraxe).
+
+ROBOT : POUTRE DES ROUES AVANT ET SUPPORT DES 6 CAPTEURS (07/11)
+  Materiel : 2 vis M3 x 20 + 2 ecrous (poutre), 1 vis M3 x 16 + 2 rondelles + 1 ecrou (colonne, comme avant),
+             6 vis M2 x 8 + 6 ecrous M2 (capteurs).
+  1. Poser les 6 capteurs sur le support (schema : Implantation capteurs 13 mm.png). Lateraux : carte en travers, vers l'exterieur. Central arriere : carte le long du robot, connecteur vers l'avant. Central avant : carte en travers, 14,5 mm derriere les lateraux ; son bord entre dans l'encoche de la poutre.
+     Vis M2 par le dessus de la carte, ecrou sous la plaque.
+  2. Plaquer le support sous la poutre (la plaque passe dessous), 2 vis M3 x 20 par le dessus de la poutre, ecrous sous
+     la plaque. A faire AVANT de visser la poutre sous le bati (apres, il ne reste que 39 mm au-dessus de la poutre).
+  3. Visser la poutre sous le bati (vis d'origine), puis la colonne : ecrou + rondelle glisses dans la fente de la colonne,
+     vis M3 x 16 par le dessus du bati, dans le meme trou du bati qu'avant.
+ROBOT : DIRECTION MG996R ET 2e ROULEMENT (08/11)
+  Pieces a imprimer (02_Impression_3D/Robot (chassis)) : support MG996R direction, cuve direction, entretoise direction, liaison MG996R tige.
+  Materiel : 1 MG996R + son arm01 et sa vis centrale, 1 roulement 8 x 22 x 7 en plus (2 sur la tige au total),
+             4 vis M3 x 12 + 4 ecrous (servo), 4 vis de 2 x 8 (arm01 dans la liaison), 1 vis M3 x 20 + ecrou (goupille),
+             2 vis M3 x 20 + 2 rondelles + 2 ecrous (support + cuve, trous existants du bati), 1 vis M3 x 12 + ecrou (cuve, trou neuf).
+  Bati : percer 1 SEUL trou de 3,5 mm a 6 mm du bord arriere, sur l'axe du robot (x 18,26 ; z 512,72). Le STL et le SLDPRT du bati l'ont deja.
+  1. Enfoncer le 2e roulement dans la cuve PAR LE DESSOUS, jusqu'a la levre.
+  2. Glisser les 4 ecrous du servo dans les fentes de la tablette du support, par les deux bouts. Poser le support (2 vis M3 x 20 au travers
+     de la semelle, du bati et de la cuve, ecrous sous la cuve ; plus la vis M3 x 12 du trou neuf). Fixer le maintien du 1er roulement comme avant.
+  3. Poser le MG996R par le dessus, 4 vis M3 x 12. Mettre le servo a 90 degres.
+  4. Sur la table : visser l'arm01 dans la liaison, 4 vis de 2 x 8 par le dessous. Engager la liaison sur la cannelure, roues droites.
+     Vis centrale du servo : par le manchon de la liaison (tournevis long), AVANT de mettre la tige.
+  5. Mettre l'entretoise sur la tige, jusque sur le bloc moteur, grand diametre en bas. Enfiler la tige par le dessous dans les 2 roulements, jusque dans le manchon.
+     Le col de l'entretoise doit appuyer sur la bague interieure du roulement, pas sur la bague exterieure.
+  6. Goupille M3 x 20 a travers le manchon et le trou de la tige. A verifier sur la vraie tige : le trou est a 5,12 mm du haut de la tige.
+  Le servo demande l'alimentation separee, comme ceux du bras. Il reste sur la broche 18.
+
+  Capteurs : meme position laterale dans les 2 rangees (z = -13, 0, +13 mm autour de l'axe du robot), 86,25 mm entre les rangees.
+  Si le capteur i de l'avant et le capteur i de l'arriere voient la ligne en meme temps, le robot est parallele a la ligne.
+
+APRES LE MONTAGE
+  Regler SENS et DECALAGE_DEG dans 03_Reseau_de_neurones/esp32/bras_robot/bras_robot.ino, servo par servo (commande USB J).
+  Le bras a la meme geometrie qu'avant : pas de reentrainement du reseau pour cette version.

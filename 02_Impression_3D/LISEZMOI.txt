@@ -1,3 +1,7 @@
+MISE A JOUR DU 13/11/2026 : 10 STL refaits (28 STL au total)
+  A REIMPRIMER : bras (53,5 g, 5 perimetres, 40 %), plateau (41,1 g), patin_a/b/c, axe_epaule, corps_pince,
+  machoire_a, machoire_b. NOUVEAU : flasque_pince + 2 vis M3 x 20. Detail : Documents/CE QUI A CHANGE.txt.
+  Les lignes ci-dessous datent du 08/11 pour ces pieces.
 PIECES A IMPRIMER (mis a jour le 08/11/2026)
 ============================================
 Tout est dans ce dossier : 27 STL, ouvrir tout d'un coup dans le slicer. Controle le 08/11 : chaque STL compare a la version finale SolidWorks, tous etanches.

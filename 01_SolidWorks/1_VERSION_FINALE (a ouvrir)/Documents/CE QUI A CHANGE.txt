@@ -1,3 +1,32 @@
+CE QUI A CHANGE LE 13/11/2026 : U DU BRAS, PATINS DE LA BASE, PINCE
+====================================================================
+Archive d'avant : 3_Anciennes versions/3l_13-11 avant renforts U, patins, pince (SolidWorks + anciens STL).
+Image : Documents/Bras 50cm (13-11).png. Parti de la version du 08/11 (aucun fichier plus recent sur ce PC).
+
+U DU BRAS (bras.SLDPRT, 40,8 -> 53,5 g) : il s'etait casse.
+  Joue cote roulement 4 -> 6 mm d'epaisseur et 16 -> 20 mm de large, traverse 4 -> 8 mm et 20 -> 24 mm de large,
+  equerres pleines de 3 mm a l'exterieur des 2 angles. Tout l'ajout est vers l'exterieur : l'interieur n'a pas bouge.
+  axe_epaule rallonge de 2 mm. Controle : aucun contact bras / plateau / servo / patins sur toute la course de l'epaule.
+  Conseil d'impression : 5 perimetres et 40 % de remplissage pour cette piece.
+
+BASE (plateau.SLDPRT, patin_a/b/c.SLDPRT) : embouts trop serres, casses.
+  Gorge 3 -> 4 mm de haut, jante 7 -> 10 mm. Doigt du patin 2,6 -> 3,0 mm d'epaisseur.
+  Jeu 0,2 -> 0,5 mm dessus et dessous, 0,4 -> 0,6 mm sur le rayon. Patin plus haut (dessus au niveau de la jante),
+  tetes de vis noyees : memes vis M3 x 20.
+
+PINCE : les machoires sortaient de leurs tiges. Pas de roulement.
+  flasque_pince.SLDPRT (NOUVEAU, 2,3 g) : ses 2 axes de 8 mm portent les machoires ; 2 vis M3 x 20 traversent
+  les axes et se vissent dans le corps (avant-trous de 2,5 mm). Les machoires sont tenues des 2 cotes.
+  corps_pince : les 2 tiges d'origine sont supprimees, bossages pleins avec avant-trou.
+  machoire_a, machoire_b (NEUVES, 6,2 g) : meme engrenage (30 dents, module 1), bras plus raides, berceau spherique
+  de 23 mm : la balle est centree au point de prise que connait le reseau (rien a reapprendre).
+  Servo de pince : logement ferme + 2 vis de 2 x 8 deja dessines le 07/11 (a imprimer si votre corps est plus ancien).
+
+CONTROLES : Bras 50cm 102 contraintes, 0 en erreur. Assemblage1v2 183 contraintes, 0 en erreur. 10 STL etanches.
+  Pince : aucun contact machoires / corps / flasque de -20 a +15 degres, balle libre machoires ouvertes.
+PAS VERIFIE : rien d'imprime. Calage des dents avec le pignon (on choisit la dent a la pose). Tenue des vis M3 dans
+  l'avant-trou de 2,5 mm. Serrage reel sur la balle. Gazebo et l'URDF gardent les anciens maillages.
+
 CE QUI A CHANGE LE 08/11/2026 APRES-MIDI : CAPTEURS A 13 MM, RANGEMENT
 ======================================================================
 Archives : 3_Anciennes versions/3j (capteurs a 33 mm) et 3k (etat complet avant rangement, avec l'ancien 1_ASSEMBLAGE_FINAL et Assemblage1v2).
