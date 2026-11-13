@@ -17,6 +17,7 @@
 //   Pendant une mission, V, O et N sont refuses : S pour tout arreter, ou H pour ramener le bras.
 // USB EN PLUS (une ligne par commande) :
 //   J i d    tourne le servo i (0 base, 1 epaule, 2 coude, 3 poignet, 4 pince) de d degres
+//   D i d    essai : active le servo i et l'envoie a d degres servo
 //   C        bras vertical et droit (posture de calage des palonniers), lentement
 //   X        relache tous les servos du bras (tenir le bras !)
 //   L        valeurs brutes des 3 capteurs de ligne avant
@@ -396,6 +397,11 @@ static void ligne_usb(char *l) {
         tout_arreter("J : bras fige");
         bras_poser(i, servo_q(i, servo_degres(i, bras_consigne(i)) + d));
         Serial.printf("J %s : %.1f degres servo\n", NOM_SERVO[i], servo_degres(i, bras_consigne(i)));
+    } else if (l[0] == 'D' && sscanf(l + 1, "%d %f", &i, &d) == 2 && i >= 0 && i < N_BRAS) {
+        tout_arreter("D : bras fige");   // essai : active le servo i et l'envoie a d degres servo (10 a 170)
+        ACTIF[i] = true;
+        bras_poser(i, servo_q(i, constrain(d, ANGLE_MIN, ANGLE_MAX)));
+        Serial.printf("D %s actif : %.1f degres servo\n", NOM_SERVO[i], servo_degres(i, bras_consigne(i)));
     } else if (l[0] == 'C' && !l[1]) {
         tout_arreter("C : bras vertical et droit (calage)");
         vider_file();

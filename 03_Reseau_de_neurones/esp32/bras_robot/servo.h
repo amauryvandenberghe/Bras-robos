@@ -10,7 +10,7 @@ enum { BASE, EPAULE, COUDE, POIGNET, PINCE, N_BRAS };
 const float ANGLE_MIN = 10.0f, ANGLE_MAX = 170.0f;
 
 extern const char *NOM_SERVO[N_BRAS];
-extern const bool ACTIF[N_BRAS];          // false = servo hors service : jamais alimente en signal
+extern bool ACTIF[N_BRAS];                // false = servo hors service : pas de signal (commande USB D pour l'activer)
 
 void servos_demarrer();                   // a appeler une fois dans setup(), avant tout le reste
 float servo_degres(int i, float q);       // consigne (rad) -> angle du servo (degres)

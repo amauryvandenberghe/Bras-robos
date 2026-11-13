@@ -10,7 +10,7 @@ static const int BROCHE[N_BRAS] = {21, 4, 13, 22, 16};
 static const int BROCHE_DIRECTION = 17;
 // Servo hors service = false. Poignet coupe le 12/11 (tres chaud, ne bougeait plus) : a remettre a true une fois
 // le servo remplace ET cale (voir CENTRE_DEG). Sans poignet, le bouton 1 fait la sequence fixe, pas le reseau.
-const bool ACTIF[N_BRAS] = {true, true, true, false, true};
+bool ACTIF[N_BRAS] = {true, true, true, false, true};
 // Calage des palonniers : angle du servo (degres) quand q = 0, c'est-a-dire bras vertical et droit (calage du 12/11 :
 // base 90 droit devant, epaule 54,4, coude 15). GAIN = degres de servo par radian (negatif si le servo tourne a l'envers).
 // Poignet (a caler sur le servo neuf) : servo a 107 degres quand la pince est dans le prolongement de l'avant-bras.
