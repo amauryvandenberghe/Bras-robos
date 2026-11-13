@@ -32,19 +32,20 @@ const int CAPT[3] = {27, 15, 34};                       // capteurs avant gauche
 
 // ---- BRAS ----
 const float ANGLE_MIN = 10.0f, ANGLE_MAX = 170.0f;      // jamais au-dela : butee interne du servo = blocage = surchauffe
-// Posture de depart (bras vertical au calage du 12/11 matin : base 90, epaule 54, coude 3 = droit, pince 90).
-// Le coude neuf n'est pas recale (droit vers 85 au lieu de 3) : on part de 100 et on ne descend pas sous 60.
-const float DEPART[5] = {90.0f, 54.0f, 100.0f, 90.0f, 90.0f};
+// POSTURE DE REFERENCE = calage des palonniers (12/11 soir) : bras vertical et droit, pointe vers l'avant du robot.
+//   base 90 (bras droit devant), epaule 54,4 (bras vertical), coude 15 (avant-bras dans le prolongement, pas 3 : trop
+//   pres de la butee interne), pince 90 (machoires a demi ouvertes). Commande USB C = y revenir lentement.
+const float DEPART[5] = {90.0f, 54.4f, 15.0f, 90.0f, 90.0f};
 struct Etape { int servo; float but; unsigned long ms; };
 const Etape SEQ[] = {
-    {0, 115.0f, 2000},   // base : tourne
-    {1, 85.0f, 2500},    // epaule : penche vers l'avant
-    {2, 130.0f, 2000},   // coude : replie l'avant-bras vers le bas
-    {1, 112.0f, 2500},   // epaule : descend (la pince s'approche du sol)
+    {0, 115.0f, 2000},   // base : tourne de 25 degres
+    {1, 85.0f, 2500},    // epaule : penche de 30 degres vers l'avant
+    {2, 105.0f, 2500},   // coude : replie l'avant-bras de 90 degres vers le bas
+    {1, 115.0f, 3000},   // epaule : descend (pince a ~10 cm au-dessus de la table)
     {4, 60.0f, 1000},    // pince : ferme
-    {1, 80.0f, 2500},    // epaule : remonte
-    {2, 100.0f, 2000},   // coude : tend
-    {1, 54.0f, 2500},    // epaule : bras vertical
+    {1, 80.0f, 3000},    // epaule : remonte
+    {2, 15.0f, 2500},    // coude : tend
+    {1, 54.4f, 2500},    // epaule : bras vertical
     {4, 90.0f, 1000},    // pince : rouvre
     {0, 90.0f, 2000}};   // base : retour
 const int SEQ_N = sizeof(SEQ) / sizeof(SEQ[0]);
@@ -220,6 +221,10 @@ static void ligne_usb(char *l) {
     if (l[0] == 'J' && sscanf(l + 1, "%d %f", &i, &d) == 2 && i >= 0 && i <= 4) {
         poser(i, angle[i] + d);
         Serial.printf("J %s : %.1f degres\n", NOM[i], angle[i]);
+    } else if (l[0] == 'C' && !l[1]) {
+        seq_en_cours = false;
+        for (int k = 0; k < 5; k++) if (ACTIF[k]) { for (int n = 1; n <= 50; n++) { poser(k, angle[k] + (DEPART[k] - angle[k]) / (51 - n)); delay(30); } }
+        Serial.println("C posture de reference : base 90, epaule 54.4, coude 15, pince 90");
     } else if (l[0] == 'X' && !l[1]) {
         seq_en_cours = false;
         for (int k = 0; k < 5; k++) if (servos[k].attached()) { servos[k].detachPin(BROCHE[k]); pinMode(BROCHE[k], OUTPUT); digitalWrite(BROCHE[k], LOW); }
