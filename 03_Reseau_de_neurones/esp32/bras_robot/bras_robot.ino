@@ -395,10 +395,12 @@ static void ligne_usb(char *l) {
     float d;
     if (l[0] == 'J' && sscanf(l + 1, "%d %f", &i, &d) == 2 && i >= 0 && i < N_BRAS) {
         tout_arreter("J : bras fige");
+        au_home = false;  // bouge a la main : H doit pouvoir le ramener
         bras_poser(i, servo_q(i, servo_degres(i, bras_consigne(i)) + d));
         Serial.printf("J %s : %.1f degres servo\n", NOM_SERVO[i], servo_degres(i, bras_consigne(i)));
     } else if (l[0] == 'D' && sscanf(l + 1, "%d %f", &i, &d) == 2 && i >= 0 && i < N_BRAS) {
         tout_arreter("D : bras fige");   // essai : active le servo i et l'envoie a d degres servo (10 a 170)
+        au_home = false;
         ACTIF[i] = true;
         bras_poser(i, servo_q(i, constrain(d, ANGLE_MIN, ANGLE_MAX)));
         Serial.printf("D %s actif : %.1f degres servo\n", NOM_SERVO[i], servo_degres(i, bras_consigne(i)));
