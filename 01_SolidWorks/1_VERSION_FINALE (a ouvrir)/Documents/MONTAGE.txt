@@ -1,4 +1,4 @@
-NOTICE DE MONTAGE DU BRAS 50 cm (version allegee du 06/11/2026, visserie dessinee ; servo de pince et capteurs : 07/11)
+NOTICE DE MONTAGE DU BRAS 50 cm (06/11/2026 ; servo de pince et capteurs : 07/11 ; U du bras, patins et pince : 13/11)
 ==================================================================================
 Assemblage : Bras 50cm.SLDASM (robot complet : Assemblage1v2.SLDASM), dans 1_VERSION_FINALE. Pieces a imprimer : dossier 02_Impression_3D.
 Images de chaque zone, vis en couleur : dossier "Vues visserie" (vis M3 en bleu, ecrous en rouge, vis de 2 mm en vert).
@@ -9,7 +9,7 @@ MATERIEL
   Vis M3 x 8  : 12  (4 par bride de SG90 = 8, 4 pour le MG996R d'epaule)
   Vis M3 x 12 :  4  (MG996R de lacet)
   Vis M3 x 16 :  4  (2 plaque du coude, 1 axe du coude, 1 axe d'epaule)
-  Vis M3 x 20 :  6  (2 par patin)
+  Vis M3 x 20 :  8  (2 par patin, 2 axes des machoires de la pince)
   Ecrous M3   : 26, rondelle M3 : 1 (axe du coude)
   Vis de 2 x 8 autotaraudeuses : 14 (4 arm01 de lacet, 4 arm01 d'epaule, 2 par broche, 2 servo de pince)
   Plus les 4 vis centrales livrees avec les servos (non dessinees).
@@ -32,8 +32,8 @@ ORDRE DE MONTAGE
      d. Poser le plateau sur la cannelure, arm01 oriente suivant y. Le MG996R d'epaule ne doit PAS etre en place.
         Vis centrale : la descendre a travers la fenetre et le trou de la face, tournevis penche d'au moins 4 degres.
      e. Glisser les 6 ecrous des patins dans les poteaux, par l'exterieur. Poser chaque patin, le pousser vers l'axe jusqu'a ce
-        que son doigt entre dans la gorge, puis 2 vis M3 x 20 par le dessus. Le plateau doit tourner sans point dur :
-        poncer le doigt s'il frotte trop.
+        que son doigt entre dans la gorge, puis 2 vis M3 x 20 par le dessus (tetes noyees dans le patin). 13/11 : le doigt a 0,5 mm de jeu dessus et dessous,
+        0,6 mm sur le rayon : le plateau doit tourner librement a la main. S'il frotte, poncer le doigt, ne pas forcer.
 
   2. EPAULE
      a. Glisser les 4 ecrous dans la face du plateau, par les cotes (+x / -x). Ils restent captifs : plus besoin d'y acceder.
@@ -60,7 +60,12 @@ ORDRE DE MONTAGE
         enfiler le MG90S par l'ARRIERE du bloc des machoires, sortie en premier, boitier le long du bloc (il n'entre que
         dans un sens : le logement suit la forme du boitier et de la tour des engrenages). Le pousser jusqu'a ce que ses pattes butent contre l'epaulement, puis 2 vis de 2 x 8 (celles
         du servo) par l'arriere, a travers les pattes, dans les avant-trous de 1,7 mm. Le boitier depasse a l'arriere.
-        Mettre le servo a l'angle "pince ouverte", puis engager le pignon sur sa cannelure, en prise avec les machoires.
+        Mettre le servo a l'angle "pince ouverte", puis engager le pignon sur sa cannelure.
+     b2. MACHOIRES ET FLASQUE (13/11) : le corps n'a plus de tiges. Enfiler les 2 machoires sur les 2 axes du flasque,
+        dents en prise entre elles, berceaux face a face. Presenter l'ensemble sur le corps, les dents de la machoire A en
+        prise avec le pignon, machoires ouvertes. 2 vis M3 x 20 a travers le flasque et ses axes, vissees dans les avant-trous
+        de 2,5 mm du corps : serrer jusqu'au contact des axes sur le corps, sans plus (la vis taille son filet dans le PLA).
+        Les machoires doivent tourner librement ; sinon poncer leurs faces (6 mm d'epaisseur pour 7 mm entre corps et flasque).
      c. Broche sur la cannelure du servo de poignet, vis centrale. Pince sur la broche, 2 vis de 2 x 8 par l'exterieur du corps.
         Les trous font maintenant 2,6 mm dans le corps : la vis y passe librement et se visse dans la broche.
 
