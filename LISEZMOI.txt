@@ -13,17 +13,16 @@ Le reste est rangé à part : copies de vos fichiers d'origine, versions de seco
         Pieces bras, Pieces robot, Visserie   les pieces
         Documents                          MONTAGE.txt, CE QUI A CHANGE.txt, images, schema des capteurs
     2_Pieces d'origine (copies de vos fichiers)   copies de vos pieces (vos originaux ne sont pas touches)
-    3_Anciennes versions                   3a a 3k, la plus recente est 3k (etat complet avant rangement)
+    3_Anciennes versions                   3a a 3l, la plus recente est 3l (13/11, avant U renforce, patins et pince)
 
-02_Impression_3D                            les 27 STL a jour, tous dans ce dossier, + LISEZMOI.txt (quantites, ce qui est deja imprime)
+02_Impression_3D                            les 28 STL a jour (10 refaits le 13/11), tous dans ce dossier, + LISEZMOI.txt (quantites, ce qui est deja imprime)
 
 03_Reseau_de_neurones
     modele/1_RESEAU_FINAL (a utiliser)     reseau_final.pt = le reseau du bras (celui de l'ESP32 et des demos)
     modele/2_Secours (ancien reseau du 29-10)   ancien reseau, garde en secours
     modele/3_Historique (pour memoire)      anciens essais
-    esp32/bras_robot                        programme Arduino unique de l'ESP32 : conduite + bras (poids du reseau final inclus)
-    esp32/test_servos                       test d'un seul servo a la fois (diagnostic : signal ou alimentation)
-    esp32/3_Anciennes versions            bras_esp32, codebrasrobot, pilotage_manuel (remplaces par bras_robot)
+    esp32/bras_robot                        programme Arduino UNIQUE de l'ESP32 (13/11) : bras_robot.ino + servo.h/servo.cpp (broches, calage)
+                                            + reseau.h (poids du reseau final + calcul). Les anciens croquis sont dans l'historique git.
     code_python                             entrainement, tests Gazebo, scripts
 
 04_Simulation_Gazebo                        modele du bras pour Gazebo, scene, lancement ROS 2,

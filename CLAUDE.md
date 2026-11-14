@@ -1,7 +1,7 @@
 # Projet « Bras robotisé 50 cm » : mémo de démarrage pour Claude
 
 Version courte, chargée à chaque session. Tout le détail (géométrie, IA, ESP32, essais réels, décisions, pièges SolidWorks, commandes) est dans **`HISTORIQUE.md`**.
-Dernière mise à jour : 09/11/2026.
+Dernière mise à jour : 14/11/2026.
 
 ## Comment travailler (économie de tokens)
 1. **Question sur le code** : interroger d'abord le graphe (`graphify query "..."`, `graphify path "A" "B"`, `graphify explain "X"`, ou les outils Graphify en ligne sur `amauryvandenberghe/Bras-robos`). Ne lire ensuite que les lignes localisées, pas des fichiers entiers.
@@ -20,13 +20,18 @@ Dernière mise à jour : 09/11/2026.
 ## Le projet en bref
 - Challenge **TIPe PT** de l'ICAM (Lille), 2026-2027 : robot suiveur de ligne + **bras 5 axes** (lacet et épaule MG996R, coude, poignet, pince) qui prend des balles de 2 g et les dépose dans 3 réceptacles. Pilotage par un **réseau de neurones** (imitation + DAgger) entraîné en simulation, exporté en C pour un **ESP32**.
 - **Code de référence : WSL** `~/ros2_ws/src/mon_bras_robot/` (`ia_50cm/`, `bras_50cm/`). Ce dossier du Bureau = livrable + copies. Le dépôt GitHub et Graphify ne contiennent **que le Bureau** ; pour le code actuel, vérifier le fichier WSL. La copie WSL de `CLAUDE.md` n'a pas été raccourcie.
-- Versions à utiliser : `01_SolidWorks/1_VERSION_FINALE (a ouvrir)` ; `02_Impression_3D` (27 STL) ; `03_Reseau_de_neurones/modele/1_RESEAU_FINAL (a utiliser)` (`politique_finale.pt` dans WSL) ; programme ESP32 unique `03_Reseau_de_neurones/esp32/bras_robot/`.
+- Versions à utiliser : `01_SolidWorks/1_VERSION_FINALE (a ouvrir)` ; `02_Impression_3D` (28 STL, 10 refaits le 13/11) ; `03_Reseau_de_neurones/modele/1_RESEAU_FINAL (a utiliser)` (`politique_finale.pt` dans WSL) ; programme ESP32 unique `03_Reseau_de_neurones/esp32/bras_robot/`.
 - PDF `Recapitulatif_bras_robotise.pdf` : modifier `05_Documentation/source/Recapitulatif_bras_robotise.modele.html`, puis `python3 finaliser_document.py` (jamais le `.html` généré).
 
-## État actuel (au 13/11)
-- Bras monté, servos alimentés par un abaisseur de tension. Poignet probablement grillé (coupé : `ACTIF[3] = false`).
-- Programme unique `esp32/bras_robot/` : `bras_robot.ino` + `servo.h`/`servo.cpp` (broches 21, 4, 13, 22, 16 pour base, épaule, coude, poignet, pince ; direction 17 ; calage et bornes 10–170°) + `reseau.h` (poids + calcul). **Ne jamais commander un servo hors 10–170° ni le laisser forcer en butée.** Ne pas utiliser la 23.
-- En attente : plan coté du plateau, puis apprentissage « réglettes pleines ». Budget 78/60 hors ESP32 : c'est à l'utilisateur d'arbitrer.
+## État actuel (au 14/11)
+- **Bras monté**, servos alimentés par un abaisseur de tension, servos remplacés. Rien n'est imprimé de la CAO du 13/11 (U renforcé, patins/gorge, pince à flasque + mâchoires neuves). Gazebo garde l'ancienne pince.
+- **Programme unique `esp32/bras_robot/`** (téléversé, COM4) : `bras_robot.ino` + `servo.h`/`servo.cpp` (broches : base 21, épaule 4, coude 13, poignet 22, pince 16, direction 17 ; L298N ENA 25 / IN1 33 / IN2 32 ; capteurs de ligne avant 27 / 15 / 34) + `reseau.h` (poids + calcul). Calage dans `servo.cpp` : degrés = CENTRE + GAIN·q, tout borné à 10–170°. **Ne jamais commander un servo hors 10–170° ni le laisser forcer en butée.** Ne pas utiliser la 23.
+- **Protocole de l'application Bluetooth** : `O<n>` direction, `V<n>A/B` vitesse, `S` stop, `H` Home (bras replié, centre de gravité bas), `N` suivi de ligne (3 capteurs avant, doux), `1` mission (balle et panier au hasard, réseau ; sans poignet : séquence fixe). USB : `J i d`, `D i deg` (active un servo à un angle), `C`, `X`, `L`, `P`. Ouvrir le port USB redémarre l'ESP32.
+- **Poignet recalé le 13/11** avec l'utilisateur : pince droite à **30° servo**, se plie quand l'angle augmente (`CENTRE_DEG[3] = 30`, gain +). Actif.
+- **Coude (broche 13) : ne bouge pas et ne résiste pas**, signal correct. Essai à faire : le brancher sur la broche 16 (si il bouge, fil ou broche 13 ; sinon servo mort, remplacer). **Tant qu'il est hors service, ne pas lancer le bouton `1`** (le réseau compte sur lui). Descente progressive du bras pas encore essayée.
+- Non vérifié sur le vrai robot : réseau, sens de la base et de l'épaule, suivi de ligne sur piste, nouvelle CAO imprimée.
+- À faire ensuite : réparer le coude, première descente progressive en regardant, valider le bouton `1`, imprimer les 10 pièces refaites (`02_Impression_3D/LISEZMOI.txt`), requalifier la pince dans Gazebo (SERVO_CONTACT / SERVO_FERME) puis MONTAGE final, app Bluetooth (nouvelle version à voir).
+- En attente : plan coté du plateau, apprentissage « réglettes pleines ». Budget 78/60 hors ESP32 : c'est à l'utilisateur d'arbitrer.
 - Programme ESP32 du parcours (suivi de ligne, repères) : ne pas l'écrire sans nouvelle demande.
 
 ## Pièges à connaître à chaque session (détails : `HISTORIQUE.md` section 4)
