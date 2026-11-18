@@ -46,10 +46,11 @@ const int V_LIGNE_DROITE = 150;            // vitesse ligne bien centree (0 a 25
 const int V_LIGNE_VIRAGE = 115;             // vitesse quand la ligne est sous un capteur exterieur
 const int V_DEMARRAGE = 190;               // impulsion pour decoller le robot
 const unsigned long DEMARRAGE_MS = 250;
-const float KP_DEG = 14.0f;                // braquage (degres) quand la ligne est sous un capteur exterieur
-const float BRAQUAGE_MAX_DEG = 18.0f;
-const float VITESSE_BRAQUAGE_DEG_S = 200.0f;
-const float FILTRE_ECART = 0.35f;          // lissage de l'ecart (0 a 1 : plus petit = plus doux)
+const float KP_DEG = 22.0f;                // braquage (degres) quand la ligne est sous un capteur exterieur
+const float BRAQUAGE_MAX_DEG = 30.0f;      // 18 -> 30 le 18/11 : trop peu pour tenir un virage a vitesse elevee
+const float VITESSE_BRAQUAGE_DEG_S = 400.0f;
+const unsigned long PERIODE_SUIVI_MS = 4;  // 10 -> 4 ms (250 Hz) le 18/11
+const float FILTRE_ECART = 0.7f;         // lissage de l'ecart (0 a 1 : plus petit = plus doux)
 const int SIGNE_BRAQUAGE = 1;              // -1 si le robot s'ecarte de la ligne au lieu d'y revenir
 // Reglables sans reteleverser (USB : T kp kd vdroite vvirage, ex. T 20 12 140 90). kd : terme derive (anticipe le virage, freine les zigzags).
 float kp = KP_DEG, kd = 8.0f, v_droite = V_LIGNE_DROITE, v_virage = V_LIGNE_VIRAGE;
@@ -143,11 +144,16 @@ static void pas_suivi() {
         if (t - derniere_vue > PERTE_MAX_MS) { arreter_conduite(); signaler("N ligne perdue : arret (renvoyer N)"); return; }
         e = 1.3f * dernier_cote;  // ligne sortie d'un cote : on braque de ce cote
     }
-    ecart_filtre += FILTRE_ECART * (e - ecart_filtre);
-    float deriv = ecart_filtre - ecart_prec;  // par pas de 10 ms
+    // boucle a PERIODE_SUIVI_MS (4 ms) : constantes ramenees a un pas de 10 ms pour garder les reglages T
+    const float k = PERIODE_SUIVI_MS / 10.0f;
+    ecart_filtre += (1.0f - powf(1.0f - FILTRE_ECART, k)) * (e - ecart_filtre);
+    float deriv = (ecart_filtre - ecart_prec) / k;  // par pas de 10 ms
     ecart_prec = ecart_filtre;
     float but = constrain(-(kp * ecart_filtre + kd * deriv), -BRAQUAGE_MAX_DEG, BRAQUAGE_MAX_DEG);
-    float pas = VITESSE_BRAQUAGE_DEG_S * 0.010f;
+    float pas = VITESSE_BRAQUAGE_DEG_S * 0.001f * PERIODE_SUIVI_MS;
+    static unsigned long dernier_pas = 0, pire = 0;
+    if (dernier_pas) pire = max(pire, t - dernier_pas);
+    dernier_pas = t;
     braquage += constrain(but - braquage, -pas, pas);
     direction_ecrire(CENTRE_DIR + SIGNE_BRAQUAGE * braquage);
     int v = (int)lroundf(v_droite - (v_droite - v_virage) * min(1.0f, fabsf(ecart_filtre) + 4.0f * fabsf(deriv)));
@@ -155,7 +161,8 @@ static void pas_suivi() {
     moteur_commande(v, SENS_AVANCE);
     if ((long)(t - prochain_aff) >= 0) {
         prochain_aff = t + 200;
-        Serial.printf("N ecart %+.2f (vu %d) braquage %+.1f vitesse %d\n", e, vu, braquage, v);
+        Serial.printf("N ecart %+.2f (vu %d) braquage %+.1f vitesse %d, pas de boucle max %lu ms\n", e, vu, braquage, v, pire);
+        pire = 0;
     }
 }
 
@@ -488,5 +495,5 @@ void loop() {
         if (mode == TRAJET) pas_trajet();
         else if (mode == RESEAU || mode == REBOURS) interpoler();
     }
-    if (suivi != SUIVI_OFF && (long)(t - prochain_suivi) >= 0) { prochain_suivi = t + 10; pas_suivi(); }
+    if (suivi != SUIVI_OFF && (long)(t - prochain_suivi) >= 0) { prochain_suivi = t + PERIODE_SUIVI_MS; pas_suivi(); }
 }

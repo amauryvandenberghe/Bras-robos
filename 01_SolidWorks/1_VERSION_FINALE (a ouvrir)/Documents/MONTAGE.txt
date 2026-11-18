@@ -1,4 +1,4 @@
-NOTICE DE MONTAGE DU BRAS 50 cm (06/11/2026 ; servo de pince et capteurs : 07/11 ; U du bras, patins et pince : 13/11 ; batteries et pieds : 18/11)
+NOTICE DE MONTAGE DU BRAS 50 cm (06/11/2026 ; servo de pince et capteurs : 07/11 ; U du bras, patins et pince : 13/11 ; batteries : 18/11)
 ==================================================================================
 Assemblage : Bras 50cm.SLDASM (robot complet : Assemblage1v2.SLDASM), dans 1_VERSION_FINALE. Pieces a imprimer : dossier 02_Impression_3D.
 Images de chaque zone, vis en couleur : dossier "Vues visserie" (vis M3 en bleu, ecrous en rouge, vis de 2 mm en vert).
@@ -102,16 +102,14 @@ ROBOT : DIRECTION MG996R ET 2e ROULEMENT (08/11)
   Capteurs : meme position laterale dans les 2 rangees (z = -13, 0, +13 mm autour de l'axe du robot), 86,25 mm entre les rangees.
   Si le capteur i de l'avant et le capteur i de l'arriere voient la ligne en meme temps, le robot est parallele a la ligne.
 
-ROBOT : BATTERIES ET PIEDS ANTI-BASCULE (18/11) - Images : Documents/Robot dessous (18-11).png
-  Materiel en plus : 18 vis M3 x 20, 12 ecrous M3 (8 vis + 8 ecrous pour les brides, 4 + 4 pour les colonnes, 6 vis de pieds).
-  Avant tout : percer le bati a 3,4 mm aux 8 endroits donnes dans CE QUI A CHANGE.txt (18/11) s'il est deja imprime.
+ROBOT : BATTERIES (18/11) - Images : Documents/Robot dessous (18-11).png
+  Materiel en plus : 12 vis M3 x 20, 12 ecrous M3 (8 pour les brides, 4 pour les colonnes).
+  Avant tout : percer le bati a 3,4 mm aux 4 endroits (colonnes) et les 4 trous de 10 mm donnes dans CE QUI A CHANGE.txt (18/11) s'il est deja imprime.
   1. Pour chaque berceau : glisser 2 ecrous M3 dans les fentes de l'exterieur (colonnes) et 4 ecrous dans les fentes laterales des brides.
   2. Poser le berceau SOUS le bati, colonnes dans les trous, puis 2 vis M3 x 20 par le DESSUS du bati (tete sur le bati, ecrou captif dessous).
      Berceau gauche (z faible) et droit (z fort) sont des miroirs : ne pas les intervertir (les colonnes arriere vont vers le centre).
   3. Mettre le baton dans le demi-tube, plot vers l'avant. Passer les fils par les trous de 8 mm des butees.
   4. Poser les 2 brides sous le baton, 2 vis M3 x 20 chacune PAR DESSOUS (tete noyee dans la bride) dans les ecrous captifs. Serrer sans ecraser.
-  5. Pieds (facultatif) : un par cote, derriere le berceau, 2 vis M3 x 20 par le dessus du bati dans les trous de 2,6 mm (elles taraudent
-     le plastique). Visser une vis M3 x 20 par le dessous, tete en bas, et la regler pour que la tete soit a 2 ou 3 mm du sol.
 
 APRES LE MONTAGE
   Regler SENS et DECALAGE_DEG dans 03_Reseau_de_neurones/esp32/bras_robot/bras_robot.ino, servo par servo (commande USB J).

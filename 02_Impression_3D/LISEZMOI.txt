@@ -1,6 +1,6 @@
-MISE A JOUR DU 18/11/2026 : 4 STL NOUVEAUX + 1 REFAIT (robot, pas le bras)
-  NOUVEAU : berceau batterie gauche (28 g), berceau batterie droit (28 g, miroir), bride batterie (2,7 g, x4), pied anti-bascule (10,4 g, x2, facultatif).
-  REFAIT : bati (avec le trou de la cuve) : 8 trous de 3,4 mm de plus (on peut aussi percer le votre). Total : 32 STL.
+MISE A JOUR DU 18/11/2026 : 3 STL NOUVEAUX + 1 REFAIT (robot, pas le bras)
+  NOUVEAU : berceau batterie gauche (28 g), berceau batterie droit (28 g, miroir), bride batterie (2,7 g, x4),
+  REFAIT : bati (avec le trou de la cuve) : pointe avant, 4 trous de 3,4 et 4 trous de 10 mm de plus (voir CE QUI A CHANGE.txt, correction du 18/11 soir). Total : 31 STL.
   Berceaux : poses sur leur plan de joint (le demi-tube ouvert contre le plateau, colonnes vers le haut), 4 perimetres, supports sous l arche si le slicer le demande. Detail : Documents/CE QUI A CHANGE.txt (18/11).
 MISE A JOUR DU 13/11/2026 : 10 STL refaits (28 STL au total)
   A REIMPRIMER : bras (53,5 g, 5 perimetres, 40 %), plateau (41,1 g), patin_a/b/c, axe_epaule, corps_pince,
