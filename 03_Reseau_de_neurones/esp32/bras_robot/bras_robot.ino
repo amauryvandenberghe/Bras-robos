@@ -48,9 +48,12 @@ const int V_DEMARRAGE = 150;               // impulsion pour decoller le robot
 const unsigned long DEMARRAGE_MS = 250;
 const float KP_DEG = 14.0f;                // braquage (degres) quand la ligne est sous un capteur exterieur
 const float BRAQUAGE_MAX_DEG = 18.0f;
-const float VITESSE_BRAQUAGE_DEG_S = 120.0f;
+const float VITESSE_BRAQUAGE_DEG_S = 200.0f;
 const float FILTRE_ECART = 0.35f;          // lissage de l'ecart (0 a 1 : plus petit = plus doux)
 const int SIGNE_BRAQUAGE = 1;              // -1 si le robot s'ecarte de la ligne au lieu d'y revenir
+// Reglables sans reteleverser (USB : T kp kd vdroite vvirage, ex. T 20 12 140 90). kd : terme derive (anticipe le virage, freine les zigzags).
+float kp = KP_DEG, kd = 8.0f, v_droite = V_LIGNE_DROITE, v_virage = V_LIGNE_VIRAGE;
+float ecart_prec = 0;
 const unsigned long PERTE_MAX_MS = 1500;   // ligne perdue plus longtemps : arret
 
 // ---- BRAS ----
@@ -98,7 +101,7 @@ static void lancer_suivi() {
     int b[3];
     lire_capteurs(b);
     for (int i = 0; i < 3; i++) cmin[i] = cmax[i] = b[i];
-    ecart_filtre = braquage = 0;
+    ecart_filtre = braquage = ecart_prec = 0;
     suivi = SUIVI_ATTENTE;
     signaler("N suivi de ligne : attente de la ligne");
 }
@@ -141,11 +144,13 @@ static void pas_suivi() {
         e = 1.3f * dernier_cote;  // ligne sortie d'un cote : on braque de ce cote
     }
     ecart_filtre += FILTRE_ECART * (e - ecart_filtre);
-    float but = constrain(-KP_DEG * ecart_filtre, -BRAQUAGE_MAX_DEG, BRAQUAGE_MAX_DEG);
+    float deriv = ecart_filtre - ecart_prec;  // par pas de 10 ms
+    ecart_prec = ecart_filtre;
+    float but = constrain(-(kp * ecart_filtre + kd * deriv), -BRAQUAGE_MAX_DEG, BRAQUAGE_MAX_DEG);
     float pas = VITESSE_BRAQUAGE_DEG_S * 0.010f;
     braquage += constrain(but - braquage, -pas, pas);
     direction_ecrire(CENTRE_DIR + SIGNE_BRAQUAGE * braquage);
-    int v = V_LIGNE_DROITE - (int)lroundf((V_LIGNE_DROITE - V_LIGNE_VIRAGE) * min(1.0f, fabsf(ecart_filtre)));
+    int v = (int)lroundf(v_droite - (v_droite - v_virage) * min(1.0f, fabsf(ecart_filtre) + 4.0f * fabsf(deriv)));
     if (t - debut_roule < DEMARRAGE_MS) v = V_DEMARRAGE;
     moteur_commande(v, SENS_AVANCE);
     if ((long)(t - prochain_aff) >= 0) {
@@ -404,6 +409,10 @@ static void ligne_usb(char *l) {
         ACTIF[i] = true;
         bras_poser(i, servo_q(i, constrain(d, ANGLE_MIN, ANGLE_MAX)));
         Serial.printf("D %s actif : %.1f degres servo\n", NOM_SERVO[i], servo_degres(i, bras_consigne(i)));
+    } else if (l[0] == 'T') {
+        float a, b2, c, e2;
+        if (sscanf(l + 1, "%f %f %f %f", &a, &b2, &c, &e2) == 4) { kp = constrain(a, 0, 40); kd = constrain(b2, 0, 60); v_droite = constrain(c, 40, 255); v_virage = constrain(e2, 40, v_droite); }
+        Serial.printf("T kp %.1f kd %.1f vitesse droite %.0f virage %.0f\n", kp, kd, v_droite, v_virage);
     } else if (l[0] == 'C' && !l[1]) {
         tout_arreter("C : bras vertical et droit (calage)");
         vider_file();
