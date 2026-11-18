@@ -1,3 +1,58 @@
+CE QUI A CHANGE LE 18/11/2026 : BATTERIES, PIEDS ANTI-BASCULE (robot complet seulement)
+====================================================================================
+Archive d'avant : 3_Anciennes versions/3m_18-11 avant batteries (Assemblage1v2, bati, batterie, STL du bati).
+Images : Documents/Robot complet (18-11).png et Documents/Robot dessous (18-11).png (vue de dessous : berceaux, brides, pieds).
+Le bras n'a pas change. Code de la CAO : bras_50cm/robot/support_batteries.py (WSL).
+
+BATTERIES : 2 batons de 110 mm x Ø18 mm (modele : batterie 18x110.SLDPRT, remplace les 2 blocs de 20 x 20 x 150 mm
+  qui sortaient de 14 mm derriere le bati : le robot depassait les 200 mm du reglement, ce n'est plus le cas).
+  Elles sont maintenant SOUS le bati, sur les cotes, dans l'axe x : x 28 a 139, axe a y 504 (environ 60 mm au-dessus du sol),
+  z 449,75 et 575,69 (63 mm de part et d'autre de l'axe du robot). Pourquoi la :
+    - au milieu il y a le bloc de direction (z 470 a 556), les capteurs (z 471 a 554), l'ESP32 et le L298N : les cotes sont libres ;
+    - la masse est entre l'essieu moteur (x 44) et la poutre avant (x 170) et tres basse : le centre de gravite descend, les roues
+      motrices sont chargees (ce sont elles qui accrochent) ;
+    - le bati et le L298N ne bougent pas : 8 trous de 3,4 mm seulement dans le bati.
+  Tenue (fiable et solide, rien ne repose sur du collage) :
+    - berceau batterie gauche / droit (28 g chacun, miroirs l'un de l'autre) : demi-tube du haut, butees de 3 mm aux 2 bouts avec
+      un passage de fil, suspendu a 7 mm sous le bati par 2 colonnes. 2 vis M3 x 20 par berceau, DEPUIS LE DESSUS du bati (tete
+      sur le bati, ecrou M3 captif dans une fente laterale du berceau). Les colonnes de 7 mm laissent passer les ecrous du L298N
+      et de l'ESP32 et les broches de l'ESP32 (1,5 mm de jeu). Colonne arriere cote interieur : les coins arriere du bati sont coupes (25 x 27 mm).
+    - bride batterie (2,7 g, 4 identiques, 2 par baton) : demi-tube du bas, 2 vis M3 x 20 PAR DESSOUS dans des ecrous captifs du
+      berceau. Changer une batterie = defaire 4 vis. Jeu radial 0,3 mm : coller 1 mm de mousse ou de TPU dans le logement pour
+      qu'elle ne vibre pas (a voir sur la vraie batterie).
+  Fils : sortie par les trous de 8 mm des butees, puis par dessus le bord du bati (a la main).
+  Masse des batteries : pas connue (supposee 2 x 45 g). La position est bonne tant qu'elles font moins de 100 g chacune.
+
+PIEDS ANTI-BASCULE (pied anti-bascule.SLDPRT, 10,4 g, 2 identiques) : colonne de 11 x 15 mm x 66 mm derriere chaque berceau,
+  vissee au bati par 2 vis M3 x 20 (taraudees dans le plastique, trou de 2,6 mm). Dessous : une vis M3 x 20 de reglage a placer a
+  2 ou 3 mm du sol. Raison : les roues motrices sont tres rapprochees (34 mm entre elles) et les 2 roues libres sont a l'avant :
+  en virage rapide ou bras tendu sur le cote, le robot peut se pencher vers l'arriere. Les pieds ne touchent le sol que dans ce cas.
+  Dans le modele la vis est a y 446,1 (roues arriere a 442,6, roues avant 5 mm plus haut dans le modele) : a regler sur le vrai robot.
+  Sans effet sur le suivi de ligne tant qu'ils ne touchent pas : on peut ne pas les monter.
+
+BATI : 8 trous de 3,4 mm (fonction "Trous batteries et pieds") : (31 ; 461,75), (135,5 ; 437,75), (31 ; 563,69), (135,5 ; 587,69)
+  pour les 4 colonnes, et 4 trous des pieds (18,5 ; 459,5 / 466,5) + les 2 symetriques. 8 trous au total : STL du bati refait.
+  Si votre bati est deja imprime : percer a 3,4 mm aux positions ci-dessus (x et z de l'assemblage ; x 12,3 = bord arriere,
+  z 432,7 = bord gauche).
+
+CONTROLES : 40 composants ajoutes (5 pieces dessinees, 18 vis M3 x 20, 12 ecrous M3), tous fixes. Interferences : seulement les
+  filets (vis dans ecrou, vis dans le trou de 2,6 mm des pieds, vis dans bride) : aucune entre berceaux, batteries, ESP32, L298N,
+  bloc de direction, capteurs, roues, bras. Les 6 STL (berceau x2, bride, pied, bati) sont etanches.
+PAS VERIFIE : rien n'est imprime. Dimensions et masse reelles de la batterie. Jeu des fils. Hauteur des pieds sur le vrai sol.
+  Gazebo n'a pas ces pieces (inutile : il ne simule que le bras).
+
+POUR GAGNER LA COURSE : ce que la CAO ne regle pas (a discuter)
+  1. Suivi de ligne : c'est le programme, pas la mecanique. Pistes : correcteur PID sur les 3 capteurs avant (aujourd'hui
+     proportionnel seul), memoire du dernier cote ou la ligne a ete vue, vitesse reduite seulement en virage (mesuree par
+     l'ecart des capteurs) et pleine vitesse en ligne droite, frein moteur avant un virage serre.
+  2. Direction a l'arriere : le robot braque par ses roues arriere, les capteurs sont a l'avant a 170 mm : le robot reagit avec
+     du retard. Un angle de braquage trop grand a vitesse elevee fait deriver l'avant : limiter l'angle selon la vitesse.
+  3. Sol : le Ø60 mm des roues motrices et leur largeur de 14 mm decident de l'adherence. Un joint torique ou une bande de
+     caoutchouc dans une gorge des jantes aide beaucoup, c'est a essayer avant de changer quoi que ce soit.
+  4. Hauteur des capteurs : environ 11 a 12 mm du sol d'apres le modele ; les capteurs reflectifs sont meilleurs a 3 a 8 mm.
+     A mesurer sur le vrai robot (on abaisse le support, la rangee est deja dessinee pour ca).
+  5. Poids : le robot pese lourd pour un robot de course (bras, 2 batteries, 5 servos). Bras replie (H) avant de partir.
+
 CE QUI A CHANGE LE 13/11/2026 : U DU BRAS, PATINS DE LA BASE, PINCE
 ====================================================================
 Archive d'avant : 3_Anciennes versions/3l_13-11 avant renforts U, patins, pince (SolidWorks + anciens STL).
