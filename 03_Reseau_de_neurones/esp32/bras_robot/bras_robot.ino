@@ -52,9 +52,9 @@ const int V_LIGNE_VIRAGE = 125;            // vitesse mini dans un virage serre
 const int V_PERDU = 120;                   // vitesse quand la ligne est perdue
 const int V_DEMARRAGE = 230;               // consigne de depart (puis rampe)
 const float ACCEL_PAR_S = 700.0f;          // montee de la vitesse (unites PWM par seconde)
-const float KP_DEG = 55.0f;                // degres de braquage pour un ecart de 1 (ligne sous un capteur exterieur)
-const float KD_DEFAUT = 70.0f;             // terme derive, par pas de 10 ms
-const float BRAQUAGE_MAX_DEG = 42.0f;
+const float KP_DEG = 30.0f;                // degres de braquage pour un ecart de 1 (ligne sous un capteur exterieur)
+const float KD_DEFAUT = 60.0f;             // terme derive, par pas de 10 ms
+const float BRAQUAGE_MAX_DEG = 32.0f;
 const unsigned long PERIODE_SUIVI_MS = 5;  // 200 Hz (le servo ne se rafraichit qu'a 50 Hz)
 const int SIGNE_BRAQUAGE = 1;              // -1 si le robot s'ecarte de la ligne au lieu d'y revenir
 // Reglables sans reteleverser (USB : T kp kd vdroite vvirage, ex. T 40 60 220 160).
@@ -108,7 +108,7 @@ static void moteur_commande(int v, char sens) {
 static void arreter_conduite() { suivi = SUIVI_OFF; moteur_commande(0, SENS_AVANCE); direction_ecrire(CENTRE_DIR); }
 const int CAPT_AR[3] = {26, 14, 35};       // rangee arriere (ajoutee le 19/11) : gauche, milieu, droite
 Rangee AV = {CAPT}, AR = {CAPT_AR};
-const float KH_DEFAUT = 35.0f;             // degres de braquage pour un cap de 1 (ecart avant - arriere)
+const float KH_DEFAUT = 15.0f;             // degres de braquage pour un cap de 1 (ecart avant - arriere)
 float kh = KH_DEFAUT;
 
 static void lire_rangee(Rangee &r) {
@@ -188,8 +188,9 @@ static void pas_suivi() {
     float derive = (p - pos_prec) / dt;           // 1/s
     pos_prec = p;
     derive_filtree += 0.5f * (derive - derive_filtree);
-    float but = constrain(-(kp * p + kd * 0.01f * derive_filtree + kh * cap), -BRAQUAGE_MAX_DEG, BRAQUAGE_MAX_DEG);
-    braquage += 0.7f * (but - braquage);          // lissage leger contre le bruit des capteurs
+    float p_eff = (fabsf(p) < 0.08f) ? 0.0f : p * (0.5f + 0.5f * fabsf(p));   // petits ecarts : petits mouvements
+    float but = constrain(-(kp * p_eff + kd * 0.01f * derive_filtree + kh * cap), -BRAQUAGE_MAX_DEG, BRAQUAGE_MAX_DEG);
+    braquage += constrain(0.4f * (but - braquage), -300.0f * dt, 300.0f * dt);   // doux : lissage + 300 degres par seconde au plus
     direction_ecrire(CENTRE_DIR + SIGNE_BRAQUAGE * braquage);
 
     // vitesse : pleine si l'avant et l'arriere sont sur la ligne et alignes ; on ralentit des que la ligne s'ecarte ou tourne
