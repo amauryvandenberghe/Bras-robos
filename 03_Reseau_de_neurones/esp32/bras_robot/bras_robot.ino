@@ -61,6 +61,13 @@ const int SIGNE_BRAQUAGE = 1;              // -1 si le robot s'ecarte de la lign
 float kp = KP_DEG, kd = KD_DEFAUT, v_droite = V_LIGNE_DROITE, v_virage = V_LIGNE_VIRAGE;
 const unsigned long PERTE_MAX_MS = 1500;   // ligne perdue plus longtemps : arret
 
+// Une rangee de 3 capteurs (gauche, milieu, droite) avec son etalonnage noir / blanc automatique.
+struct Rangee {
+    const int *pin;
+    int cmin[3], cmax[3], b[3];
+    bool vu;
+    float p;   // -1 ligne sous le capteur gauche, 0 au milieu, +1 sous le capteur droit
+};
 // ---- BRAS ----
 // Postures en radians (convention du reseau ; pince : SERVO_OUVERT / SERVO_FERME). Entre parentheses : degres servo.
 // Home : epaule penchee de 40 degres, coude replie : centre de gravite 6,5 cm plus bas qu'au repos du reseau.
@@ -99,8 +106,34 @@ static void moteur_commande(int v, char sens) {
     moteur.write(v);
 }
 static void arreter_conduite() { suivi = SUIVI_OFF; moteur_commande(0, SENS_AVANCE); direction_ecrire(CENTRE_DIR); }
-static void lire_capteurs(int b[3]) {
-    for (int i = 0; i < 3; i++) { int s = 0; for (int k = 0; k < 4; k++) s += analogRead(CAPT[i]); b[i] = s / 4; }
+const int CAPT_AR[3] = {26, 14, 35};       // rangee arriere (ajoutee le 19/11) : gauche, milieu, droite
+Rangee AV = {CAPT}, AR = {CAPT_AR};
+const float KH_DEFAUT = 25.0f;             // degres de braquage pour un cap de 1 (ecart avant - arriere)
+float kh = KH_DEFAUT;
+
+static void lire_rangee(Rangee &r) {
+    for (int i = 0; i < 3; i++) { int s = 0; for (int k = 0; k < 4; k++) s += analogRead(r.pin[i]); r.b[i] = s / 4; }
+}
+static void lire_capteurs(int b[3]) { lire_rangee(AV); for (int i = 0; i < 3; i++) b[i] = AV.b[i]; }
+static void init_rangee(Rangee &r) { lire_rangee(r); for (int i = 0; i < 3; i++) r.cmin[i] = r.cmax[i] = r.b[i]; r.vu = false; r.p = 0; }
+static void mesurer(Rangee &r) {
+    lire_rangee(r);
+    int gmin = 4095, gmax = 0;
+    for (int i = 0; i < 3; i++) {
+        r.cmin[i] = min(r.cmin[i], r.b[i]); r.cmax[i] = max(r.cmax[i], r.b[i]);
+        gmin = min(gmin, r.cmin[i]); gmax = max(gmax, r.cmax[i]);
+    }
+    r.vu = false; r.p = 0;
+    if (gmax - gmin < CONTRASTE_MIN) return;
+    float n[3];
+    for (int i = 0; i < 3; i++) {
+        bool propre = r.cmax[i] - r.cmin[i] >= CONTRASTE_MIN;
+        float bas = propre ? r.cmin[i] : gmin, haut = propre ? r.cmax[i] : gmax;
+        float x = constrain((r.b[i] - bas) / (haut - bas), 0.0f, 1.0f);
+        n[i] = NOIR_ELEVE ? x : 1.0f - x;
+    }
+    float t = n[0] + n[1] + n[2];
+    if (t >= 0.35f) { r.vu = true; r.p = (n[2] - n[0]) / t; }
 }
 
 float pos_prec = 0, derive_filtree = 0, v_actuelle = 0, braquage = 0;
@@ -108,45 +141,30 @@ unsigned long dernier_us = 0;
 
 static void lancer_suivi() {
     arreter_conduite();
-    int b[3];
-    lire_capteurs(b);
-    for (int i = 0; i < 3; i++) cmin[i] = cmax[i] = b[i];
+    init_rangee(AV); init_rangee(AR);
     pos_prec = derive_filtree = v_actuelle = braquage = 0;
     dernier_us = 0;
     suivi = SUIVI_ATTENTE;
     signaler("N suivi de ligne : attente de la ligne");
 }
 
-// Toutes les PERIODE_SUIVI_MS. Position p : -1 ligne sous le capteur gauche, 0 au milieu, +1 sous le capteur droit.
+// Toutes les PERIODE_SUIVI_MS. Avant : p_av (regarde devant). Arriere : p_ar (86 mm derriere). Cap = p_av - p_ar :
+// si la ligne penche, l'avant la voit s'ecarter avant que l'arriere ne bouge : on braque plus tot et plus juste.
 static void pas_suivi() {
     unsigned long us = micros();
     float dt = dernier_us ? (us - dernier_us) * 1e-6f : PERIODE_SUIVI_MS * 1e-3f;
     dernier_us = us;
     if (dt <= 0 || dt > 0.05f) dt = PERIODE_SUIVI_MS * 1e-3f;
 
-    int b[3];
-    lire_capteurs(b);
-    int gmin = 4095, gmax = 0;
-    for (int i = 0; i < 3; i++) {  // etalonnage : noir et blanc vus par chaque capteur
-        cmin[i] = min(cmin[i], b[i]); cmax[i] = max(cmax[i], b[i]);
-        gmin = min(gmin, cmin[i]); gmax = max(gmax, cmax[i]);
-    }
-    bool vu = false;
-    float p = 0;
-    if (gmax - gmin >= CONTRASTE_MIN) {
-        float n[3];
-        for (int i = 0; i < 3; i++) {
-            bool propre = cmax[i] - cmin[i] >= CONTRASTE_MIN;
-            float bas = propre ? cmin[i] : gmin, haut = propre ? cmax[i] : gmax;
-            float x = constrain((b[i] - bas) / (haut - bas), 0.0f, 1.0f);
-            n[i] = NOIR_ELEVE ? x : 1.0f - x;
-        }
-        float t = n[0] + n[1] + n[2];
-        if (t >= 0.35f) { vu = true; p = (n[2] - n[0]) / t; }
-    }
+    mesurer(AV); mesurer(AR);
+    bool vu = AV.vu || AR.vu;
+    float p = AV.p, cap = 0;
+    if (AV.vu && AR.vu) cap = AV.p - AR.p;
+    else if (!AV.vu && AR.vu) p = 1.3f * AR.p;   // l'avant a depasse la ligne, l'arriere la voit encore : on la rattrape
+
     unsigned long t = millis();
     if (suivi == SUIVI_ATTENTE) {
-        if (!vu) return;
+        if (!AV.vu) return;
         suivi = SUIVI_ROULE;
         debut_roule = derniere_vue = t;
         pos_prec = p;
@@ -163,11 +181,12 @@ static void pas_suivi() {
     float derive = (p - pos_prec) / dt;           // 1/s
     pos_prec = p;
     derive_filtree += 0.5f * (derive - derive_filtree);
-    float but = constrain(-(kp * p + kd * 0.01f * derive_filtree), -BRAQUAGE_MAX_DEG, BRAQUAGE_MAX_DEG);
+    float but = constrain(-(kp * p + kd * 0.01f * derive_filtree + kh * cap), -BRAQUAGE_MAX_DEG, BRAQUAGE_MAX_DEG);
     braquage += 0.7f * (but - braquage);          // lissage leger contre le bruit des capteurs
     direction_ecrire(CENTRE_DIR + SIGNE_BRAQUAGE * braquage);
 
-    float gene = min(1.0f, 1.2f * fabsf(p) + 0.06f * fabsf(derive_filtree));
+    // vitesse : pleine si l'avant et l'arriere sont sur la ligne et alignes ; on ralentit des que la ligne s'ecarte ou tourne
+    float gene = min(1.0f, 1.2f * fabsf(p) + 0.06f * fabsf(derive_filtree) + 0.8f * fabsf(cap));
     float v_cible = vu ? v_droite - (v_droite - v_virage) * gene : (float)V_PERDU;
     if (v_cible > v_actuelle) v_actuelle = min(v_cible, v_actuelle + ACCEL_PAR_S * dt);
     else v_actuelle = v_cible;
@@ -178,7 +197,8 @@ static void pas_suivi() {
     dernier_pas = t;
     if ((long)(t - prochain_aff) >= 0) {
         prochain_aff = t + 200;
-        Serial.printf("N p %+.2f (vu %d) brq %+.1f v %d | capt %d %d %d | pas max %lu ms\n", p, vu, braquage, (int)v_actuelle, b[0], b[1], b[2], pire);
+        Serial.printf("N av %+.2f%s ar %+.2f%s cap %+.2f brq %+.1f v %d | AV %d %d %d AR %d %d %d | pas max %lu ms\n", AV.p, AV.vu ? "" : "(-)", AR.p,
+                      AR.vu ? "" : "(-)", cap, braquage, (int)v_actuelle, AV.b[0], AV.b[1], AV.b[2], AR.b[0], AR.b[1], AR.b[2], pire);
         pire = 0;
     }
 }
@@ -435,8 +455,10 @@ static void ligne_usb(char *l) {
         Serial.printf("D %s actif : %.1f degres servo\n", NOM_SERVO[i], servo_degres(i, bras_consigne(i)));
     } else if (l[0] == 'T') {
         float a, b2, c, e2;
-        if (sscanf(l + 1, "%f %f %f %f", &a, &b2, &c, &e2) == 4) { kp = constrain(a, 0, 40); kd = constrain(b2, 0, 60); v_droite = constrain(c, 40, 255); v_virage = constrain(e2, 40, v_droite); }
-        Serial.printf("T kp %.1f kd %.1f vitesse droite %.0f virage %.0f\n", kp, kd, v_droite, v_virage);
+        float h2 = kh;
+        int nb = sscanf(l + 1, "%f %f %f %f %f", &a, &b2, &c, &e2, &h2);
+        if (nb >= 4) { kp = constrain(a, 0, 100); kd = constrain(b2, 0, 150); v_droite = constrain(c, 40, 255); v_virage = constrain(e2, 40, v_droite); if (nb >= 5) kh = constrain(h2, 0, 80); }
+        Serial.printf("T kp %.1f kd %.1f vitesse droite %.0f virage %.0f cap %.1f\n", kp, kd, v_droite, v_virage, kh);
     } else if (l[0] == 'C' && !l[1]) {
         tout_arreter("C : bras vertical et droit (calage)");
         vider_file();
@@ -446,7 +468,7 @@ static void ligne_usb(char *l) {
         tout_arreter("X : bras relache");
         bras_relacher();
     } else if (l[0] == 'P' && !l[1]) etat_complet();
-    else if (l[0] == 'L' && !l[1]) { int b[3]; lire_capteurs(b); Serial.printf("L %d %d %d\n", b[0], b[1], b[2]); }
+    else if (l[0] == 'L' && !l[1]) { int b[3]; lire_capteurs(b); lire_rangee(AR); Serial.printf("L avant %d %d %d arriere %d %d %d\n", b[0], b[1], b[2], AR.b[0], AR.b[1], AR.b[2]); }
     else for (char *p = l; *p; p++) traiter_octet(*p);
 }
 
