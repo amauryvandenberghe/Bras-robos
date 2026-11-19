@@ -1,3 +1,4 @@
+MISE A JOUR DU 20/11/2026 (2) : piece moteur direction = boitier + support des 6 capteurs (une piece) ; embout batteries x2 remplace berceau et brides ; bati arrondi et ajoure ; roues ajourees. 29 STL.
 MISE A JOUR DU 20/11/2026 : support capteurs 2 rangees SUPPRIME ; support capteurs direction refait (6 capteurs sur la roue). 30 STL, tous etanches, a imprimer tels quels.
 MISE A JOUR DU 19/11/2026 soir : + support capteurs direction (3 capteurs sur le bloc moteur de direction, a coller). 31 STL.
 MISE A JOUR DU 19/11/2026 : 30 STL (a reimprimer : bati, berceau batteries, bride batterie x2, support capteurs 2 rangees)

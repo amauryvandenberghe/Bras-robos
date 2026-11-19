@@ -1,3 +1,23 @@
+CE QUI A CHANGE LE 20/11/2026 (2) : PIECE UNIQUE MOTEUR + CAPTEURS, EMBOUTS DE BATTERIES, BATI ARRONDI, ROUES AJOUREES
+====================================================================================================================
+Archive d'avant : 3_Anciennes versions/3r_20-11 avant piece unique, embouts, bati arrondi (pieces et STL d'avant).
+Images : Documents/Robot complet / dessous / dessus (20-11).png. Code CAO (WSL, bras_50cm/robot/) : fusion_moteur_capteurs.py,
+embout_batteries.py, forme_bati.py.
+1. "piece moteur direction" = boitier d'origine + support des 6 capteurs, en UNE piece (37 g, imprimee d'un seul tenant, sans vis
+   ni colle). Le fichier d'origine est remplace (meme nom, meme place). Le support capteurs direction separe n'existe plus.
+   Les 12 contraintes qui tenaient roues / moteur / tige sur l'ancien boitier ont saute : piece fixee, rien n'a bouge
+   (contacts roue / boitier 0,08 mm3 comme avant).
+2. Batteries : berceau + 2 brides + 14 vis remplaces par 2 EMBOUTS identiques (embout batteries x2.STL, 8 g chacun) :
+   un godet a 2 alveoles qui coiffe les bouts des 2 batons colles, et une colonne vissee sous le bati par UNE vis M3 x 20
+   (tete sur le dessus du bati, ecrou glisse dans la fente de la colonne). Trous deja dans le bati (x 136 ; z 449,7 et 575,7).
+   Montage : visser un embout, engager les batons, poser l'autre embout sur les autres bouts, visser : ils sont serres entre les deux.
+   Fils : trou de 7 mm au fond de chaque alveole, puis trou de 8 mm du bati juste a cote.
+3. Bati : contour arrondi (enveloppe des pieces posees dessus et dessous, symetrique, rayon 12) + 3 fenetres d'allegement ;
+   tous les trous gardes. 142,6 -> 115,7 g (-19 %).
+4. Roues ajourees : motrices 5 trous de 13 mm (21,2 -> 16,1 g), libres 6 trous de 9 mm (20,0 -> 16,8 g).
+29 STL dans 02_Impression_3D, tous etanches. Pas d'interference nouvelle. Rien d'imprime, rien de monte.
+A voir : la piece moteur unique a de longs bras en porte-a-faux : l'imprimer couchee avec supports.
+
 CE QUI A CHANGE LE 20/11/2026 : 6 CAPTEURS SUR LE BLOC DE DIRECTION, ANCIENS CAPTEURS SUPPRIMES
 ===============================================================================================
 Archive d'avant : 3_Anciennes versions/3q_20-11 avant 6 capteurs sur la direction (assemblage + ancien STL du support 2 rangees).
