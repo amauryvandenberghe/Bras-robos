@@ -1,3 +1,19 @@
+CE QUI A CHANGE LE 19/11/2026 (soir) : 3 CAPTEURS SUR LE BLOC MOTEUR DE DIRECTION
+=================================================================================
+Archive d'avant : 3_Anciennes versions/3p_19-11 avant capteurs sur la direction. Code : bras_50cm/robot/support_capteurs_direction.py (WSL).
+Le robot roule maintenant cote direction (programme : INVERSER_AVANT_ARRIERE). Les 3 capteurs de tete sont fixes au bloc moteur
+de direction et TOURNENT AVEC LA ROUE : ils voient la ligne juste devant la roue qui braque, sans retard.
+- support capteurs direction.STL (6,3 g) : plaque COLLEE sur la face avant du boitier "piece moteur direction" (19 x 33 mm,
+  entre les 2 roues) ; 2 trous de 3,4 mm si on prefere visser (percer le boitier en face). Pas de joues : les jantes sont trop pres.
+- 3 capteurs a 20 mm d'ecart, element a 5 mm du sol : lateraux a 8 mm devant la jante, cartes en travers vers l'exterieur ;
+  central 8,5 mm plus en avant, carte vers l'arriere entre les roues. Vis M2 x 8 + ecrous M2 (3).
+- Cablage conseille : deplacer sur ce support les 3 capteurs de l'ancienne rangee avant (broches 27 / 15 / 34), qui se retrouve
+  derriere et ne sert plus ; la rangee du milieu (26 / 14 / 35) reste pour le cap.
+- ATTENTION reglement : le support depasse de 20 mm devant le bord du bati (robot de 220 mm, plus en braquant). La base doit
+  tenir dans un carre de 200 mm : a faire valider, ou raccourcir le bati de l'autre cote.
+- Controle : 180 contraintes, 0 en erreur ; seuls contacts : cartes posees sur le support et filets des vis. Aucun contact avec
+  les roues ni le boitier. Rien d'imprime.
+
 CE QUI A CHANGE LE 19/11/2026 : BATTERIES COLLEES, CAPTEURS ECARTES ET ABAISSES, BATI (robot complet)
 ====================================================================================================
 Archive d'avant : 3_Anciennes versions/3o_19-11 avant refonte batteries et capteurs (assemblage, bati, support, berceaux, STL).

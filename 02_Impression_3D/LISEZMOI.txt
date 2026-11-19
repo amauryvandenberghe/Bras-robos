@@ -1,3 +1,4 @@
+MISE A JOUR DU 19/11/2026 soir : + support capteurs direction (3 capteurs sur le bloc moteur de direction, a coller). 31 STL.
 MISE A JOUR DU 19/11/2026 : 30 STL (a reimprimer : bati, berceau batteries, bride batterie x2, support capteurs 2 rangees)
   Batteries collees en un berceau central, capteurs a 20 mm d'ecart et 5 mm du sol, bati : voir Documents/CE QUI A CHANGE.txt (19/11).
   Les lignes du 18/11 ci-dessous (berceau gauche/droit, pieds) sont remplacees.
