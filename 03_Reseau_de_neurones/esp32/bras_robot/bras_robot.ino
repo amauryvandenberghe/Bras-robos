@@ -33,7 +33,10 @@ BluetoothSerial SerialBT;
 // ---- PROPULSION (L298N) ----
 const int PIN_ENA = 25, PIN_IN1 = 33, PIN_IN2 = 32;
 const uint32_t FREQ_MOTEUR_HZ = 1000;   // 5 kHz le 19/11 : le moteur ne partait plus, retour a 1 kHz
-const char SENS_AVANCE = 'A';  // essai du 12/11 : l'application avance avec A
+// 19/11 : le robot roule maintenant du cote du moteur de direction (la direction passe a l'avant). true : le sens A de l'application
+// et du suivi de ligne devient un recul du point de vue ancien, la direction (O) est miroir, et les rangees de capteurs echangent leurs roles.
+const bool INVERSER_AVANT_ARRIERE = true;
+const char SENS_AVANCE = INVERSER_AVANT_ARRIERE ? 'B' : 'A';
 const int CENTRE_DIR = 90;
 
 // ---- SUIVI DE LIGNE (3 capteurs avant) : REECRIT le 19/11 ----
@@ -107,7 +110,7 @@ static void moteur_commande(int v, char sens) {
 }
 static void arreter_conduite() { suivi = SUIVI_OFF; moteur_commande(0, SENS_AVANCE); direction_ecrire(CENTRE_DIR); }
 const int CAPT_AR[3] = {26, 14, 35};       // rangee arriere (ajoutee le 19/11) : gauche, milieu, droite
-Rangee AV = {CAPT}, AR = {CAPT_AR};
+Rangee AV = {INVERSER_AVANT_ARRIERE ? CAPT_AR : CAPT}, AR = {INVERSER_AVANT_ARRIERE ? CAPT : CAPT_AR};   // AV = rangee qui precede dans le sens de la marche
 const float KH_DEFAUT = 15.0f;             // degres de braquage pour un cap de 1 (ecart avant - arriere)
 float kh = KH_DEFAUT;
 
@@ -412,7 +415,7 @@ static bool conduite_refusee() {
 static void commande_direction(int n) {
     if (conduite_refusee()) return;
     suivi = SUIVI_OFF;
-    direction_ecrire(n);
+    direction_ecrire(INVERSER_AVANT_ARRIERE ? 180 - n : n);
 }
 
 static void traiter_octet(char c) {
@@ -433,7 +436,7 @@ static void traiter_octet(char c) {
         case 'H': aller_home(); break;
         case 'V': case 'O': trame = c; valeur = nb_chiffres = 0; debut_trame = millis(); break;
         case 'A': case 'B':
-            if (en_cours == 'V' && n >= 0 && !conduite_refusee()) { suivi = SUIVI_OFF; moteur_commande(n, c); }
+            if (en_cours == 'V' && n >= 0 && !conduite_refusee()) { suivi = SUIVI_OFF; moteur_commande(n, INVERSER_AVANT_ARRIERE ? (c == 'A' ? 'B' : 'A') : c); }
             break;
         default: break;  // L (connexion) et le reste : ignores
     }
