@@ -1,3 +1,17 @@
+CE QUI A CHANGE LE 20/11/2026 : 6 CAPTEURS SUR LE BLOC DE DIRECTION, ANCIENS CAPTEURS SUPPRIMES
+===============================================================================================
+Archive d'avant : 3_Anciennes versions/3q_20-11 avant 6 capteurs sur la direction (assemblage + ancien STL du support 2 rangees).
+- Supprimes : support capteurs 2 rangees, les 6 capteurs fixes et leur visserie (2 vis de poutre, colonne, ecrou, rondelles).
+  Les trous correspondants restent dans le bati et la poutre (sans effet).
+- support capteurs direction.STL (17,1 g, refait) : 2 rangees de 3 capteurs, toutes deux sur le bloc moteur de direction :
+  rangee de tete devant la roue (x 5,5 et -3), 2e rangee derriere le moteur (x 112 et 120,5). Meme hauteur (5 mm du sol),
+  meme ecart (20 mm). La plaque se colle sur la face avant du boitier ET une poutre de 18 mm se colle sous le boitier.
+  Tout tourne avec la roue : aucun decalage entre capteurs fixes et capteurs mobiles.
+- Cablage : rangee de tete 27 (gauche du robot dans le sens de marche) / 15 / 34 (droite) ; 2e rangee 26 / 14 / 35, meme sens.
+- Controle : 153 contraintes, 0 en erreur ; contacts seulement cartes / support et filets. 30 STL, tous etanches.
+- A verifier : le support depasse de 20 mm devant le bati (reglement : carre de 200 mm) ; la 2e rangee est a 68 mm derriere
+  l'axe des roues motrices : si le robot penche vers l'avant, elle se rapproche du sol (prevoir 1 mm de cale si elle frotte).
+
 CE QUI A CHANGE LE 19/11/2026 (soir) : 3 CAPTEURS SUR LE BLOC MOTEUR DE DIRECTION
 =================================================================================
 Archive d'avant : 3_Anciennes versions/3p_19-11 avant capteurs sur la direction. Code : bras_50cm/robot/support_capteurs_direction.py (WSL).

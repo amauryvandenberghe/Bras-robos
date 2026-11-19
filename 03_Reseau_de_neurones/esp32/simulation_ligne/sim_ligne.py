@@ -73,6 +73,8 @@ CONFIGS = {
     'C': dict(sigma=-1, s_dir=+L_EMP, s_av=+L_EMP + 30.0, s_ar=+L_EMP - 56.0, lat=-1),
     # D = B + 3 capteurs de tete FIXES AU BLOC DE DIRECTION (tournent avec la roue), 38 et 47 mm devant l'axe de la roue
     'D': dict(sigma=-1, s_dir=+L_EMP, s_av=None, s_ar=+58.0, lat=-1, roue=True, d_lat=38.2, d_cen=46.7),
+    # E (20/11) = 6 capteurs sur le bloc de direction : 3 devant la roue, 3 derriere le moteur (68 et 77 mm derriere l'axe de la roue)
+    'E': dict(sigma=-1, s_dir=+L_EMP, s_av=None, s_ar=None, lat=-1, roue=True, d_lat=38.2, d_cen=46.7, d_lat_ar=-68.3, d_cen_ar=-76.8),
 }
 
 # ---------------------------------------------------------------- regulateur (portage de bras_robot.ino)
@@ -144,6 +146,7 @@ class Regulateur:
                 return 0.0, 0.0
             p = 1.5 * self.dernier_cote
         if P.get('roue'):
+            self.p_ar_roue = p_ar if vu_ar else None
             return self._pas_roue(t, dt, vu_av, p_av, vu)
         derive = (p - self.pos_prec) / dt
         self.pos_prec = p
@@ -170,11 +173,15 @@ def _pas_roue(self, t, dt, vu_av, p, vu):
         derive = (p - self.pos_prec) / dt; self.pos_prec = p
         self.deriv += 0.5 * (derive - self.deriv)
         cible = self.braq - P['g'] * alpha - P['kd'] * 0.01 * self.deriv
+    elif getattr(self, 'p_ar_roue', None) is not None and P.get('arriere', True):
+        alpha = math.degrees(math.atan2(self.p_ar_roue * 20.0, 40.0))    # l'avant a depasse : on suit la rangee arriere
+        cible = self.braq - P['g'] * 1.5 * alpha
     else:
         cible = -P['braquage_max'] * self.dernier_cote
     cible = max(-P['braquage_max'], min(P['braquage_max'], cible))
     self.braq += (cible - self.braq) * min(1.0, dt / P['tau'])
-    gene = min(1.0, 1.2 * abs(p) + abs(self.braq) / P.get('braq_lent', 35.0)) if vu_av else 1.0
+    pr = getattr(self, 'p_ar_roue', None)
+    gene = min(1.0, 1.2 * abs(p) + abs(self.braq) / P.get('braq_lent', 35.0) + (P.get('k_courbe', 0.0) * abs(p - pr) if (pr is not None and vu_av) else 0.0)) if vu_av else 1.0
     vc = (P['v_droite'] - (P['v_droite'] - P['v_virage']) * gene) * self.facteur if vu else P['v_perdu']
     self.v = min(vc, self.v + P['accel'] * dt) if vc > self.v else vc
     return self.braq, self.v
@@ -211,9 +218,9 @@ def simuler(cfg, P, hauteur=5.0, pitch=20.0, v255=0.60, tau_v=0.12, tau_s=0.05, 
             raw = []
             for i in range(3):
                 lat = c['lat'] * (1 - i) * pitch
-                if rang == 0 and c.get('roue'):
+                if (rang == 0 and c.get('roue')) or (rang == 1 and c.get('d_lat_ar') is not None):
                     pw = phi_ - math.radians(servo)          # cap de la roue (le servo + fait tourner a droite)
-                    d = c['d_cen'] if i == 1 else c['d_lat']
+                    d = (c['d_cen'] if i == 1 else c['d_lat']) if rang == 0 else (c['d_cen_ar'] if i == 1 else c['d_lat_ar'])
                     ax_ = x + c['s_dir'] * fx; ay_ = y + c['s_dir'] * fy
                     px = ax_ + d * math.cos(pw) - lat * math.sin(pw); py = ay_ + d * math.sin(pw) + lat * math.cos(pw)
                 else:
@@ -301,6 +308,14 @@ def optimiser(cfg, essais=120, graine=1, **kw):
 
 if __name__ == '__main__':
     mode = sys.argv[1] if len(sys.argv) > 1 else 'comparer'
+    if mode == 'six':
+        import json
+        P0 = json.load(open('resultats_optimisation.json'))['D_0.6']['P']
+        for v255 in (0.6, 0.9):
+            for cfg, extra in (('D', {}), ('E', {}), ('E', dict(k_courbe=0.5))):
+                P = dict(P0, **extra)
+                nok, tm, res = evaluer(cfg, P, graines=(10, 11, 12, 13, 14), v255=v255)
+                print(cfg, extra, 'PWM255=%.1f m/s' % v255, 'reussis %d/5' % nok, 'temps %.1f s' % tm, 'ecart max %.0f mm' % max(r['maxerr'] for r in res), flush=True)
     if mode == 'optimiser':
         import json
         out = {}

@@ -1,0 +1,9 @@
+depart 107.6
+3 mieux 90.4 {'g': 2.258, 'tau': 0.02, 'braq_lent': 74.802, 'v_droite': 255, 'v_virage': 255, 'v_perdu': 116.369}
+4 mieux 68.1 {'g': 3.0, 'tau': 0.016, 'braq_lent': 87.808, 'v_droite': 189.679, 'v_virage': 189.679, 'v_perdu': 116.369}
+5 mieux 54.4 {'g': 2.96, 'tau': 0.016, 'braq_lent': 87.808, 'v_droite': 189.679, 'v_virage': 189.679, 'v_perdu': 116.369}
+7 mieux 54.2 {'g': 2.96, 'tau': 0.015, 'braq_lent': 87.808, 'v_droite': 189.679, 'v_virage': 189.679, 'v_perdu': 200.148}
+27 mieux 54.0 {'g': 2.908, 'tau': 0.016, 'braq_lent': 87.808, 'v_droite': 189.679, 'v_virage': 189.679, 'v_perdu': 216.748}
+30 mieux 54.0 {'g': 2.908, 'tau': 0.016, 'braq_lent': 68.774, 'v_droite': 189.679, 'v_virage': 189.679, 'v_perdu': 255}
+VALIDATION 0.6 m/s : 7/10, 16.3 s, ecart max 269 mm
+VALIDATION 0.9 m/s : 10/10, 10.9 s, ecart max 124 mm
