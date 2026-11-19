@@ -47,14 +47,14 @@ const int CENTRE_DIR = 90;
 const int CAPT[3] = {27, 15, 34};          // gauche, milieu, droite
 const bool NOIR_ELEVE = true;              // la ligne noire donne une valeur haute
 const int CONTRASTE_MIN = 120;             // ecart noir / blanc minimal (sur 4095) pour croire a une ligne
-const int V_LIGNE_DROITE = 255;            // vitesse ligne bien centree (0 a 255)
-const int V_LIGNE_VIRAGE = 255;            // vitesse mini dans un virage serre
-const int V_PERDU = 255;                   // vitesse quand la ligne est perdue
-const int V_DEMARRAGE = 255;               // consigne de depart (puis rampe)
-const float ACCEL_PAR_S = 100000.0f;          // montee de la vitesse (unites PWM par seconde)
-const float KP_DEG = 40.0f;                // degres de braquage pour un ecart de 1 (ligne sous un capteur exterieur)
-const float KD_DEFAUT = 60.0f;             // terme derive, par pas de 10 ms
-const float BRAQUAGE_MAX_DEG = 32.0f;
+const int V_LIGNE_DROITE = 210;            // vitesse ligne bien centree (0 a 255)
+const int V_LIGNE_VIRAGE = 125;            // vitesse mini dans un virage serre
+const int V_PERDU = 120;                   // vitesse quand la ligne est perdue
+const int V_DEMARRAGE = 230;               // consigne de depart (puis rampe)
+const float ACCEL_PAR_S = 700.0f;          // montee de la vitesse (unites PWM par seconde)
+const float KP_DEG = 55.0f;                // degres de braquage pour un ecart de 1 (ligne sous un capteur exterieur)
+const float KD_DEFAUT = 70.0f;             // terme derive, par pas de 10 ms
+const float BRAQUAGE_MAX_DEG = 42.0f;
 const unsigned long PERIODE_SUIVI_MS = 5;  // 200 Hz (le servo ne se rafraichit qu'a 50 Hz)
 const int SIGNE_BRAQUAGE = 1;              // -1 si le robot s'ecarte de la ligne au lieu d'y revenir
 // Reglables sans reteleverser (USB : T kp kd vdroite vvirage, ex. T 40 60 220 160).
@@ -108,7 +108,7 @@ static void moteur_commande(int v, char sens) {
 static void arreter_conduite() { suivi = SUIVI_OFF; moteur_commande(0, SENS_AVANCE); direction_ecrire(CENTRE_DIR); }
 const int CAPT_AR[3] = {26, 14, 35};       // rangee arriere (ajoutee le 19/11) : gauche, milieu, droite
 Rangee AV = {CAPT}, AR = {CAPT_AR};
-const float KH_DEFAUT = 25.0f;             // degres de braquage pour un cap de 1 (ecart avant - arriere)
+const float KH_DEFAUT = 35.0f;             // degres de braquage pour un cap de 1 (ecart avant - arriere)
 float kh = KH_DEFAUT;
 
 static void lire_rangee(Rangee &r) {
@@ -171,10 +171,17 @@ static void pas_suivi() {
         v_actuelle = V_DEMARRAGE;
         signaler("N ligne trouvee");
     }
+    // Autoregulation : chaque sortie de ligne retire 12 % de vitesse (jusqu'a 55 %), 2 s propres en rendent 4 %.
+    static float facteur = 1.0f;
+    static bool en_perte = false;
+    static unsigned long dernier_ajust = 0;
     if (vu) {
         derniere_vue = t;
+        en_perte = false;
         if (fabsf(p) > 0.15f) dernier_cote = p > 0 ? 1 : -1;
+        if (fabsf(p) < 0.6f && t - dernier_ajust > 2000) { facteur = min(1.0f, facteur + 0.04f); dernier_ajust = t; }
     } else {
+        if (!en_perte) { en_perte = true; facteur = max(0.55f, facteur - 0.12f); dernier_ajust = t; }
         if (t - derniere_vue > PERTE_MAX_MS) { arreter_conduite(); signaler("N ligne perdue : arret (renvoyer N)"); return; }
         p = 1.5f * dernier_cote;  // ligne sortie d'un cote : braquage a fond de ce cote
     }
@@ -186,8 +193,8 @@ static void pas_suivi() {
     direction_ecrire(CENTRE_DIR + SIGNE_BRAQUAGE * braquage);
 
     // vitesse : pleine si l'avant et l'arriere sont sur la ligne et alignes ; on ralentit des que la ligne s'ecarte ou tourne
-    float gene = min(1.0f, 1.2f * fabsf(p) + 0.06f * fabsf(derive_filtree) + 0.8f * fabsf(cap));
-    float v_cible = vu ? v_droite - (v_droite - v_virage) * gene : (float)V_PERDU;
+    float gene = min(1.0f, 1.6f * fabsf(p) + 0.08f * fabsf(derive_filtree) + 1.0f * fabsf(cap));
+    float v_cible = vu ? (v_droite - (v_droite - v_virage) * gene) * facteur : (float)V_PERDU;
     if (v_cible > v_actuelle) v_actuelle = min(v_cible, v_actuelle + ACCEL_PAR_S * dt);
     else v_actuelle = v_cible;
     moteur_commande((int)lroundf(v_actuelle), SENS_AVANCE);
