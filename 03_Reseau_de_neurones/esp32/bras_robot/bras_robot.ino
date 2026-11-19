@@ -32,7 +32,7 @@ BluetoothSerial SerialBT;
 
 // ---- PROPULSION (L298N) ----
 const int PIN_ENA = 25, PIN_IN1 = 33, PIN_IN2 = 32;
-const uint32_t FREQ_MOTEUR_HZ = 5000;   // 1000 -> 5000 le 19/11 : plus de sifflement a bas regime
+const uint32_t FREQ_MOTEUR_HZ = 1000;   // 5 kHz le 19/11 : le moteur ne partait plus, retour a 1 kHz
 const char SENS_AVANCE = 'A';  // essai du 12/11 : l'application avance avec A
 const int CENTRE_DIR = 90;
 
@@ -47,11 +47,11 @@ const int CENTRE_DIR = 90;
 const int CAPT[3] = {27, 15, 34};          // gauche, milieu, droite
 const bool NOIR_ELEVE = true;              // la ligne noire donne une valeur haute
 const int CONTRASTE_MIN = 120;             // ecart noir / blanc minimal (sur 4095) pour croire a une ligne
-const int V_LIGNE_DROITE = 220;            // vitesse ligne bien centree (0 a 255)
-const int V_LIGNE_VIRAGE = 160;            // vitesse mini dans un virage serre
-const int V_PERDU = 140;                   // vitesse quand la ligne est perdue
-const int V_DEMARRAGE = 190;               // consigne de depart (puis rampe)
-const float ACCEL_PAR_S = 500.0f;          // montee de la vitesse (unites PWM par seconde)
+const int V_LIGNE_DROITE = 255;            // vitesse ligne bien centree (0 a 255)
+const int V_LIGNE_VIRAGE = 255;            // vitesse mini dans un virage serre
+const int V_PERDU = 255;                   // vitesse quand la ligne est perdue
+const int V_DEMARRAGE = 255;               // consigne de depart (puis rampe)
+const float ACCEL_PAR_S = 100000.0f;          // montee de la vitesse (unites PWM par seconde)
 const float KP_DEG = 40.0f;                // degres de braquage pour un ecart de 1 (ligne sous un capteur exterieur)
 const float KD_DEFAUT = 60.0f;             // terme derive, par pas de 10 ms
 const float BRAQUAGE_MAX_DEG = 32.0f;
