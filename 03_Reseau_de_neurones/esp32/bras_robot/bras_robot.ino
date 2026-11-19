@@ -36,6 +36,9 @@ const uint32_t FREQ_MOTEUR_HZ = 1000;   // 5 kHz le 19/11 : le moteur ne partait
 // 19/11 : le robot roule maintenant du cote du moteur de direction (la direction passe a l'avant). true : le sens A de l'application
 // et du suivi de ligne devient un recul du point de vue ancien, la direction (O) est miroir, et les rangees de capteurs echangent leurs roles.
 const bool INVERSER_AVANT_ARRIERE = true;
+// 19/11 soir : 3 capteurs de tete sur le bloc moteur de direction (ils tournent avec la roue), broches 27 (GAUCHE du robot dans le
+// sens de marche) / 15 (milieu) / 34 (DROITE). La roue est orientee vers le point de ligne vu (simulation : sim_ligne.py, config D).
+const bool CAPTEURS_SUR_ROUE = true;
 const char SENS_AVANCE = INVERSER_AVANT_ARRIERE ? 'B' : 'A';
 const int CENTRE_DIR = 90;
 
@@ -61,7 +64,7 @@ const float BRAQUAGE_MAX_DEG = 32.0f;
 const unsigned long PERIODE_SUIVI_MS = 5;  // 200 Hz (le servo ne se rafraichit qu'a 50 Hz)
 const int SIGNE_BRAQUAGE = 1;              // -1 si le robot s'ecarte de la ligne au lieu d'y revenir
 // Reglables sans reteleverser (USB : T kp kd vdroite vvirage, ex. T 40 60 220 160).
-float kp = KP_DEG, kd = KD_DEFAUT, v_droite = V_LIGNE_DROITE, v_virage = V_LIGNE_VIRAGE;
+float kp = KP_DEG, kd = KD_DEFAUT, v_droite = CAPTEURS_SUR_ROUE ? 255 : V_LIGNE_DROITE, v_virage = CAPTEURS_SUR_ROUE ? 255 : V_LIGNE_VIRAGE;
 const unsigned long PERTE_MAX_MS = 1500;   // ligne perdue plus longtemps : arret
 
 // Une rangee de 3 capteurs (gauche, milieu, droite) avec son etalonnage noir / blanc automatique.
@@ -110,7 +113,7 @@ static void moteur_commande(int v, char sens) {
 }
 static void arreter_conduite() { suivi = SUIVI_OFF; moteur_commande(0, SENS_AVANCE); direction_ecrire(CENTRE_DIR); }
 const int CAPT_AR[3] = {26, 14, 35};       // rangee arriere (ajoutee le 19/11) : gauche, milieu, droite
-Rangee AV = {INVERSER_AVANT_ARRIERE ? CAPT_AR : CAPT}, AR = {INVERSER_AVANT_ARRIERE ? CAPT : CAPT_AR};   // AV = rangee qui precede dans le sens de la marche
+Rangee AV = {(INVERSER_AVANT_ARRIERE && !CAPTEURS_SUR_ROUE) ? CAPT_AR : CAPT}, AR = {(INVERSER_AVANT_ARRIERE && !CAPTEURS_SUR_ROUE) ? CAPT : CAPT_AR};   // AV = rangee qui precede dans le sens de la marche
 const float KH_DEFAUT = 15.0f;             // degres de braquage pour un cap de 1 (ecart avant - arriere)
 float kh = KH_DEFAUT;
 
@@ -140,6 +143,10 @@ static void mesurer(Rangee &r) {
 }
 
 float pos_prec = 0, derive_filtree = 0, v_actuelle = 0, braquage = 0;
+// Capteurs sur la roue (reglables en USB : G gain tau braq_lent, ex. G 1.0 0.06 35)
+float g_roue = 2.2f, tau_roue = 0.02f, braq_lent = 75.0f;   // optimises en simulation (sim_ligne.py, config D, PWM 255 = 0,6 m/s)
+const float D_VISE_MM = 42.0f, ECART_MM = 20.0f, BRAQ_MAX_ROUE = 45.0f;
+const int SIGNE_ROUE = 1;        // -1 si la roue s'ecarte de la ligne au lieu d'y aller
 unsigned long dernier_us = 0;
 
 static void lancer_suivi() {
@@ -187,6 +194,24 @@ static void pas_suivi() {
         if (!en_perte) { en_perte = true; facteur = max(0.55f, facteur - 0.12f); dernier_ajust = t; }
         if (t - derniere_vue > PERTE_MAX_MS) { arreter_conduite(); signaler("N ligne perdue : arret (renvoyer N)"); return; }
         p = 1.5f * dernier_cote;  // ligne sortie d'un cote : braquage a fond de ce cote
+    }
+    if (CAPTEURS_SUR_ROUE) {
+        // les capteurs tournent avec la roue : AV.p = ligne vue par rapport a la roue. On tourne la roue vers ce point, par petits pas.
+        float cible;
+        if (AV.vu) cible = braquage + SIGNE_ROUE * g_roue * degrees(atanf(AV.p * ECART_MM / D_VISE_MM));
+        else cible = SIGNE_ROUE * BRAQ_MAX_ROUE * dernier_cote;
+        cible = constrain(cible, -BRAQ_MAX_ROUE, BRAQ_MAX_ROUE);
+        braquage += (cible - braquage) * min(1.0f, dt / tau_roue);
+        direction_ecrire(CENTRE_DIR + SIGNE_BRAQUAGE * braquage);
+        float gene = AV.vu ? min(1.0f, 1.2f * fabsf(AV.p) + fabsf(braquage) / braq_lent) : 1.0f;
+        float vc = vu ? (v_droite - (v_droite - v_virage) * gene) * facteur : (float)V_PERDU;
+        if (vc > v_actuelle) v_actuelle = min(vc, v_actuelle + ACCEL_PAR_S * dt); else v_actuelle = vc;
+        moteur_commande((int)lroundf(v_actuelle), SENS_AVANCE);
+        if ((long)(t - prochain_aff) >= 0) {
+            prochain_aff = t + 200;
+            Serial.printf("N roue p %+.2f%s brq %+.1f v %d | %d %d %d\n", AV.p, AV.vu ? "" : "(-)", braquage, (int)v_actuelle, AV.b[0], AV.b[1], AV.b[2]);
+        }
+        return;
     }
     float derive = (p - pos_prec) / dt;           // 1/s
     pos_prec = p;
@@ -470,6 +495,11 @@ static void ligne_usb(char *l) {
         int nb = sscanf(l + 1, "%f %f %f %f %f", &a, &b2, &c, &e2, &h2);
         if (nb >= 4) { kp = constrain(a, 0, 100); kd = constrain(b2, 0, 150); v_droite = constrain(c, 40, 255); v_virage = constrain(e2, 40, v_droite); if (nb >= 5) kh = constrain(h2, 0, 80); }
         Serial.printf("T kp %.1f kd %.1f vitesse droite %.0f virage %.0f cap %.1f\n", kp, kd, v_droite, v_virage, kh);
+    } else if (l[0] == 'G') {
+        float a = g_roue, b2 = tau_roue, c = braq_lent;
+        sscanf(l + 1, "%f %f %f", &a, &b2, &c);
+        g_roue = constrain(a, 0.1f, 4.0f); tau_roue = constrain(b2, 0.01f, 0.5f); braq_lent = constrain(c, 5.0f, 100.0f);
+        Serial.printf("G gain %.2f tau %.3f braq_lent %.0f\n", g_roue, tau_roue, braq_lent);
     } else if (l[0] == 'C' && !l[1]) {
         tout_arreter("C : bras vertical et droit (calage)");
         vider_file();

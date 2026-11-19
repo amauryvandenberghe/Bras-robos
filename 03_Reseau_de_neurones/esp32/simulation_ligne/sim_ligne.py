@@ -71,6 +71,8 @@ CONFIGS = {
     'A': dict(sigma=+1, s_dir=-L_EMP, s_av=+28.0, s_ar=-58.0, lat=+1),
     'B': dict(sigma=-1, s_dir=+L_EMP, s_av=+58.0, s_ar=-28.0, lat=-1),
     'C': dict(sigma=-1, s_dir=+L_EMP, s_av=+L_EMP + 30.0, s_ar=+L_EMP - 56.0, lat=-1),
+    # D = B + 3 capteurs de tete FIXES AU BLOC DE DIRECTION (tournent avec la roue), 38 et 47 mm devant l'axe de la roue
+    'D': dict(sigma=-1, s_dir=+L_EMP, s_av=None, s_ar=+58.0, lat=-1, roue=True, d_lat=38.2, d_cen=46.7),
 }
 
 # ---------------------------------------------------------------- regulateur (portage de bras_robot.ino)
@@ -141,6 +143,8 @@ class Regulateur:
                 self.arret = True
                 return 0.0, 0.0
             p = 1.5 * self.dernier_cote
+        if P.get('roue'):
+            return self._pas_roue(t, dt, vu_av, p_av, vu)
         derive = (p - self.pos_prec) / dt
         self.pos_prec = p
         self.deriv += 0.5 * (derive - self.deriv)
@@ -157,6 +161,27 @@ class Regulateur:
             self.v = vc
         return self.braq, self.v
 
+
+def _pas_roue(self, t, dt, vu_av, p, vu):
+    """Capteurs sur la roue : on oriente la roue vers le point de ligne vu (poursuite), par petits pas."""
+    P = self.P
+    if vu_av:
+        alpha = math.degrees(math.atan2(p * 20.0, P.get('d_vise', 42.0)))
+        derive = (p - self.pos_prec) / dt; self.pos_prec = p
+        self.deriv += 0.5 * (derive - self.deriv)
+        cible = self.braq - P['g'] * alpha - P['kd'] * 0.01 * self.deriv
+    else:
+        cible = -P['braquage_max'] * self.dernier_cote
+    cible = max(-P['braquage_max'], min(P['braquage_max'], cible))
+    self.braq += (cible - self.braq) * min(1.0, dt / P['tau'])
+    gene = min(1.0, 1.2 * abs(p) + abs(self.braq) / P.get('braq_lent', 35.0)) if vu_av else 1.0
+    vc = (P['v_droite'] - (P['v_droite'] - P['v_virage']) * gene) * self.facteur if vu else P['v_perdu']
+    self.v = min(vc, self.v + P['accel'] * dt) if vc > self.v else vc
+    return self.braq, self.v
+
+
+Regulateur._pas_roue = _pas_roue
+PARAM_ROUE = dict(PARAM_DEFAUT, roue=True, g=1.0, tau=0.06, kd=0.0, braquage_max=45.0, braq_lent=35.0)
 
 # ---------------------------------------------------------------- simulation
 def simuler(cfg, P, hauteur=5.0, pitch=20.0, v255=0.60, tau_v=0.12, tau_s=0.05, rate_s=400.0, bruit=15.0, seed=0, tmax=60.0, trace=False,
@@ -182,11 +207,17 @@ def simuler(cfg, P, hauteur=5.0, pitch=20.0, v255=0.60, tau_v=0.12, tau_s=0.05, 
         fx, fy = math.cos(phi_), math.sin(phi_)
         nx, ny = -fy, fx
         lec = []
-        for s in (c['s_av'], c['s_ar']):
+        for rang, s in enumerate((c['s_av'], c['s_ar'])):
             raw = []
             for i in range(3):
                 lat = c['lat'] * (1 - i) * pitch
-                px = x + s * fx + lat * nx; py = y + s * fy + lat * ny
+                if rang == 0 and c.get('roue'):
+                    pw = phi_ - math.radians(servo)          # cap de la roue (le servo + fait tourner a droite)
+                    d = c['d_cen'] if i == 1 else c['d_lat']
+                    ax_ = x + c['s_dir'] * fx; ay_ = y + c['s_dir'] * fy
+                    px = ax_ + d * math.cos(pw) - lat * math.sin(pw); py = ay_ + d * math.sin(pw) + lat * math.cos(pw)
+                else:
+                    px = x + s * fx + lat * nx; py = y + s * fy + lat * ny
                 i0 = max(0, idx - 40); i1 = min(n, idx + 120)
                 seg = PISTE[i0:i1]
                 d = np.sqrt((seg[:, 0] - px) ** 2 + (seg[:, 1] - py) ** 2).min()
@@ -251,25 +282,41 @@ def score(cfg, P, graines=(0, 1), **kw):
 
 def optimiser(cfg, essais=120, graine=1, **kw):
     rnd = random.Random(graine)
-    meilleur = dict(PARAM_DEFAUT); bs = score(cfg, meilleur, **kw)[0]
+    roue = CONFIGS[cfg].get('roue')
+    meilleur = dict(PARAM_ROUE if roue else PARAM_DEFAUT); bs = score(cfg, meilleur, **kw)[0]
+    bornes = ((('g', 0.3, 2.5), ('tau', 0.02, 0.3), ('kd', 0, 60), ('braq_lent', 15, 80)) if roue else
+              (('kp', 5, 90), ('kd', 0, 120), ('kh', 0, 60), ('braquage_max', 20, 45))) + (('v_droite', 120, 255), ('v_virage', 60, 255))
     for _ in range(essais):
         P = dict(meilleur)
-        for k, lo, hi in (('kp', 5, 90), ('kd', 0, 120), ('kh', 0, 60), ('v_droite', 120, 255), ('v_virage', 60, 255), ('braquage_max', 20, 45)):
+        for k, lo, hi in bornes:
             if rnd.random() < 0.5:
                 P[k] = min(hi, max(lo, P[k] * math.exp(rnd.gauss(0, 0.25)) if P[k] > 0 else rnd.uniform(0, 10)))
         P['v_virage'] = min(P['v_virage'], P['v_droite'])
         s = score(cfg, P, **kw)[0]
         if s < bs:
             bs, meilleur = s, P
+            print('   ', cfg, 'mieux : %.2f s' % s, {k: round(v, 2) for k, v in P.items() if isinstance(v, float)}, flush=True)
     return meilleur, bs
 
 
 if __name__ == '__main__':
     mode = sys.argv[1] if len(sys.argv) > 1 else 'comparer'
+    if mode == 'optimiser':
+        import json
+        out = {}
+        for v255 in (0.6, 0.9):
+            for cfg in (sys.argv[3].split(',') if len(sys.argv) > 3 else ('A', 'B', 'D')):
+                print('=== config', cfg, 'PWM 255 =', v255, 'm/s', flush=True)
+                P, s = optimiser(cfg, essais=int(sys.argv[2]) if len(sys.argv) > 2 else 80, v255=v255)
+                nok, tm, res = evaluer(cfg, P, graines=(10, 11, 12, 13, 14), v255=v255)
+                print('RESULTAT', cfg, v255, 'reussis %d/5' % nok, 'temps %.1f s' % tm, 'vmoy %.2f m/s' % (sum(r['vmoy'] for r in res) / 5),
+                      'ecart max %.0f mm' % max(r['maxerr'] for r in res), flush=True)
+                out['%s_%.1f' % (cfg, v255)] = dict(P=P, reussis=nok, temps=tm)
+        json.dump(out, open('resultats_optimisation.json', 'w'), indent=1)
     print('piste : %.2f m, %d points' % (LONGUEUR / 1000, len(PISTE)))
     if mode == 'comparer':
-        for cfg in ('A', 'B', 'C'):
+        for cfg in ('A', 'B', 'C', 'D'):
             for h, pitch in ((12.0, 13.0), (5.0, 20.0)):
-                nok, tm, res = evaluer(cfg, PARAM_DEFAUT, hauteur=h, pitch=pitch)
+                nok, tm, res = evaluer(cfg, PARAM_ROUE if cfg == 'D' else PARAM_DEFAUT, hauteur=h, pitch=pitch)
                 print('config %s hauteur %4.1f pitch %4.1f : %d/3 reussis, temps moyen %5.1f s, causes %s, vmoy %.2f m/s, ecart max %.0f mm' % (
                     cfg, h, pitch, nok, tm, [r['cause'] for r in res], res[0]['vmoy'], max(r['maxerr'] for r in res)))

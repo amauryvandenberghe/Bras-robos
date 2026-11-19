@@ -1,0 +1,50 @@
+{
+ "D_0.6": {
+  "P": {
+   "kp": 30.0,
+   "kd": 7.969438378465451,
+   "kh": 15.0,
+   "v_droite": 255,
+   "v_virage": 255,
+   "v_perdu": 120.0,
+   "v_demarrage": 230.0,
+   "accel": 700.0,
+   "braquage_max": 45.0,
+   "contraste_min": 120,
+   "perte_max_ms": 1500,
+   "auto": true,
+   "lissage": 0.4,
+   "rate": 300.0,
+   "roue": true,
+   "g": 2.25819162557946,
+   "tau": 0.02,
+   "braq_lent": 74.80215092232096
+  },
+  "reussis": 5,
+  "temps": 12.104000000000493
+ },
+ "D_0.9": {
+  "P": {
+   "kp": 30.0,
+   "kd": 5.474649029812654,
+   "kh": 15.0,
+   "v_droite": 255,
+   "v_virage": 123.7385953894358,
+   "v_perdu": 120.0,
+   "v_demarrage": 230.0,
+   "accel": 700.0,
+   "braquage_max": 45.0,
+   "contraste_min": 120,
+   "perte_max_ms": 1500,
+   "auto": true,
+   "lissage": 0.4,
+   "rate": 300.0,
+   "roue": true,
+   "g": 0.46997222244019765,
+   "tau": 0.030929089923957622,
+   "braq_lent": 32.988389992518925
+  },
+  "reussis": 5,
+  "temps": 14.502000000000868
+ }
+}

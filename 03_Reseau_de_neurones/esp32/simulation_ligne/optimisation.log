@@ -1,0 +1,19 @@
+=== config D PWM 255 = 0.6 m/s
+    D mieux : 15.27 s {'kp': 30.0, 'kd': 4.49, 'kh': 15.0, 'v_droite': 210.0, 'v_virage': 199.53, 'v_perdu': 120.0, 'v_demarrage': 230.0, 'accel': 700.0, 'braquage_max': 45.0, 'lissage': 0.4, 'rate': 300.0, 'g': 1.28, 'tau': 0.04, 'braq_lent': 35.0}
+    D mieux : 15.24 s {'kp': 30.0, 'kd': 4.49, 'kh': 15.0, 'v_droite': 210.0, 'v_virage': 199.53, 'v_perdu': 120.0, 'v_demarrage': 230.0, 'accel': 700.0, 'braquage_max': 45.0, 'lissage': 0.4, 'rate': 300.0, 'g': 1.75, 'tau': 0.04, 'braq_lent': 35.0}
+    D mieux : 14.94 s {'kp': 30.0, 'kd': 7.22, 'kh': 15.0, 'v_droite': 250.02, 'v_virage': 199.53, 'v_perdu': 120.0, 'v_demarrage': 230.0, 'accel': 700.0, 'braquage_max': 45.0, 'lissage': 0.4, 'rate': 300.0, 'g': 1.75, 'tau': 0.04, 'braq_lent': 35.0}
+    D mieux : 14.67 s {'kp': 30.0, 'kd': 7.22, 'kh': 15.0, 'v_virage': 203.56, 'v_perdu': 120.0, 'v_demarrage': 230.0, 'accel': 700.0, 'braquage_max': 45.0, 'lissage': 0.4, 'rate': 300.0, 'g': 1.51, 'tau': 0.04, 'braq_lent': 35.0}
+    D mieux : 14.07 s {'kp': 30.0, 'kd': 7.22, 'kh': 15.0, 'v_droite': 218.69, 'v_virage': 218.69, 'v_perdu': 120.0, 'v_demarrage': 230.0, 'accel': 700.0, 'braquage_max': 45.0, 'lissage': 0.4, 'rate': 300.0, 'g': 2.49, 'tau': 0.04, 'braq_lent': 51.33}
+    D mieux : 13.82 s {'kp': 30.0, 'kd': 7.22, 'kh': 15.0, 'v_virage': 218.69, 'v_perdu': 120.0, 'v_demarrage': 230.0, 'accel': 700.0, 'braquage_max': 45.0, 'lissage': 0.4, 'rate': 300.0, 'g': 2.5, 'tau': 0.04, 'braq_lent': 51.33}
+    D mieux : 12.10 s {'kp': 30.0, 'kd': 8.0, 'kh': 15.0, 'v_perdu': 120.0, 'v_demarrage': 230.0, 'accel': 700.0, 'braquage_max': 45.0, 'lissage': 0.4, 'rate': 300.0, 'g': 2.5, 'tau': 0.02, 'braq_lent': 73.58}
+    D mieux : 12.10 s {'kp': 30.0, 'kd': 8.0, 'kh': 15.0, 'v_perdu': 120.0, 'v_demarrage': 230.0, 'accel': 700.0, 'braquage_max': 45.0, 'lissage': 0.4, 'rate': 300.0, 'g': 2.26, 'tau': 0.02, 'braq_lent': 74.8}
+    D mieux : 12.09 s {'kp': 30.0, 'kd': 7.97, 'kh': 15.0, 'v_perdu': 120.0, 'v_demarrage': 230.0, 'accel': 700.0, 'braquage_max': 45.0, 'lissage': 0.4, 'rate': 300.0, 'g': 2.26, 'tau': 0.02, 'braq_lent': 74.8}
+RESULTAT D 0.6 reussis 5/5 temps 12.1 s vmoy 0.61 m/s ecart max 39 mm
+=== config D PWM 255 = 0.9 m/s
+    D mieux : 14.82 s {'kp': 30.0, 'kd': 0.0, 'kh': 15.0, 'v_virage': 125.0, 'v_perdu': 120.0, 'v_demarrage': 230.0, 'accel': 700.0, 'braquage_max': 45.0, 'lissage': 0.4, 'rate': 300.0, 'g': 1.0, 'tau': 0.05, 'braq_lent': 35.0}
+    D mieux : 14.66 s {'kp': 30.0, 'kd': 5.76, 'kh': 15.0, 'v_droite': 239.24, 'v_virage': 125.0, 'v_perdu': 120.0, 'v_demarrage': 230.0, 'accel': 700.0, 'braquage_max': 45.0, 'lissage': 0.4, 'rate': 300.0, 'g': 0.93, 'tau': 0.05, 'braq_lent': 32.99}
+    D mieux : 14.47 s {'kp': 30.0, 'kd': 5.76, 'kh': 15.0, 'v_virage': 125.0, 'v_perdu': 120.0, 'v_demarrage': 230.0, 'accel': 700.0, 'braquage_max': 45.0, 'lissage': 0.4, 'rate': 300.0, 'g': 0.96, 'tau': 0.05, 'braq_lent': 32.99}
+    D mieux : 14.32 s {'kp': 30.0, 'kd': 5.76, 'kh': 15.0, 'v_virage': 128.0, 'v_perdu': 120.0, 'v_demarrage': 230.0, 'accel': 700.0, 'braquage_max': 45.0, 'lissage': 0.4, 'rate': 300.0, 'g': 0.96, 'tau': 0.05, 'braq_lent': 32.99}
+    D mieux : 14.09 s {'kp': 30.0, 'kd': 5.47, 'kh': 15.0, 'v_virage': 123.74, 'v_perdu': 120.0, 'v_demarrage': 230.0, 'accel': 700.0, 'braquage_max': 45.0, 'lissage': 0.4, 'rate': 300.0, 'g': 0.47, 'tau': 0.03, 'braq_lent': 32.99}
+RESULTAT D 0.9 reussis 5/5 temps 14.5 s vmoy 0.51 m/s ecart max 44 mm
+piste : 7.44 m, 3723 points
