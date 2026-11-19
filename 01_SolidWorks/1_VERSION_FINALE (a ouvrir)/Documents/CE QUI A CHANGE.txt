@@ -1,3 +1,49 @@
+CE QUI A CHANGE LE 19/11/2026 : BATTERIES COLLEES, CAPTEURS ECARTES ET ABAISSES, BATI (robot complet)
+====================================================================================================
+Archive d'avant : 3_Anciennes versions/3o_19-11 avant refonte batteries et capteurs (assemblage, bati, support, berceaux, STL).
+Images : Documents/Robot complet (19-11).png et Documents/Robot dessous (19-11).png. Le bras n'a pas change.
+Ceci REMPLACE les sections batteries / pieds / bati du 18/11 (laisser celles-ci comme historique). Code de la CAO (WSL) :
+bras_50cm/robot/support_batteries.py et support_capteurs.py.
+
+1. BATTERIES : 2 batons de 110 x Ø18 mm COLLES, un seul berceau au centre
+   - Les 2 batons sont cote a cote (travers, axes selon z), contre contre : bloc de 37 x 110 mm, axes a x 127,5 et 146,1,
+     y 504,4 (environ 60 mm au-dessus du sol), centre sur l'axe du robot (z 512,72) : masse symetrique, pas de rebord lateral.
+   - Endroit : entre la colonne des capteurs (x 103-111) et la poutre avant (x 170), SOUS le bati, AU-DESSUS des capteurs (leur dessus
+     est a y 473), sous le socle du bras, entre le L298N et l'ESP32. Milieu de l'empattement (roues a x 44 et x 177) : le centre
+     de gravite ne bouge presque pas par rapport a la version sur les cotes (estimation 107 -> 112 mm, charge des roues motrices 52 -> 49 %).
+   - berceau batteries.STL (50 g) : demi-tubes du haut (4 mm de matiere), butees de 3 mm avec passage de fil, suspendu a 7 mm sous le
+     bati par 4 colonnes (2 a chaque bout). 4 vis M3 x 20 PAR LE DESSUS du bati (ecrou captif dans l'oreille du berceau, fente laterale).
+   - bride batterie.STL (3,8 g, x2) : demi-tubes du bas, 2 vis M3 x 20 par dessous chacune (4 en tout), ecrous captifs dans les cotes.
+     Changer les batteries = 4 vis. Jeu radial de 0,3 mm : mousse de 1 mm si ca vibre.
+   - Fils : par les trous de 8 mm des butees, puis par les trous de 8 mm du bati (x 145, z 449,7 et 575,7), puis sur le dessus.
+   - Masse des batteries inconnue (suppose 2 x 45 g).
+
+2. CAPTEURS : plus ecartes, plus bas (support capteurs 2 rangees.STL, 37,3 g)
+   - Ecartement 13 -> 20 mm dans les 2 rangees (la ligne fait 19 mm). Avec 13 mm la zone ou la ligne est vue par un seul capteur
+     etait etroite et la position sautait : a 20 mm les 3 capteurs couvrent +-33 mm avec recouvrement, sans trou : la position calculee
+     est continue et la plage de capture est 2,5 fois plus grande. Les 2 rangees restent a 86,25 mm l'une de l'autre.
+   - Hauteur : l'element TCRT5000 est un capteur reflectif a courte portee : reponse maximale a 2-4 mm, correcte jusqu'a 6-8 mm,
+     tres faible au-dela. Dans le modele sa face etait a environ 12 mm du sol (11,8 avant, 12,2 arriere) : signal tres faible,
+     contraste mauvais (a l'arret les valeurs lues sont 30 a 100 sur 4095). Descendu de 7 mm : environ 4,8 mm a l'avant, 5,2 mm a l'arriere
+     (hypothese : sol au niveau des roues arriere, y 442,6 ; les roues avant du modele sont 5,2 mm plus hautes, la pente en a ete tenue
+     en compte). Les jupes ne depassent plus que de 1 mm sous la face (avant 3 mm) : elles restent a environ 4 mm du sol.
+     A VERIFIER SUR LE VRAI ROBOT avec une cale de 5 mm : si ca racle, 2 rondelles entre la poutre et la plaque (ou reimprimer avec
+     BAISSE_GLOBALE = 5 dans support_capteurs.py). Si l'utilisateur trouve qu'il racle deja, remonter.
+   - La plaque descendue est reliee a la poutre par 2 colonnes de 7 mm ; les 2 vis de la poutre passent de M3 x 20 a M3 x 30 ;
+     la colonne du bati est plus longue (meme vis M3 x 16). Les 6 capteurs, leurs vis M2 et ecrous ont suivi.
+   - Programme ESP32 : rien a changer (la position est normalisee). Les valeurs brutes doivent monter fortement : refaire L au-dessus
+     du blanc et du noir.
+
+3. BATI (bati(en cours).SLDPRT, 142,6 g, fonction "Pointe avant, trous berceau et cables")
+   - pointe avant en biseau (50 x 33 mm), 4 trous de 3,4 mm pour les colonnes du berceau (x 136 et 154 ; z 449,7 et 575,7),
+     2 trous de 8 mm pour les fils des batteries (x 145), 2 trous de 10 mm pour les fils des moteurs (x 92 ; z 488 et 537,4),
+     fente de 30 x 10 mm du milieu conservee pour les fils des capteurs.
+   - Si votre bati est deja imprime : le percer aux endroits ci-dessus ou le reimprimer.
+
+STL A REIMPRIMER : bati, berceau batteries, bride batterie (x2), support capteurs 2 rangees. 30 STL en tout. Controle : 180 contraintes,
+0 en erreur, aucune interference nouvelle (seuls les filets des vis), STL etanches.
+PAS VERIFIE : rien n'est imprime ; hauteur reelle des capteurs et du sol ; masse des batteries ; place des fils.
+
 CORRECTION DU 18/11/2026 SOIR : PIEDS RETIRES, BATI EFFILE, PASSAGES DE CABLES
 =============================================================================
 Archive d'avant : 3_Anciennes versions/3n_18-11 avec pieds anti-bascule. Les pieds anti-bascule sont SUPPRIMES (pieces, vis, STL, trous) :
