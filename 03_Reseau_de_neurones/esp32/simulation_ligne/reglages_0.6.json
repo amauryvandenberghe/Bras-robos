@@ -1,0 +1,33 @@
+{
+ "conf": {
+  "n": 3,
+  "pas": 13.0,
+  "h": 5.0,
+  "methode": "modele"
+ },
+ "P": {
+  "k_cap": 0.4781441603017904,
+  "k_e": 24.30304317533456,
+  "v0": 0.15,
+  "tau": 0.021290569037503093,
+  "vitesse_servo": 286.8730895209274,
+  "braq_max": 45.0,
+  "v_max": 255.0,
+  "v_min": 213.86644158841264,
+  "braq_lent": 80.0,
+  "cap_lent": 28.559269779791013,
+  "ecart_lent": 12.806063307672982,
+  "v_perdu": 110.0,
+  "accel": 900.0,
+  "tau_servo": 0.05,
+  "v255_estime": 0.6,
+  "avant_seul": false
+ },
+ "score": 17.3831926596278,
+ "bilan": {
+  "0.6 m/s etroite": "6/6 reussis, temps 14.2 s, ecart RMS 3.0 mm, max 6 mm, pertes de vue 0.0, servo 136 deg/s RMS, a lat 0.11 g",
+  "0.6 m/s large": "6/6 reussis, temps 14.2 s, ecart RMS 3.1 mm, max 6 mm, pertes de vue 0.0, servo 142 deg/s RMS, a lat 0.11 g",
+  "1.0 m/s etroite": "6/6 reussis, temps 10.0 s, ecart RMS 9.1 mm, max 36 mm, pertes de vue 4.8, servo 340 deg/s RMS, a lat 0.31 g",
+  "1.0 m/s large": "6/6 reussis, temps 10.1 s, ecart RMS 9.5 mm, max 38 mm, pertes de vue 5.0, servo 339 deg/s RMS, a lat 0.31 g"
+ }
+}

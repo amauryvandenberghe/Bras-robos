@@ -115,3 +115,14 @@ ROBOT : CAPTEURS ECARTES A 20 MM ET A 5 MM DU SOL (19/11)
 APRES LE MONTAGE
   Regler SENS et DECALAGE_DEG dans 03_Reseau_de_neurones/esp32/bras_robot/bras_robot.ino, servo par servo (commande USB J).
   Le bras a la meme geometrie qu'avant : pas de reentrainement du reseau pour cette version.
+
+
+MISE A JOUR DU 22/11/2026 : CAPTEURS, DIRECTION RABAISSEE
+  Capteurs (6, sur la piece moteur direction) : 1 vis M3 x 10 + 1 ecrou M3 par carte. Vis par le dessus de la carte, ecrou sous la plaque.
+    Tete : 27 (gauche dans le sens de marche) / 15 (milieu) / 34 (droite) ; 2e rangee : 26 / 14 / 35, meme sens. 13 mm entre capteurs.
+    Face des elements a 5 mm du sol (3 a 5 mm conviennent ; au-dela de 7-8 mm le suivi se degrade).
+  Direction : entretoise de 3 mm (col en haut, contre la bague interieure du roulement) et tige de 58 mm. Ordre inchange (points 5 et 6 ci-dessus).
+  Poutre arriere de 37,2 mm : les 4 roues touchent le sol, le bati est horizontal, dessus a 80 mm du sol.
+  Fils : par les grandes fenetres du bati et par le bord (les trous de cables ont ete bouches).
+  Premier essai : commande USB M (moteur coupe) : la roue balaie, puis doit suivre une bande noire deplacee sous la tete.
+    Si elle s'en ecarte : mettre SIGNE_BRAQUAGE = -1 dans bras_robot.ino et reteleverser.

@@ -1,3 +1,28 @@
+CE QUI A CHANGE LE 22/11/2026 : ROBOT RABAISSE DE 7 MM, CAPTEURS A 13 MM ET VIS M3, BATI SANS TROUS DE CABLES
+=============================================================================================================
+Archive d'avant : 3_Anciennes versions/3s_22-11 avant rabaissement, trous M3 capteurs, bati sans trous de cables.
+Images : Documents/Robot complet / dessous / cote / face (22-11).png. Simulation : 03_Reseau_de_neurones/esp32/simulation_ligne/sim_ligne2.py.
+1. ROBOT RABAISSE : dessus du bati a 80,1 mm du sol au lieu de 87,1 (exactement la hauteur utilisee pour entrainer le reseau du bras :
+   le bras atteint donc ce qui a ete appris, y compris le grand receptacle). Le bloc moteur de direction (roues, moteur, capteurs)
+   ne bouge pas par rapport au sol : c'est tout le reste qui descend. Pieces changees :
+   - entretoise direction : 10,07 -> 3,07 mm d'epaisseur (meme forme, col dans le roulement) ;
+   - tige pour direction : 65 -> 58 mm. Carre de 6,7 mm inchange (15 mm dans le bloc), transition carre/rond 10 -> 3 mm, rond 50 -> 40 mm ;
+     les 2 trous gardent leur place par rapport aux bouts (goupille du bloc a 6 mm du bas, goupille de la liaison a 5,12 mm du haut).
+     Si votre tige est en metal : la raccourcir de 7 mm dans la partie carree (cote bloc), ou imprimer celle-ci ;
+   - poutre arriere (piece avec les bites) : 39 -> 37,2 mm. Dans le modele d'avant, les roues libres etaient 5,2 mm AU-DESSUS du sol :
+     le vrai robot penchait de 2,2 degres (l'arriere plus bas), ce qui rapprochait la 2e rangee de capteurs du sol (2 mm au lieu de 5).
+     Maintenant les 4 roues touchent le meme sol et le bati est horizontal.
+   Le centre de gravite descend d'environ 7 mm (estimation : ~114 -> ~107 mm, le bras en Home en fait plus de la moitie).
+   Controle : 0 contrainte en erreur ; interferences nouvelles : aucune (2 touches de 0,2 et 0,4 mm3 tige / roulement et tige / vis, sans effet).
+2. CAPTEURS : trous des cartes 2,4 -> 3,4 mm (vis M3 + ecrou sous la plaque, 4,5 mm de matiere autour de chaque trou, rien dessous) ;
+   ecart entre capteurs 20 -> 13 mm dans les 2 rangees (simulation : ecart a la ligne divise par 2, plus de zone morte au centre ;
+   5 capteurs a 10 mm n'apportent rien de plus) ; hauteur gardee a 5 mm (3 mm aussi bon, 8 mm nettement moins bon) ;
+   les 2 trous de vissage du boitier (inutiles depuis la fusion) sont supprimes. piece moteur direction : 35,7 g.
+3. BATI : les 6 trous ajoutes pour les cables et l'ancien berceau sont bouches (2 x O10 fils moteur x 92, 2 x O8 fils batteries x 145,
+   2 x O3,4 colonnes x 154) : les fils passent par les grandes fenetres et le bord. Restent les 2 trous de 3,4 des embouts (x 136). 117,0 g.
+STL A REIMPRIMER : piece moteur direction, tige pour direction, entretoise direction, piece avec les bites (poutre droite), bati.
+PAS VERIFIE : rien n'est imprime ; vraie hauteur des capteurs (5 mm vises) ; centre de gravite reel (masses estimees).
+
 CE QUI A CHANGE LE 20/11/2026 (2) : PIECE UNIQUE MOTEUR + CAPTEURS, EMBOUTS DE BATTERIES, BATI ARRONDI, ROUES AJOUREES
 ====================================================================================================================
 Archive d'avant : 3_Anciennes versions/3r_20-11 avant piece unique, embouts, bati arrondi (pieces et STL d'avant).

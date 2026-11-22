@@ -1,0 +1,36 @@
+=== 3x13 h5 (tete + cap) : score 15.83
+    reglages {'k_cap': 1.132, 'k_e': 14.922, 'v0': 0.15, 'tau': 0.022, 'vitesse_servo': 304.514, 'braq_max': 45.0, 'v_max': 247.38, 'v_min': 136.985, 'braq_lent': 78.974, 'cap_lent': 60.0, 'ecart_lent': 21.951, 'v_perdu': 110.0, 'accel': 900.0, 'tau_servo': 0.05, 'v255_estime': 1.0}
+    0.6 m/s etroite  6/6 reussis, temps 17.1 s, ecart RMS 2.2 mm, max 6 mm, pertes de vue 0.0, servo 110 deg/s RMS, a lat 0.05 g
+    0.6 m/s large    6/6 reussis, temps 16.9 s, ecart RMS 2.2 mm, max 6 mm, pertes de vue 0.0, servo 116 deg/s RMS, a lat 0.05 g
+    1.0 m/s etroite  6/6 reussis, temps 11.1 s, ecart RMS 2.9 mm, max 7 mm, pertes de vue 0.0, servo 166 deg/s RMS, a lat 0.13 g
+    1.0 m/s large    6/6 reussis, temps 11.2 s, ecart RMS 3.2 mm, max 7 mm, pertes de vue 0.0, servo 167 deg/s RMS, a lat 0.13 g
+=== 3x20 h5 (tete + cap, ecart actuel) : score 17.66
+    reglages {'k_cap': 0.576, 'k_e': 7.514, 'v0': 0.15, 'tau': 0.026, 'vitesse_servo': 453.724, 'braq_max': 45.0, 'v_max': 255.0, 'v_min': 154.462, 'braq_lent': 80.0, 'cap_lent': 16.754, 'ecart_lent': 25.663, 'v_perdu': 110.0, 'accel': 900.0, 'tau_servo': 0.05, 'v255_estime': 1.0}
+    0.6 m/s etroite  6/6 reussis, temps 19.6 s, ecart RMS 3.5 mm, max 10 mm, pertes de vue 0.0, servo 142 deg/s RMS, a lat 0.05 g
+    0.6 m/s large    6/6 reussis, temps 18.6 s, ecart RMS 3.4 mm, max 8 mm, pertes de vue 0.0, servo 157 deg/s RMS, a lat 0.05 g
+    1.0 m/s etroite  6/6 reussis, temps 12.5 s, ecart RMS 5.0 mm, max 18 mm, pertes de vue 0.0, servo 198 deg/s RMS, a lat 0.13 g
+    1.0 m/s large    6/6 reussis, temps 12.4 s, ecart RMS 5.7 mm, max 16 mm, pertes de vue 0.0, servo 189 deg/s RMS, a lat 0.14 g
+=== 5x10 h5 (tete + cap) : score 16.41
+    reglages {'k_cap': 0.89, 'k_e': 13.932, 'v0': 0.15, 'tau': 0.021, 'vitesse_servo': 266.596, 'braq_max': 45.0, 'v_max': 255.0, 'v_min': 150.143, 'braq_lent': 80.0, 'cap_lent': 17.219, 'ecart_lent': 10.847, 'v_perdu': 110.0, 'accel': 900.0, 'tau_servo': 0.05, 'v255_estime': 1.0}
+    0.6 m/s etroite  6/6 reussis, temps 18.9 s, ecart RMS 2.7 mm, max 6 mm, pertes de vue 0.0, servo 94 deg/s RMS, a lat 0.04 g
+    0.6 m/s large    6/6 reussis, temps 18.9 s, ecart RMS 2.6 mm, max 6 mm, pertes de vue 0.0, servo 147 deg/s RMS, a lat 0.04 g
+    1.0 m/s etroite  6/6 reussis, temps 12.4 s, ecart RMS 2.9 mm, max 7 mm, pertes de vue 0.0, servo 138 deg/s RMS, a lat 0.10 g
+    1.0 m/s large    6/6 reussis, temps 12.4 s, ecart RMS 3.3 mm, max 7 mm, pertes de vue 0.0, servo 170 deg/s RMS, a lat 0.10 g
+=== 3x13 h3 (tete + cap) : score 15.85
+    reglages {'k_cap': 0.698, 'k_e': 21.959, 'v0': 0.15, 'tau': 0.01, 'vitesse_servo': 316.091, 'braq_max': 45.0, 'v_max': 255.0, 'v_min': 174.715, 'braq_lent': 18.109, 'cap_lent': 7.846, 'ecart_lent': 11.302, 'v_perdu': 110.0, 'accel': 900.0, 'tau_servo': 0.05, 'v255_estime': 1.0}
+    0.6 m/s etroite  6/6 reussis, temps 18.2 s, ecart RMS 2.7 mm, max 6 mm, pertes de vue 0.0, servo 107 deg/s RMS, a lat 0.05 g
+    0.6 m/s large    6/6 reussis, temps 18.1 s, ecart RMS 3.0 mm, max 6 mm, pertes de vue 0.0, servo 111 deg/s RMS, a lat 0.05 g
+    1.0 m/s etroite  6/6 reussis, temps 11.3 s, ecart RMS 2.8 mm, max 6 mm, pertes de vue 0.0, servo 169 deg/s RMS, a lat 0.15 g
+    1.0 m/s large    6/6 reussis, temps 11.2 s, ecart RMS 2.9 mm, max 6 mm, pertes de vue 0.0, servo 172 deg/s RMS, a lat 0.15 g
+=== 3x13 h8 (tete + cap) : score 16.82
+    reglages {'k_cap': 0.954, 'k_e': 8.984, 'v0': 0.15, 'tau': 0.03, 'vitesse_servo': 233.012, 'braq_max': 45.0, 'v_max': 255.0, 'v_min': 141.854, 'braq_lent': 40.189, 'cap_lent': 10.186, 'ecart_lent': 24.926, 'v_perdu': 110.0, 'accel': 900.0, 'tau_servo': 0.05, 'v255_estime': 1.0}
+    0.6 m/s etroite  6/6 reussis, temps 21.1 s, ecart RMS 2.3 mm, max 6 mm, pertes de vue 0.0, servo 82 deg/s RMS, a lat 0.03 g
+    0.6 m/s large    6/6 reussis, temps 21.1 s, ecart RMS 2.3 mm, max 6 mm, pertes de vue 0.0, servo 90 deg/s RMS, a lat 0.04 g
+    1.0 m/s etroite  6/6 reussis, temps 13.5 s, ecart RMS 3.6 mm, max 8 mm, pertes de vue 0.0, servo 126 deg/s RMS, a lat 0.08 g
+    1.0 m/s large    6/6 reussis, temps 13.6 s, ecart RMS 4.0 mm, max 10 mm, pertes de vue 0.0, servo 133 deg/s RMS, a lat 0.08 g
+=== 3x13 h5 (tete seule) : score 16.60
+    reglages {'k_cap': 0.8, 'k_e': 27.132, 'v0': 0.15, 'tau': 0.015, 'vitesse_servo': 268.749, 'braq_max': 45.0, 'v_max': 255.0, 'v_min': 118.241, 'braq_lent': 80.0, 'cap_lent': 22.722, 'ecart_lent': 35.498, 'v_perdu': 110.0, 'accel': 900.0, 'tau_servo': 0.05, 'v255_estime': 1.0}
+    0.6 m/s etroite  6/6 reussis, temps 19.7 s, ecart RMS 3.6 mm, max 7 mm, pertes de vue 0.0, servo 97 deg/s RMS, a lat 0.04 g
+    0.6 m/s large    6/6 reussis, temps 19.7 s, ecart RMS 3.6 mm, max 7 mm, pertes de vue 0.0, servo 113 deg/s RMS, a lat 0.04 g
+    1.0 m/s etroite  6/6 reussis, temps 12.3 s, ecart RMS 3.6 mm, max 7 mm, pertes de vue 0.0, servo 161 deg/s RMS, a lat 0.12 g
+    1.0 m/s large    6/6 reussis, temps 12.3 s, ecart RMS 3.6 mm, max 7 mm, pertes de vue 0.0, servo 159 deg/s RMS, a lat 0.12 g

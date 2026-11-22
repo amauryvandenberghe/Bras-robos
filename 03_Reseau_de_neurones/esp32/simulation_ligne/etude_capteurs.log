@@ -1,0 +1,24 @@
+etroite h3 3x20 barycentre       score 15.96  validation 17.78  8/8 reussis, temps 15.4 s, ecart RMS 5.1 mm, max 12 mm, pertes de vue 0.5, servo 185 deg/s RMS, a lat 0.09 g
+etroite h3 3x20 modele           score 14.97  validation 17.24  8/8 reussis, temps 13.6 s, ecart RMS 4.8 mm, max 16 mm, pertes de vue 1.2, servo 244 deg/s RMS, a lat 0.15 g
+etroite h3 5x10 barycentre       score 13.73  validation 14.83  8/8 reussis, temps 13.0 s, ecart RMS 3.1 mm, max 14 mm, pertes de vue 0.0, servo 180 deg/s RMS, a lat 0.16 g
+etroite h3 5x10 modele           score 13.53  validation 14.81  8/8 reussis, temps 13.0 s, ecart RMS 2.3 mm, max 10 mm, pertes de vue 0.0, servo 180 deg/s RMS, a lat 0.16 g
+etroite h3 3x13 barycentre       score 15.74  validation 17.20  8/8 reussis, temps 16.1 s, ecart RMS 2.7 mm, max 10 mm, pertes de vue 0.0, servo 111 deg/s RMS, a lat 0.07 g
+etroite h3 3x13 modele           score 14.11  validation 15.40  8/8 reussis, temps 14.1 s, ecart RMS 2.8 mm, max 10 mm, pertes de vue 0.0, servo 134 deg/s RMS, a lat 0.13 g
+etroite h5 3x20 barycentre       score 15.57  validation 16.95  8/8 reussis, temps 15.3 s, ecart RMS 5.0 mm, max 12 mm, pertes de vue 0.0, servo 164 deg/s RMS, a lat 0.10 g
+etroite h5 3x13 barycentre       score 13.31  validation 14.43  8/8 reussis, temps 12.9 s, ecart RMS 3.2 mm, max 10 mm, pertes de vue 0.0, servo 153 deg/s RMS, a lat 0.17 g
+etroite h5 5x10 barycentre       score 13.42  validation 14.62  8/8 reussis, temps 13.0 s, ecart RMS 2.2 mm, max 10 mm, pertes de vue 0.0, servo 166 deg/s RMS, a lat 0.16 g
+etroite h5 3x13 modele           score 13.54  validation 14.74  8/8 reussis, temps 13.0 s, ecart RMS 2.4 mm, max 10 mm, pertes de vue 0.0, servo 177 deg/s RMS, a lat 0.16 g
+etroite h5 3x20 modele           score 15.50  validation 16.97  8/8 reussis, temps 15.3 s, ecart RMS 3.9 mm, max 12 mm, pertes de vue 0.0, servo 164 deg/s RMS, a lat 0.10 g
+etroite h5 5x10 modele           score 13.66  validation 14.66  8/8 reussis, temps 13.0 s, ecart RMS 4.0 mm, max 16 mm, pertes de vue 0.0, servo 163 deg/s RMS, a lat 0.17 g
+etroite h8 3x13 modele           score 13.37  validation 14.57  8/8 reussis, temps 13.0 s, ecart RMS 2.7 mm, max 10 mm, pertes de vue 0.0, servo 157 deg/s RMS, a lat 0.17 g
+etroite h8 3x13 barycentre       score 14.69  validation 16.03  8/8 reussis, temps 14.6 s, ecart RMS 3.3 mm, max 10 mm, pertes de vue 0.0, servo 143 deg/s RMS, a lat 0.10 g
+etroite h8 3x20 barycentre       score 13.85  validation 15.06  8/8 reussis, temps 13.1 s, ecart RMS 4.7 mm, max 16 mm, pertes de vue 0.0, servo 201 deg/s RMS, a lat 0.17 g
+etroite h8 5x10 barycentre       score 13.58  validation 14.84  8/8 reussis, temps 13.4 s, ecart RMS 3.0 mm, max 10 mm, pertes de vue 0.0, servo 149 deg/s RMS, a lat 0.14 g
+etroite h8 3x20 modele           score 17.94  validation 19.72  8/8 reussis, temps 18.3 s, ecart RMS 7.0 mm, max 21 mm, pertes de vue 0.1, servo 127 deg/s RMS, a lat 0.06 g
+etroite h8 5x10 modele           score 13.27  validation 14.46  8/8 reussis, temps 13.0 s, ecart RMS 2.9 mm, max 10 mm, pertes de vue 0.0, servo 147 deg/s RMS, a lat 0.17 g
+large h3 3x13 barycentre         score 14.36  validation 15.73  8/8 reussis, temps 14.4 s, ecart RMS 3.0 mm, max 10 mm, pertes de vue 0.0, servo 132 deg/s RMS, a lat 0.10 g
+large h3 3x20 barycentre         score 13.85  validation 14.96  8/8 reussis, temps 13.0 s, ecart RMS 4.5 mm, max 15 mm, pertes de vue 0.0, servo 192 deg/s RMS, a lat 0.17 g
+large h3 3x20 modele             score 13.90  validation 15.23  8/8 reussis, temps 13.0 s, ecart RMS 4.1 mm, max 15 mm, pertes de vue 0.0, servo 221 deg/s RMS, a lat 0.18 g
+large h3 3x13 modele             score 14.14  validation 15.37  8/8 reussis, temps 14.0 s, ecart RMS 3.2 mm, max 10 mm, pertes de vue 0.0, servo 141 deg/s RMS, a lat 0.12 g
+large h3 5x10 barycentre         score 15.98  validation 16.74  8/8 reussis, temps 15.2 s, ecart RMS 5.8 mm, max 26 mm, pertes de vue 0.1, servo 138 deg/s RMS, a lat 0.11 g
+large h3 5x10 modele             score 13.76  validation 14.83  8/8 reussis, temps 13.1 s, ecart RMS 4.6 mm, max 16 m
