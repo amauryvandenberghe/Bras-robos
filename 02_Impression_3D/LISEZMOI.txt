@@ -1,3 +1,5 @@
+MISE A JOUR DU 23/11/2026 : corps_pince refait (le servo de pince ne rentrait pas). A REIMPRIMER : corps_pince.stl (22,6 g).
+  Ce STL est DEJA ORIENTE pour l'impression : face arriere (entree du servo) sur le plateau, SANS SUPPORT. Detail : Documents/CE QUI A CHANGE.txt (23/11).
 MISE A JOUR DU 22/11/2026 : robot rabaisse de 7 mm, capteurs a 13 mm d'ecart et trous M3, bati sans trous de cables. 28 fichiers STL (les "x2" a imprimer 2 fois).
   A REIMPRIMER : piece moteur direction (35,7 g, couchee, avec supports), tige pour direction (58 mm), entretoise direction (3 mm),
   piece avec les bites (poutre droite, 37,2 mm), bati (avec le trou de la cuve). Detail : Documents/CE QUI A CHANGE.txt (22/11).

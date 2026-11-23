@@ -1,374 +1,399 @@
-CE QUI A CHANGE LE 22/11/2026 : ROBOT RABAISSE DE 7 MM, CAPTEURS A 13 MM ET VIS M3, BATI SANS TROUS DE CABLES
-=============================================================================================================
-Archive d'avant : 3_Anciennes versions/3s_22-11 avant rabaissement, trous M3 capteurs, bati sans trous de cables.
-Images : Documents/Robot complet / dessous / cote / face (22-11).png. Simulation : 03_Reseau_de_neurones/esp32/simulation_ligne/sim_ligne2.py.
-1. ROBOT RABAISSE : dessus du bati a 80,1 mm du sol au lieu de 87,1 (exactement la hauteur utilisee pour entrainer le reseau du bras :
-   le bras atteint donc ce qui a ete appris, y compris le grand receptacle). Le bloc moteur de direction (roues, moteur, capteurs)
-   ne bouge pas par rapport au sol : c'est tout le reste qui descend. Pieces changees :
-   - entretoise direction : 10,07 -> 3,07 mm d'epaisseur (meme forme, col dans le roulement) ;
-   - tige pour direction : 65 -> 58 mm. Carre de 6,7 mm inchange (15 mm dans le bloc), transition carre/rond 10 -> 3 mm, rond 50 -> 40 mm ;
-     les 2 trous gardent leur place par rapport aux bouts (goupille du bloc a 6 mm du bas, goupille de la liaison a 5,12 mm du haut).
-     Si votre tige est en metal : la raccourcir de 7 mm dans la partie carree (cote bloc), ou imprimer celle-ci ;
-   - poutre arriere (piece avec les bites) : 39 -> 37,2 mm. Dans le modele d'avant, les roues libres etaient 5,2 mm AU-DESSUS du sol :
-     le vrai robot penchait de 2,2 degres (l'arriere plus bas), ce qui rapprochait la 2e rangee de capteurs du sol (2 mm au lieu de 5).
-     Maintenant les 4 roues touchent le meme sol et le bati est horizontal.
-   Le centre de gravite descend d'environ 7 mm (estimation : ~114 -> ~107 mm, le bras en Home en fait plus de la moitie).
-   Controle : 0 contrainte en erreur ; interferences nouvelles : aucune (2 touches de 0,2 et 0,4 mm3 tige / roulement et tige / vis, sans effet).
-2. CAPTEURS : trous des cartes 2,4 -> 3,4 mm (vis M3 + ecrou sous la plaque, 4,5 mm de matiere autour de chaque trou, rien dessous) ;
-   ecart entre capteurs 20 -> 13 mm dans les 2 rangees (simulation : ecart a la ligne divise par 2, plus de zone morte au centre ;
-   5 capteurs a 10 mm n'apportent rien de plus) ; hauteur gardee a 5 mm (3 mm aussi bon, 8 mm nettement moins bon) ;
-   les 2 trous de vissage du boitier (inutiles depuis la fusion) sont supprimes. piece moteur direction : 35,7 g.
-3. BATI : les 6 trous ajoutes pour les cables et l'ancien berceau sont bouches (2 x O10 fils moteur x 92, 2 x O8 fils batteries x 145,
-   2 x O3,4 colonnes x 154) : les fils passent par les grandes fenetres et le bord. Restent les 2 trous de 3,4 des embouts (x 136). 117,0 g.
-STL A REIMPRIMER : piece moteur direction, tige pour direction, entretoise direction, piece avec les bites (poutre droite), bati.
-PAS VERIFIE : rien n'est imprime ; vraie hauteur des capteurs (5 mm vises) ; centre de gravite reel (masses estimees).
+CE QUI A CHANGE LE 23/11/2026 : LE SERVO DE PINCE NE RENTRAIT PAS -> LOGEMENT REFAIT
+=====================================================================================
+Archive d'avant : 3_Anciennes versions/3t_23-11 avant servo de pince tourne. Images : Documents/Pince servo avant apres (23-11).png,
+Corps de pince impression (23-11).png. Code : WSL bras_50cm/cao_bras.py (corps_pince, volumes_logement_servo_pince).
+Pourquoi il ne rentrait pas (verifie) :
+ 1. Le 13/11, les bossages des axes des machoires (vis M3 x 20 du flasque) ont ete ajoutes APRES le logement du servo : celui de l'axe
+    du bas rebouchait un coin du logement, et l'axe tombait sur le bout d'une patte du servo. 128 mm3 de plastique a la place du servo
+    (152 mm3 avec les cotes de la fiche d'un vrai MG90S) : il ne pouvait pas entrer, quel que soit le jeu.
+ 2. Jeu de 0,15 mm par cote, compte sur le modele SolidWorks du servo (22,6 x 12,0 mm) alors qu'un MG90S fait 22,8 x 12,2 mm :
+    il restait 0,05 mm, moins que la precision d'une imprimante.
+Ce qui change :
+ - le servo est TOURNE DE 90 DEGRES autour de son axe (meme position de l'axe et du pignon, rien a recaler) : son boitier part vers la
+   machoire du haut, loin des axes des machoires ;
+ - jeu 0,35 mm par cote (0,25 mm sur un vrai MG90S) ; entree du logement elargie de 0,4 mm sur 0,6 mm (bourrelet de 1re couche) ;
+ - le logement est creuse en dernier : plus rien ne peut le reboucher ; bloc prolonge de 2 mm sous le bout des pattes ;
+ - controle : servo (modele et cotes de la fiche) 0 mm3 dans le corps, chemin d'insertion libre sur 45 mm, vis des machoires a l'ecart.
+ - SolidWorks : corps_pince reimporte, servo et ses 2 vis 2 x 8 tournes et reverrouilles, pivots du pignon et des machoires refaits
+   (Bras 50cm : 102 contraintes, 0 en erreur ; Assemblage1v2 : 138, 0 en erreur). corps_pince : 22,6 g.
+IMPRESSION (corps_pince.stl, deja pose dans le bon sens) : face arriere du bloc (celle par ou entre le servo) SUR LE PLATEAU, SANS SUPPORT.
+   Le logement est alors vertical : parois droites, cotes justes, rien a decrocher a l'interieur (avant : couche, il fallait des supports
+   DANS le logement). Seuls surplombs : ponts de 13 mm au-dessus du bout des pattes et bord des trous de la plaque. 24 mm de haut.
+MONTAGE : servo par l'arriere, axe en avant, jusqu'a ce que les pattes touchent l'epaulement ; 2 vis 2 x 8 (livrees avec le servo) par
+   l'arriere a travers les pattes ; puis le pignon sur la cannelure, par l'avant. Le cable sort derriere le bloc.
+PAS VERIFIE : rien d'imprime ; si votre imprimante serre beaucoup, le jeu se regle par JEU_PINCE dans cao_bras.py.
 
-CE QUI A CHANGE LE 20/11/2026 (2) : PIECE UNIQUE MOTEUR + CAPTEURS, EMBOUTS DE BATTERIES, BATI ARRONDI, ROUES AJOUREES
-====================================================================================================================
-Archive d'avant : 3_Anciennes versions/3r_20-11 avant piece unique, embouts, bati arrondi (pieces et STL d'avant).
-Images : Documents/Robot complet / dessous / dessus (20-11).png. Code CAO (WSL, bras_50cm/robot/) : fusion_moteur_capteurs.py,
-embout_batteries.py, forme_bati.py.
-1. "piece moteur direction" = boitier d'origine + support des 6 capteurs, en UNE piece (37 g, imprimee d'un seul tenant, sans vis
-   ni colle). Le fichier d'origine est remplace (meme nom, meme place). Le support capteurs direction separe n'existe plus.
-   Les 12 contraintes qui tenaient roues / moteur / tige sur l'ancien boitier ont saute : piece fixee, rien n'a bouge
-   (contacts roue / boitier 0,08 mm3 comme avant).
-2. Batteries : berceau + 2 brides + 14 vis remplaces par 2 EMBOUTS identiques (embout batteries x2.STL, 8 g chacun) :
-   un godet a 2 alveoles qui coiffe les bouts des 2 batons colles, et une colonne vissee sous le bati par UNE vis M3 x 20
-   (tete sur le dessus du bati, ecrou glisse dans la fente de la colonne). Trous deja dans le bati (x 136 ; z 449,7 et 575,7).
-   Montage : visser un embout, engager les batons, poser l'autre embout sur les autres bouts, visser : ils sont serres entre les deux.
-   Fils : trou de 7 mm au fond de chaque alveole, puis trou de 8 mm du bati juste a cote.
-3. Bati : contour arrondi (enveloppe des pieces posees dessus et dessous, symetrique, rayon 12) + 3 fenetres d'allegement ;
-   tous les trous gardes. 142,6 -> 115,7 g (-19 %).
-4. Roues ajourees : motrices 5 trous de 13 mm (21,2 -> 16,1 g), libres 6 trous de 9 mm (20,0 -> 16,8 g).
-29 STL dans 02_Impression_3D, tous etanches. Pas d'interference nouvelle. Rien d'imprime, rien de monte.
-A voir : la piece moteur unique a de longs bras en porte-a-faux : l'imprimer couchee avec supports.
-
-CE QUI A CHANGE LE 20/11/2026 : 6 CAPTEURS SUR LE BLOC DE DIRECTION, ANCIENS CAPTEURS SUPPRIMES
-===============================================================================================
-Archive d'avant : 3_Anciennes versions/3q_20-11 avant 6 capteurs sur la direction (assemblage + ancien STL du support 2 rangees).
-- Supprimes : support capteurs 2 rangees, les 6 capteurs fixes et leur visserie (2 vis de poutre, colonne, ecrou, rondelles).
-  Les trous correspondants restent dans le bati et la poutre (sans effet).
-- support capteurs direction.STL (17,1 g, refait) : 2 rangees de 3 capteurs, toutes deux sur le bloc moteur de direction :
-  rangee de tete devant la roue (x 5,5 et -3), 2e rangee derriere le moteur (x 112 et 120,5). Meme hauteur (5 mm du sol),
-  meme ecart (20 mm). La plaque se colle sur la face avant du boitier ET une poutre de 18 mm se colle sous le boitier.
-  Tout tourne avec la roue : aucun decalage entre capteurs fixes et capteurs mobiles.
-- Cablage : rangee de tete 27 (gauche du robot dans le sens de marche) / 15 / 34 (droite) ; 2e rangee 26 / 14 / 35, meme sens.
-- Controle : 153 contraintes, 0 en erreur ; contacts seulement cartes / support et filets. 30 STL, tous etanches.
-- A verifier : le support depasse de 20 mm devant le bati (reglement : carre de 200 mm) ; la 2e rangee est a 68 mm derriere
-  l'axe des roues motrices : si le robot penche vers l'avant, elle se rapproche du sol (prevoir 1 mm de cale si elle frotte).
-
-CE QUI A CHANGE LE 19/11/2026 (soir) : 3 CAPTEURS SUR LE BLOC MOTEUR DE DIRECTION
-=================================================================================
-Archive d'avant : 3_Anciennes versions/3p_19-11 avant capteurs sur la direction. Code : bras_50cm/robot/support_capteurs_direction.py (WSL).
-Le robot roule maintenant cote direction (programme : INVERSER_AVANT_ARRIERE). Les 3 capteurs de tete sont fixes au bloc moteur
-de direction et TOURNENT AVEC LA ROUE : ils voient la ligne juste devant la roue qui braque, sans retard.
-- support capteurs direction.STL (6,3 g) : plaque COLLEE sur la face avant du boitier "piece moteur direction" (19 x 33 mm,
-  entre les 2 roues) ; 2 trous de 3,4 mm si on prefere visser (percer le boitier en face). Pas de joues : les jantes sont trop pres.
-- 3 capteurs a 20 mm d'ecart, element a 5 mm du sol : lateraux a 8 mm devant la jante, cartes en travers vers l'exterieur ;
-  central 8,5 mm plus en avant, carte vers l'arriere entre les roues. Vis M2 x 8 + ecrous M2 (3).
-- Cablage conseille : deplacer sur ce support les 3 capteurs de l'ancienne rangee avant (broches 27 / 15 / 34), qui se retrouve
-  derriere et ne sert plus ; la rangee du milieu (26 / 14 / 35) reste pour le cap.
-- ATTENTION reglement : le support depasse de 20 mm devant le bord du bati (robot de 220 mm, plus en braquant). La base doit
-  tenir dans un carre de 200 mm : a faire valider, ou raccourcir le bati de l'autre cote.
-- Controle : 180 contraintes, 0 en erreur ; seuls contacts : cartes posees sur le support et filets des vis. Aucun contact avec
-  les roues ni le boitier. Rien d'imprime.
-
-CE QUI A CHANGE LE 19/11/2026 : BATTERIES COLLEES, CAPTEURS ECARTES ET ABAISSES, BATI (robot complet)
-====================================================================================================
-Archive d'avant : 3_Anciennes versions/3o_19-11 avant refonte batteries et capteurs (assemblage, bati, support, berceaux, STL).
-Images : Documents/Robot complet (19-11).png et Documents/Robot dessous (19-11).png. Le bras n'a pas change.
-Ceci REMPLACE les sections batteries / pieds / bati du 18/11 (laisser celles-ci comme historique). Code de la CAO (WSL) :
-bras_50cm/robot/support_batteries.py et support_capteurs.py.
-
-1. BATTERIES : 2 batons de 110 x Ø18 mm COLLES, un seul berceau au centre
-   - Les 2 batons sont cote a cote (travers, axes selon z), contre contre : bloc de 37 x 110 mm, axes a x 127,5 et 146,1,
-     y 504,4 (environ 60 mm au-dessus du sol), centre sur l'axe du robot (z 512,72) : masse symetrique, pas de rebord lateral.
-   - Endroit : entre la colonne des capteurs (x 103-111) et la poutre avant (x 170), SOUS le bati, AU-DESSUS des capteurs (leur dessus
-     est a y 473), sous le socle du bras, entre le L298N et l'ESP32. Milieu de l'empattement (roues a x 44 et x 177) : le centre
-     de gravite ne bouge presque pas par rapport a la version sur les cotes (estimation 107 -> 112 mm, charge des roues motrices 52 -> 49 %).
-   - berceau batteries.STL (50 g) : demi-tubes du haut (4 mm de matiere), butees de 3 mm avec passage de fil, suspendu a 7 mm sous le
-     bati par 4 colonnes (2 a chaque bout). 4 vis M3 x 20 PAR LE DESSUS du bati (ecrou captif dans l'oreille du berceau, fente laterale).
-   - bride batterie.STL (3,8 g, x2) : demi-tubes du bas, 2 vis M3 x 20 par dessous chacune (4 en tout), ecrous captifs dans les cotes.
-     Changer les batteries = 4 vis. Jeu radial de 0,3 mm : mousse de 1 mm si ca vibre.
-   - Fils : par les trous de 8 mm des butees, puis par les trous de 8 mm du bati (x 145, z 449,7 et 575,7), puis sur le dessus.
-   - Masse des batteries inconnue (suppose 2 x 45 g).
-
-2. CAPTEURS : plus ecartes, plus bas (support capteurs 2 rangees.STL, 37,3 g)
-   - Ecartement 13 -> 20 mm dans les 2 rangees (la ligne fait 19 mm). Avec 13 mm la zone ou la ligne est vue par un seul capteur
-     etait etroite et la position sautait : a 20 mm les 3 capteurs couvrent +-33 mm avec recouvrement, sans trou : la position calculee
-     est continue et la plage de capture est 2,5 fois plus grande. Les 2 rangees restent a 86,25 mm l'une de l'autre.
-   - Hauteur : l'element TCRT5000 est un capteur reflectif a courte portee : reponse maximale a 2-4 mm, correcte jusqu'a 6-8 mm,
-     tres faible au-dela. Dans le modele sa face etait a environ 12 mm du sol (11,8 avant, 12,2 arriere) : signal tres faible,
-     contraste mauvais (a l'arret les valeurs lues sont 30 a 100 sur 4095). Descendu de 7 mm : environ 4,8 mm a l'avant, 5,2 mm a l'arriere
-     (hypothese : sol au niveau des roues arriere, y 442,6 ; les roues avant du modele sont 5,2 mm plus hautes, la pente en a ete tenue
-     en compte). Les jupes ne depassent plus que de 1 mm sous la face (avant 3 mm) : elles restent a environ 4 mm du sol.
-     A VERIFIER SUR LE VRAI ROBOT avec une cale de 5 mm : si ca racle, 2 rondelles entre la poutre et la plaque (ou reimprimer avec
-     BAISSE_GLOBALE = 5 dans support_capteurs.py). Si l'utilisateur trouve qu'il racle deja, remonter.
-   - La plaque descendue est reliee a la poutre par 2 colonnes de 7 mm ; les 2 vis de la poutre passent de M3 x 20 a M3 x 30 ;
-     la colonne du bati est plus longue (meme vis M3 x 16). Les 6 capteurs, leurs vis M2 et ecrous ont suivi.
-   - Programme ESP32 : rien a changer (la position est normalisee). Les valeurs brutes doivent monter fortement : refaire L au-dessus
-     du blanc et du noir.
-
-3. BATI (bati(en cours).SLDPRT, 142,6 g, fonction "Pointe avant, trous berceau et cables")
-   - pointe avant en biseau (50 x 33 mm), 4 trous de 3,4 mm pour les colonnes du berceau (x 136 et 154 ; z 449,7 et 575,7),
-     2 trous de 8 mm pour les fils des batteries (x 145), 2 trous de 10 mm pour les fils des moteurs (x 92 ; z 488 et 537,4),
-     fente de 30 x 10 mm du milieu conservee pour les fils des capteurs.
-   - Si votre bati est deja imprime : le percer aux endroits ci-dessus ou le reimprimer.
-
-STL A REIMPRIMER : bati, berceau batteries, bride batterie (x2), support capteurs 2 rangees. 30 STL en tout. Controle : 180 contraintes,
-0 en erreur, aucune interference nouvelle (seuls les filets des vis), STL etanches.
-PAS VERIFIE : rien n'est imprime ; hauteur reelle des capteurs et du sol ; masse des batteries ; place des fils.
-
-CORRECTION DU 18/11/2026 SOIR : PIEDS RETIRES, BATI EFFILE, PASSAGES DE CABLES
-=============================================================================
-Archive d'avant : 3_Anciennes versions/3n_18-11 avec pieds anti-bascule. Les pieds anti-bascule sont SUPPRIMES (pieces, vis, STL, trous) :
-ils ne servaient a rien. Ignorer les paragraphes "pieds" de la section du dessous (et leurs 4 trous dans le bati).
-BATI (bati(en cours).SLDPRT, 148 -> environ 140 g, fonction "Pointe avant, trous batteries et cables") :
-  - pointe avant : les 2 coins avant sont coupes en biseau de 50 mm sur 33 mm (au lieu de 27 sur 25), le nez plat fait 94 mm
-    (z 466 a 559) : il reste exactement la largeur du socle du bras et des capteurs ;
-  - 2 trous de 10 mm pour les fils des batteries, au-dessus de l'avant de chaque berceau (x 146 ; z 449,75 et 575,69) ;
-  - 2 trous de 10 mm pour les fils des moteurs / du L298N (x 92 ; z 488 et 537,4) ;
-  - la fente de 30 x 10 mm du milieu (x 114 a 124) reste le passage des fils des 6 capteurs ;
-  - les 4 trous de 3,4 mm des colonnes des berceaux restent.
-  Pas fait : arrondis. Aucune interference nouvelle. 4 STL de la section du dessous restent valables (berceau x2, bride x4) ; bati refait.
-
-CE QUI A CHANGE LE 18/11/2026 : BATTERIES, PIEDS ANTI-BASCULE (robot complet seulement)
-====================================================================================
-Archive d'avant : 3_Anciennes versions/3m_18-11 avant batteries (Assemblage1v2, bati, batterie, STL du bati).
-Images : Documents/Robot complet (18-11).png et Documents/Robot dessous (18-11).png (vue de dessous : berceaux, brides, pieds).
-Le bras n'a pas change. Code de la CAO : bras_50cm/robot/support_batteries.py (WSL).
-
-BATTERIES : 2 batons de 110 mm x Ø18 mm (modele : batterie 18x110.SLDPRT, remplace les 2 blocs de 20 x 20 x 150 mm
-  qui sortaient de 14 mm derriere le bati : le robot depassait les 200 mm du reglement, ce n'est plus le cas).
-  Elles sont maintenant SOUS le bati, sur les cotes, dans l'axe x : x 28 a 139, axe a y 504 (environ 60 mm au-dessus du sol),
-  z 449,75 et 575,69 (63 mm de part et d'autre de l'axe du robot). Pourquoi la :
-    - au milieu il y a le bloc de direction (z 470 a 556), les capteurs (z 471 a 554), l'ESP32 et le L298N : les cotes sont libres ;
-    - la masse est entre l'essieu moteur (x 44) et la poutre avant (x 170) et tres basse : le centre de gravite descend, les roues
-      motrices sont chargees (ce sont elles qui accrochent) ;
-    - le bati et le L298N ne bougent pas : 8 trous de 3,4 mm seulement dans le bati.
-  Tenue (fiable et solide, rien ne repose sur du collage) :
-    - berceau batterie gauche / droit (28 g chacun, miroirs l'un de l'autre) : demi-tube du haut, butees de 3 mm aux 2 bouts avec
-      un passage de fil, suspendu a 7 mm sous le bati par 2 colonnes. 2 vis M3 x 20 par berceau, DEPUIS LE DESSUS du bati (tete
-      sur le bati, ecrou M3 captif dans une fente laterale du berceau). Les colonnes de 7 mm laissent passer les ecrous du L298N
-      et de l'ESP32 et les broches de l'ESP32 (1,5 mm de jeu). Colonne arriere cote interieur : les coins arriere du bati sont coupes (25 x 27 mm).
-    - bride batterie (2,7 g, 4 identiques, 2 par baton) : demi-tube du bas, 2 vis M3 x 20 PAR DESSOUS dans des ecrous captifs du
-      berceau. Changer une batterie = defaire 4 vis. Jeu radial 0,3 mm : coller 1 mm de mousse ou de TPU dans le logement pour
-      qu'elle ne vibre pas (a voir sur la vraie batterie).
-  Fils : sortie par les trous de 8 mm des butees, puis par dessus le bord du bati (a la main).
-  Masse des batteries : pas connue (supposee 2 x 45 g). La position est bonne tant qu'elles font moins de 100 g chacune.
-
-PIEDS ANTI-BASCULE (pied anti-bascule.SLDPRT, 10,4 g, 2 identiques) : colonne de 11 x 15 mm x 66 mm derriere chaque berceau,
-  vissee au bati par 2 vis M3 x 20 (taraudees dans le plastique, trou de 2,6 mm). Dessous : une vis M3 x 20 de reglage a placer a
-  2 ou 3 mm du sol. Raison : les roues motrices sont tres rapprochees (34 mm entre elles) et les 2 roues libres sont a l'avant :
-  en virage rapide ou bras tendu sur le cote, le robot peut se pencher vers l'arriere. Les pieds ne touchent le sol que dans ce cas.
-  Dans le modele la vis est a y 446,1 (roues arriere a 442,6, roues avant 5 mm plus haut dans le modele) : a regler sur le vrai robot.
-  Sans effet sur le suivi de ligne tant qu'ils ne touchent pas : on peut ne pas les monter.
-
-BATI : 8 trous de 3,4 mm (fonction "Trous batteries et pieds") : (31 ; 461,75), (135,5 ; 437,75), (31 ; 563,69), (135,5 ; 587,69)
-  pour les 4 colonnes, et 4 trous des pieds (18,5 ; 459,5 / 466,5) + les 2 symetriques. 8 trous au total : STL du bati refait.
-  Si votre bati est deja imprime : percer a 3,4 mm aux positions ci-dessus (x et z de l'assemblage ; x 12,3 = bord arriere,
-  z 432,7 = bord gauche).
-
-CONTROLES : 40 composants ajoutes (5 pieces dessinees, 18 vis M3 x 20, 12 ecrous M3), tous fixes. Interferences : seulement les
-  filets (vis dans ecrou, vis dans le trou de 2,6 mm des pieds, vis dans bride) : aucune entre berceaux, batteries, ESP32, L298N,
-  bloc de direction, capteurs, roues, bras. Les 6 STL (berceau x2, bride, pied, bati) sont etanches.
-PAS VERIFIE : rien n'est imprime. Dimensions et masse reelles de la batterie. Jeu des fils. Hauteur des pieds sur le vrai sol.
-  Gazebo n'a pas ces pieces (inutile : il ne simule que le bras).
-
-POUR GAGNER LA COURSE : ce que la CAO ne regle pas (a discuter)
-  1. Suivi de ligne : c'est le programme, pas la mecanique. Pistes : correcteur PID sur les 3 capteurs avant (aujourd'hui
-     proportionnel seul), memoire du dernier cote ou la ligne a ete vue, vitesse reduite seulement en virage (mesuree par
-     l'ecart des capteurs) et pleine vitesse en ligne droite, frein moteur avant un virage serre.
-  2. Direction a l'arriere : le robot braque par ses roues arriere, les capteurs sont a l'avant a 170 mm : le robot reagit avec
-     du retard. Un angle de braquage trop grand a vitesse elevee fait deriver l'avant : limiter l'angle selon la vitesse.
-  3. Sol : le Ø60 mm des roues motrices et leur largeur de 14 mm decident de l'adherence. Un joint torique ou une bande de
-     caoutchouc dans une gorge des jantes aide beaucoup, c'est a essayer avant de changer quoi que ce soit.
-  4. Hauteur des capteurs : environ 11 a 12 mm du sol d'apres le modele ; les capteurs reflectifs sont meilleurs a 3 a 8 mm.
-     A mesurer sur le vrai robot (on abaisse le support, la rangee est deja dessinee pour ca).
-  5. Poids : le robot pese lourd pour un robot de course (bras, 2 batteries, 5 servos). Bras replie (H) avant de partir.
-
-CE QUI A CHANGE LE 13/11/2026 : U DU BRAS, PATINS DE LA BASE, PINCE
-====================================================================
-Archive d'avant : 3_Anciennes versions/3l_13-11 avant renforts U, patins, pince (SolidWorks + anciens STL).
-Image : Documents/Bras 50cm (13-11).png. Parti de la version du 08/11 (aucun fichier plus recent sur ce PC).
-
-U DU BRAS (bras.SLDPRT, 40,8 -> 53,5 g) : il s'etait casse.
-  Joue cote roulement 4 -> 6 mm d'epaisseur et 16 -> 20 mm de large, traverse 4 -> 8 mm et 20 -> 24 mm de large,
-  equerres pleines de 3 mm a l'exterieur des 2 angles. Tout l'ajout est vers l'exterieur : l'interieur n'a pas bouge.
-  axe_epaule rallonge de 2 mm. Controle : aucun contact bras / plateau / servo / patins sur toute la course de l'epaule.
-  Conseil d'impression : 5 perimetres et 40 % de remplissage pour cette piece.
-
-BASE (plateau.SLDPRT, patin_a/b/c.SLDPRT) : embouts trop serres, casses.
-  Gorge 3 -> 4 mm de haut, jante 7 -> 10 mm. Doigt du patin 2,6 -> 3,0 mm d'epaisseur.
-  Jeu 0,2 -> 0,5 mm dessus et dessous, 0,4 -> 0,6 mm sur le rayon. Patin plus haut (dessus au niveau de la jante),
-  tetes de vis noyees : memes vis M3 x 20.
-
-PINCE : les machoires sortaient de leurs tiges. Pas de roulement.
-  flasque_pince.SLDPRT (NOUVEAU, 2,3 g) : ses 2 axes de 8 mm portent les machoires ; 2 vis M3 x 20 traversent
-  les axes et se vissent dans le corps (avant-trous de 2,5 mm). Les machoires sont tenues des 2 cotes.
-  corps_pince : les 2 tiges d'origine sont supprimees, bossages pleins avec avant-trou.
-  machoire_a, machoire_b (NEUVES, 6,2 g) : meme engrenage (30 dents, module 1), bras plus raides, berceau spherique
-  de 23 mm : la balle est centree au point de prise que connait le reseau (rien a reapprendre).
-  Servo de pince : logement ferme + 2 vis de 2 x 8 deja dessines le 07/11 (a imprimer si votre corps est plus ancien).
-
-CONTROLES : Bras 50cm 102 contraintes, 0 en erreur. Assemblage1v2 183 contraintes, 0 en erreur. 10 STL etanches.
-  Pince : aucun contact machoires / corps / flasque de -20 a +15 degres, balle libre machoires ouvertes.
-PAS VERIFIE : rien d'imprime. Calage des dents avec le pignon (on choisit la dent a la pose). Tenue des vis M3 dans
-  l'avant-trou de 2,5 mm. Serrage reel sur la balle. Gazebo et l'URDF gardent les anciens maillages.
-
-CE QUI A CHANGE LE 08/11/2026 APRES-MIDI : CAPTEURS A 13 MM, RANGEMENT
-======================================================================
-Archives : 3_Anciennes versions/3j (capteurs a 33 mm) et 3k (etat complet avant rangement, avec l'ancien 1_ASSEMBLAGE_FINAL et Assemblage1v2).
-
-ECARTEMENT DES CAPTEURS
-  Ligne de 19 mm (reglement, p. 4). A 33 mm, +-6,5 mm autour du centre ne donnaient aucune information, et un trou de 8 mm plus loin ou aucun capteur ne voyait la ligne.
-  Retenu : 13 mm dans les 2 rangees (demi-ligne 9,5 + demi-tache du capteur 3,5). Schema : Implantation capteurs 13 mm.png.
-  Etude : bras_50cm/robot/etude_ecartement_capteurs.py. C'est un modele : la tache est a mesurer sur les vrais capteurs.
-
-SUPPORT DES CAPTEURS (32 g, 45 avant)
-  Des cartes de 14,1 mm cote a cote ne descendent pas a 13 mm : les lateraux ont leur carte en travers, vers l'exterieur.
-  Avant : lateraux en x 205,05 (27,8 mm devant l'essieu), central en x 190,55. Arriere : les 3 en x 118,8.
-  Rangee arriere descendue de 3 mm (meme hauteur au sol que l'avant). 86,25 mm entre les rangees (81 avant).
-  Essaye et abandonne : rangee avant a 7 mm de l'essieu, aucun reglage ne suit la ligne en simulation.
-POUTRE : encoche de 1,46 mm dans la face avant, fonction "Encoche carte capteur" (les 2 rangs de cartes font 28,6 mm pour 27,5 disponibles).
-
-RANGEMENT
-  Tout est dans 1_VERSION_FINALE (a ouvrir) : Assemblage1v2.SLDASM, Bras 50cm.SLDASM, Pieces bras, Pieces robot, Visserie, Documents.
-  Assemblage1v2 n'est plus sur le Bureau. ICAM/Pieces tipe reste en place (vos originaux) mais n'est plus utilise par la version finale.
-  Les fichiers STEP du bras et assembler.ps1 sont dans l'archive 3k.
-
-CONTROLES
-  Robot : 183 contraintes, 0 en erreur, 0 fichier manquant, tout dans le dossier (hors bibliotheque Toolbox). Bras : 99 contraintes, 0 en erreur.
-  Capteurs et support : aucune interference (0 mm3 ; contact seulement avec les vis de la poutre, filets, 0,00 mm3).
-  27 STL controles, volume compare a la piece finale : ecart < 0,5 %, sauf la tige (1,3 %, facettage du petit cylindre), toutes etanches.
-
-PAS FAIT : rien d'imprime. La hauteur reelle des capteurs et le suivi de ligne reel ne sont pas essayes.
-
-
-CE QUI A CHANGE LE 08/11/2026 : DIRECTION
-=========================================
-Images : dossier "Vues 08-11". Archives : 3_Anciennes versions/3i_08-11 Assemblage1v2 avant direction MG996R, ICAM/Pieces tipe/anciennes versions 08-11.
-Vos pieces "support servo moteur direction" et "piece de liason servo moteur tige" sont gardees, mais retirees du robot.
-
-  MG996R a la place du MG90S, meme axe. Nouveau support (memes appuis sur le bati, maintien du 1er roulement inchange).
-  2e roulement dans une cuve sous le bati. Fixation : les 2 vis de l'ancien support + 1 trou neuf dans le bati (Bati : fonction "Trou cuve direction").
-  Entretoise a gradins : elle pousse sur la bague interieure, la poussee de la roue ne passe plus par le servo.
-  Nouvelle liaison : arm01 dans une empreinte, manchon 8,2 mm (9 mm avant), goupille dans le vrai trou de la tige.
-
-TROUVE EN DESSINANT (a regarder sur le vrai robot)
-  La poussee de la roue vers le haut n'etait retenue que par la goupille, donc par le servo.
-  Dans le modele d'origine, la goupille etait 3,6 mm au-dessus du trou de la tige (y 553,1 contre 549,48).
-  La tige n'a son diametre de 8 mm qu'au-dessus de y = 514,6 (carre puis evasement dessous). D'ou 15 mm seulement entre les 2 roulements
-  (22,7 mm avec une tige refaite sans evasement).
-
-CONTROLES
-  Robot complet : 183 contraintes, 0 en erreur, 119 composants. Tige non deplacee par les modifications.
-  MG996R, arm01, liaison : 0 mm3 sur +-90 degres (calcul par pas de 15 degres). Bras contre robot : aucune interference.
-  Restent 132 interferences au total : filets vis / ecrous, moins de 0,4 mm3 pour les pieces neuves, et les anciennes (broches ESP32, moteur / roues).
-  STL du chassis : 7, etanches.
-
-PAS FAIT : rien d'imprime. Resistance de la tige et de la cuve non calculee. Budget : voir chapitre 10 du PDF (environ 78 unites hors ESP32, pour 60).
-
-
-CE QUI A CHANGE LE 07/11/2026
-=============================
-Images : dossier "Vues 07-11". Archive d'avant : 3_Anciennes versions/3h_07-11 avant servo de pince droit et support capteurs
-(et ICAM/Pieces tipe/anciennes versions 07-11 pour vos pieces du robot et Assemblage1v2).
-
-SERVO DE PINCE
-  Avant : tourne de 45 degres autour de son axe, a moitie hors du bloc des machoires, pose sur ses pattes sans vis.
-  Maintenant : droit, le long du bloc, dans un logement ferme. On l'enfile par l'arriere, ses pattes butent contre un
-  epaulement, 2 vis de 2 x 8 (celles du servo) le tirent contre lui. Son axe n'a pas bouge (ecart 0,000 mm) : pignon et
-  machoires inchanges. L'ancien logement penche est rebouche.
-  Controle : servo / corps de pince 0,0 mm3 (5,4 + 5,3 mm3 avant). corps_pince : 21,4 -> 23,3 g (+1,9 g au bout du bras,
-  environ +0,8 % du couple de l'epaule, estime).
-  Bras seul : 99 contraintes (97 + les 2 vis), 0 en erreur, 93 composants.
-
-ROBOT COMPLET (Assemblage1v2, Bureau)
-  Poutre des roues avant (piece avec les bites) : le U est supprime (fonctions Boss.-Extru.8, Enlev. mat.-Extru.3,
-    Conge3, Enlev. mat.-Extru.4 SUPPRIMEES, pas effacees : on peut revenir en arriere), poutre droite d'une roue a l'autre.
-    2 trous de 3,5 mm ajoutes au milieu (a 20 mm de part et d'autre) pour le support des capteurs.
-  Support des capteurs : nouvelle piece "support capteurs 2 rangees" (ICAM/Pieces tipe), votre "support capteur" est garde.
-    Rangee arriere : au meme endroit qu'avant (juste devant la zone balayee par le bloc moteur de direction).
-    Rangee avant : juste devant la poutre, cartes en travers pour rester dans les 200 mm du bati.
-    81 mm entre les 2 rangees, 33 mm entre capteurs (30 avant : en travers, 3 cartes de 31 mm ne tiennent pas a 30).
-    Tout reste sous le bati (x 103 a 212 mm). 45,2 g.
-    Fixation : la plaque passe sous la poutre (2 vis M3 x 20) + la colonne vissee sous le bati au meme trou qu'avant.
-  Bras / bati : 4 vis M3 x 12 + 4 ecrous ajoutes dans les 4 trous du socle (le bati avait deja les trous).
-  Controle : 195 contraintes, 0 en erreur, 105 composants. Aucune interference du bras avec le robot.
-    Capteurs / support : 4 contacts de 0,4 mm3 par capteur, les memes qu'avec votre support d'origine (modele du capteur).
-    Restent les contacts vis / ecrous (filets) et ceux qui existaient deja (broches de l'ESP32 dans le bati, moteur / roues).
-
-PAS FAIT
-  Rien n'est imprime. Le programme de l'ESP32 ne lit pas encore les 3 capteurs de la rangee avant (broches a choisir).
-  Le robot fait toujours plus de 200 mm en longueur a cause des batteries modelisees derriere le bati (x -14 a 6 mm) et
-  des roues avant (jusqu'a x 218) : rien de change par les capteurs, mais a regarder pour le reglement.
-
-
-CE QUI A CHANGE LE 06/11/2026 : A VERIFIER DANS SOLIDWORKS
-==========================================================
-
-A OUVRIR
-  Bras seul     : ce dossier, Bras 50cm.SLDASM
-  Robot complet : Bureau, Assemblage1v2.SLDASM (il utilise le Bras 50cm de ce dossier : ne pas deplacer ce dossier)
-  Apercu        : Robot complet (Assemblage1v2).png
-  Visserie      : dossier Vues visserie, plastique transparent, vis M3 en bleu, ecrous en rouge, vis de 2 mm en vert.
-                  Ces couleurs existent seulement sur les images, pas dans les pieces.
-  Montage       : MONTAGE.txt
-
-ANCIENNES VERSIONS (01_SolidWorks/3_Anciennes versions)
-  3e_06-11 avant roulements                 ancien bras + ses fichiers d'impression
-  3f_06-11 Assemblage1v2 avant mise a jour  votre fichier du robot complet, avant mes modifications
-  3g_06-11 avec roulements sans visserie    version avec roulements, avant allegement et visserie
-
-ALLEGEMENT (masses PLA estimees)
-  bras          47,5 -> 40,8 g   poutre z 20..32, trous tous les 15 mm, fenetres dans les joues
-  avant_bras    17,6 -> 16,4 g   largeur +/-8 mm, 5 trous de 9 mm
-  palier_coude   6,7 ->  5,8 g
-  Total sur l'epaule : 8,8 g de plastique en moins, soit environ 1,5 % du couple de blocage du MG996R, bras a l'horizontale.
-  Gain modeste, chiffre estime. La masse des vis et ecrous en acier n'est comptee ni avant ni apres.
-  Le plateau et le socle ne chargent pas l'epaule : ils n'ont pas ete alleges davantage.
-
-PINCE, PALONNIERS, MONTAGE
-  Corps de pince : les 2 petits trous passent a 2,6 mm, sans lamage. La vis passe librement et se visse dans la broche.
-  Palonnier de la base : arm01, votre piece d'origine, a la place du palonnier rond dont les cotes etaient supposees.
-    4 vis de 2 x 8 par le dessous, trous de 1,7 mm traversants. La pointe depasse d'environ 1,7 mm au-dessus du plateau, sans gene.
-  MG996R d'epaule : ecrous captifs glisses par les cotes dans la face du plateau, avant de poser le servo.
-    On ne visse que cote servo, plus aucun acces necessaire derriere la face.
-  Visserie dessinee : 65 elements, contraints dans l'assemblage (Vis M3x8 x12, M3x12 x4, M3x16 x4, M3x20 x6, Ecrou x26,
-    Rondelle x1, Vis 2x8 x12).
-
-DEFAUT TROUVE ET CORRIGE EN CONTROLANT L'ACCES AUX VIS
-  La collerette du palonnier rebouchait l'axe sur 2 mm, dans le plateau et dans le bras : les vis centrales des 2 MG996R
-  n'auraient pas pu passer. Corrige dans cao_bras.py, passage de 8 mm rouvert. Les autres versions anterieures n'ont pas ete
-  controlees sur ce point.
-
-ACCES AUX VIS, CALCULE VIS PAR VIS (avec les seules pieces deja posees a chaque etape de MONTAGE.txt)
-  38 vis, tige de 4 mm : 36 ont plus de 150 mm libres, tout droit.
-  2 vis du bas du MG996R d'epaule : la jante gene la tige tout droit. Libre des 2 degres d'inclinaison.
-  Vis centrale du lacet : linteau de la face au-dessus de l'axe. Libre des 4 degres d'inclinaison vers +y.
-  Vis centrale de l'epaule : libre, tout droit, par l'exterieur de la joue.
-  26 ecrous : chacun a un chemin d'entree dans sa piece (cercle inscrit de l'ecrou, 20 mm de translation).
-  Ce calcul ne remplace pas un essai : la main et le manche du tournevis ne sont pas modelises.
-
-LE ROBOT COMPLET (Assemblage1v2)
-  Refaire le socle casse les contraintes bati / socle : remplacees par 3 contraintes, face du socle sur le bati + 2 trous opposes
-  en diagonale, (197,26 ; 545,72) et (131,26 ; 479,72). Bras au meme endroit : (164,26 ; 449,70 ; 512,72) mm.
-  Les traits gris qu'on voyait autour du bras etaient des esquisses : masquees (Affichage > Cacher / Montrer > Esquisses).
-
-CONTROLES FAITS
-  Bras seul     : 97 contraintes, 0 en erreur, 91 composants, aucun probleme de reference.
-                  155 interferences. Les plus grosses : vis de 2 mm dans les palonniers et le plateau, 3,5 a 6,7 mm3
-                  (normal, ces vis creusent leur filet) ; pince d'origine, 5,4 mm3 au plus.
-                  Celles de moins de 1 mm3 n'ont pas ete relues une par une.
-  Robot complet : 203 contraintes, 0 en erreur. Aucune interference entre le bras et le reste du robot.
-                  450 interferences au total, entre pieces du reste du robot ou dans le bras : non analysees une par une.
-  Logements     : tous les servos entrent, aucune interference (verifier_logements.py).
-  Base et epaule: aucune collision en rotation de la base. Le bras touche les patins vers 2,1-2,2 rad d'epaule ; le reseau ne depasse pas 1,57.
-  Impression    : plateau, bras, avant_bras, corps_pince, palier_coude : manifold pour PrusaSlicer. Autres pieces non repassees.
-
-PAS ENCORE FAIT
-  Rien n'est imprime ni monte : les jeux, les longueurs de vis et la tenue des vis de 2 mm restent a confirmer sur de vraies pieces.
-  Le bras (286 mm) ne tient sur la Core One qu'en diagonale, a environ 40 degres, avec 3 a 5 mm de marge. A verifier dans
-  PrusaSlicer, ainsi que les supports.
-  Gazebo utilise encore l'ancien maillage : la cinematique est la meme, le reseau n'a pas a etre reentraine.
+CE QUI A CHANGE LE 22/11/2026 : ROBOT RABAISSE DE 7 MM, CAPTEURS A 13 MM ET VIS M3, BATI SANS TROUS DE CABLES
+=============================================================================================================
+Archive d'avant : 3_Anciennes versions/3s_22-11 avant rabaissement, trous M3 capteurs, bati sans trous de cables.
+Images : Documents/Robot complet / dessous / cote / face (22-11).png. Simulation : 03_Reseau_de_neurones/esp32/simulation_ligne/sim_ligne2.py.
+1. ROBOT RABAISSE : dessus du bati a 80,1 mm du sol au lieu de 87,1 (exactement la hauteur utilisee pour entrainer le reseau du bras :
+   le bras atteint donc ce qui a ete appris, y compris le grand receptacle). Le bloc moteur de direction (roues, moteur, capteurs)
+   ne bouge pas par rapport au sol : c'est tout le reste qui descend. Pieces changees :
+   - entretoise direction : 10,07 -> 3,07 mm d'epaisseur (meme forme, col dans le roulement) ;
+   - tige pour direction : 65 -> 58 mm. Carre de 6,7 mm inchange (15 mm dans le bloc), transition carre/rond 10 -> 3 mm, rond 50 -> 40 mm ;
+     les 2 trous gardent leur place par rapport aux bouts (goupille du bloc a 6 mm du bas, goupille de la liaison a 5,12 mm du haut).
+     Si votre tige est en metal : la raccourcir de 7 mm dans la partie carree (cote bloc), ou imprimer celle-ci ;
+   - poutre arriere (piece avec les bites) : 39 -> 37,2 mm. Dans le modele d'avant, les roues libres etaient 5,2 mm AU-DESSUS du sol :
+     le vrai robot penchait de 2,2 degres (l'arriere plus bas), ce qui rapprochait la 2e rangee de capteurs du sol (2 mm au lieu de 5).
+     Maintenant les 4 roues touchent le meme sol et le bati est horizontal.
+   Le centre de gravite descend d'environ 7 mm (estimation : ~114 -> ~107 mm, le bras en Home en fait plus de la moitie).
+   Controle : 0 contrainte en erreur ; interferences nouvelles : aucune (2 touches de 0,2 et 0,4 mm3 tige / roulement et tige / vis, sans effet).
+2. CAPTEURS : trous des cartes 2,4 -> 3,4 mm (vis M3 + ecrou sous la plaque, 4,5 mm de matiere autour de chaque trou, rien dessous) ;
+   ecart entre capteurs 20 -> 13 mm dans les 2 rangees (simulation : ecart a la ligne divise par 2, plus de zone morte au centre ;
+   5 capteurs a 10 mm n'apportent rien de plus) ; hauteur gardee a 5 mm (3 mm aussi bon, 8 mm nettement moins bon) ;
+   les 2 trous de vissage du boitier (inutiles depuis la fusion) sont supprimes. piece moteur direction : 35,7 g.
+3. BATI : les 6 trous ajoutes pour les cables et l'ancien berceau sont bouches (2 x O10 fils moteur x 92, 2 x O8 fils batteries x 145,
+   2 x O3,4 colonnes x 154) : les fils passent par les grandes fenetres et le bord. Restent les 2 trous de 3,4 des embouts (x 136). 117,0 g.
+STL A REIMPRIMER : piece moteur direction, tige pour direction, entretoise direction, piece avec les bites (poutre droite), bati.
+PAS VERIFIE : rien n'est imprime ; vraie hauteur des capteurs (5 mm vises) ; centre de gravite reel (masses estimees).
+
+CE QUI A CHANGE LE 20/11/2026 (2) : PIECE UNIQUE MOTEUR + CAPTEURS, EMBOUTS DE BATTERIES, BATI ARRONDI, ROUES AJOUREES
+====================================================================================================================
+Archive d'avant : 3_Anciennes versions/3r_20-11 avant piece unique, embouts, bati arrondi (pieces et STL d'avant).
+Images : Documents/Robot complet / dessous / dessus (20-11).png. Code CAO (WSL, bras_50cm/robot/) : fusion_moteur_capteurs.py,
+embout_batteries.py, forme_bati.py.
+1. "piece moteur direction" = boitier d'origine + support des 6 capteurs, en UNE piece (37 g, imprimee d'un seul tenant, sans vis
+   ni colle). Le fichier d'origine est remplace (meme nom, meme place). Le support capteurs direction separe n'existe plus.
+   Les 12 contraintes qui tenaient roues / moteur / tige sur l'ancien boitier ont saute : piece fixee, rien n'a bouge
+   (contacts roue / boitier 0,08 mm3 comme avant).
+2. Batteries : berceau + 2 brides + 14 vis remplaces par 2 EMBOUTS identiques (embout batteries x2.STL, 8 g chacun) :
+   un godet a 2 alveoles qui coiffe les bouts des 2 batons colles, et une colonne vissee sous le bati par UNE vis M3 x 20
+   (tete sur le dessus du bati, ecrou glisse dans la fente de la colonne). Trous deja dans le bati (x 136 ; z 449,7 et 575,7).
+   Montage : visser un embout, engager les batons, poser l'autre embout sur les autres bouts, visser : ils sont serres entre les deux.
+   Fils : trou de 7 mm au fond de chaque alveole, puis trou de 8 mm du bati juste a cote.
+3. Bati : contour arrondi (enveloppe des pieces posees dessus et dessous, symetrique, rayon 12) + 3 fenetres d'allegement ;
+   tous les trous gardes. 142,6 -> 115,7 g (-19 %).
+4. Roues ajourees : motrices 5 trous de 13 mm (21,2 -> 16,1 g), libres 6 trous de 9 mm (20,0 -> 16,8 g).
+29 STL dans 02_Impression_3D, tous etanches. Pas d'interference nouvelle. Rien d'imprime, rien de monte.
+A voir : la piece moteur unique a de longs bras en porte-a-faux : l'imprimer couchee avec supports.
+
+CE QUI A CHANGE LE 20/11/2026 : 6 CAPTEURS SUR LE BLOC DE DIRECTION, ANCIENS CAPTEURS SUPPRIMES
+===============================================================================================
+Archive d'avant : 3_Anciennes versions/3q_20-11 avant 6 capteurs sur la direction (assemblage + ancien STL du support 2 rangees).
+- Supprimes : support capteurs 2 rangees, les 6 capteurs fixes et leur visserie (2 vis de poutre, colonne, ecrou, rondelles).
+  Les trous correspondants restent dans le bati et la poutre (sans effet).
+- support capteurs direction.STL (17,1 g, refait) : 2 rangees de 3 capteurs, toutes deux sur le bloc moteur de direction :
+  rangee de tete devant la roue (x 5,5 et -3), 2e rangee derriere le moteur (x 112 et 120,5). Meme hauteur (5 mm du sol),
+  meme ecart (20 mm). La plaque se colle sur la face avant du boitier ET une poutre de 18 mm se colle sous le boitier.
+  Tout tourne avec la roue : aucun decalage entre capteurs fixes et capteurs mobiles.
+- Cablage : rangee de tete 27 (gauche du robot dans le sens de marche) / 15 / 34 (droite) ; 2e rangee 26 / 14 / 35, meme sens.
+- Controle : 153 contraintes, 0 en erreur ; contacts seulement cartes / support et filets. 30 STL, tous etanches.
+- A verifier : le support depasse de 20 mm devant le bati (reglement : carre de 200 mm) ; la 2e rangee est a 68 mm derriere
+  l'axe des roues motrices : si le robot penche vers l'avant, elle se rapproche du sol (prevoir 1 mm de cale si elle frotte).
+
+CE QUI A CHANGE LE 19/11/2026 (soir) : 3 CAPTEURS SUR LE BLOC MOTEUR DE DIRECTION
+=================================================================================
+Archive d'avant : 3_Anciennes versions/3p_19-11 avant capteurs sur la direction. Code : bras_50cm/robot/support_capteurs_direction.py (WSL).
+Le robot roule maintenant cote direction (programme : INVERSER_AVANT_ARRIERE). Les 3 capteurs de tete sont fixes au bloc moteur
+de direction et TOURNENT AVEC LA ROUE : ils voient la ligne juste devant la roue qui braque, sans retard.
+- support capteurs direction.STL (6,3 g) : plaque COLLEE sur la face avant du boitier "piece moteur direction" (19 x 33 mm,
+  entre les 2 roues) ; 2 trous de 3,4 mm si on prefere visser (percer le boitier en face). Pas de joues : les jantes sont trop pres.
+- 3 capteurs a 20 mm d'ecart, element a 5 mm du sol : lateraux a 8 mm devant la jante, cartes en travers vers l'exterieur ;
+  central 8,5 mm plus en avant, carte vers l'arriere entre les roues. Vis M2 x 8 + ecrous M2 (3).
+- Cablage conseille : deplacer sur ce support les 3 capteurs de l'ancienne rangee avant (broches 27 / 15 / 34), qui se retrouve
+  derriere et ne sert plus ; la rangee du milieu (26 / 14 / 35) reste pour le cap.
+- ATTENTION reglement : le support depasse de 20 mm devant le bord du bati (robot de 220 mm, plus en braquant). La base doit
+  tenir dans un carre de 200 mm : a faire valider, ou raccourcir le bati de l'autre cote.
+- Controle : 180 contraintes, 0 en erreur ; seuls contacts : cartes posees sur le support et filets des vis. Aucun contact avec
+  les roues ni le boitier. Rien d'imprime.
+
+CE QUI A CHANGE LE 19/11/2026 : BATTERIES COLLEES, CAPTEURS ECARTES ET ABAISSES, BATI (robot complet)
+====================================================================================================
+Archive d'avant : 3_Anciennes versions/3o_19-11 avant refonte batteries et capteurs (assemblage, bati, support, berceaux, STL).
+Images : Documents/Robot complet (19-11).png et Documents/Robot dessous (19-11).png. Le bras n'a pas change.
+Ceci REMPLACE les sections batteries / pieds / bati du 18/11 (laisser celles-ci comme historique). Code de la CAO (WSL) :
+bras_50cm/robot/support_batteries.py et support_capteurs.py.
+
+1. BATTERIES : 2 batons de 110 x Ø18 mm COLLES, un seul berceau au centre
+   - Les 2 batons sont cote a cote (travers, axes selon z), contre contre : bloc de 37 x 110 mm, axes a x 127,5 et 146,1,
+     y 504,4 (environ 60 mm au-dessus du sol), centre sur l'axe du robot (z 512,72) : masse symetrique, pas de rebord lateral.
+   - Endroit : entre la colonne des capteurs (x 103-111) et la poutre avant (x 170), SOUS le bati, AU-DESSUS des capteurs (leur dessus
+     est a y 473), sous le socle du bras, entre le L298N et l'ESP32. Milieu de l'empattement (roues a x 44 et x 177) : le centre
+     de gravite ne bouge presque pas par rapport a la version sur les cotes (estimation 107 -> 112 mm, charge des roues motrices 52 -> 49 %).
+   - berceau batteries.STL (50 g) : demi-tubes du haut (4 mm de matiere), butees de 3 mm avec passage de fil, suspendu a 7 mm sous le
+     bati par 4 colonnes (2 a chaque bout). 4 vis M3 x 20 PAR LE DESSUS du bati (ecrou captif dans l'oreille du berceau, fente laterale).
+   - bride batterie.STL (3,8 g, x2) : demi-tubes du bas, 2 vis M3 x 20 par dessous chacune (4 en tout), ecrous captifs dans les cotes.
+     Changer les batteries = 4 vis. Jeu radial de 0,3 mm : mousse de 1 mm si ca vibre.
+   - Fils : par les trous de 8 mm des butees, puis par les trous de 8 mm du bati (x 145, z 449,7 et 575,7), puis sur le dessus.
+   - Masse des batteries inconnue (suppose 2 x 45 g).
+
+2. CAPTEURS : plus ecartes, plus bas (support capteurs 2 rangees.STL, 37,3 g)
+   - Ecartement 13 -> 20 mm dans les 2 rangees (la ligne fait 19 mm). Avec 13 mm la zone ou la ligne est vue par un seul capteur
+     etait etroite et la position sautait : a 20 mm les 3 capteurs couvrent +-33 mm avec recouvrement, sans trou : la position calculee
+     est continue et la plage de capture est 2,5 fois plus grande. Les 2 rangees restent a 86,25 mm l'une de l'autre.
+   - Hauteur : l'element TCRT5000 est un capteur reflectif a courte portee : reponse maximale a 2-4 mm, correcte jusqu'a 6-8 mm,
+     tres faible au-dela. Dans le modele sa face etait a environ 12 mm du sol (11,8 avant, 12,2 arriere) : signal tres faible,
+     contraste mauvais (a l'arret les valeurs lues sont 30 a 100 sur 4095). Descendu de 7 mm : environ 4,8 mm a l'avant, 5,2 mm a l'arriere
+     (hypothese : sol au niveau des roues arriere, y 442,6 ; les roues avant du modele sont 5,2 mm plus hautes, la pente en a ete tenue
+     en compte). Les jupes ne depassent plus que de 1 mm sous la face (avant 3 mm) : elles restent a environ 4 mm du sol.
+     A VERIFIER SUR LE VRAI ROBOT avec une cale de 5 mm : si ca racle, 2 rondelles entre la poutre et la plaque (ou reimprimer avec
+     BAISSE_GLOBALE = 5 dans support_capteurs.py). Si l'utilisateur trouve qu'il racle deja, remonter.
+   - La plaque descendue est reliee a la poutre par 2 colonnes de 7 mm ; les 2 vis de la poutre passent de M3 x 20 a M3 x 30 ;
+     la colonne du bati est plus longue (meme vis M3 x 16). Les 6 capteurs, leurs vis M2 et ecrous ont suivi.
+   - Programme ESP32 : rien a changer (la position est normalisee). Les valeurs brutes doivent monter fortement : refaire L au-dessus
+     du blanc et du noir.
+
+3. BATI (bati(en cours).SLDPRT, 142,6 g, fonction "Pointe avant, trous berceau et cables")
+   - pointe avant en biseau (50 x 33 mm), 4 trous de 3,4 mm pour les colonnes du berceau (x 136 et 154 ; z 449,7 et 575,7),
+     2 trous de 8 mm pour les fils des batteries (x 145), 2 trous de 10 mm pour les fils des moteurs (x 92 ; z 488 et 537,4),
+     fente de 30 x 10 mm du milieu conservee pour les fils des capteurs.
+   - Si votre bati est deja imprime : le percer aux endroits ci-dessus ou le reimprimer.
+
+STL A REIMPRIMER : bati, berceau batteries, bride batterie (x2), support capteurs 2 rangees. 30 STL en tout. Controle : 180 contraintes,
+0 en erreur, aucune interference nouvelle (seuls les filets des vis), STL etanches.
+PAS VERIFIE : rien n'est imprime ; hauteur reelle des capteurs et du sol ; masse des batteries ; place des fils.
+
+CORRECTION DU 18/11/2026 SOIR : PIEDS RETIRES, BATI EFFILE, PASSAGES DE CABLES
+=============================================================================
+Archive d'avant : 3_Anciennes versions/3n_18-11 avec pieds anti-bascule. Les pieds anti-bascule sont SUPPRIMES (pieces, vis, STL, trous) :
+ils ne servaient a rien. Ignorer les paragraphes "pieds" de la section du dessous (et leurs 4 trous dans le bati).
+BATI (bati(en cours).SLDPRT, 148 -> environ 140 g, fonction "Pointe avant, trous batteries et cables") :
+  - pointe avant : les 2 coins avant sont coupes en biseau de 50 mm sur 33 mm (au lieu de 27 sur 25), le nez plat fait 94 mm
+    (z 466 a 559) : il reste exactement la largeur du socle du bras et des capteurs ;
+  - 2 trous de 10 mm pour les fils des batteries, au-dessus de l'avant de chaque berceau (x 146 ; z 449,75 et 575,69) ;
+  - 2 trous de 10 mm pour les fils des moteurs / du L298N (x 92 ; z 488 et 537,4) ;
+  - la fente de 30 x 10 mm du milieu (x 114 a 124) reste le passage des fils des 6 capteurs ;
+  - les 4 trous de 3,4 mm des colonnes des berceaux restent.
+  Pas fait : arrondis. Aucune interference nouvelle. 4 STL de la section du dessous restent valables (berceau x2, bride x4) ; bati refait.
+
+CE QUI A CHANGE LE 18/11/2026 : BATTERIES, PIEDS ANTI-BASCULE (robot complet seulement)
+====================================================================================
+Archive d'avant : 3_Anciennes versions/3m_18-11 avant batteries (Assemblage1v2, bati, batterie, STL du bati).
+Images : Documents/Robot complet (18-11).png et Documents/Robot dessous (18-11).png (vue de dessous : berceaux, brides, pieds).
+Le bras n'a pas change. Code de la CAO : bras_50cm/robot/support_batteries.py (WSL).
+
+BATTERIES : 2 batons de 110 mm x Ø18 mm (modele : batterie 18x110.SLDPRT, remplace les 2 blocs de 20 x 20 x 150 mm
+  qui sortaient de 14 mm derriere le bati : le robot depassait les 200 mm du reglement, ce n'est plus le cas).
+  Elles sont maintenant SOUS le bati, sur les cotes, dans l'axe x : x 28 a 139, axe a y 504 (environ 60 mm au-dessus du sol),
+  z 449,75 et 575,69 (63 mm de part et d'autre de l'axe du robot). Pourquoi la :
+    - au milieu il y a le bloc de direction (z 470 a 556), les capteurs (z 471 a 554), l'ESP32 et le L298N : les cotes sont libres ;
+    - la masse est entre l'essieu moteur (x 44) et la poutre avant (x 170) et tres basse : le centre de gravite descend, les roues
+      motrices sont chargees (ce sont elles qui accrochent) ;
+    - le bati et le L298N ne bougent pas : 8 trous de 3,4 mm seulement dans le bati.
+  Tenue (fiable et solide, rien ne repose sur du collage) :
+    - berceau batterie gauche / droit (28 g chacun, miroirs l'un de l'autre) : demi-tube du haut, butees de 3 mm aux 2 bouts avec
+      un passage de fil, suspendu a 7 mm sous le bati par 2 colonnes. 2 vis M3 x 20 par berceau, DEPUIS LE DESSUS du bati (tete
+      sur le bati, ecrou M3 captif dans une fente laterale du berceau). Les colonnes de 7 mm laissent passer les ecrous du L298N
+      et de l'ESP32 et les broches de l'ESP32 (1,5 mm de jeu). Colonne arriere cote interieur : les coins arriere du bati sont coupes (25 x 27 mm).
+    - bride batterie (2,7 g, 4 identiques, 2 par baton) : demi-tube du bas, 2 vis M3 x 20 PAR DESSOUS dans des ecrous captifs du
+      berceau. Changer une batterie = defaire 4 vis. Jeu radial 0,3 mm : coller 1 mm de mousse ou de TPU dans le logement pour
+      qu'elle ne vibre pas (a voir sur la vraie batterie).
+  Fils : sortie par les trous de 8 mm des butees, puis par dessus le bord du bati (a la main).
+  Masse des batteries : pas connue (supposee 2 x 45 g). La position est bonne tant qu'elles font moins de 100 g chacune.
+
+PIEDS ANTI-BASCULE (pied anti-bascule.SLDPRT, 10,4 g, 2 identiques) : colonne de 11 x 15 mm x 66 mm derriere chaque berceau,
+  vissee au bati par 2 vis M3 x 20 (taraudees dans le plastique, trou de 2,6 mm). Dessous : une vis M3 x 20 de reglage a placer a
+  2 ou 3 mm du sol. Raison : les roues motrices sont tres rapprochees (34 mm entre elles) et les 2 roues libres sont a l'avant :
+  en virage rapide ou bras tendu sur le cote, le robot peut se pencher vers l'arriere. Les pieds ne touchent le sol que dans ce cas.
+  Dans le modele la vis est a y 446,1 (roues arriere a 442,6, roues avant 5 mm plus haut dans le modele) : a regler sur le vrai robot.
+  Sans effet sur le suivi de ligne tant qu'ils ne touchent pas : on peut ne pas les monter.
+
+BATI : 8 trous de 3,4 mm (fonction "Trous batteries et pieds") : (31 ; 461,75), (135,5 ; 437,75), (31 ; 563,69), (135,5 ; 587,69)
+  pour les 4 colonnes, et 4 trous des pieds (18,5 ; 459,5 / 466,5) + les 2 symetriques. 8 trous au total : STL du bati refait.
+  Si votre bati est deja imprime : percer a 3,4 mm aux positions ci-dessus (x et z de l'assemblage ; x 12,3 = bord arriere,
+  z 432,7 = bord gauche).
+
+CONTROLES : 40 composants ajoutes (5 pieces dessinees, 18 vis M3 x 20, 12 ecrous M3), tous fixes. Interferences : seulement les
+  filets (vis dans ecrou, vis dans le trou de 2,6 mm des pieds, vis dans bride) : aucune entre berceaux, batteries, ESP32, L298N,
+  bloc de direction, capteurs, roues, bras. Les 6 STL (berceau x2, bride, pied, bati) sont etanches.
+PAS VERIFIE : rien n'est imprime. Dimensions et masse reelles de la batterie. Jeu des fils. Hauteur des pieds sur le vrai sol.
+  Gazebo n'a pas ces pieces (inutile : il ne simule que le bras).
+
+POUR GAGNER LA COURSE : ce que la CAO ne regle pas (a discuter)
+  1. Suivi de ligne : c'est le programme, pas la mecanique. Pistes : correcteur PID sur les 3 capteurs avant (aujourd'hui
+     proportionnel seul), memoire du dernier cote ou la ligne a ete vue, vitesse reduite seulement en virage (mesuree par
+     l'ecart des capteurs) et pleine vitesse en ligne droite, frein moteur avant un virage serre.
+  2. Direction a l'arriere : le robot braque par ses roues arriere, les capteurs sont a l'avant a 170 mm : le robot reagit avec
+     du retard. Un angle de braquage trop grand a vitesse elevee fait deriver l'avant : limiter l'angle selon la vitesse.
+  3. Sol : le Ø60 mm des roues motrices et leur largeur de 14 mm decident de l'adherence. Un joint torique ou une bande de
+     caoutchouc dans une gorge des jantes aide beaucoup, c'est a essayer avant de changer quoi que ce soit.
+  4. Hauteur des capteurs : environ 11 a 12 mm du sol d'apres le modele ; les capteurs reflectifs sont meilleurs a 3 a 8 mm.
+     A mesurer sur le vrai robot (on abaisse le support, la rangee est deja dessinee pour ca).
+  5. Poids : le robot pese lourd pour un robot de course (bras, 2 batteries, 5 servos). Bras replie (H) avant de partir.
+
+CE QUI A CHANGE LE 13/11/2026 : U DU BRAS, PATINS DE LA BASE, PINCE
+====================================================================
+Archive d'avant : 3_Anciennes versions/3l_13-11 avant renforts U, patins, pince (SolidWorks + anciens STL).
+Image : Documents/Bras 50cm (13-11).png. Parti de la version du 08/11 (aucun fichier plus recent sur ce PC).
+
+U DU BRAS (bras.SLDPRT, 40,8 -> 53,5 g) : il s'etait casse.
+  Joue cote roulement 4 -> 6 mm d'epaisseur et 16 -> 20 mm de large, traverse 4 -> 8 mm et 20 -> 24 mm de large,
+  equerres pleines de 3 mm a l'exterieur des 2 angles. Tout l'ajout est vers l'exterieur : l'interieur n'a pas bouge.
+  axe_epaule rallonge de 2 mm. Controle : aucun contact bras / plateau / servo / patins sur toute la course de l'epaule.
+  Conseil d'impression : 5 perimetres et 40 % de remplissage pour cette piece.
+
+BASE (plateau.SLDPRT, patin_a/b/c.SLDPRT) : embouts trop serres, casses.
+  Gorge 3 -> 4 mm de haut, jante 7 -> 10 mm. Doigt du patin 2,6 -> 3,0 mm d'epaisseur.
+  Jeu 0,2 -> 0,5 mm dessus et dessous, 0,4 -> 0,6 mm sur le rayon. Patin plus haut (dessus au niveau de la jante),
+  tetes de vis noyees : memes vis M3 x 20.
+
+PINCE : les machoires sortaient de leurs tiges. Pas de roulement.
+  flasque_pince.SLDPRT (NOUVEAU, 2,3 g) : ses 2 axes de 8 mm portent les machoires ; 2 vis M3 x 20 traversent
+  les axes et se vissent dans le corps (avant-trous de 2,5 mm). Les machoires sont tenues des 2 cotes.
+  corps_pince : les 2 tiges d'origine sont supprimees, bossages pleins avec avant-trou.
+  machoire_a, machoire_b (NEUVES, 6,2 g) : meme engrenage (30 dents, module 1), bras plus raides, berceau spherique
+  de 23 mm : la balle est centree au point de prise que connait le reseau (rien a reapprendre).
+  Servo de pince : logement ferme + 2 vis de 2 x 8 deja dessines le 07/11 (a imprimer si votre corps est plus ancien).
+
+CONTROLES : Bras 50cm 102 contraintes, 0 en erreur. Assemblage1v2 183 contraintes, 0 en erreur. 10 STL etanches.
+  Pince : aucun contact machoires / corps / flasque de -20 a +15 degres, balle libre machoires ouvertes.
+PAS VERIFIE : rien d'imprime. Calage des dents avec le pignon (on choisit la dent a la pose). Tenue des vis M3 dans
+  l'avant-trou de 2,5 mm. Serrage reel sur la balle. Gazebo et l'URDF gardent les anciens maillages.
+
+CE QUI A CHANGE LE 08/11/2026 APRES-MIDI : CAPTEURS A 13 MM, RANGEMENT
+======================================================================
+Archives : 3_Anciennes versions/3j (capteurs a 33 mm) et 3k (etat complet avant rangement, avec l'ancien 1_ASSEMBLAGE_FINAL et Assemblage1v2).
+
+ECARTEMENT DES CAPTEURS
+  Ligne de 19 mm (reglement, p. 4). A 33 mm, +-6,5 mm autour du centre ne donnaient aucune information, et un trou de 8 mm plus loin ou aucun capteur ne voyait la ligne.
+  Retenu : 13 mm dans les 2 rangees (demi-ligne 9,5 + demi-tache du capteur 3,5). Schema : Implantation capteurs 13 mm.png.
+  Etude : bras_50cm/robot/etude_ecartement_capteurs.py. C'est un modele : la tache est a mesurer sur les vrais capteurs.
+
+SUPPORT DES CAPTEURS (32 g, 45 avant)
+  Des cartes de 14,1 mm cote a cote ne descendent pas a 13 mm : les lateraux ont leur carte en travers, vers l'exterieur.
+  Avant : lateraux en x 205,05 (27,8 mm devant l'essieu), central en x 190,55. Arriere : les 3 en x 118,8.
+  Rangee arriere descendue de 3 mm (meme hauteur au sol que l'avant). 86,25 mm entre les rangees (81 avant).
+  Essaye et abandonne : rangee avant a 7 mm de l'essieu, aucun reglage ne suit la ligne en simulation.
+POUTRE : encoche de 1,46 mm dans la face avant, fonction "Encoche carte capteur" (les 2 rangs de cartes font 28,6 mm pour 27,5 disponibles).
+
+RANGEMENT
+  Tout est dans 1_VERSION_FINALE (a ouvrir) : Assemblage1v2.SLDASM, Bras 50cm.SLDASM, Pieces bras, Pieces robot, Visserie, Documents.
+  Assemblage1v2 n'est plus sur le Bureau. ICAM/Pieces tipe reste en place (vos originaux) mais n'est plus utilise par la version finale.
+  Les fichiers STEP du bras et assembler.ps1 sont dans l'archive 3k.
+
+CONTROLES
+  Robot : 183 contraintes, 0 en erreur, 0 fichier manquant, tout dans le dossier (hors bibliotheque Toolbox). Bras : 99 contraintes, 0 en erreur.
+  Capteurs et support : aucune interference (0 mm3 ; contact seulement avec les vis de la poutre, filets, 0,00 mm3).
+  27 STL controles, volume compare a la piece finale : ecart < 0,5 %, sauf la tige (1,3 %, facettage du petit cylindre), toutes etanches.
+
+PAS FAIT : rien d'imprime. La hauteur reelle des capteurs et le suivi de ligne reel ne sont pas essayes.
+
+
+CE QUI A CHANGE LE 08/11/2026 : DIRECTION
+=========================================
+Images : dossier "Vues 08-11". Archives : 3_Anciennes versions/3i_08-11 Assemblage1v2 avant direction MG996R, ICAM/Pieces tipe/anciennes versions 08-11.
+Vos pieces "support servo moteur direction" et "piece de liason servo moteur tige" sont gardees, mais retirees du robot.
+
+  MG996R a la place du MG90S, meme axe. Nouveau support (memes appuis sur le bati, maintien du 1er roulement inchange).
+  2e roulement dans une cuve sous le bati. Fixation : les 2 vis de l'ancien support + 1 trou neuf dans le bati (Bati : fonction "Trou cuve direction").
+  Entretoise a gradins : elle pousse sur la bague interieure, la poussee de la roue ne passe plus par le servo.
+  Nouvelle liaison : arm01 dans une empreinte, manchon 8,2 mm (9 mm avant), goupille dans le vrai trou de la tige.
+
+TROUVE EN DESSINANT (a regarder sur le vrai robot)
+  La poussee de la roue vers le haut n'etait retenue que par la goupille, donc par le servo.
+  Dans le modele d'origine, la goupille etait 3,6 mm au-dessus du trou de la tige (y 553,1 contre 549,48).
+  La tige n'a son diametre de 8 mm qu'au-dessus de y = 514,6 (carre puis evasement dessous). D'ou 15 mm seulement entre les 2 roulements
+  (22,7 mm avec une tige refaite sans evasement).
+
+CONTROLES
+  Robot complet : 183 contraintes, 0 en erreur, 119 composants. Tige non deplacee par les modifications.
+  MG996R, arm01, liaison : 0 mm3 sur +-90 degres (calcul par pas de 15 degres). Bras contre robot : aucune interference.
+  Restent 132 interferences au total : filets vis / ecrous, moins de 0,4 mm3 pour les pieces neuves, et les anciennes (broches ESP32, moteur / roues).
+  STL du chassis : 7, etanches.
+
+PAS FAIT : rien d'imprime. Resistance de la tige et de la cuve non calculee. Budget : voir chapitre 10 du PDF (environ 78 unites hors ESP32, pour 60).
+
+
+CE QUI A CHANGE LE 07/11/2026
+=============================
+Images : dossier "Vues 07-11". Archive d'avant : 3_Anciennes versions/3h_07-11 avant servo de pince droit et support capteurs
+(et ICAM/Pieces tipe/anciennes versions 07-11 pour vos pieces du robot et Assemblage1v2).
+
+SERVO DE PINCE
+  Avant : tourne de 45 degres autour de son axe, a moitie hors du bloc des machoires, pose sur ses pattes sans vis.
+  Maintenant : droit, le long du bloc, dans un logement ferme. On l'enfile par l'arriere, ses pattes butent contre un
+  epaulement, 2 vis de 2 x 8 (celles du servo) le tirent contre lui. Son axe n'a pas bouge (ecart 0,000 mm) : pignon et
+  machoires inchanges. L'ancien logement penche est rebouche.
+  Controle : servo / corps de pince 0,0 mm3 (5,4 + 5,3 mm3 avant). corps_pince : 21,4 -> 23,3 g (+1,9 g au bout du bras,
+  environ +0,8 % du couple de l'epaule, estime).
+  Bras seul : 99 contraintes (97 + les 2 vis), 0 en erreur, 93 composants.
+
+ROBOT COMPLET (Assemblage1v2, Bureau)
+  Poutre des roues avant (piece avec les bites) : le U est supprime (fonctions Boss.-Extru.8, Enlev. mat.-Extru.3,
+    Conge3, Enlev. mat.-Extru.4 SUPPRIMEES, pas effacees : on peut revenir en arriere), poutre droite d'une roue a l'autre.
+    2 trous de 3,5 mm ajoutes au milieu (a 20 mm de part et d'autre) pour le support des capteurs.
+  Support des capteurs : nouvelle piece "support capteurs 2 rangees" (ICAM/Pieces tipe), votre "support capteur" est garde.
+    Rangee arriere : au meme endroit qu'avant (juste devant la zone balayee par le bloc moteur de direction).
+    Rangee avant : juste devant la poutre, cartes en travers pour rester dans les 200 mm du bati.
+    81 mm entre les 2 rangees, 33 mm entre capteurs (30 avant : en travers, 3 cartes de 31 mm ne tiennent pas a 30).
+    Tout reste sous le bati (x 103 a 212 mm). 45,2 g.
+    Fixation : la plaque passe sous la poutre (2 vis M3 x 20) + la colonne vissee sous le bati au meme trou qu'avant.
+  Bras / bati : 4 vis M3 x 12 + 4 ecrous ajoutes dans les 4 trous du socle (le bati avait deja les trous).
+  Controle : 195 contraintes, 0 en erreur, 105 composants. Aucune interference du bras avec le robot.
+    Capteurs / support : 4 contacts de 0,4 mm3 par capteur, les memes qu'avec votre support d'origine (modele du capteur).
+    Restent les contacts vis / ecrous (filets) et ceux qui existaient deja (broches de l'ESP32 dans le bati, moteur / roues).
+
+PAS FAIT
+  Rien n'est imprime. Le programme de l'ESP32 ne lit pas encore les 3 capteurs de la rangee avant (broches a choisir).
+  Le robot fait toujours plus de 200 mm en longueur a cause des batteries modelisees derriere le bati (x -14 a 6 mm) et
+  des roues avant (jusqu'a x 218) : rien de change par les capteurs, mais a regarder pour le reglement.
+
+
+CE QUI A CHANGE LE 06/11/2026 : A VERIFIER DANS SOLIDWORKS
+==========================================================
+
+A OUVRIR
+  Bras seul     : ce dossier, Bras 50cm.SLDASM
+  Robot complet : Bureau, Assemblage1v2.SLDASM (il utilise le Bras 50cm de ce dossier : ne pas deplacer ce dossier)
+  Apercu        : Robot complet (Assemblage1v2).png
+  Visserie      : dossier Vues visserie, plastique transparent, vis M3 en bleu, ecrous en rouge, vis de 2 mm en vert.
+                  Ces couleurs existent seulement sur les images, pas dans les pieces.
+  Montage       : MONTAGE.txt
+
+ANCIENNES VERSIONS (01_SolidWorks/3_Anciennes versions)
+  3e_06-11 avant roulements                 ancien bras + ses fichiers d'impression
+  3f_06-11 Assemblage1v2 avant mise a jour  votre fichier du robot complet, avant mes modifications
+  3g_06-11 avec roulements sans visserie    version avec roulements, avant allegement et visserie
+
+ALLEGEMENT (masses PLA estimees)
+  bras          47,5 -> 40,8 g   poutre z 20..32, trous tous les 15 mm, fenetres dans les joues
+  avant_bras    17,6 -> 16,4 g   largeur +/-8 mm, 5 trous de 9 mm
+  palier_coude   6,7 ->  5,8 g
+  Total sur l'epaule : 8,8 g de plastique en moins, soit environ 1,5 % du couple de blocage du MG996R, bras a l'horizontale.
+  Gain modeste, chiffre estime. La masse des vis et ecrous en acier n'est comptee ni avant ni apres.
+  Le plateau et le socle ne chargent pas l'epaule : ils n'ont pas ete alleges davantage.
+
+PINCE, PALONNIERS, MONTAGE
+  Corps de pince : les 2 petits trous passent a 2,6 mm, sans lamage. La vis passe librement et se visse dans la broche.
+  Palonnier de la base : arm01, votre piece d'origine, a la place du palonnier rond dont les cotes etaient supposees.
+    4 vis de 2 x 8 par le dessous, trous de 1,7 mm traversants. La pointe depasse d'environ 1,7 mm au-dessus du plateau, sans gene.
+  MG996R d'epaule : ecrous captifs glisses par les cotes dans la face du plateau, avant de poser le servo.
+    On ne visse que cote servo, plus aucun acces necessaire derriere la face.
+  Visserie dessinee : 65 elements, contraints dans l'assemblage (Vis M3x8 x12, M3x12 x4, M3x16 x4, M3x20 x6, Ecrou x26,
+    Rondelle x1, Vis 2x8 x12).
+
+DEFAUT TROUVE ET CORRIGE EN CONTROLANT L'ACCES AUX VIS
+  La collerette du palonnier rebouchait l'axe sur 2 mm, dans le plateau et dans le bras : les vis centrales des 2 MG996R
+  n'auraient pas pu passer. Corrige dans cao_bras.py, passage de 8 mm rouvert. Les autres versions anterieures n'ont pas ete
+  controlees sur ce point.
+
+ACCES AUX VIS, CALCULE VIS PAR VIS (avec les seules pieces deja posees a chaque etape de MONTAGE.txt)
+  38 vis, tige de 4 mm : 36 ont plus de 150 mm libres, tout droit.
+  2 vis du bas du MG996R d'epaule : la jante gene la tige tout droit. Libre des 2 degres d'inclinaison.
+  Vis centrale du lacet : linteau de la face au-dessus de l'axe. Libre des 4 degres d'inclinaison vers +y.
+  Vis centrale de l'epaule : libre, tout droit, par l'exterieur de la joue.
+  26 ecrous : chacun a un chemin d'entree dans sa piece (cercle inscrit de l'ecrou, 20 mm de translation).
+  Ce calcul ne remplace pas un essai : la main et le manche du tournevis ne sont pas modelises.
+
+LE ROBOT COMPLET (Assemblage1v2)
+  Refaire le socle casse les contraintes bati / socle : remplacees par 3 contraintes, face du socle sur le bati + 2 trous opposes
+  en diagonale, (197,26 ; 545,72) et (131,26 ; 479,72). Bras au meme endroit : (164,26 ; 449,70 ; 512,72) mm.
+  Les traits gris qu'on voyait autour du bras etaient des esquisses : masquees (Affichage > Cacher / Montrer > Esquisses).
+
+CONTROLES FAITS
+  Bras seul     : 97 contraintes, 0 en erreur, 91 composants, aucun probleme de reference.
+                  155 interferences. Les plus grosses : vis de 2 mm dans les palonniers et le plateau, 3,5 a 6,7 mm3
+                  (normal, ces vis creusent leur filet) ; pince d'origine, 5,4 mm3 au plus.
+                  Celles de moins de 1 mm3 n'ont pas ete relues une par une.
+  Robot complet : 203 contraintes, 0 en erreur. Aucune interference entre le bras et le reste du robot.
+                  450 interferences au total, entre pieces du reste du robot ou dans le bras : non analysees une par une.
+  Logements     : tous les servos entrent, aucune interference (verifier_logements.py).
+  Base et epaule: aucune collision en rotation de la base. Le bras touche les patins vers 2,1-2,2 rad d'epaule ; le reseau ne depasse pas 1,57.
+  Impression    : plateau, bras, avant_bras, corps_pince, palier_coude : manifold pour PrusaSlicer. Autres pieces non repassees.
+
+PAS ENCORE FAIT
+  Rien n'est imprime ni monte : les jeux, les longueurs de vis et la tenue des vis de 2 mm restent a confirmer sur de vraies pieces.
+  Le bras (286 mm) ne tient sur la Core One qu'en diagonale, a environ 40 degres, avec 3 a 5 mm de marge. A verifier dans
+  PrusaSlicer, ainsi que les supports.
+  Gazebo utilise encore l'ancien maillage : la cinematique est la meme, le reseau n'a pas a etre reentraine.
