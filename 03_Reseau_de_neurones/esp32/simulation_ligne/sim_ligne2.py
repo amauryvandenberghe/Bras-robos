@@ -414,6 +414,21 @@ if __name__ == '__main__':
         for k, v in bilan.items():
             print('    %-16s %s' % (k, v))
         json.dump(dict(conf=conf, P=P, score=best, bilan=bilan), open(os.path.join(ICI, 'reglages_0.6.json'), 'w'), indent=1)
+    elif mode == 'bary':   # 26/11 : barycentre, 3 capteurs de tete seuls (2e rangee non branchee), 0,6 m/s au plus
+        conf = dict(n=3, pas=13.0, h=5.0, methode='barycentre', avant_seul=True)
+        essais = int(sys.argv[2]) if len(sys.argv) > 2 else 40
+        taches = [('3x13 h5 barycentre, tete seule, graine %d' % g, conf, essais, 30 + g, 0.6) for g in range(4)]
+        out = []
+        with Pool(4) as pool:
+            for nom, conf_, P, best, bilan in pool.imap_unordered(optimiser2, taches):
+                print('=== %s : score %.2f' % (nom, best), flush=True)
+                print('    reglages', {k: round(v, 3) for k, v in P.items() if isinstance(v, float)}, flush=True)
+                for k, v in bilan.items():
+                    print('    %-16s %s' % (k, v), flush=True)
+                out.append(dict(nom=nom, P=P, score=best, bilan=bilan))
+        out.sort(key=lambda d: d['score'])
+        print('MEILLEUR :', out[0]['nom'], round(out[0]['score'], 2), flush=True)
+        json.dump(dict(conf=conf, resultats=out), open(os.path.join(ICI, 'reglages_barycentre.json'), 'w'), indent=1)
     elif mode == 'un':
         conf = dict(n=3, pas=13.0, h=5.0, modele='etroite', methode='modele')
         import time
