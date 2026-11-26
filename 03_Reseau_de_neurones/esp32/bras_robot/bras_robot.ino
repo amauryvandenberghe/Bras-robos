@@ -41,17 +41,17 @@ BluetoothSerial SerialBT;
 // ############################################################################################################
 // --- PID de la direction. e = ecart de la ligne au capteur du milieu (mm, -13 a +13 ; + = ligne a droite).
 //     braquage (degres) = kp x e + ki x (somme de e dans le temps) + kd x (vitesse de variation de e)
-float kp = 4.0f;      // ce que les capteurs VOIENT maintenant : + grand = tourne plus fort vers la ligne (trop : zigzag)
-float ki = 1.0f;      // MEMOIRE des ecarts passes : aide dans les longs virages (trop : la roue "continue" et deborde, oscille lentement)
-float kd = 0.02f;     // ANTICIPATION (vitesse a laquelle l'ecart change) : amortit (trop : nerveux, sensible aux parasites)
-float tau_dir = 0.01f;     // lissage de la consigne (s) : + grand = plus doux mais plus en retard
-float vit_servo = 400.0f;  // vitesse maximale de rotation de la roue demandee au servo (degres / s)
+float kp = 2.5f;      // ce que les capteurs VOIENT maintenant : + grand = tourne plus fort vers la ligne (trop : zigzag)
+float ki = 5.3f;      // MEMOIRE des ecarts passes : aide dans les longs virages (trop : la roue "continue" et deborde, oscille lentement)
+float kd = 0.04f;     // ANTICIPATION (vitesse a laquelle l'ecart change) : amortit (trop : nerveux, sensible aux parasites)
+float tau_dir = 0.015f;    // lissage de la consigne (s) : + grand = plus doux mais plus en retard
+float vit_servo = 257.0f;  // vitesse maximale de rotation de la roue demandee au servo (degres / s)
 const float BRAQ_MAX = 45.0f;        // braquage maximal (degres) de part et d'autre du tout droit
 const int SIGNE_BRAQUAGE = 1;        // -1 si, au test M, la roue s'ecarte de la ligne au lieu d'aller vers elle
 // --- Vitesse (m/s). Elle baisse de v_max vers v_min quand la roue braque (braq_lent degres) ou que la ligne s'ecarte (ecart_lent mm).
-float v_max = 0.50f, v_min = 0.29f;
+float v_max = 0.30f, v_min = 0.20f;   // 26/11 soir : ralenti (avant 0,50 / 0,29)
 float braq_lent = 63.5f, ecart_lent = 33.6f;
-float v_perdu = 0.15f;               // vitesse quand la ligne est perdue (arret apres 1,5 s)
+float v_perdu = 0.12f;               // vitesse quand la ligne est perdue (arret apres 1,5 s)
 float accel = 2.5f;                  // acceleration maximale (m/s2)
 // --- Moteur (L298N sur la batterie 14 V). Conversion m/s -> PWM : PWM = SEUIL_PWM + v / v255 x (255 - SEUIL_PWM).
 float v255 = 1.5f;                   // vitesse a PWM 255 (m/s) : ESTIMATION, a mesurer (temps sur 1 m de ligne droite)
@@ -59,7 +59,10 @@ const int SEUIL_PWM = 35;            // en dessous, le moteur ne tourne pas (est
 const int PWM_MAX = 170;             // plafond pour TOUT (suivi et commande V de l'application) : ~9 V moyens au moteur
 const bool MOTEUR_FILS_INVERSES = true;   // fils du moteur inverses sur OUT1 / OUT2 (26/11) ; false s'ils sont remis
 // --- Capteurs
-const int CONTRASTE_MIN = 150;       // ecart noir / blanc minimal (sur 4095) pour qu'un capteur serve
+const int CONTRASTE_MIN = 500;       // ecart noir / blanc minimal (sur 4095) vu au balayage pour qu'un capteur serve (150 avant :
+                                     // le capteur 27 a ~200 de bruit au repos et passait pour valide sans ligne)
+const float SEUIL_NOIR = 0.5f;       // un capteur voit la ligne au-dessus de 50 % de l'ecart blanc -> noir...
+const float SEUIL_BLANC = 0.35f;     // ...et ne la quitte qu'en dessous de 35 % (hysteresis)
 // ############################################################################################################
 
 // ---- PROPULSION (L298N) ----
@@ -110,7 +113,7 @@ const PasFixe SEQ_FIXE[] = {{BASE, 115, 2000}, {EPAULE, 85, 2500}, {COUDE, 105, 
 // Lancement (N) : la roue balaie +-35 degres a l'arret (1,2 s) : chaque capteur voit le noir et le blanc (etalonnage).
 // Simulation (geometrie SolidWorks, servo a 50 Hz) : esp32/simulation_ligne/sim_ligne2.py pid. Reglages en tete du fichier.
 //   26/11 soir : kp 4, ki 1, kd 0,02, tau 0,01, vit_servo 400 (plus de poids a ce que voient les capteurs, moins de memoire et
-//   d'anticipation) : ecart RMS 1,4 mm, max 6 mm a 0,5 m/s, tient encore a 0,8 m/s (avant : kp 2,5 ki 5,3 kd 0,04 : 3,1 / 7 mm).
+//   d'anticipation) : meilleur en simulation, MOINS BON sur le vrai robot (essai de l'utilisateur) : retour a kp 2,5 ki 5,3 kd 0,04.
 const int N_CAPT = 3;
 const int CAPT_TETE[N_CAPT] = {27, 15, 34};   // gauche, milieu, droite
 const float ECART_CAPTEURS_MM = 13.0f;        // entre 2 capteurs voisins
@@ -122,6 +125,7 @@ struct Rangee {
     const int *pin;
     int brut[N_CAPT], cmin[N_CAPT], cmax[N_CAPT];
     float n[N_CAPT];      // 0 blanc ... 1 noir
+    bool noir[N_CAPT];    // ce capteur voit la ligne (avec hysteresis)
     bool vu;
     float e;              // position de la ligne (mm), + = a DROITE du bloc
 };
@@ -150,25 +154,42 @@ static int pwm_pour(float v_ms) {             // vitesse voulue (m/s) -> PWM du 
     return min(PWM_MAX, (int)lroundf(SEUIL_PWM + v_ms / v255 * (255 - SEUIL_PWM)));
 }
 
-static void lire_rangee(Rangee &r) {
-    for (int i = 0; i < N_CAPT; i++) { int s = 0; for (int k = 0; k < 4; k++) s += analogRead(r.pin[i]); r.brut[i] = s / 4; }
+static void lire_rangee(Rangee &r) {   // 7 mesures par capteur, moyenne des 3 du milieu : les pics de bruit sont ecartes
+    for (int i = 0; i < N_CAPT; i++) {
+        int m[7];
+        for (int k = 0; k < 7; k++) {
+            int v = analogRead(r.pin[i]), j = k;
+            while (j > 0 && m[j - 1] > v) { m[j] = m[j - 1]; j--; }
+            m[j] = v;
+        }
+        r.brut[i] = (m[2] + m[3] + m[4]) / 3;
+    }
 }
-static void etalonner_debut(Rangee &r) { lire_rangee(r); for (int i = 0; i < N_CAPT; i++) r.cmin[i] = r.cmax[i] = r.brut[i]; r.vu = false; r.e = 0; }
+static void etalonner_debut(Rangee &r) { lire_rangee(r); for (int i = 0; i < N_CAPT; i++) { r.cmin[i] = r.cmax[i] = r.brut[i]; r.noir[i] = false; } r.vu = false; r.e = 0; }
 static void etalonner(Rangee &r) { for (int i = 0; i < N_CAPT; i++) { r.cmin[i] = min(r.cmin[i], r.brut[i]); r.cmax[i] = max(r.cmax[i], r.brut[i]); } }
 static int capteurs_valides(const Rangee &r) { int k = 0; for (int i = 0; i < N_CAPT; i++) if (r.cmax[i] - r.cmin[i] >= CONTRASTE_MIN) k++; return k; }
+// 26/11 soir : fausses detections corrigees. Avant : seuil de contraste 150 (le capteur 27 a ~200 de bruit au repos : il
+// passait pour valide sans ligne), ligne "vue" des 25 % du contraste, et le blanc le plus bas vu en roulant (un pic de bruit)
+// abaissait la reference du blanc. Maintenant : reference blanc / noir prise au balayage du depart seulement (en roulant, le
+// noir peut seulement monter : cela rend moins sensible, jamais plus) ; un capteur voit le noir au-dessus de SEUIL_NOIR
+// et ne le quitte qu'en dessous de SEUIL_BLANC (hysteresis : pas de clignotement) ; la ligne est vue si au moins un capteur
+// voit le noir ; le barycentre ignore les 20 % du bas (le bruit sur le blanc ne tire plus la mesure).
 static void estimer(Rangee &r) {
     lire_rangee(r);
-    etalonner(r);                      // l'etalonnage continue en roulant
-    float mx = 0, s = 0, se = 0;
+    float s = 0, se = 0;
+    bool vu = false;
     for (int i = 0; i < N_CAPT; i++) {
+        if (NOIR_ELEVE ? r.brut[i] > r.cmax[i] : r.brut[i] < r.cmin[i]) { if (NOIR_ELEVE) r.cmax[i] = r.brut[i]; else r.cmin[i] = r.brut[i]; }
         int d = r.cmax[i] - r.cmin[i];
         float x = d >= CONTRASTE_MIN ? constrain((r.brut[i] - r.cmin[i]) / (float)d, 0.0f, 1.0f) : (NOIR_ELEVE ? 0.0f : 1.0f);
         r.n[i] = NOIR_ELEVE ? x : 1.0f - x;
-        mx = max(mx, r.n[i]);
-        s += r.n[i];
-        se += r.n[i] * (i - (N_CAPT - 1) / 2.0f) * ECART_CAPTEURS_MM;   // gauche -13, milieu 0, droite +13
+        r.noir[i] = r.noir[i] ? r.n[i] >= SEUIL_BLANC : r.n[i] >= SEUIL_NOIR;
+        vu = vu || r.noir[i];
+        float w = constrain((r.n[i] - 0.2f) / 0.8f, 0.0f, 1.0f);
+        s += w;
+        se += w * (i - (N_CAPT - 1) / 2.0f) * ECART_CAPTEURS_MM;   // gauche -13, milieu 0, droite +13
     }
-    r.vu = mx >= 0.25f;
+    r.vu = vu && s > 0;
     if (r.vu) r.e = se / s;            // barycentre
 }
 
@@ -264,10 +285,10 @@ static void pas_suivi() {
     dernier_pas = t;
     if ((long)(t - prochain_aff) >= 0) {
         prochain_aff = t + 200;
-        Serial.printf("N ligne %+5.1f mm%s brq %+5.1f (P %+5.1f I %+5.1f D %+5.1f) v %.2f m/s (PWM %d)%s | capteurs %d %d %d | pertes %d | pas max %lu ms\n",
+        Serial.printf("N ligne %+5.1f mm%s brq %+5.1f (P %+5.1f I %+5.1f D %+5.1f) v %.2f m/s (PWM %d)%s | capteurs %d %d %d noir %d%d%d | pertes %d | pas max %lu ms\n",
                       TETE.e, TETE.vu ? "" : "(-)", braq, kp * TETE.e, ki * integ, kd * deriv,
                       v_cmd, sans_moteur ? 0 : pwm_pour(v_cmd), frein ? " FREIN" : "",
-                      TETE.brut[0], TETE.brut[1], TETE.brut[2], pertes, pire);
+                      TETE.brut[0], TETE.brut[1], TETE.brut[2], TETE.noir[0], TETE.noir[1], TETE.noir[2], pertes, pire);
         pire = 0;
     }
 }
