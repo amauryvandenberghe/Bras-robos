@@ -48,11 +48,15 @@ float tau_dir = 0.10f;     // lissage de la consigne (s) : + grand = plus doux m
 float vit_servo = 257.0f;  // vitesse maximale de rotation de la roue demandee au servo (degres / s)
 const float BRAQ_MAX = 45.0f;        // braquage maximal (degres) de part et d'autre du tout droit
 const int SIGNE_BRAQUAGE = 1;        // -1 si, au test M, la roue s'ecarte de la ligne au lieu d'aller vers elle
-// --- Vitesse (m/s). Elle baisse de v_max vers v_min quand la roue braque (braq_lent degres) ou que la ligne s'ecarte (ecart_lent mm).
-float v_max = 0.30f, v_min = 0.20f;   // 26/11 soir : ralenti (avant 0,50 / 0,29)
-float braq_lent = 63.5f, ecart_lent = 33.6f;
+// --- Vitesse (m/s) : v_max en ligne droite, v_min dans les virages.
+//     Virage = braquage MOYEN sur 0,3 s (les petites oscillations gauche / droite s'annulent, un virage non) : la vitesse
+//     descend de v_max a v_min quand ce braquage moyen atteint braq_lent degres, ou quand l'ecart moyen (0,2 s) a la ligne
+//     atteint ecart_lent mm (les deux s'additionnent). Freinage moteur immediat, reacceleration limitee a accel.
+float v_max = 0.55f, v_min = 0.28f;
+float braq_lent = 14.0f;               // degres de braquage moyen pour descendre a v_min (+ petit = ralentit plus tot dans les virages)
+float ecart_lent = 15.0f;              // mm d'ecart moyen pour descendre a v_min
 float v_perdu = 0.12f;               // vitesse quand la ligne est perdue (arret apres 1,5 s)
-float accel = 2.5f;                  // acceleration maximale (m/s2)
+float accel = 1.5f;                  // acceleration maximale (m/s2) en sortie de virage
 // --- Moteur (L298N sur la batterie 14 V). Conversion m/s -> PWM : PWM = SEUIL_PWM + v / v255 x (255 - SEUIL_PWM).
 float v255 = 1.5f;                   // vitesse a PWM 255 (m/s) : ESTIMATION, a mesurer (temps sur 1 m de ligne droite)
 const int SEUIL_PWM = 35;            // en dessous, le moteur ne tourne pas (estimation)
@@ -64,7 +68,10 @@ const float ECART_CAPTEURS_MM = 22.0f;   // entre 2 capteurs voisins, d'un eleme
 const int CONTRASTE_MIN = 500;       // ecart noir / blanc minimal (sur 4095) vu au balayage pour qu'un capteur serve (150 avant :
                                      // le capteur 27 a ~200 de bruit au repos et passait pour valide sans ligne)
 const float SEUIL_NOIR = 0.5f;       // un capteur voit la ligne au-dessus de 50 % de l'ecart blanc -> noir...
-const float SEUIL_BLANC = 0.35f;     // ...et ne la quitte qu'en dessous de 35 % (hysteresis)
+const float SEUIL_BLANC = 0.35f;     // ...et ne la quitte qu'en dessous de 35 % (hysteresis) [affichage "noir" seulement]
+const float SEUIL_LIGNE_SOMME = 0.35f;  // ligne vue si la somme des 3 capteurs (0 blanc ... 1 noir) depasse 0,35...
+const float SEUIL_LIGNE_UN = 0.20f;     // ...et qu'un capteur depasse 0,2 (une ligne entre 2 capteurs ecartes : ~0,25 chacun)
+const unsigned long TENUE_PERTE_MS = 150;  // ligne perdue moins de 150 ms : la roue garde son angle (avant : braquage a fond)
 // ############################################################################################################
 
 // ---- PROPULSION (L298N) ----
@@ -181,26 +188,31 @@ static int capteurs_valides(const Rangee &r) { int k = 0; for (int i = 0; i < N_
 // voit le noir ; le barycentre ignore les 20 % du bas (le bruit sur le blanc ne tire plus la mesure).
 static void estimer(Rangee &r) {
     lire_rangee(r);
-    float s = 0, se = 0;
-    bool vu = false;
+    float s = 0, se = 0, somme = 0;
     for (int i = 0; i < N_CAPT; i++) {
         if (NOIR_ELEVE ? r.brut[i] > r.cmax[i] : r.brut[i] < r.cmin[i]) { if (NOIR_ELEVE) r.cmax[i] = r.brut[i]; else r.cmin[i] = r.brut[i]; }
         int d = r.cmax[i] - r.cmin[i];
         float x = d >= CONTRASTE_MIN ? constrain((r.brut[i] - r.cmin[i]) / (float)d, 0.0f, 1.0f) : (NOIR_ELEVE ? 0.0f : 1.0f);
         r.n[i] = NOIR_ELEVE ? x : 1.0f - x;
         r.noir[i] = r.noir[i] ? r.n[i] >= SEUIL_BLANC : r.n[i] >= SEUIL_NOIR;
-        vu = vu || r.noir[i];
-        float w = constrain((r.n[i] - 0.2f) / 0.8f, 0.0f, 1.0f);
+        somme += r.n[i];
+        float w = constrain((r.n[i] - 0.1f) / 0.9f, 0.0f, 1.0f);
         s += w;
         se += w * (i - (N_CAPT - 1) / 2.0f) * ECART_CAPTEURS_MM;   // gauche -ECART, milieu 0, droite +ECART
     }
-    r.vu = vu && s > 0;
+    // 26/11 nuit : ligne vue si la SOMME des 3 capteurs >= SEUIL_LIGNE_SOMME et l'un d'eux >= SEUIL_LIGNE_UN. Avec des capteurs
+    // ecartes, une ligne entre 2 capteurs n'est vue qu'a ~25 % par chacun : avec l'ancien test (un capteur > 50 %), elle passait
+    // pour perdue un tiers du temps en simulation, et la roue braquait a fond (les hesitations).
+    float mx = 0;
+    for (int i = 0; i < N_CAPT; i++) mx = max(mx, r.n[i]);
+    r.vu = somme >= SEUIL_LIGNE_SOMME && mx >= SEUIL_LIGNE_UN && s > 0;
     if (r.vu) r.e = se / s;            // barycentre
 }
 
 // ---- etat du suivi
 float braq = 0, braq_envoye = 0, braq_est = 0, braq_f = 0, v_cmd = 0, v_est = 0;
 float integ = 0, e_prec = 0, deriv = 0;   // PID
+float e_moy = 0;
 int cote = 1, pertes = 0;
 bool vu_prec = true, frein = false;
 unsigned long t_vue = 0, t_servo = 0, t_debut = 0, dernier_us = 0, prochain_suivi = 0, prochain_aff = 0;
@@ -210,7 +222,7 @@ static void lancer_suivi(bool moteur_coupe) {
     sans_moteur = moteur_coupe;
     etalonner_debut(TETE);
     braq = braq_envoye = braq_est = braq_f = v_cmd = v_est = 0;
-    integ = e_prec = deriv = 0;
+    integ = e_prec = deriv = e_moy = 0;
     pertes = 0; vu_prec = true; dernier_us = 0;
     t_debut = millis();
     suivi = SUIVI_BALAYAGE;
@@ -257,7 +269,8 @@ static void pas_suivi() {
         if (ki > 0) integ = constrain(integ, -BRAQ_MAX / ki, BRAQ_MAX / ki);
         cible = kp * TETE.e + ki * integ + kd * deriv;
     } else {
-        cible = BRAQ_MAX * cote;   // la ligne est sortie par un cote : braquage a fond de ce cote
+        cible = BRAQ_MAX * cote;   // la ligne est sortie par un cote : braquage a fond de ce cote...
+        if (t - t_vue < TENUE_PERTE_MS) cible = braq;   // ...sauf perte breve (ligne entre 2 capteurs, reflet) : la roue garde son angle
         if (!sans_moteur && t - t_vue > PERTE_MAX_MS) { arreter_conduite(); signaler("N ligne perdue : arret (renvoyer N)"); return; }
         if (sans_moteur) cible = braq;  // test : on attend que la ligne revienne
     }
@@ -270,12 +283,13 @@ static void pas_suivi() {
     // position estimee du servo (retard ~50 ms, 350 degres/s au plus) : c'est la que sont les capteurs
     float de = (braq_envoye - braq_est) * (1.0f - expf(-dt / 0.05f));
     braq_est += constrain(de, -350.0f * dt, 350.0f * dt);
-    braq_f += (braq_est - braq_f) * (1.0f - expf(-dt / 0.08f));
+    braq_f += (braq_est - braq_f) * (1.0f - expf(-dt / 0.3f));                       // braquage moyen : detecte les virages
+    e_moy += ((TETE.vu ? fabsf(TETE.e) : 30.0f) - e_moy) * (1.0f - expf(-dt / 0.2f));   // ecart moyen a la ligne
 
     // vitesse variable (m/s)
     float vc;
     if (TETE.vu) {
-        float gene = fabsf(braq_f) / braq_lent + fabsf(TETE.e) / ecart_lent + 0.3f;
+        float gene = fabsf(braq_f) / braq_lent + e_moy / ecart_lent;
         vc = v_max - (v_max - v_min) * min(1.0f, gene);
     } else vc = v_perdu;
     if (vc > v_cmd) v_cmd = min(vc, v_cmd + accel * dt); else v_cmd = vc;

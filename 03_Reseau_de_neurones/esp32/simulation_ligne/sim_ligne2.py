@@ -91,6 +91,7 @@ def F(u, sig):
 
 # ---------------------------------------------------------------- estimation de la position (portee telle quelle en C)
 SIGMA_MODELE = 3.0
+P_SEUILS = [0.35, 0.2]   # bary2 : ligne vue si somme >= 0,35 et un capteur >= 0,2 (26/11 nuit)
 GRILLE = np.arange(-45.0, 45.01, 0.5)
 
 
@@ -103,9 +104,9 @@ class Estimateur:
     def __call__(self, n):
         """n : valeurs normalisees 0 (blanc) .. 1 (noir). Retourne (vu, position mm, + = ligne a gauche)."""
         if self.methode == 'bary2':   # 26/11 soir, comme bras_robot.ino : vu si un capteur > 50 %, barycentre sans les 20 % du bas
-            if n.max() < 0.5:
+            if n.sum() < P_SEUILS[0] or n.max() < P_SEUILS[1]:   # 26/11 nuit : somme (ligne entre 2 capteurs ecartes : chacun la voit a moitie)
                 return False, 0.0
-            w = np.clip((n - 0.2) / 0.8, 0.0, 1.0)
+            w = np.clip((n - 0.1) / 0.9, 0.0, 1.0)
             return True, float((self.b * w).sum() / w.sum())
         if n.max() < 0.25:
             return False, 0.0
@@ -179,6 +180,8 @@ class Suiveur:
             cible = P['braq_max'] * self.cote
         else:
             cible = P['braq_max'] * self.cote
+            if t - self.t_vue < P.get('tenue_perte', 0.0):   # 26/11 nuit : perte breve -> la roue garde son angle
+                cible = self.braq
             if t - self.t_vue > 1.5:
                 self.arret = True
                 return 0.0, 0.0, False
@@ -196,7 +199,16 @@ class Suiveur:
         self.braq_est += max(-350.0 * dt, min(350.0 * dt, de))
         self.braq_f += (self.braq_est - self.braq_f) * (1.0 - math.exp(-dt / 0.08))
         # vitesse : pleine en ligne droite et parallele, reduite selon braquage, cap et ecart ; freinage si besoin
-        if vu_av:
+        if P.get('vitesse2'):   # 26/11 nuit : virage = braquage MOYEN (signe, 0,3 s : l'oscillation s'annule) ; ecart moyen (0,2 s)
+            if not hasattr(self, 'b_lp'):
+                self.b_lp = 0.0; self.e_lp = 0.0
+            self.b_lp += (self.braq_est - self.b_lp) * (1.0 - math.exp(-dt / P.get('t_virage', 0.3)))
+            self.e_lp += ((abs(e_av) if vu_av else 30.0) - self.e_lp) * (1.0 - math.exp(-dt / 0.2))
+        if vu_av and P.get('vitesse2'):
+            gene = abs(self.b_lp) / P['braq_lent'] + self.e_lp / P['ecart_lent']
+            gene = max(0.0, gene - P.get('gene0', 0.0))
+            vc = P['v_max'] - (P['v_max'] - P['v_min']) * min(1.0, gene)
+        elif vu_av:
             gene = abs(self.braq_f) / P['braq_lent'] + abs(e_av) / P['ecart_lent'] + (abs(cap) / P['cap_lent'] if vu_ar else 0.3)
             vc = P['v_max'] - (P['v_max'] - P['v_min']) * min(1.0, gene)
         else:
