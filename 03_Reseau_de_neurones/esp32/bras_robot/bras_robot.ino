@@ -39,12 +39,12 @@ BluetoothSerial SerialBT;
 // ########  Partition Scheme "Huge APP (3MB No OTA)", port COM4). On peut aussi les changer en USB sans televerser :  ########
 // ########  G kp ki kd [tau vit_servo] ; T v_max v_min braq_lent ecart_lent ; K v255 (moniteur serie, 115 200 bauds).  ########
 // ############################################################################################################
-// --- PID de la direction. e = ecart de la ligne au capteur du milieu (mm, -13 a +13 ; + = ligne a droite).
+// --- PID de la direction. e = ecart de la ligne au capteur du milieu (mm, -ECART a +ECART ; + = ligne a droite).
 //     braquage (degres) = kp x e + ki x (somme de e dans le temps) + kd x (vitesse de variation de e)
-float kp = 2.5f;      // ce que les capteurs VOIENT maintenant : + grand = tourne plus fort vers la ligne (trop : zigzag)
-float ki = 5.3f;      // MEMOIRE des ecarts passes : aide dans les longs virages (trop : la roue "continue" et deborde, oscille lentement)
-float kd = 0.04f;     // ANTICIPATION (vitesse a laquelle l'ecart change) : amortit (trop : nerveux, sensible aux parasites)
-float tau_dir = 0.015f;    // lissage de la consigne (s) : + grand = plus doux mais plus en retard
+float kp = 1.3f;      // ce que les capteurs VOIENT maintenant : + grand = tourne plus fort vers la ligne (trop : zigzag)
+float ki = 2.0f;      // MEMOIRE des ecarts passes : aide dans les longs virages (trop : la roue "continue" et deborde, oscille lentement)
+float kd = 0.05f;     // ANTICIPATION (vitesse a laquelle l'ecart change) : amortit (trop : nerveux, sensible aux parasites)
+float tau_dir = 0.10f;     // lissage de la consigne (s) : + grand = plus doux mais plus en retard
 float vit_servo = 257.0f;  // vitesse maximale de rotation de la roue demandee au servo (degres / s)
 const float BRAQ_MAX = 45.0f;        // braquage maximal (degres) de part et d'autre du tout droit
 const int SIGNE_BRAQUAGE = 1;        // -1 si, au test M, la roue s'ecarte de la ligne au lieu d'aller vers elle
@@ -59,6 +59,8 @@ const int SEUIL_PWM = 35;            // en dessous, le moteur ne tourne pas (est
 const int PWM_MAX = 170;             // plafond pour TOUT (suivi et commande V de l'application) : ~9 V moyens au moteur
 const bool MOTEUR_FILS_INVERSES = true;   // fils du moteur inverses sur OUT1 / OUT2 (26/11) ; false s'ils sont remis
 // --- Capteurs
+const float ECART_CAPTEURS_MM = 22.0f;   // entre 2 capteurs voisins, d'un element infrarouge a l'autre (26/11 soir : cartes
+                                         // ecartees, ~22 mm ESTIME sur photo : a mesurer et corriger ici)
 const int CONTRASTE_MIN = 500;       // ecart noir / blanc minimal (sur 4095) vu au balayage pour qu'un capteur serve (150 avant :
                                      // le capteur 27 a ~200 de bruit au repos et passait pour valide sans ligne)
 const float SEUIL_NOIR = 0.5f;       // un capteur voit la ligne au-dessus de 50 % de l'ecart blanc -> noir...
@@ -96,11 +98,12 @@ const PasFixe SEQ_FIXE[] = {{BASE, 115, 2000}, {EPAULE, 85, 2500}, {COUDE, 105, 
 
 // ======================================================================== CONDUITE ET SUIVI DE LIGNE (barycentre, 26/11/2026)
 // 3 capteurs TCRT5000 analogiques devant la roue directrice, fixes sur le bloc moteur de direction : ils TOURNENT AVEC LA ROUE.
-//   27 gauche / 15 milieu / 34 droite (dans le sens de marche, l'avant etant le cote de la direction), 13 mm d'ecart.
+//   27 gauche / 15 milieu / 34 droite (dans le sens de marche, l'avant etant le cote de la direction), ECART_CAPTEURS_MM d'ecart.
 //   La 2e rangee (26 / 14 / 35) n'est pas branchee : elle n'est pas lue.
-// Position de la ligne = BARYCENTRE des 3 capteurs : e = (-13 x n_gauche + 0 x n_milieu + 13 x n_droite) / (somme des n),
+// Position de la ligne = BARYCENTRE des 3 capteurs : e = (-ECART x n_gauche + 0 x n_milieu + ECART x n_droite) / (somme des n),
 //   n = 0 sur le blanc ... 1 sur le noir, apres etalonnage. Avec 13 mm d'ecart et une ligne de 19 mm, la mesure varie
-//   en continu de -13 a +13 mm (pas de zone morte au centre, contrairement a l'ancien ecart de 20 mm).
+//   en continu ; avec ~22 mm (26/11 soir), seul le capteur du milieu voit la ligne pres du centre (mesure presque en
+//   marches d'escalier) : il faut un Kp plus faible, sinon la roue oscille (~4 Hz, video du 26/11).
 // Direction par PID (26/11) sur l'ecart e (mm, + = ligne a droite), recalcule toutes les 5 ms :
 //   braquage vise (degres) = KP x e + KI x integrale de e + KD x derivee de e (derivee filtree sur 20 ms).
 //   KP : tourne d'autant plus que la ligne est loin du centre. KI : corrige l'ecart qui reste dans les longs virages.
@@ -114,9 +117,11 @@ const PasFixe SEQ_FIXE[] = {{BASE, 115, 2000}, {EPAULE, 85, 2500}, {COUDE, 105, 
 // Simulation (geometrie SolidWorks, servo a 50 Hz) : esp32/simulation_ligne/sim_ligne2.py pid. Reglages en tete du fichier.
 //   26/11 soir : kp 4, ki 1, kd 0,02, tau 0,01, vit_servo 400 (plus de poids a ce que voient les capteurs, moins de memoire et
 //   d'anticipation) : meilleur en simulation, MOINS BON sur le vrai robot (essai de l'utilisateur) : retour a kp 2,5 ki 5,3 kd 0,04.
+//   26/11 nuit : capteurs ecartes a ~22 mm, oscillation ~4 Hz (video). Simulation (grille_pid_22b.log, servo rapide et lent, 0,3 m/s) :
+//   kp 2,5 ki 5,3 kd 0,04 tau 0,015 -> ecart RMS 6,2 mm, servo 390 deg/s ; kp 1,3 ki 2 kd 0,05 tau 0,10 -> 5,7 mm, 279 deg/s.
+//   Plus doux (ecart plus grand) : kp 0,7 ki 2 kd 0,05 tau 0,10 -> 9,6 mm, 235 deg/s. A 13 mm d'ecart le servo ne s'agitait qu'a ~120 deg/s.
 const int N_CAPT = 3;
 const int CAPT_TETE[N_CAPT] = {27, 15, 34};   // gauche, milieu, droite
-const float ECART_CAPTEURS_MM = 13.0f;        // entre 2 capteurs voisins
 const bool NOIR_ELEVE = true;                 // la ligne noire donne une valeur haute
 const unsigned long PERIODE_SUIVI_MS = 5, PERTE_MAX_MS = 1500, DUREE_BALAYAGE_MS = 1200;
 
@@ -187,7 +192,7 @@ static void estimer(Rangee &r) {
         vu = vu || r.noir[i];
         float w = constrain((r.n[i] - 0.2f) / 0.8f, 0.0f, 1.0f);
         s += w;
-        se += w * (i - (N_CAPT - 1) / 2.0f) * ECART_CAPTEURS_MM;   // gauche -13, milieu 0, droite +13
+        se += w * (i - (N_CAPT - 1) / 2.0f) * ECART_CAPTEURS_MM;   // gauche -ECART, milieu 0, droite +ECART
     }
     r.vu = vu && s > 0;
     if (r.vu) r.e = se / s;            // barycentre

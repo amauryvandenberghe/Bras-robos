@@ -102,6 +102,11 @@ class Estimateur:
 
     def __call__(self, n):
         """n : valeurs normalisees 0 (blanc) .. 1 (noir). Retourne (vu, position mm, + = ligne a gauche)."""
+        if self.methode == 'bary2':   # 26/11 soir, comme bras_robot.ino : vu si un capteur > 50 %, barycentre sans les 20 % du bas
+            if n.max() < 0.5:
+                return False, 0.0
+            w = np.clip((n - 0.2) / 0.8, 0.0, 1.0)
+            return True, float((self.b * w).sum() / w.sum())
         if n.max() < 0.25:
             return False, 0.0
         if self.methode == 'barycentre':
@@ -229,7 +234,7 @@ def simuler(conf, P, graine=0, rayon=230.0, v255=0.6, tmax=40.0, trace=False):
     e0 = rnd.uniform(-6, 6); c0 = math.radians(rnd.uniform(-5, 5))
     x, y = float(pts[0][0]), float(pts[0][1]) + e0
     psi = c0
-    x += 100.0 - S_PIVOT; v = 0.0; servo = 0.0; servo_cmd = 0.0; file_cmd = [0.0]
+    x += 100.0 - S_PIVOT; v = 0.0; servo = 0.0; servo_cmd = 0.0; file_cmd = [0.0] * max(1, int(round(conf.get('sv_retard', 0.005) / 0.005)))
     t = 0.0; idx = 0; hors = 0.0
     errs = []; rates = []; alat = 0.0; chemin = []
     prec_cmd = 0.0
@@ -247,11 +252,12 @@ def simuler(conf, P, graine=0, rayon=230.0, v255=0.6, tmax=40.0, trace=False):
             cause = 'ligne perdue'
             break
         rates.append((cmd - prec_cmd) / dt); prec_cmd = cmd
-        # servo : 1 trame de retard, 1er ordre 40 ms, 350 deg/s, zone morte 0,4 deg
+        # servo : retard (1 pas par defaut), 1er ordre 40 ms, 350 deg/s, zone morte 0,4 deg (reglables dans conf : sv_retard s, sv_tau, sv_vmax)
         servo_cmd = file_cmd.pop(0); file_cmd.append(cmd)
         if abs(servo_cmd - servo) > 0.4:
-            dsv = (servo_cmd - servo) * (1 - math.exp(-dt / 0.04))
-            servo += max(-350 * dt, min(350 * dt, dsv))
+            dsv = (servo_cmd - servo) * (1 - math.exp(-dt / conf.get('sv_tau', 0.04)))
+            vm = conf.get('sv_vmax', 350.0)
+            servo += max(-vm * dt, min(vm * dt, dsv))
         # moteur : seuil 60, freinage actif
         if not s.demarre:
             vcible = 0.0
