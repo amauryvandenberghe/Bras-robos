@@ -143,7 +143,23 @@ class Suiveur:
                 return 0.0, 0.0, False
             self.demarre = True; self.t_vue = t
         cap = 0.0
-        if vu_av:
+        if vu_av and P.get('loi') == 'pid':   # 26/11 : PID sur l'ecart (braquage absolu = Kp e + Ki integrale + Kd derivee filtree)
+            self.t_vue = t
+            if abs(e_av) > 4.0:
+                self.cote = 1 if e_av > 0 else -1
+            if not hasattr(self, 'I'):
+                self.I = 0.0; self.e_prec = e_av; self.D_f = 0.0
+            if not self.vu_prec:
+                self.e_prec = e_av          # ligne retrouvee : pas de pic de derivee
+            de =(e_av - self.e_prec) / dt; self.e_prec = e_av
+            self.D_f += (de - self.D_f) * (1.0 - math.exp(-dt / 0.02))
+            brut = P['kp'] * e_av + P['ki'] * self.I + P['kd'] * self.D_f
+            if abs(brut) < P['braq_max'] or brut * e_av < 0:   # anti-emballement : on n'integre pas en butee
+                self.I += e_av * dt
+            if P['ki'] > 0:
+                lim = P['braq_max'] / P['ki']; self.I = max(-lim, min(lim, self.I))
+            cible = P['kp'] * e_av + P['ki'] * self.I + P['kd'] * self.D_f
+        elif vu_av:
             self.t_vue = t
             if abs(e_av) > 4.0:
                 self.cote = 1 if e_av > 0 else -1
@@ -383,6 +399,35 @@ def optimiser2(args):
     return nom, conf, P, best, bilan
 
 
+BORNES_PID = (('kp', 0.2, 8.0), ('ki', 0.0, 40.0), ('kd', 0.0, 0.6), ('tau', 0.01, 0.2), ('v_min', 70.0, 255.0),
+              ('braq_lent', 5.0, 80.0), ('ecart_lent', 5.0, 60.0), ('vitesse_servo', 100.0, 600.0))
+
+
+def optimiser_pid(args):
+    nom, conf, essais, graine, v255 = args
+    rnd = random.Random(graine)
+    P = dict(P_DEFAUT, loi='pid', kp=3.0, ki=5.0, kd=0.05, tau=0.02, vitesse_servo=400.0, v_min=150.0, braq_lent=60.0,
+             ecart_lent=30.0, avant_seul=True, v255_estime=v255)
+    best, _ = score_robuste(conf, P, v255=v255)
+    for k in range(essais):
+        Q = dict(P)
+        ech = 0.35 if k < essais // 2 else 0.15
+        for cle, lo, hi in BORNES_PID:
+            if rnd.random() < 0.5:
+                Q[cle] = min(hi, max(lo, Q[cle] * math.exp(rnd.gauss(0, ech)) if Q[cle] > 0.02 else rnd.uniform(0, 0.3 * hi)))
+        Q['v_min'] = min(Q['v_min'], Q['v_max'])
+        sc, _ = score_robuste(conf, Q, v255=v255)
+        if sc < best:
+            best, P = sc, Q
+    bilan = {}
+    for v in (0.6, 1.0):
+        for modele in ('etroite', 'large'):
+            Pv = dict(P, v255_estime=v)
+            res = [simuler(dict(conf, modele=modele), Pv, g, r, v) for g in (10, 11, 12) for r in RAYONS_OPT]
+            bilan['%.1f m/s %s' % (v, modele)] = resume(res)
+    return nom, conf, P, best, bilan
+
+
 def final(essais):
     confs = {'3x13 h5 (tete + cap)': dict(n=3, pas=13.0, h=5.0, methode='modele'),
              '3x13 h5 (tete seule)': dict(n=3, pas=13.0, h=5.0, methode='modele', avant_seul=True),
@@ -429,6 +474,21 @@ if __name__ == '__main__':
         out.sort(key=lambda d: d['score'])
         print('MEILLEUR :', out[0]['nom'], round(out[0]['score'], 2), flush=True)
         json.dump(dict(conf=conf, resultats=out), open(os.path.join(ICI, 'reglages_barycentre.json'), 'w'), indent=1)
+    elif mode == 'pid':   # 26/11 : PID (Kp, Ki, Kd) sur le barycentre des 3 capteurs de tete, 0,6 m/s au plus
+        conf = dict(n=3, pas=13.0, h=5.0, methode='barycentre', avant_seul=True)
+        essais = int(sys.argv[2]) if len(sys.argv) > 2 else 40
+        taches = [('PID barycentre, graine %d' % g, conf, essais, 50 + g, 0.6) for g in range(4)]
+        out = []
+        with Pool(4) as pool:
+            for nom, conf_, P, best, bilan in pool.imap_unordered(optimiser_pid, taches):
+                print('=== %s : score %.2f' % (nom, best), flush=True)
+                print('    reglages', {k: round(v, 3) for k, v in P.items() if isinstance(v, float)}, flush=True)
+                for k, v in bilan.items():
+                    print('    %-16s %s' % (k, v), flush=True)
+                out.append(dict(nom=nom, P=P, score=best, bilan=bilan))
+        out.sort(key=lambda d: d['score'])
+        print('MEILLEUR :', out[0]['nom'], round(out[0]['score'], 2), flush=True)
+        json.dump(dict(conf=conf, resultats=out), open(os.path.join(ICI, 'reglages_pid.json'), 'w'), indent=1)
     elif mode == 'un':
         conf = dict(n=3, pas=13.0, h=5.0, modele='etroite', methode='modele')
         import time

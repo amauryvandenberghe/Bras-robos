@@ -1,0 +1,139 @@
+{
+ "conf": {
+  "n": 3,
+  "pas": 13.0,
+  "h": 5.0,
+  "methode": "barycentre",
+  "avant_seul": true
+ },
+ "resultats": [
+  {
+   "nom": "PID barycentre, graine 2",
+   "P": {
+    "k_cap": 0.8,
+    "k_e": 6.0,
+    "v0": 0.15,
+    "tau": 0.02355748024297571,
+    "vitesse_servo": 224.96089866393942,
+    "braq_max": 45.0,
+    "v_max": 255.0,
+    "v_min": 255.0,
+    "braq_lent": 40.68897575448269,
+    "cap_lent": 20.0,
+    "ecart_lent": 24.07342635999264,
+    "v_perdu": 110.0,
+    "accel": 900.0,
+    "tau_servo": 0.05,
+    "v255_estime": 0.6,
+    "avant_seul": true,
+    "loi": "pid",
+    "kp": 2.3594043836044034,
+    "ki": 4.750831083372946,
+    "kd": 0.0711195583396029
+   },
+   "score": 16.14401864419778,
+   "bilan": {
+    "0.6 m/s etroite": "6/6 reussis, temps 13.1 s, ecart RMS 3.3 mm, max 8 mm, pertes de vue 0.0, servo 130 deg/s RMS, a lat 0.15 g",
+    "0.6 m/s large": "6/6 reussis, temps 13.1 s, ecart RMS 3.5 mm, max 9 mm, pertes de vue 0.0, servo 126 deg/s RMS, a lat 0.15 g",
+    "1.0 m/s etroite": "6/6 reussis, temps 8.7 s, ecart RMS 8.7 mm, max 45 mm, pertes de vue 2.2, servo 236 deg/s RMS, a lat 0.42 g",
+    "1.0 m/s large": "6/6 reussis, temps 8.7 s, ecart RMS 8.7 mm, max 43 mm, pertes de vue 2.5, servo 231 deg/s RMS, a lat 0.44 g"
+   }
+  },
+  {
+   "nom": "PID barycentre, graine 0",
+   "P": {
+    "k_cap": 0.8,
+    "k_e": 6.0,
+    "v0": 0.15,
+    "tau": 0.01473124898620571,
+    "vitesse_servo": 257.4462133401122,
+    "braq_max": 45.0,
+    "v_max": 255.0,
+    "v_min": 255.0,
+    "braq_lent": 49.290640972042596,
+    "cap_lent": 20.0,
+    "ecart_lent": 18.822572963360525,
+    "v_perdu": 110.0,
+    "accel": 900.0,
+    "tau_servo": 0.05,
+    "v255_estime": 0.6,
+    "avant_seul": true,
+    "loi": "pid",
+    "kp": 2.491373793930435,
+    "ki": 5.327519907027664,
+    "kd": 0.04046501766852138
+   },
+   "score": 16.156926510890912,
+   "bilan": {
+    "0.6 m/s etroite": "6/6 reussis, temps 13.1 s, ecart RMS 3.0 mm, max 7 mm, pertes de vue 0.0, servo 132 deg/s RMS, a lat 0.15 g",
+    "0.6 m/s large": "6/6 reussis, temps 13.1 s, ecart RMS 3.2 mm, max 8 mm, pertes de vue 0.0, servo 128 deg/s RMS, a lat 0.15 g",
+    "1.0 m/s etroite": "6/6 reussis, temps 8.5 s, ecart RMS 6.1 mm, max 32 mm, pertes de vue 2.0, servo 242 deg/s RMS, a lat 0.42 g",
+    "1.0 m/s large": "6/6 reussis, temps 8.5 s, ecart RMS 6.5 mm, max 31 mm, pertes de vue 2.0, servo 232 deg/s RMS, a lat 0.42 g"
+   }
+  },
+  {
+   "nom": "PID barycentre, graine 3",
+   "P": {
+    "k_cap": 0.8,
+    "k_e": 6.0,
+    "v0": 0.15,
+    "tau": 0.01,
+    "vitesse_servo": 252.42185270522273,
+    "braq_max": 45.0,
+    "v_max": 255.0,
+    "v_min": 255.0,
+    "braq_lent": 73.17745974822778,
+    "cap_lent": 20.0,
+    "ecart_lent": 39.3016999658152,
+    "v_perdu": 110.0,
+    "accel": 900.0,
+    "tau_servo": 0.05,
+    "v255_estime": 0.6,
+    "avant_seul": true,
+    "loi": "pid",
+    "kp": 2.4936327762219075,
+    "ki": 3.9601871849303665,
+    "kd": 0.04552104728384153
+   },
+   "score": 16.164083143353228,
+   "bilan": {
+    "0.6 m/s etroite": "6/6 reussis, temps 13.1 s, ecart RMS 3.0 mm, max 7 mm, pertes de vue 0.0, servo 134 deg/s RMS, a lat 0.15 g",
+    "0.6 m/s large": "6/6 reussis, temps 13.1 s, ecart RMS 3.3 mm, max 10 mm, pertes de vue 0.0, servo 129 deg/s RMS, a lat 0.15 g",
+    "1.0 m/s etroite": "6/6 reussis, temps 8.5 s, ecart RMS 6.3 mm, max 31 mm, pertes de vue 2.0, servo 241 deg/s RMS, a lat 0.42 g",
+    "1.0 m/s large": "6/6 reussis, temps 8.5 s, ecart RMS 6.7 mm, max 30 mm, pertes de vue 2.0, servo 227 deg/s RMS, a lat 0.42 g"
+   }
+  },
+  {
+   "nom": "PID barycentre, graine 1",
+   "P": {
+    "k_cap": 0.8,
+    "k_e": 6.0,
+    "v0": 0.15,
+    "tau": 0.04204330446381952,
+    "vitesse_servo": 266.35863132395207,
+    "braq_max": 45.0,
+    "v_max": 255.0,
+    "v_min": 255.0,
+    "braq_lent": 80.0,
+    "cap_lent": 20.0,
+    "ecart_lent": 36.80699330641478,
+    "v_perdu": 110.0,
+    "accel": 900.0,
+    "tau_servo": 0.05,
+    "v255_estime": 0.6,
+    "avant_seul": true,
+    "loi": "pid",
+    "kp": 2.169556716011812,
+    "ki": 12.62573758792897,
+    "kd": 0.12456924584986563
+   },
+   "score": 16.28152184796495,
+   "bilan": {
+    "0.6 m/s etroite": "6/6 reussis, temps 13.1 s, ecart RMS 3.4 mm, max 8 mm, pertes de vue 0.0, servo 136 deg/s RMS, a lat 0.15 g",
+    "0.6 m/s large": "6/6 reussis, temps 13.1 s, ecart RMS 3.6 mm, max 8 mm, pertes de vue 0.0, servo 132 deg/s RMS, a lat 0.15 g",
+    "1.0 m/s etroite": "6/6 reussis, temps 8.5 s, ecart RMS 6.8 mm, max 27 mm, pertes de vue 2.0, servo 247 deg/s RMS, a lat 0.44 g",
+    "1.0 m/s large": "6/6 reussis, temps 8.5 s, ecart RMS 7.1 mm, max 30 mm, pertes de vue 2.0, servo 238 deg/s RMS, a lat 0.43 g"
+   }
+  }
+ ]
+}

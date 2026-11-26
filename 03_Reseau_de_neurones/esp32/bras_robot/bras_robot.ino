@@ -9,7 +9,7 @@
 //   V<n>A    avance a la vitesse n (0 a 255, plafonnee a PWM_MAX = 170 depuis le passage en 14 V) ; V<n>B recule ; V0A coupe
 //   S        arret immediat : moteur coupe, direction droite, suivi de ligne arrete, bras fige sur place
 //   H        bras en position Home : replie, centre de gravite bas, pour rouler. Revient par un chemin sur.
-//   N        suivi de ligne (26/11, barycentre des 3 capteurs avant) : la roue balaie pour etalonner, puis suit la ligne
+//   N        suivi de ligne (26/11, barycentre des 3 capteurs avant + PID) : la roue balaie pour etalonner, puis suit la ligne
 //            (perdue 1,5 s = arret)
 //   1        mission (depuis Home) : balle et panier tires au hasard a portee du bras, annonces a l'application ;
 //            le reseau prend la balle au sol et la lache au-dessus du panier (10 cm de haut), puis le bras revient en Home.
@@ -23,7 +23,7 @@
 //   X        relache tous les servos du bras (tenir le bras !)
 //   L        valeurs brutes des 3 capteurs de ligne (27 15 34) et position estimee
 //   M        test de la direction, moteur coupe : la roue doit suivre une bande noire deplacee sous les capteurs (S pour finir)
-//   G a b c  reglage de la direction : k_e tau vit_servo      T a b c d  vitesses : v_max v_min (m/s) braq_lent (deg) ecart_lent (mm)
+//   G p i d  reglage du PID de direction : kp ki kd (et en option tau vit_servo)      T a b c d  vitesses : v_max v_min (m/s) braq_lent (deg) ecart_lent (mm)
 //   K v      vitesse reelle du robot a PWM 255 (m/s) : sert a convertir les vitesses en PWM
 //   P        etat et diagnostic des servos
 
@@ -70,28 +70,33 @@ const PasFixe SEQ_FIXE[] = {{BASE, 115, 2000}, {EPAULE, 85, 2500}, {COUDE, 105, 
 // Position de la ligne = BARYCENTRE des 3 capteurs : e = (-13 x n_gauche + 0 x n_milieu + 13 x n_droite) / (somme des n),
 //   n = 0 sur le blanc ... 1 sur le noir, apres etalonnage. Avec 13 mm d'ecart et une ligne de 19 mm, la mesure varie
 //   en continu de -13 a +13 mm (pas de zone morte au centre, contrairement a l'ancien ecart de 20 mm).
-// Braquage vise = braquage actuel + atan(K_E x ecart / (vitesse + V0)), recalcule toutes les 5 ms puis lisse (tau_dir,
-//   vit_servo) : la roue se tourne vers la ligne par petites corrections continues, sans a-coups ; le servo recoit une
-//   consigne neuve a chaque impulsion (50 Hz).
+// Direction par PID (26/11) sur l'ecart e (mm, + = ligne a droite), recalcule toutes les 5 ms :
+//   braquage vise (degres) = KP x e + KI x integrale de e + KD x derivee de e (derivee filtree sur 20 ms).
+//   KP : tourne d'autant plus que la ligne est loin du centre. KI : corrige l'ecart qui reste dans les longs virages.
+//   KD : freine la correction quand l'ecart diminue vite (amortit les oscillations).
+//   L'integrale ne grossit plus quand la roue est en butee, et elle est bornee (KI x integrale <= BRAQ_MAX).
+//   Puis lissage (tau_dir, vit_servo) : pas d'a-coups ; le servo recoit une consigne neuve a chaque impulsion (50 Hz).
 // Vitesse (en m/s, convertie en PWM avec v255 et SEUIL_PWM) : v_max quand la roue est droite et la ligne centree,
 //   descend vers v_min avec le braquage et l'ecart ; frein moteur (L298N : IN1 = IN2) quand elle doit baisser vite.
 //   Ligne perdue : braquage a fond du dernier cote vu, v_perdu, arret apres 1,5 s.
 // Lancement (N) : la roue balaie +-35 degres a l'arret (1,2 s) : chaque capteur voit le noir et le blanc (etalonnage).
-// Simulation (geometrie SolidWorks, servo a 50 Hz) : esp32/simulation_ligne/sim_ligne2.py bary (reglages_barycentre.log).
+// Simulation (geometrie SolidWorks, servo a 50 Hz) : esp32/simulation_ligne/sim_ligne2.py pid (reglages_pid.log : Kp 2,5 Ki 5,3 Kd 0,04 ;
+//   a 0,6 m/s : ecart RMS 3 mm, max 7 mm, ligne jamais perdue).
 const int N_CAPT = 3;
 const int CAPT_TETE[N_CAPT] = {27, 15, 34};   // gauche, milieu, droite
 const float ECART_CAPTEURS_MM = 13.0f;        // entre 2 capteurs voisins
 const bool NOIR_ELEVE = true;                 // la ligne noire donne une valeur haute
 const int CONTRASTE_MIN = 150;                // ecart noir / blanc minimal (sur 4095) pour qu'un capteur serve
 const int SIGNE_BRAQUAGE = 1;                 // -1 si, au test M, la roue s'ecarte de la ligne au lieu d'aller vers elle
-const float BRAQ_MAX = 45.0f, V0 = 0.15f;
+const float BRAQ_MAX = 45.0f;
 // L298N alimente par la batterie (14 V, ~12 V au moteur) depuis le 26/11. SEUIL_PWM et v255 sont des estimations :
 // mesurer le temps sur 1 m de ligne droite puis corriger avec K (et T pour les vitesses).
 const int SEUIL_PWM = 35;                     // en dessous, le moteur ne tourne pas (estimation pour ~12 V)
 const int PWM_MAX = 170;                      // plafond pour TOUT (suivi et commande V de l'application) : ~9 V moyens au moteur
 const unsigned long PERIODE_SUIVI_MS = 5, PERTE_MAX_MS = 1500, DUREE_BALAYAGE_MS = 1200;
-// Reglables en USB sans reteleverser : G k_e tau vit_servo ; T v_max v_min braq_lent ecart_lent (m/s, m/s, deg, mm) ; K v255.
-float k_e = 10.6f, tau_dir = 0.019f, vit_servo = 410.0f;
+// Reglables en USB sans reteleverser : G kp ki kd [tau vit_servo] ; T v_max v_min braq_lent ecart_lent (m/s, m/s, deg, mm) ; K v255.
+float kp = 2.5f, ki = 5.3f, kd = 0.04f;   // degres / mm, degres / (mm.s), degres.s / mm
+float tau_dir = 0.015f, vit_servo = 257.0f;
 float v_max = 0.50f, v_min = 0.29f, braq_lent = 63.5f, ecart_lent = 33.6f;   // vitesses en m/s
 float v_perdu = 0.15f, accel = 2.5f;          // m/s et m/s2
 float v255 = 1.5f;                            // vitesse (m/s) a PWM 255 : ESTIMATION pour 12 V, a mesurer puis K
@@ -152,6 +157,7 @@ static void estimer(Rangee &r) {
 
 // ---- etat du suivi
 float braq = 0, braq_envoye = 0, braq_est = 0, braq_f = 0, v_cmd = 0, v_est = 0;
+float integ = 0, e_prec = 0, deriv = 0;   // PID
 int cote = 1, pertes = 0;
 bool vu_prec = true, frein = false;
 unsigned long t_vue = 0, t_servo = 0, t_debut = 0, dernier_us = 0, prochain_suivi = 0, prochain_aff = 0;
@@ -161,6 +167,7 @@ static void lancer_suivi(bool moteur_coupe) {
     sans_moteur = moteur_coupe;
     etalonner_debut(TETE);
     braq = braq_envoye = braq_est = braq_f = v_cmd = v_est = 0;
+    integ = e_prec = deriv = 0;
     pertes = 0; vu_prec = true; dernier_us = 0;
     t_debut = millis();
     suivi = SUIVI_BALAYAGE;
@@ -199,7 +206,13 @@ static void pas_suivi() {
     if (TETE.vu) {
         t_vue = t;
         if (fabsf(TETE.e) > 4.0f) cote = TETE.e > 0 ? 1 : -1;
-        cible = braq_est + degrees(atanf(k_e * TETE.e * 1e-3f / (max(0.0f, v_est) + V0)));
+        if (!vu_prec) e_prec = TETE.e;                            // ligne retrouvee : pas de pic de derivee
+        deriv += ((TETE.e - e_prec) / dt - deriv) * (1.0f - expf(-dt / 0.02f));
+        e_prec = TETE.e;
+        float pid = kp * TETE.e + ki * integ + kd * deriv;
+        if (fabsf(pid) < BRAQ_MAX || pid * TETE.e < 0) integ += TETE.e * dt;   // pas d'integration en butee
+        if (ki > 0) integ = constrain(integ, -BRAQ_MAX / ki, BRAQ_MAX / ki);
+        cible = kp * TETE.e + ki * integ + kd * deriv;
     } else {
         cible = BRAQ_MAX * cote;   // la ligne est sortie par un cote : braquage a fond de ce cote
         if (!sans_moteur && t - t_vue > PERTE_MAX_MS) { arreter_conduite(); signaler("N ligne perdue : arret (renvoyer N)"); return; }
@@ -234,8 +247,9 @@ static void pas_suivi() {
     dernier_pas = t;
     if ((long)(t - prochain_aff) >= 0) {
         prochain_aff = t + 200;
-        Serial.printf("N ligne %+5.1f mm%s brq %+5.1f v %.2f m/s (PWM %d)%s | capteurs %d %d %d | pertes %d | pas max %lu ms\n",
-                      TETE.e, TETE.vu ? "" : "(-)", braq, v_cmd, sans_moteur ? 0 : pwm_pour(v_cmd), frein ? " FREIN" : "",
+        Serial.printf("N ligne %+5.1f mm%s brq %+5.1f (P %+5.1f I %+5.1f D %+5.1f) v %.2f m/s (PWM %d)%s | capteurs %d %d %d | pertes %d | pas max %lu ms\n",
+                      TETE.e, TETE.vu ? "" : "(-)", braq, kp * TETE.e, ki * integ, kd * deriv,
+                      v_cmd, sans_moteur ? 0 : pwm_pour(v_cmd), frein ? " FREIN" : "",
                       TETE.brut[0], TETE.brut[1], TETE.brut[2], pertes, pire);
         pire = 0;
     }
@@ -491,9 +505,11 @@ static void ligne_usb(char *l) {
         bras_poser(i, servo_q(i, constrain(d, ANGLE_MIN, ANGLE_MAX)));
         Serial.printf("D %s actif : %.1f degres servo\n", NOM_SERVO[i], servo_degres(i, bras_consigne(i)));
     } else if (l[0] == 'G') {
-        sscanf(l + 1, "%f %f %f", &k_e, &tau_dir, &vit_servo);
-        k_e = constrain(k_e, 0.5f, 40.0f); tau_dir = constrain(tau_dir, 0.005f, 0.5f); vit_servo = constrain(vit_servo, 50.0f, 800.0f);
-        Serial.printf("G k_e %.1f tau %.3f s vit_servo %.0f deg/s\n", k_e, tau_dir, vit_servo);
+        sscanf(l + 1, "%f %f %f %f %f", &kp, &ki, &kd, &tau_dir, &vit_servo);
+        kp = constrain(kp, 0.0f, 20.0f); ki = constrain(ki, 0.0f, 100.0f); kd = constrain(kd, 0.0f, 2.0f);
+        tau_dir = constrain(tau_dir, 0.005f, 0.5f); vit_servo = constrain(vit_servo, 50.0f, 800.0f);
+        integ = 0;
+        Serial.printf("G kp %.2f ki %.2f kd %.3f tau %.3f s vit_servo %.0f deg/s\n", kp, ki, kd, tau_dir, vit_servo);
     } else if (l[0] == 'T') {
         sscanf(l + 1, "%f %f %f %f", &v_max, &v_min, &braq_lent, &ecart_lent);
         v_max = constrain(v_max, 0.05f, 2.0f); v_min = constrain(v_min, 0.05f, v_max);
