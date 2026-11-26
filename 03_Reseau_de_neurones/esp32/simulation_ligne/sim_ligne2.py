@@ -91,7 +91,7 @@ def F(u, sig):
 
 # ---------------------------------------------------------------- estimation de la position (portee telle quelle en C)
 SIGMA_MODELE = 3.0
-P_SEUILS = [0.35, 0.2]   # bary2 : ligne vue si somme >= 0,35 et un capteur >= 0,2 (26/11 nuit)
+P_SEUILS = [0.0, 0.5]    # bary2 : ligne vue si somme >= [0] et un capteur >= [1] ; 26/11 nuit : [0.35, 0.2] essaye sur le robot, MOINS BON -> retour a [0, 0.5]
 GRILLE = np.arange(-45.0, 45.01, 0.5)
 
 
@@ -106,7 +106,7 @@ class Estimateur:
         if self.methode == 'bary2':   # 26/11 soir, comme bras_robot.ino : vu si un capteur > 50 %, barycentre sans les 20 % du bas
             if n.sum() < P_SEUILS[0] or n.max() < P_SEUILS[1]:   # 26/11 nuit : somme (ligne entre 2 capteurs ecartes : chacun la voit a moitie)
                 return False, 0.0
-            w = np.clip((n - 0.1) / 0.9, 0.0, 1.0)
+            w = np.clip((n - 0.2) / 0.8, 0.0, 1.0)
             return True, float((self.b * w).sum() / w.sum())
         if n.max() < 0.25:
             return False, 0.0
@@ -218,7 +218,7 @@ class Suiveur:
         else:
             self.v = vc
         v_vise = P['v255_estime'] * max(0.0, (self.v - 60.0) / 195.0)
-        self.frein = self.v_est > v_vise + 0.08
+        self.frein = self.v_est > v_vise + 0.08 and P.get('frein', True)
         self.v_est += (v_vise - self.v_est) * (1.0 - math.exp(-dt / (0.05 if self.frein else 0.15)))
         return self.braq_envoye, self.v, self.frein
 
