@@ -34,6 +34,34 @@
 
 BluetoothSerial SerialBT;
 
+// ############################################################################################################
+// ########  REGLAGES DU SUIVI DE LIGNE : a modifier ICI, puis televerser (Arduino IDE : carte "ESP32 Dev Module",  ########
+// ########  Partition Scheme "Huge APP (3MB No OTA)", port COM4). On peut aussi les changer en USB sans televerser :  ########
+// ########  G kp ki kd [tau vit_servo] ; T v_max v_min braq_lent ecart_lent ; K v255 (moniteur serie, 115 200 bauds).  ########
+// ############################################################################################################
+// --- PID de la direction. e = ecart de la ligne au capteur du milieu (mm, -13 a +13 ; + = ligne a droite).
+//     braquage (degres) = kp x e + ki x (somme de e dans le temps) + kd x (vitesse de variation de e)
+float kp = 4.0f;      // ce que les capteurs VOIENT maintenant : + grand = tourne plus fort vers la ligne (trop : zigzag)
+float ki = 1.0f;      // MEMOIRE des ecarts passes : aide dans les longs virages (trop : la roue "continue" et deborde, oscille lentement)
+float kd = 0.02f;     // ANTICIPATION (vitesse a laquelle l'ecart change) : amortit (trop : nerveux, sensible aux parasites)
+float tau_dir = 0.01f;     // lissage de la consigne (s) : + grand = plus doux mais plus en retard
+float vit_servo = 400.0f;  // vitesse maximale de rotation de la roue demandee au servo (degres / s)
+const float BRAQ_MAX = 45.0f;        // braquage maximal (degres) de part et d'autre du tout droit
+const int SIGNE_BRAQUAGE = 1;        // -1 si, au test M, la roue s'ecarte de la ligne au lieu d'aller vers elle
+// --- Vitesse (m/s). Elle baisse de v_max vers v_min quand la roue braque (braq_lent degres) ou que la ligne s'ecarte (ecart_lent mm).
+float v_max = 0.50f, v_min = 0.29f;
+float braq_lent = 63.5f, ecart_lent = 33.6f;
+float v_perdu = 0.15f;               // vitesse quand la ligne est perdue (arret apres 1,5 s)
+float accel = 2.5f;                  // acceleration maximale (m/s2)
+// --- Moteur (L298N sur la batterie 14 V). Conversion m/s -> PWM : PWM = SEUIL_PWM + v / v255 x (255 - SEUIL_PWM).
+float v255 = 1.5f;                   // vitesse a PWM 255 (m/s) : ESTIMATION, a mesurer (temps sur 1 m de ligne droite)
+const int SEUIL_PWM = 35;            // en dessous, le moteur ne tourne pas (estimation)
+const int PWM_MAX = 170;             // plafond pour TOUT (suivi et commande V de l'application) : ~9 V moyens au moteur
+const bool MOTEUR_FILS_INVERSES = true;   // fils du moteur inverses sur OUT1 / OUT2 (26/11) ; false s'ils sont remis
+// --- Capteurs
+const int CONTRASTE_MIN = 150;       // ecart noir / blanc minimal (sur 4095) pour qu'un capteur serve
+// ############################################################################################################
+
 // ---- PROPULSION (L298N) ----
 const int PIN_ENA = 25, PIN_IN1 = 33, PIN_IN2 = 32;
 const uint32_t FREQ_MOTEUR_HZ = 1000;   // 5 kHz le 19/11 : le moteur ne partait plus, retour a 1 kHz
@@ -80,26 +108,14 @@ const PasFixe SEQ_FIXE[] = {{BASE, 115, 2000}, {EPAULE, 85, 2500}, {COUDE, 105, 
 //   descend vers v_min avec le braquage et l'ecart ; frein moteur (L298N : IN1 = IN2) quand elle doit baisser vite.
 //   Ligne perdue : braquage a fond du dernier cote vu, v_perdu, arret apres 1,5 s.
 // Lancement (N) : la roue balaie +-35 degres a l'arret (1,2 s) : chaque capteur voit le noir et le blanc (etalonnage).
-// Simulation (geometrie SolidWorks, servo a 50 Hz) : esp32/simulation_ligne/sim_ligne2.py pid (reglages_pid.log : Kp 2,5 Ki 5,3 Kd 0,04 ;
-//   a 0,6 m/s : ecart RMS 3 mm, max 7 mm, ligne jamais perdue).
+// Simulation (geometrie SolidWorks, servo a 50 Hz) : esp32/simulation_ligne/sim_ligne2.py pid. Reglages en tete du fichier.
+//   26/11 soir : kp 4, ki 1, kd 0,02, tau 0,01, vit_servo 400 (plus de poids a ce que voient les capteurs, moins de memoire et
+//   d'anticipation) : ecart RMS 1,4 mm, max 6 mm a 0,5 m/s, tient encore a 0,8 m/s (avant : kp 2,5 ki 5,3 kd 0,04 : 3,1 / 7 mm).
 const int N_CAPT = 3;
 const int CAPT_TETE[N_CAPT] = {27, 15, 34};   // gauche, milieu, droite
 const float ECART_CAPTEURS_MM = 13.0f;        // entre 2 capteurs voisins
 const bool NOIR_ELEVE = true;                 // la ligne noire donne une valeur haute
-const int CONTRASTE_MIN = 150;                // ecart noir / blanc minimal (sur 4095) pour qu'un capteur serve
-const int SIGNE_BRAQUAGE = 1;                 // -1 si, au test M, la roue s'ecarte de la ligne au lieu d'aller vers elle
-const float BRAQ_MAX = 45.0f;
-// L298N alimente par la batterie (14 V, ~12 V au moteur) depuis le 26/11. SEUIL_PWM et v255 sont des estimations :
-// mesurer le temps sur 1 m de ligne droite puis corriger avec K (et T pour les vitesses).
-const int SEUIL_PWM = 35;                     // en dessous, le moteur ne tourne pas (estimation pour ~12 V)
-const int PWM_MAX = 170;                      // plafond pour TOUT (suivi et commande V de l'application) : ~9 V moyens au moteur
 const unsigned long PERIODE_SUIVI_MS = 5, PERTE_MAX_MS = 1500, DUREE_BALAYAGE_MS = 1200;
-// Reglables en USB sans reteleverser : G kp ki kd [tau vit_servo] ; T v_max v_min braq_lent ecart_lent (m/s, m/s, deg, mm) ; K v255.
-float kp = 2.5f, ki = 5.3f, kd = 0.04f;   // degres / mm, degres / (mm.s), degres.s / mm
-float tau_dir = 0.015f, vit_servo = 257.0f;
-float v_max = 0.50f, v_min = 0.29f, braq_lent = 63.5f, ecart_lent = 33.6f;   // vitesses en m/s
-float v_perdu = 0.15f, accel = 2.5f;          // m/s et m/s2
-float v255 = 1.5f;                            // vitesse (m/s) a PWM 255 : ESTIMATION pour 12 V, a mesurer puis K
 
 // Une rangee de capteurs (declaree avant toute fonction : l'IDE Arduino place ses prototypes devant la 1re fonction)
 struct Rangee {
@@ -119,8 +135,6 @@ enum Suivi { SUIVI_OFF, SUIVI_BALAYAGE, SUIVI_ATTENTE, SUIVI_ROULE };
 Suivi suivi = SUIVI_OFF;
 bool sans_moteur = false;   // test M : la roue suit la ligne, le moteur reste coupe
 
-// 26/11 : fils du moteur inverses sur OUT1 / OUT2 du L298N -> sens inverse ici (false pour revenir).
-const bool MOTEUR_FILS_INVERSES = true;
 static void moteur_commande(int v, char sens) {
     v = constrain(v, 0, PWM_MAX);
     if (MOTEUR_FILS_INVERSES) sens = (sens == 'A') ? 'B' : 'A';
