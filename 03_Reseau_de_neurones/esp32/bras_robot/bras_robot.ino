@@ -48,17 +48,11 @@ float tau_dir = 0.10f;     // lissage de la consigne (s) : + grand = plus doux m
 float vit_servo = 257.0f;  // vitesse maximale de rotation de la roue demandee au servo (degres / s)
 const float BRAQ_MAX = 45.0f;        // braquage maximal (degres) de part et d'autre du tout droit
 const int SIGNE_BRAQUAGE = 1;        // -1 si, au test M, la roue s'ecarte de la ligne au lieu d'aller vers elle
-// --- Vitesse (m/s) : v_max en ligne droite, v_min dans les virages.
-//     Virage = braquage MOYEN sur 0,3 s (les petites oscillations gauche / droite s'annulent, un virage non) : la vitesse
-//     descend de v_max a v_min quand ce braquage moyen atteint braq_lent degres, ou quand l'ecart moyen (0,2 s) a la ligne
-//     atteint ecart_lent mm (les deux s'additionnent). Freinage moteur immediat, reacceleration limitee a accel.
-float v_max = 0.40f, v_min = 0.27f;
-float braq_lent = 20.0f;               // degres de braquage moyen pour descendre a v_min (+ petit = ralentit plus tot dans les virages)
-float ecart_lent = 15.0f;              // mm d'ecart moyen pour descendre a v_min
+// --- Vitesse (m/s). Elle baisse de v_max vers v_min quand la roue braque (braq_lent degres) ou que la ligne s'ecarte (ecart_lent mm).
+float v_max = 0.30f, v_min = 0.20f;   // 26/11 soir : ralenti (avant 0,50 / 0,29)
+float braq_lent = 63.5f, ecart_lent = 33.6f;
 float v_perdu = 0.12f;               // vitesse quand la ligne est perdue (arret apres 1,5 s)
-float accel = 1.5f;                  // acceleration maximale (m/s2) en sortie de virage
-const bool FREIN_MOTEUR = false;     // 26/11 nuit : pas de frein moteur pour ralentir avant un virage (le robot calait dans le
-                                     // virage apres un freinage) : on baisse seulement la PWM, le robot ralentit tout seul
+float accel = 2.5f;                  // acceleration maximale (m/s2)
 // --- Moteur (L298N sur la batterie 14 V). Conversion m/s -> PWM : PWM = SEUIL_PWM + v / v255 x (255 - SEUIL_PWM).
 float v255 = 1.5f;                   // vitesse a PWM 255 (m/s) : ESTIMATION, a mesurer (temps sur 1 m de ligne droite)
 const int SEUIL_PWM = 35;            // en dessous, le moteur ne tourne pas (estimation)
@@ -207,7 +201,6 @@ static void estimer(Rangee &r) {
 // ---- etat du suivi
 float braq = 0, braq_envoye = 0, braq_est = 0, braq_f = 0, v_cmd = 0, v_est = 0;
 float integ = 0, e_prec = 0, deriv = 0;   // PID
-float e_moy = 0;
 int cote = 1, pertes = 0;
 bool vu_prec = true, frein = false;
 unsigned long t_vue = 0, t_servo = 0, t_debut = 0, dernier_us = 0, prochain_suivi = 0, prochain_aff = 0;
@@ -217,7 +210,7 @@ static void lancer_suivi(bool moteur_coupe) {
     sans_moteur = moteur_coupe;
     etalonner_debut(TETE);
     braq = braq_envoye = braq_est = braq_f = v_cmd = v_est = 0;
-    integ = e_prec = deriv = e_moy = 0;
+    integ = e_prec = deriv = 0;
     pertes = 0; vu_prec = true; dernier_us = 0;
     t_debut = millis();
     suivi = SUIVI_BALAYAGE;
@@ -277,17 +270,16 @@ static void pas_suivi() {
     // position estimee du servo (retard ~50 ms, 350 degres/s au plus) : c'est la que sont les capteurs
     float de = (braq_envoye - braq_est) * (1.0f - expf(-dt / 0.05f));
     braq_est += constrain(de, -350.0f * dt, 350.0f * dt);
-    braq_f += (braq_est - braq_f) * (1.0f - expf(-dt / 0.3f));                       // braquage moyen : detecte les virages
-    e_moy += ((TETE.vu ? fabsf(TETE.e) : 30.0f) - e_moy) * (1.0f - expf(-dt / 0.2f));   // ecart moyen a la ligne
+    braq_f += (braq_est - braq_f) * (1.0f - expf(-dt / 0.08f));
 
     // vitesse variable (m/s)
     float vc;
     if (TETE.vu) {
-        float gene = fabsf(braq_f) / braq_lent + e_moy / ecart_lent;
+        float gene = fabsf(braq_f) / braq_lent + fabsf(TETE.e) / ecart_lent + 0.3f;
         vc = v_max - (v_max - v_min) * min(1.0f, gene);
     } else vc = v_perdu;
     if (vc > v_cmd) v_cmd = min(vc, v_cmd + accel * dt); else v_cmd = vc;
-    frein = FREIN_MOTEUR && v_est > v_cmd + 0.08f;
+    frein = v_est > v_cmd + 0.08f;
     v_est += (v_cmd - v_est) * (1.0f - expf(-dt / (frein ? 0.05f : 0.15f)));
     if (sans_moteur) { v_est = 0; frein = false; moteur_commande(0, SENS_AVANCE); }
     else if (frein) moteur_freiner();
