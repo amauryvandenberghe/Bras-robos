@@ -119,8 +119,11 @@ enum Suivi { SUIVI_OFF, SUIVI_BALAYAGE, SUIVI_ATTENTE, SUIVI_ROULE };
 Suivi suivi = SUIVI_OFF;
 bool sans_moteur = false;   // test M : la roue suit la ligne, le moteur reste coupe
 
+// 26/11 : fils du moteur inverses sur OUT1 / OUT2 du L298N -> sens inverse ici (false pour revenir).
+const bool MOTEUR_FILS_INVERSES = true;
 static void moteur_commande(int v, char sens) {
     v = constrain(v, 0, PWM_MAX);
+    if (MOTEUR_FILS_INVERSES) sens = (sens == 'A') ? 'B' : 'A';
     digitalWrite(PIN_IN1, (v > 0 && sens == 'B') ? HIGH : LOW);
     digitalWrite(PIN_IN2, (v > 0 && sens == 'A') ? HIGH : LOW);
     moteur.write(v);
