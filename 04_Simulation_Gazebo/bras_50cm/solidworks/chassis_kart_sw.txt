@@ -1,0 +1,59 @@
+﻿  capteur-1                          (capteur-7) boite x 249,2..263,3 y 457,6..479,6 z 528,4..559,6
+  capteur-2                          (capteur-8) boite x 249,2..263,3 y 457,6..479,6 z 465,8..497,0
+  capteur-3                          (capteur-9) boite x 236,8..268,0 y 457,6..479,6 z 513,3..527,4
+  capteur-4                          (capteur-12) boite x 236,8..268,0 y 457,6..479,6 z 498,1..512,2
+  L298N Motor Driver.step-1          (L298N) boite x 130,5..174,0 y 495,0..521,0 z 491,0..534,5
+  Bras 50cm-1                        (bras) boite x 124,3..475,7 y 529,7..881,4 z 454,9..564,1
+  esp32_dev_kit_v1_asm-1             (ESP32) boite x 230,7..282,2 y 507,1..522,1 z 495,3..523,5
+  mcc-1                              (moteur gauche) boite x 143,3..209,0 y 468,4..490,8 z 546,0..582,8
+  mcc-2                              (moteur droit) boite x 143,3..209,0 y 468,4..490,8 z 442,6..479,4
+  roue arriere motrice-1             (roue gauche) boite x 124,3..184,3 y 449,6..509,6 z 574,2..587,7
+  roue arriere motrice-2             (roue droite) boite x 124,3..184,3 y 449,6..509,6 z 437,7..451,2
+  batterie 18x110-1                  (batterie) boite x 119,3..230,3 y 461,1..479,1 z 514,7..532,7
+  batterie 18x110-2                  (batterie) boite x 119,3..230,3 y 461,1..479,1 z 492,7..510,7
+  platine kart-1                     (platine kart) boite x 114,3..284,3 y 466,4..503,0 z 444,7..580,7
+  tour du bras-1                     (tour du bras) boite x 115,3..213,3 y 495,0..529,7 z 463,7..561,7
+  nez capteurs et billes kart-1      (nez capteurs et billes kart) boite x 234,7..269,1 y 455,0..491,0 z 442,1..583,3
+  berceau batteries kart-1           (berceau batteries kart) boite x 112,3..232,8 y 450,6..491,0 z 481,7..543,7
+  bille 16 gauche-1                  (bille 16 gauche) boite x 248,3..264,3 y 449,6..465,6 z 564,7..580,7
+  bille 16 droite-1                  (bille 16 droite) boite x 248,3..264,3 y 449,6..465,6 z 444,7..460,7
+  PCB MAVE (encombrement)-1          (PCB MAVE (encombrement)) boite x 210,3..282,3 y 503,0..524,6 z 462,7..562,7
+  INTERFERENCE 19,63 mm3 : mcc-1 / roue arriere motrice-1
+  INTERFERENCE 19,63 mm3 : mcc-2 / roue arriere motrice-2
+  INTERFERENCE 19,63 mm3 : mcc-1 / roue arriere motrice-1
+  INTERFERENCE 19,63 mm3 : mcc-2 / roue arriere motrice-2
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-9
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-6
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-8
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-2
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-1
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-7
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-4
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-5
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-3
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-12
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-11
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-14
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-10
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-13
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-24
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-16
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-18
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-23
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-17
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-19
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-22
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-20
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-27
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-26
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-25
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-29
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-28
+  INTERFERENCE 2,39 mm3 : PCB MAVE (encombrement)-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-21
+  INTERFERENCE 2,36 mm3 : nez capteurs et billes kart-1 / capteur-1/LineSensorAssy.step-1/Part 1.step-1
+  INTERFERENCE 2,36 mm3 : nez capteurs et billes kart-1 / capteur-2/LineSensorAssy.step-1/Part 1.step-1
+  INTERFERENCE 1,14 mm3 : nez capteurs et billes kart-1 / capteur-3/LineSensorAssy.step-1/Part 1.step-1
+  INTERFERENCE 1,14 mm3 : nez capteurs et billes kart-1 / capteur-4/LineSensorAssy.step-1/Part 1.step-1
+interferences : 36
+enregistre : True err 0
+

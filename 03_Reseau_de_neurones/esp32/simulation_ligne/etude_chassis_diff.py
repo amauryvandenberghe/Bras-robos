@@ -6,6 +6,7 @@ au-dessus de l'essieu). Meme piste, memes capteurs, meme bruit que sim_different
 Usage : python3 etude_chassis_diff.py [L1 L2 ...]   (resultats du 27/11 : etude_chassis_diff.log ; L 102 retenu : etude_chassis_diff_L102.log)
 """
 import itertools
+import os
 import sys
 from multiprocessing import Pool
 
@@ -14,7 +15,7 @@ import numpy as np
 sys.path.insert(0, '.')
 import sim_differentiel as D
 
-VOIE = 186.4
+VOIE = float(os.environ.get('VOIE', 186.4))     # 28/11 : robot kart, VOIE=136 (lancer_kart.sh)
 
 
 def regler(L):

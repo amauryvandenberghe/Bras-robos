@@ -1,0 +1,32 @@
+=== MASSES (pieces imprimees : 50 % de matiere ; composants : valeurs typiques, non pesees) ===
+  platine kart                         47.3 g   x  193.3  haut.  41.1  z   -0.0
+  tour du bras                         29.8 g   x  163.5  haut.  71.8  z   -0.0
+  nez capteurs et billes kart          14.4 g   x  255.3  haut.  21.5  z    0.0
+  berceau batteries kart               26.7 g   x  172.7  haut.  14.6  z   -0.0
+  moteur                               29.0 g   x  176.2  haut.  30.0  z  -51.7
+  roue                                 12.0 g   x  154.2  haut.  30.0  z  -68.2
+  batterie                             45.0 g   x  174.8  haut.  20.5  z  -11.0
+  bille acier 16                       16.7 g   x  256.2  haut.   8.0  z  -60.0
+  moteur                               29.0 g   x  176.2  haut.  30.0  z   51.7
+  roue                                 12.0 g   x  154.2  haut.  30.0  z   68.2
+  batterie                             45.0 g   x  174.8  haut.  20.5  z   11.0
+  bille acier 16                       16.7 g   x  256.2  haut.   8.0  z   60.0
+  PCB + ESP32 + barrettes              35.0 g   x  250.2  haut.  59.4  z    0.0
+  L298N                                26.0 g   x  152.2  haut.  57.4  z    0.0
+  abaisseur + interrupteur             15.0 g   x  186.8  haut.  53.4  z    0.0
+  4 cartes capteurs                    12.0 g   x  260.2  haut.  19.0  z    0.0
+  vis, ecrous                          25.0 g   x  164.2  haut.  45.4  z    0.0
+  fils                                 15.0 g   x  164.2  haut.  50.4  z    0.0
+robot sans bras 452 g, bras 346 g, TOTAL 797 g
+centre de gravite, bras replie : 27.4 mm devant l'essieu, 109.0 mm de haut, -0.3 mm de cote
+  -> les billes avant portent 27 % du poids, les roues 73 % (adherence)
+  marge de basculement (sans les patins) 27.4 mm
+  freinage 3 m/s2                  : point d'appui equivalent +60.7 / -0.3 mm, marge 41.3 mm (patins compris), sur les billes
+  acceleration 3 m/s2              : point d'appui equivalent -5.9 / -0.3 mm, marge 30.1 mm (patins compris), sur les PATINS ARRIERE (1 mm)
+  virage 0,8 m/s R 200 (3,2 m/s2)  : point d'appui equivalent +27.4 / +35.2 mm, marge 30.7 mm (patins compris), sur les billes
+
+=== TOUT LE DOMAINE DU BRAS (26299 positions, sans balle) ===
+pire marge de basculement : 18.6 mm (lacet 90 deg, q2 1.60 q3 -0.05 q4 0.37 rad ; centre de gravite +24.8 / +47.6 mm de l'essieu)
+positions ou le robot s'appuie sur les patins arriere (centre derriere l'essieu) : 1 %
+
+inertie de lacet autour du milieu de l'essieu (bras replie) : 19359 g.cm2 = 1.94e-03 kg.m2 ; rayon de giration 49 mm

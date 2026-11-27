@@ -1,0 +1,59 @@
+PROPOSITION 2 (28/11/2026) : ROBOT "KART" COMPACT - assemblage A PART (Assemblage1v2 n'est pas touche)
+=====================================================================================================
+Remplace la proposition du 27/11 (robot differentiel 200 x 196, bati a 80 mm), jugee trop grande et trop haute.
+Elle est rangee dans "ancienne proposition 27-11 (differentiel large)".
+
+Ouvrir : "Robot kart compact.SLDASM" (images : Robot kart (vue ...).png).
+Il utilise les pieces de 1_VERSION_FINALE (a ouvrir) : mcc, roue arriere motrice, batterie, capteur, L298N, ESP32, Bras 50cm.
+
+L'IDEE (style robot suiveur de ligne de competition : moteurs a l'arriere, roues collees aux moteurs, le minimum de bati)
+- 2 moteurs jaunes SOUS une platine basse : la platine est posee sur les moteurs (dessous a 41 mm du sol, dessus a 45 mm).
+  Les flasques des moteurs font partie de la platine : une seule piece au lieu de bati + 2 etriers.
+- Roues juste a cote des moteurs : voie 136 mm, largeur hors tout 150 mm, longueur 172 mm (avant : 200 x 196).
+- Le bras est pose sur une petite TOUR ajouree (35 mm) qui remet son socle a 80,1 mm du sol, comme aujourd'hui :
+  le reseau de neurones du bras reste valable. Le L298N et l'abaisseur sont DANS la tour (place perdue sinon).
+  (Sans la tour, le bras serait a 45 mm du sol : il faudrait reentrainer le reseau.)
+- 2 batteries couchees ENTRE les 2 moteurs, a 9 mm du sol (berceau visse sous la platine).
+- PCB + ESP32 sur la platine, devant la tour, port USB accessible.
+- NEZ visse sous la platine : les 4 capteurs EN FLECHE (meme disposition que sur le robot, 8 mm du sol), elements interieurs
+  110 mm devant l'essieu, + 2 billes d'acier de 16 mm. 2 patins arriere a 1 mm du sol.
+
+LES CHIFFRES (calculs, a confirmer sur le vrai robot)
+- Suivi de ligne (03_Reseau_de_neurones/esp32/simulation_ligne/etude_kart_voie136.log, meme piste et memes capteurs que les autres
+  etudes) : 4 trajets sur 4 reussis a 0,45 / 0,6 / 0,8 / 1 m/s, ecart moyen 4,8 / 5,0 / 4,3 / 4,1 mm.
+  La voie plus etroite aide (le differentiel large ratait 1 m/s avec des capteurs a moins de 102 mm).
+  Capteurs a 95 mm : encore un peu mieux, mais le nez tombe alors sur les batteries ; 110 mm retenu.
+- Equilibre (stabilite.log ; masses des composants = valeurs typiques, NON pesees) : 797 g (avant 890 g), dont bras 346 g ;
+  centre de gravite 27 mm devant l'essieu ; les roues portent 73 % du poids (adherence), les billes 27 %.
+  Sur 26 299 positions du bras, le robot ne bascule JAMAIS ; plus petite marge 18,6 mm, bras tendu sur le cote
+  (avant : 41 mm avec la voie de 186 : c'est le prix de la largeur de 150 mm).
+  Freinage 3 m/s2 : marge 41 mm ; virage 0,8 m/s dans 200 mm de rayon : marge 31 mm.
+- Inertie de lacet 1,9e-3 kg.m2 (avant 3,0e-3) : le robot tourne plus vite.
+
+LES PIECES A IMPRIMER (STL dans ce dossier ; CadQuery : bras_50cm/robot/chassis_kart.py)
+  platine kart                    170 x 136 mm, flasques des moteurs et 4 entretoises du PCB comprises (environ 47 g)
+                                  a imprimer retournee (dessus sur le plateau), supports seulement sous les 4 entretoises
+  tour du bras                    96 x 96 x 35 mm, ajouree
+  nez capteurs et billes kart     support des 4 cartes (le meme que sur le robot) + 2 coupelles a billes
+  berceau batteries kart          2 sieges, fentes pour 2 sangles velcro, 4 colonnes, 2 patins arriere
+  (bille 16 gauche / droite et PCB MAVE (encombrement) : pour l'assemblage seulement, ne pas imprimer)
+
+VISSERIE (M3 partout) - ordre de montage
+  1. moteurs   : 2 x M3 x 30 par moteur, a travers le moteur et la flasque ; tete cote roue, ecrou cote interieur.
+  2. berceau   : batteries sanglees, puis 4 x M3 x 16 depuis le dessus de la platine (ecrous glisses dans les colonnes).
+                 Les 2 vis arriere sont sous la tour : les mettre AVANT la tour.
+  3. L298N (4 x M3 + entretoises) et abaisseur (2 x M3) sur la platine, dans l'emprise de la tour.
+  4. tour      : 4 x M3 x 10 dans les pattes des coins (ecrous sous la platine).
+  5. bras      : 4 x M3 sur le plateau de la tour (ecrous dans les logements sous le plateau), comme aujourd'hui.
+  6. nez       : 4 x M3 x 10 depuis le dessus de la platine. PCB : 4 x M3 x 12 sur les entretoises imprimees.
+
+CE QUI CHANGE AILLEURS
+- Budget : le servo MG996R de direction ne sert plus. 2 billes d'acier de 16 mm en plus.
+- Cablage du 2e moteur : 2e voie du L298N : ENB sur la broche 17 (ancien servo de direction), IN3 27, IN4 14.
+- Programme : PAS ECRIT (le PID donne une difference de vitesse entre les 2 roues ; en simulation Kp 0,015 a 0,025 m/s par mm).
+
+NON VERIFIE / A FAIRE
+- Rien n'est imprime ni monte ; masses et diametre reel des batteries non mesures.
+- Hauteur reelle du L298N avec son radiateur dans la tour (30 mm de place) : voir le controle d'interferences SolidWorks.
+- Interrupteur et fils non dessines (passages prevus dans la platine).
+Script SolidWorks : 04_Simulation_Gazebo/bras_50cm/solidworks/chassis_kart_sw.ps1 (relancable, refait seulement ce dossier).
