@@ -1,0 +1,58 @@
+﻿ouverture err 0 avert 2
+composants de premier niveau : 116
+mcc-1 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\mcc.SLDPRT
+   R 0,0000 -1,0000 0,0000 0,0017 0,0000 -1,0000 1,0000 0,0000 0,0017 | T(mm) 43,66 479,81 512,58
+   boite(mm) 32,7 468,6 494,2 98,4 491,0 531,1
+roue arriere motrice-1 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\roue arriere motrice.SLDPRT
+   R -0,0057 -1,0000 0,0000 1,0000 -0,0057 0,0017 -0,0017 0,0000 1,0000 | T(mm) 43,69 479,81 493,18
+   boite(mm) 13,5 449,6 488,6 73,9 510,0 502,2
+pièce moteur direction-1 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\pièce moteur direction.SLDPRT
+   R 0,0000 1,0000 0,0000 0,0017 0,0000 -1,0000 -1,0000 0,0000 -0,0017 | T(mm) 58,41 465,60 512,61
+   boite(mm) -7,9 461,6 471,2 149,0 511,6 554,3
+roue arriere motrice-2 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\roue arriere motrice.SLDPRT
+   R 0,0000 1,0000 0,0000 1,0000 0,0000 0,0017 0,0017 0,0000 -1,0000 | T(mm) 43,63 479,81 531,98
+   boite(mm) 13,6 449,8 522,9 73,6 509,8 536,5
+cuve direction-1 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\cuve direction.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 0,00 0,00 0,00
+   boite(mm) 12,8 514,7 470,2 61,8 524,7 555,2
+batterie 18x110-4 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\batterie 18x110.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 17,80 0,00 0,00
+   boite(mm) 136,3 495,4 457,7 154,3 513,4 568,7
+batterie 18x110-3 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\batterie 18x110.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) -0,80 0,00 0,00
+   boite(mm) 117,7 495,4 457,7 135,7 513,4 568,7
+capteur-8 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\capteur.SLDASM
+   R 0,0000 0,0000 -1,0000 0,0000 -1,0000 0,0000 -1,0000 0,0000 0,0000 | T(mm) 13,89 516,02 538,36
+   boite(mm) -1,6 454,6 521,9 12,5 476,6 553,1
+capteur-10 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\capteur.SLDASM
+   R 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 | T(mm) 103,61 516,02 487,08
+   boite(mm) 105,0 454,6 472,3 119,1 476,6 503,5
+capteur-9 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\capteur.SLDASM
+   R -1,0000 0,0000 0,0000 0,0000 -1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 9,64 516,02 504,33
+   boite(mm) -6,8 454,6 505,7 24,4 476,6 519,8
+capteur-7 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\capteur.SLDASM
+   R 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 | T(mm) -2,89 516,02 487,08
+   boite(mm) -1,5 454,6 472,3 12,6 476,6 503,5
+capteur-11 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\capteur.SLDASM
+   R 0,0000 0,0000 -1,0000 0,0000 -1,0000 0,0000 -1,0000 0,0000 0,0000 | T(mm) 120,39 516,02 538,36
+   boite(mm) 104,9 454,6 521,9 119,0 476,6 553,1
+embout batteries-2 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\embout batteries.SLDPRT
+   R -1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 -1,0000 | T(mm) 272,00 0,00 1025,44
+   boite(mm) 114,3 492,0 559,2 157,7 524,7 581,2
+embout batteries-1 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\embout batteries.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 0,00 0,00 0,00
+   boite(mm) 114,3 492,0 444,2 157,7 524,7 466,2
+capteur-12 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\capteur.SLDASM
+   R -1,0000 0,0000 0,0000 0,0000 -1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 133,14 516,02 504,33
+   boite(mm) 116,7 454,6 505,7 147,9 476,6 519,8
+CONTRAINTE Coaxiale50 type 1 err 0 : mcc-1 / roue arriere motrice-1
+CONTRAINTE Coïncidente58 type 0 err 0 : mcc-1 / roue arriere motrice-1
+CONTRAINTE Coaxiale51 type 1 err 0 : mcc-1 / roue arriere motrice-2
+CONTRAINTE Coïncidente59 type 0 err 0 : mcc-1 / roue arriere motrice-2
+CONTRAINTE Parallèle21 type 3 err 0 : mcc-1 / roue arriere motrice-2
+CONTRAINTE Verrouiller37 type 16 err 0 : bati(en cours)-1 / cuve direction-1
+CONTRAINTE Verrouiller54 type 16 err 0 : hex nut style 1 gradeab_iso-13 / cuve direction-1
+CONTRAINTE Verrouiller55 type 16 err 0 : hex nut style 1 gradeab_iso-14 / cuve direction-1
+CONTRAINTE Verrouiller67 type 16 err 0 : cuve direction-1 / hex nut style 1 gradeab_iso-52
+CONTRAINTE Verrouiller68 type 16 err 0 : cuve direction-1 / roulement à bille-4
+

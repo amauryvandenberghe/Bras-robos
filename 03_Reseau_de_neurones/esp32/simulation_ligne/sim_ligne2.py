@@ -229,7 +229,7 @@ def simuler(conf, P, graine=0, rayon=230.0, v255=0.6, tmax=40.0, trace=False):
     rnd = random.Random(graine)
     pts, arbre = get_piste(rayon)
     npts = len(pts)
-    av = rangee(conf['n'], conf['pas'], A_AV, A_AV_C)
+    av = [tuple(c) for c in conf['capteurs']] if 'capteurs' in conf else rangee(conf['n'], conf['pas'], A_AV, A_AV_C)   # 27/11 : position libre (a devant le pivot, b + = gauche)
     ar = rangee(3, conf.get('pas_ar', conf['pas'] if conf['n'] == 3 else 13.0), A_AR, A_AR_C)
     caps = av + ar
     na = len(av)

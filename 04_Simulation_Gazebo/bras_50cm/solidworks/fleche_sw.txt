@@ -1,0 +1,18 @@
+﻿pièce moteur direction reimporte : 1 corps volumique(s), err 0
+embout batteries reimporte : 1 corps volumique(s), err 0
+capteurs :
+  capteur-7 -> element (5,5; 457,6; 493,2) boite x -1,5..12,6 y 457,6..479,6 z 465,8..497,0
+  capteur-8 -> element (5,5; 457,6; 532,2) boite x -1,6..12,5 y 457,6..479,6 z 528,4..559,6
+  capteur-9 -> element (-2,5; 457,6; 505,1) boite x -6,3..24,9 y 457,6..479,6 z 498,1..512,2
+  capteur-12 -> element (-2,5; 457,6; 520,3) boite x -6,3..24,9 y 457,6..479,6 z 513,3..527,4
+capteurs 10 et 11 (rangee arriere) supprimes : True
+contraintes : 138, en erreur : 0, composants : 114
+  INTERFERENCE 3,04 mm3 : mcc-1 / roue arriere motrice-2
+  INTERFERENCE 3,04 mm3 : mcc-1 / roue arriere motrice-2
+  INTERFERENCE 3,04 mm3 : mcc-1 / roue arriere motrice-1
+  INTERFERENCE 3,04 mm3 : mcc-1 / roue arriere motrice-1
+  INTERFERENCE 0,08 mm3 : pièce moteur direction-1 / roue arriere motrice-1
+  INTERFERENCE 0,08 mm3 : pièce moteur direction-1 / roue arriere motrice-2
+interferences totales : 107, dont 6 avec les pieces touchees
+enregistre : True err 0
+

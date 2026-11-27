@@ -27,8 +27,16 @@ static const float Q_BAS[N_BRAS] = {-1.5708f, -0.95f, -0.05f, -1.2f, -0.13f};
 static const float Q_HAUT[N_BRAS] = {1.5708f, 2.1916f, 3.0916f, 1.9416f, 0.25f};
 // =======================================================================
 
+// 27/11 : LISSAGE des mouvements du bras. Chaque servo ne saute plus a sa consigne : sa position commandee la rejoint comme
+// un ressort amorti critique (pulsation OMEGA_LISSAGE, pas de depassement), vitesse bornee a V_MAX_LISSAGE. Les a-coups
+// (marches de 3 degres du reseau toutes les 100 ms, departs et arrets brusques) deviennent des mouvements continus.
+// Tous les servos (pince comprise) ont le meme retard (~2 / OMEGA = 0,14 s) : la pince se ferme toujours au meme
+// moment du geste qu'avant. Plus OMEGA est petit, plus c'est doux (et en retard).
+static const float OMEGA_LISSAGE = 14.0f;    // rad/s
+static const float V_MAX_LISSAGE = 4.0f;     // rad/s (~230 degres/s, un MG996R a vide fait ~350)
+
 static ESP32PWM pwm[N_BRAS], pwm_direction;
-static float consigne[N_BRAS];
+static float consigne[N_BRAS], position_lissee[N_BRAS], vitesse[N_BRAS];
 
 static void ecrire_us(ESP32PWM &s, int us) {
     if (s.attached()) s.write((uint32_t)(constrain(us, 500, 2500) * 65536.0f / 20000.0f + 0.5f));
@@ -55,11 +63,25 @@ void servos_demarrer() {
     }
 }
 
-void bras_poser(int i, float q) {
+void bras_poser(int i, float q) {   // nouvelle consigne : le servo la rejoint en douceur (servos_lisser)
     consigne[i] = servo_borne(i, q);
     if (!ACTIF[i]) return;
-    if (!pwm[i].attached()) pwm[i].attachPin(BROCHE[i], 50.0, 16);
-    ecrire_us(pwm[i], vers_us(servo_degres(i, consigne[i])));
+    if (!pwm[i].attached()) {           // 1re commande : position inconnue, on y va directement
+        pwm[i].attachPin(BROCHE[i], 50.0, 16);
+        position_lissee[i] = consigne[i]; vitesse[i] = 0;
+        ecrire_us(pwm[i], vers_us(servo_degres(i, position_lissee[i])));
+    }
+}
+
+void servos_lisser(float dt) {
+    for (int i = 0; i < N_BRAS; i++) {
+        if (!ACTIF[i] || !pwm[i].attached()) continue;
+        float a = OMEGA_LISSAGE * OMEGA_LISSAGE * (consigne[i] - position_lissee[i]) - 2.0f * OMEGA_LISSAGE * vitesse[i];
+        vitesse[i] = constrain(vitesse[i] + a * dt, -V_MAX_LISSAGE, V_MAX_LISSAGE);
+        position_lissee[i] = servo_borne(i, position_lissee[i] + vitesse[i] * dt);
+        if (fabsf(consigne[i] - position_lissee[i]) < 1e-4f && fabsf(vitesse[i]) < 1e-3f) { position_lissee[i] = consigne[i]; vitesse[i] = 0; }
+        ecrire_us(pwm[i], vers_us(servo_degres(i, position_lissee[i])));
+    }
 }
 
 void bras_poser_tout(const float q[N_BRAS]) {
@@ -81,8 +103,8 @@ void direction_ecrire(float deg) { ecrire_us(pwm_direction, vers_us(constrain(de
 void servos_diagnostic(Print &sortie) {
     for (int i = 0; i < N_BRAS; i++) {
         gpio_input_enable((gpio_num_t)BROCHE[i]);  // permet de relire l'impulsion sur une broche de sortie
-        sortie.printf("  %-8s broche %2d actif %d consigne %+.3f rad = %5.1f deg, impulsion mesuree %4lu us\n", NOM_SERVO[i],
-                      BROCHE[i], ACTIF[i] && pwm[i].attached(), consigne[i], servo_degres(i, consigne[i]),
+        sortie.printf("  %-8s broche %2d actif %d consigne %+.3f rad = %5.1f deg (lissee %5.1f), impulsion mesuree %4lu us\n", NOM_SERVO[i],
+                      BROCHE[i], ACTIF[i] && pwm[i].attached(), consigne[i], servo_degres(i, consigne[i]), servo_degres(i, position_lissee[i]),
                       pulseIn(BROCHE[i], HIGH, 30000));
     }
 }

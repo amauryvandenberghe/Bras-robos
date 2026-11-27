@@ -16,7 +16,8 @@ void servos_demarrer();                   // a appeler une fois dans setup(), av
 float servo_degres(int i, float q);       // consigne (rad) -> angle du servo (degres)
 float servo_q(int i, float deg);          // angle du servo (degres) -> consigne (rad)
 float servo_borne(int i, float q);        // consigne ramenee dans la plage autorisee
-void bras_poser(int i, float q);          // envoie une consigne (attache le servo si besoin)
+void bras_poser(int i, float q);          // nouvelle consigne (attache le servo si besoin) : rejointe en douceur
+void servos_lisser(float dt);             // a appeler toutes les 20 ms : fait avancer chaque servo vers sa consigne
 void bras_poser_tout(const float q[N_BRAS]);
 float bras_consigne(int i);               // derniere consigne (rad)
 void bras_relacher();                     // plus aucun signal : les servos ne forcent plus

@@ -1,0 +1,1 @@
+﻿wsl -d Ubuntu-22.04 -- bash -c "cd '/mnt/c/Users/amaur/Desktop/Bras robotisé/03_Reseau_de_neurones/esp32/simulation_ligne' && nice -n 10 python3 -u -W ignore etude_fleche.py pid 2>&1 | tee etude_fleche_pid.log"
