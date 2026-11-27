@@ -50,8 +50,8 @@ X_C = XE + L_CAPT
 ELEMENTS = [(X_C - R2, B2), (X_C - R1, B1), (X_C, 0.0), (X_C - R1, -B1), (X_C - R2, -B2)]     # (x, w)
 # ---------------------------------------------------------------- roulette a bille (cotes a remplacer par la vraie)
 R_BILLE, R_BOITIER, H_ROUL = 7.5, 11.0, 20.0                # bille 15 mm, boitier 22 mm, sol -> dessus de la platine de la roulette
-R_PLAT, R_PLAT_EP, R_ENTRAXE = (20.0, 34.0), 2.5, 26.0      # platine de la roulette (x, z), epaisseur, entraxe des 2 trous (en z)
-X_ROUL = X_C + CARTE_AV + JEU + R_BOITIER + 1.0
+R_PLAT, R_PLAT_EP, R_ENTRAXE = (20.0, 38.0), 2.5, 30.0      # platine de la roulette (x, z), epaisseur, entraxe des 2 trous (en z)
+X_ROUL = X_C + CARTE_AV + JEU + R_BOITIER + 3.0
 Y_ROUL = YS + H_ROUL                          # dessus de la platine de la roulette = dessous du bloc du nez
 # ---------------------------------------------------------------- batteries
 L_BAT, D_SIEGE, W_BAT = 113.0, 20.8, 11.0
@@ -66,6 +66,12 @@ NEZ_AV = (X_ROUL, 0.0)                       # 1 vis dans le bloc de la roulette
 X_POTEAU = X_C - R2 - CARTE_L / 2 - JEU - 4.0                # 2 poteaux derriere les cartes de la paire 2
 NEZ_AR = (X_POTEAU, 36.0)
 Y_ECROU_NEZ = YP0 - 7.2                      # bas de l'ecrou des vis du nez (fentes laterales)
+# ---------------------------------------------------------------- ESP32 DevKit V1 30 broches (sans PCB), RETOURNE : broches en haut
+# carte 51,8 x 28,2 (mesures publiees, a verifier), 4 trous ~2,8 dans les coins : 43,9 x 23,4 (a verifier) -> vis M2 x 8
+X_ESP = XE + 109.0                           # centre ; la longueur de la carte est en travers, port USB vers -z (cote droit)
+ESP_TROUS = (11.7, 21.95)                    # demi-entraxes (x, z)
+H_SUP, H_PLOT_ESP = 2.5, 5.0                 # semelle du support, plots (les composants de la carte pendent entre les plots)
+W_VIS_ESP = 30.0                             # 2 vis M3 x 8 du support dans la platine (ecrous captifs sous la platine)
 
 
 def wz(sg, a):
@@ -97,6 +103,8 @@ def trous_platine():
             t.append((x, sg * w, 'berceau'))
         t.append((NEZ_AR[0], sg * NEZ_AR[1], 'nez'))
     t.append((NEZ_AV[0], NEZ_AV[1], 'nez'))
+    for sg in (-1, 1):
+        t.append((X_ESP, sg * W_VIS_ESP, 'ESP32'))
     return t
 
 
@@ -148,6 +156,9 @@ def platine():
     for sg in (-1, 1):
         p = p.cut(cyl_y(XE - 24.0, wz(sg, 50.0), YP0 - 6, YP1 + 1, 4.0))
     p = p.cut(cyl_y(XA, ZM - 28.0, YP0 - 6, YP1 + 1, 5.0))
+    for x, w, r in trous_platine():
+        if r == 'ESP32':
+            p = p.cut(ecrou_y(x, ZM + w, YP0 - 0.01, +1))
     return p.val().clean()
 
 
@@ -198,7 +209,8 @@ def nez():
         s = s.union(boite(xp - 4.0, xp + 4.0, y1 - 0.1, YP0, wz(sg, wp - 5.0), wz(sg, wp + 5.0)))
     # bloc de la roulette, relie a la pointe par une ame verticale
     s = s.union(boite(X_ROUL - R_PLAT[0] / 2 - 1, X_ROUL + R_PLAT[0] / 2 + 1, Y_ROUL, YP0, ZM - R_PLAT[1] / 2, ZM + R_PLAT[1] / 2))
-    s = s.union(boite(X_C + CARTE_AV + JEU - 0.1, X_ROUL - R_PLAT[0] / 2, y0, YP0, ZM - 8.0, ZM + 8.0))
+    s = s.union(boite(X_C + CARTE_AV + JEU - 0.1, X_ROUL - R_PLAT[0] / 2 + 0.1, y0, YP0, ZM - 8.0, ZM + 8.0))
+    s = s.cut(cyl_y(X_ROUL, ZM, y0 - 4, Y_ROUL, R_BOITIER + 0.6))                            # place du boitier de la roulette
     # cartes : fenetre de l'element, trou de la vis M3 (ecrou dessous), encoche des picots
     for x, w in ELEMENTS:
         z = ZM + w
@@ -224,6 +236,21 @@ def nez():
         z = wz(sg, R_ENTRAXE / 2)
         s = s.cut(cyl_y(X_ROUL, z, Y_ROUL - 1, Y_ROUL + 12, M3 / 2))
         s = s.cut(fente(X_ROUL, z, Y_ROUL + 5.7, -20.0, 3.2, -3.2, 3.2))
+    return s.val().clean()
+
+
+def support_esp32():
+    """Semelle + 4 plots (trous de 1,8 pour vis M2 x 8 autotaraudeuses) ; l'ESP32 est pose retourne sur les plots."""
+    y0 = YP1
+    s = boite(X_ESP - 16.0, X_ESP + 16.0, y0, y0 + H_SUP, ZM - 33.5, ZM + 33.5).edges('|Y').fillet(4.0)
+    s = s.cut(boite(X_ESP - 8.0, X_ESP + 8.0, y0 - 1, y0 + H_SUP + 1, ZM - 15.0, ZM + 15.0).edges('|Y').fillet(3.0))   # allegement
+    for sx in (-1, 1):
+        for sz in (-1, 1):
+            x, z = X_ESP + sx * ESP_TROUS[0], ZM + sz * ESP_TROUS[1]
+            s = s.union(cyl_y(x, z, y0 + H_SUP - 0.1, y0 + H_SUP + H_PLOT_ESP, 2.5))
+            s = s.cut(cyl_y(x, z, y0 + 1.0, y0 + H_SUP + H_PLOT_ESP + 1, 0.9))
+    for sg in (-1, 1):
+        s = s.cut(cyl_y(X_ESP, wz(sg, W_VIS_ESP), y0 - 1, y0 + H_SUP + 1, M3 / 2))
     return s.val().clean()
 
 
@@ -275,10 +302,17 @@ def vis_modele(L):
     return v.val().clean()
 
 
+def vis_m2():
+    """Vis M2 x 8 (tete 3,8 x 2)."""
+    v = cq.Workplane('XZ').circle(1.9).extrude(-2.0)
+    v = v.union(cq.Workplane('XZ').circle(1.0).extrude(8.0))
+    return v.val().clean()
+
+
 def ecrou_modele():
     """Ecrou M3 (5,5 sur plats, 2,4 d'epaisseur) : y 0..2,4."""
     e = cq.Workplane('XZ').polygon(6, 5.5 * 1.1547).extrude(-2.4)
-    return e.cut(cq.Workplane('XZ').circle(1.5).extrude(-2.4)).val().clean()
+    return e.cut(cq.Workplane('XZ').circle(1.55).extrude(-2.4)).val().clean()     # 1,55 : pas d'interference affichee avec la tige
 
 
 # rotations (lignes ; assemblage = R . local) : la tige (local -y) part dans la direction voulue
@@ -292,9 +326,9 @@ def visserie():
     """(fichier, R, point, role) : point = dessous de la tete (vis) ou face de l'ecrou (local y = 0)."""
     v = []
     def vis(L, x, y, z, role, R=R_BAS):
-        v.append(('vis M3x%d' % L, R, (x, y, z), role))
+        v.append(('kart vis M3x%d' % L, R, (x, y, z), role))
     def ecr(x, y, z, role, R=R_BAS):
-        v.append(('ecrou M3', R, (x, y, z), role))
+        v.append(('kart ecrou M3', R, (x, y, z), role))
     w_in0 = W_MOT_INT - BOSSAGE - 0.2 - 4.0
     for sg in (-1, 1):
         R = R_VERS_MZ if sg > 0 else R_VERS_PZ
@@ -317,6 +351,11 @@ def visserie():
     for x, w in ELEMENTS:
         p = (x, ZM + math.copysign(abs(w) + TROU_CARTE, w)) if abs(w) > B1 + 1 else (x - TROU_CARTE, ZM + w)
         vis(8, p[0], Y_PL[1] + 1.6, p[1], 'capteur'); ecr(p[0], Y_PL[0] - 2.4, p[1], 'capteur')
+    for sg in (-1, 1):                           # support de l'ESP32 : M3 x 8, ecrou captif sous la platine
+        vis(8, X_ESP, YP1 + H_SUP, wz(sg, W_VIS_ESP), 'ESP32'); ecr(X_ESP, YP0 + 0.05, wz(sg, W_VIS_ESP), 'ESP32')
+    for sx in (-1, 1):                           # ESP32 : 4 vis M2 x 8 dans les plots (carte 1,6 mm)
+        for sz in (-1, 1):
+            v.append(('kart vis M2x8', R_BAS, (X_ESP + sx * ESP_TROUS[0], YP1 + H_SUP + H_PLOT_ESP + 1.6, ZM + sz * ESP_TROUS[1]), 'ESP32'))
     for sg in (-1, 1):
         vis(10, X_ROUL, Y_ROUL - R_PLAT_EP, wz(sg, R_ENTRAXE / 2), 'roulette', R_HAUT)
         ecr(X_ROUL, Y_ROUL + 5.8, wz(sg, R_ENTRAXE / 2), 'roulette')
@@ -325,7 +364,7 @@ def visserie():
 
 def pieces():
     return [('platine kart', platine()), ('tour du bras', tour()), ('nez 5 capteurs et roulette', nez()),
-            ('berceau batteries kart', berceau()), ('roulette a bille (encombrement)', roulette())]
+            ('berceau batteries kart', berceau()), ('roulette a bille (encombrement)', roulette()), ('support ESP32', support_esp32())]
 
 
 def positions():
@@ -333,19 +372,19 @@ def positions():
                 XC_BAT=XC_BAT, YP0=YP0, YP1=YP1, L_CAPT=L_CAPT, X_ROUL=X_ROUL, Y_PL=list(Y_PL),
                 cartes=[[x, w, 'travers' if abs(w) > B1 + 1 else 'long'] for x, w in ELEMENTS],
                 appui=[[XE, ZM + W_ROUE], [X_ROUL, ZM], [XE, ZM - W_ROUE]],
-                L298N=[X_L298N, YP1 + H_PLOT, ZM], abaisseur=[X_ABAISSEUR, YP1, ZM], trous_platine=trous_platine(),
+                L298N=[X_L298N, YP1 + H_PLOT, ZM], esp32=[X_ESP, YP1 + H_SUP + H_PLOT_ESP, ZM], abaisseur=[X_ABAISSEUR, YP1, ZM], trous_platine=trous_platine(),
                 visserie=[[f, list(R), list(p), r] for f, R, p, r in visserie()], longueur=[XP0, XP1])
 
 
 if __name__ == '__main__':
     out = sys.argv[1]
     os.makedirs(out, exist_ok=True)
-    for nom, s in pieces() + [('vis M3x%d' % L, vis_modele(L)) for L in (8, 10, 12, 16, 30)] + [('ecrou M3', ecrou_modele())]:
+    for nom, s in pieces() + [('kart vis M3x%d' % L, vis_modele(L)) for L in (8, 10, 12, 16, 30)] + [('kart vis M2x8', vis_m2())] + [('kart ecrou M3', ecrou_modele())]:
         b = s.BoundingBox()
         print('%-34s valide %s solides %d  volume %6.1f cm3  x %.1f..%.1f y %.1f..%.1f z %.1f..%.1f' % (
             nom, s.isValid(), len(s.Solids()), s.Volume() / 1000, b.xmin, b.xmax, b.ymin, b.ymax, b.zmin, b.zmax))
         cq.exporters.export(cq.Workplane().add(s), os.path.join(out, nom + '.step'))
-        if not nom.startswith(('vis', 'ecrou')):
+        if not nom.startswith('kart '):
             cq.exporters.export(cq.Workplane().add(s), os.path.join(out, nom + '.stl'), tolerance=0.05, angularTolerance=0.2)
     cs = cartes_volumes()
     for i in range(len(cs)):

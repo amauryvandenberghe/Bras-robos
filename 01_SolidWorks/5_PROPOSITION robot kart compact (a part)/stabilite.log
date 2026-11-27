@@ -1,7 +1,7 @@
 === MASSES (pieces imprimees : 50 % de matiere ; composants : valeurs typiques, non pesees) ===
-  platine kart                         61.6 g   x  200.7  haut.  41.5  z    0.1
+  platine kart                         62.1 g   x  201.5  haut.  41.5  z    0.1
   tour du bras                         29.8 g   x  163.4  haut.  71.9  z   -0.0
-  nez 5 capteurs et roulette           19.9 g   x  264.6  haut.  24.3  z   -0.0
+  nez 5 capteurs et roulette           21.6 g   x  266.6  haut.  24.8  z   -0.0
   berceau batteries kart               25.6 g   x  174.0  haut.  14.9  z   -0.0
   moteur                               29.0 g   x  176.2  haut.  30.0  z  -51.7
   roue                                 12.0 g   x  154.2  haut.  30.0  z  -68.2
@@ -9,24 +9,24 @@
   moteur                               29.0 g   x  176.2  haut.  30.0  z   51.7
   roue                                 12.0 g   x  154.2  haut.  30.0  z   68.2
   batterie                             45.0 g   x  172.8  haut.  20.5  z   11.0
-  PCB + ESP32 + barrettes (place prevue devant la tour)   35.0 g   x  239.2  haut.  59.4  z    0.0
-  roulette a bille                     15.0 g   x  281.1  haut.  10.0  z    0.0
+  ESP32 + support + fils Dupont        20.0 g   x  263.2  haut.  56.9  z    0.0
+  roulette a bille                     15.0 g   x  283.1  haut.  10.0  z    0.0
   L298N                                26.0 g   x  152.2  haut.  60.4  z    0.0
   abaisseur + interrupteur             15.0 g   x  186.8  haut.  53.4  z    0.0
   5 cartes capteurs                    15.0 g   x  252.2  haut.  19.0  z    0.0
   vis, ecrous                          25.0 g   x  164.2  haut.  45.4  z    0.0
   fils                                 15.0 g   x  164.2  haut.  50.4  z    0.0
-robot sans bras 455 g, bras 346 g, TOTAL 801 g
-centre de gravite, bras replie : 27.2 mm devant l'essieu, 109.6 mm de haut, -0.3 mm de cote
+robot sans bras 442 g, bras 346 g, TOTAL 788 g
+centre de gravite, bras replie : 27.0 mm devant l'essieu, 110.2 mm de haut, -0.3 mm de cote
   -> la roulette avant porte 21 % du poids, les roues 79 % (adherence)
-  marge de basculement (sans les patins) 27.2 mm
-  freinage 3 m/s2                  : point d'appui equivalent +60.7 / -0.3 mm, marge 31.1 mm (patins compris), sur les billes
-  acceleration 3 m/s2              : point d'appui equivalent -6.3 / -0.3 mm, marge -6.3 mm (patins compris), sur les PATINS ARRIERE (1 mm)
-  virage 0,8 m/s R 200 (3,2 m/s2)  : point d'appui equivalent +27.2 / +35.4 mm, marge 16.0 mm (patins compris), sur les billes
+  marge de basculement (sans les patins) 27.0 mm
+  freinage 3 m/s2                  : point d'appui equivalent +60.7 / -0.3 mm, marge 31.6 mm (patins compris), sur les billes
+  acceleration 3 m/s2              : point d'appui equivalent -6.7 / -0.3 mm, marge -6.7 mm (patins compris), sur les PATINS ARRIERE (1 mm)
+  virage 0,8 m/s R 200 (3,2 m/s2)  : point d'appui equivalent +27.0 / +35.6 mm, marge 16.2 mm (patins compris), sur les billes
 
 === TOUT LE DOMAINE DU BRAS (26299 positions, sans balle) ===
-pire marge de basculement : -13.4 mm (lacet 0 deg, q2 -0.95 q3 -0.05 q4 -0.15 rad ; centre de gravite -13.4 / -0.3 mm de l'essieu)
+pire marge de basculement : -14.2 mm (lacet 0 deg, q2 -0.95 q3 -0.05 q4 -0.15 rad ; centre de gravite -14.2 / -0.3 mm de l'essieu)
 positions ou le centre de gravite passe derriere l'essieu : 1 %
-positions ou le robot BASCULE : 342 sur 26299 (1.3 %) ; par angle de lacet : {-45: 15, -30: 51, -15: 70, 0: 78, 15: 67, 30: 49, 45: 12}
+positions ou le robot BASCULE : 373 sur 26299 (1.4 %) ; par angle de lacet : {-45: 17, -30: 55, -15: 78, 0: 81, 15: 76, 30: 51, 45: 15}
 
-inertie de lacet autour du milieu de l'essieu (bras replie) : 18211 g.cm2 = 1.82e-03 kg.m2 ; rayon de giration 48 mm
+inertie de lacet autour du milieu de l'essieu (bras replie) : 18433 g.cm2 = 1.84e-03 kg.m2 ; rayon de giration 48 mm

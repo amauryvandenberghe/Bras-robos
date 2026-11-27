@@ -6,6 +6,7 @@ vis du socle du bras reprises : 4
   capteur-4                                (capteur -15.2) boite x 232,8..264,0 y 457,6..479,6 z 490,5..504,6
   capteur-5                                (capteur -33.2) boite x 249,2..263,3 y 457,6..479,6 z 452,1..483,3
   L298N Motor Driver.step-1                (L298N) boite x 130,5..174,0 y 498,0..524,0 z 490,9..534,4
+  esp32_dev_kit_v1_asm-1                   (ESP32 (retourne)) boite x 249,2..277,3 y 499,6..514,6 z 487,0..538,5
   Bras 50cm-1                              (bras) boite x 124,3..475,7 y 529,7..881,4 z 454,9..564,1
   socket head cap screw_iso-1              (vis du socle du bras) boite x 128,5..134,0 y 521,7..536,7 z 477,0..482,5
   socket head cap screw_iso-2              (vis du socle du bras) boite x 194,5..200,0 y 521,7..536,7 z 477,0..482,5
@@ -22,20 +23,39 @@ vis du socle du bras reprises : 4
   nez 5 capteurs et roulette-1             (nez 5 capteurs et roulette) boite x 231,9..294,1 y 460,6..491,0 z 451,1..574,3
   berceau batteries kart-1                 (berceau batteries kart) boite x 114,9..230,9 y 458,6..491,0 z 480,2..545,2
   roulette a bille (encombrement)-1        (roulette a bille (encombrement)) boite x 272,1..294,1 y 449,6..469,6 z 493,7..531,7
-visserie inseree : 56 pieces sur 56
+  support ESP32-1                          (support ESP32) boite x 247,3..279,3 y 495,0..502,5 z 479,2..546,2
+visserie inseree : 64 pieces sur 64
   INTERFERENCE 19,63 mm3 : mcc-1 / roue arriere motrice-1
   INTERFERENCE 19,63 mm3 : mcc-2 / roue arriere motrice-2
   INTERFERENCE 19,63 mm3 : mcc-1 / roue arriere motrice-1
   INTERFERENCE 19,63 mm3 : mcc-2 / roue arriere motrice-2
+  INTERFERENCE 3,82 mm3 : support ESP32-1 / kart vis M2x8-1
+  INTERFERENCE 3,82 mm3 : support ESP32-1 / kart vis M2x8-2
+  INTERFERENCE 3,82 mm3 : support ESP32-1 / kart vis M2x8-3
+  INTERFERENCE 3,82 mm3 : support ESP32-1 / kart vis M2x8-4
+  INTERFERENCE 2,29 mm3 : esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PCB.stp-1 / kart vis M2x8-2
+  INTERFERENCE 2,29 mm3 : esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PCB.stp-1 / kart vis M2x8-4
+  INTERFERENCE 2,23 mm3 : esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PCB.stp-1 / kart vis M2x8-1
+  INTERFERENCE 2,23 mm3 : esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PCB.stp-1 / kart vis M2x8-3
+  INTERFERENCE 1,53 mm3 : kart vis M2x8-4 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-15
+  INTERFERENCE 1,53 mm3 : kart vis M2x8-2 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-30
   INTERFERENCE 1,11 mm3 : nez 5 capteurs et roulette-1 / capteur-1/LineSensorAssy.step-1/Part 1.step-1
-  INTERFERENCE 1,11 mm3 : nez 5 capteurs et roulette-1 / capteur-3/LineSensorAssy.step-1/Part 1.step-1
   INTERFERENCE 1,11 mm3 : nez 5 capteurs et roulette-1 / capteur-2/LineSensorAssy.step-1/Part 1.step-1
+  INTERFERENCE 1,11 mm3 : nez 5 capteurs et roulette-1 / capteur-3/LineSensorAssy.step-1/Part 1.step-1
   INTERFERENCE 1,11 mm3 : nez 5 capteurs et roulette-1 / capteur-5/LineSensorAssy.step-1/Part 1.step-1
   INTERFERENCE 1,11 mm3 : nez 5 capteurs et roulette-1 / capteur-4/LineSensorAssy.step-1/Part 1.step-1
   INTERFERENCE 0,51 mm3 : nez 5 capteurs et roulette-1 / roulette a bille (encombrement)-1
   INTERFERENCE 0,51 mm3 : nez 5 capteurs et roulette-1 / roulette a bille (encombrement)-1
+  INTERFERENCE 0,46 mm3 : support ESP32-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/BUTTON_R_ASM.stp-2/BUTTONFLASH-14_2.stp-1
+  INTERFERENCE 0,46 mm3 : support ESP32-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/BUTTON_R_ASM.stp-1/BUTTONFLASH-14_2.stp-1
+  INTERFERENCE 0,34 mm3 : support ESP32-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PCB.stp-1
+  INTERFERENCE 0,34 mm3 : support ESP32-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PCB.stp-1
+  INTERFERENCE 0,34 mm3 : support ESP32-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PCB.stp-1
+  INTERFERENCE 0,34 mm3 : support ESP32-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PCB.stp-1
   INTERFERENCE 0,31 mm3 : platine kart-1 / kart ecrou M3-1
   INTERFERENCE 0,31 mm3 : platine kart-1 / kart ecrou M3-3
+  INTERFERENCE 0,26 mm3 : support ESP32-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-30
+  INTERFERENCE 0,26 mm3 : support ESP32-1 / esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PIN.stp-15
   INTERFERENCE 0,13 mm3 : L298N Motor Driver.step-1 / kart vis M3x12-1
   INTERFERENCE 0,13 mm3 : L298N Motor Driver.step-1 / kart vis M3x12-2
   INTERFERENCE 0,13 mm3 : L298N Motor Driver.step-1 / kart vis M3x12-3
@@ -45,6 +65,6 @@ visserie inseree : 56 pieces sur 56
   INTERFERENCE 0,02 mm3 : capteur-3/LineSensorAssy.step-1/Part 1.step-1 / kart vis M3x8-3
   INTERFERENCE 0,02 mm3 : capteur-2/LineSensorAssy.step-1/Part 1.step-1 / kart vis M3x8-2
   INTERFERENCE 0,02 mm3 : capteur-5/LineSensorAssy.step-1/Part 1.step-1 / kart vis M3x8-5
-interferences : 22
+interferences : 40
 enregistre : True err 0
 

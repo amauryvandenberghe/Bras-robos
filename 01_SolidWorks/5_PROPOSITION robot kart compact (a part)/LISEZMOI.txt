@@ -1,22 +1,28 @@
 PROPOSITION 2 (28/11/2026) : ROBOT "KART" COMPACT, VERSION 2 - assemblage A PART (Assemblage1v2 n'est pas touche)
 =====================================================================================================================
 Ouvrir : "Robot kart compact.SLDASM" (images : Robot kart (vue ...).png). Toutes les vis et tous les ecrous y sont.
-Il reprend de 1_VERSION_FINALE : mcc, roue arriere motrice, batterie, capteur, L298N, Bras 50cm et les 4 vis du socle du bras.
+Il reprend de 1_VERSION_FINALE : mcc, roue arriere motrice, batterie, capteur, L298N, ESP32, Bras 50cm et les 4 vis du socle du bras.
 L'ancienne proposition (differentiel large du 27/11) est rangee dans "ancienne proposition 27-11 (differentiel large)".
 
 CE QUI A CHANGE PAR RAPPORT A LA VERSION 1 (demandes du 28/11)
 - Plus de billes avant ni de patins arriere : UNE roulette a bille, au centre, juste devant la pointe des capteurs.
 - 5 capteurs en fleche (au lieu de 4), place et ecartement choisis par simulation (voir plus bas).
-- Le PCB et l'ESP32 ne sont plus dessines (on s'en occupera plus tard) : la place devant la tour reste libre.
+- Le PCB n'est plus dessine (on s'en occupera plus tard). L'ESP32 seul est pose RETOURNE (broches en haut : fils Dupont
+  branches par le dessus) sur un petit support imprime, devant la tour, au-dessus des capteurs (fils courts), port USB
+  sur le cote droit du robot. Il tient par 4 vis M2 x 8 (celles du bras) dans les plots du support.
 - Plus de grandes fenetres : une petite fente par capteur (12 x 4 mm, juste au-dessus du connecteur de la carte, assez pour
   passer le connecteur Dupont), 2 trous pour les fils des moteurs, 1 trou pour les fils des batteries.
 - Toute la visserie est dessinee ; les ecrous sont captifs ou glisses dans des fentes (pas besoin de les tenir a la pince).
 
-LA ROULETTE : A VERIFIER
-Aucun modele de roulette dans le projet, et l'Excel du materiel n'est plus dans Telechargements : j'ai dessine une roulette a
-bille standard (bille 15 mm, boitier 22 mm, 20 mm du sol au-dessus de sa platine, 2 trous M3 a 26 mm). Si la vraie est
-differente : mesurer hauteur, entraxe et taille de la platine, les mettre dans chassis_kart.py (R_BILLE, R_BOITIER, H_ROUL,
-R_PLAT, R_ENTRAXE), relancer le script CadQuery puis chassis_kart_sw.ps1 : le bloc du nez s'adapte tout seul.
+LA ROULETTE : A MESURER (ses cotes ne sont publiees nulle part)
+Liste du materiel du challenge (Excel "Matériel", ligne 49) : "Roulette a bille - fixation par vis ou par encastrement dans un
+alesage pertinent - bille en nylon", sans reference ni dimensions ; la FAQ dit que les dimensions dependent du stock
+("prenez rendez-vous avec le responsable materiel"). Votre groupe en a recupere une le 21/09 : c'est elle qu'il faut mesurer.
+Dessinee pour l'instant : roulette standard (bille 15 mm, 20 mm du sol au-dessus de sa platine, 2 trous M3 a 30 mm).
+A mesurer au pied a coulisse (4 cotes) : hauteur du sol au plan de fixation, diametre de la bille, entraxe des trous (ou
+diametre de la partie a encastrer), taille de la platine. Les mettre dans chassis_kart.py (H_ROUL, R_BILLE, R_ENTRAXE,
+R_PLAT, R_BOITIER), relancer CadQuery puis chassis_kart_sw.ps1 : le bloc du nez s'adapte tout seul.
+Si elle est plus haute que 41 mm, elle ne rentre pas sous la platine : il faudrait alors la monter a cote du nez.
 
 LES CHIFFRES (calculs, a confirmer sur le vrai robot)
 - Taille : 181 x 150 mm (roulette devant comprise), dessus de la platine a 45 mm du sol, socle du bras a 80,1 mm (inchange).
@@ -24,7 +30,7 @@ LES CHIFFRES (calculs, a confirmer sur le vrai robot)
   capteur du milieu en pointe a 110 mm devant l'essieu, 2 capteurs a +-15,2 mm (4 mm en retrait), 2 a +-33,2 mm (8 mm en retrait).
   4 trajets sur 4 de 0,45 a 1 m/s, ecart moyen 2,3 a 3,9 mm. Honnetement : les 4 capteurs actuels font presque aussi bien en
   simulation ; le 5e elargit surtout la zone ou la ligne est vue (+-41 mm au lieu de +-27), utile dans les virages serres.
-- Equilibre (stabilite.log ; masses des composants = valeurs typiques, NON pesees) : 801 g, centre de gravite 27 mm devant l'essieu,
+- Equilibre (stabilite.log ; masses des composants = valeurs typiques, NON pesees) : 788 g, centre de gravite 27 mm devant l'essieu,
   roues 79 % du poids (bonne adherence), roulette 21 %.
   Roulette DEVANT les capteurs : le robot ne bascule que dans 1,3 % des positions du bras, toutes avec le bras replie VERS
   L'ARRIERE ; il se pose alors sur l'arriere du berceau (9 mm du sol). Si la roulette etait derriere les capteurs, il basculerait
@@ -34,6 +40,7 @@ LES CHIFFRES (calculs, a confirmer sur le vrai robot)
 - Inertie de lacet 1,8e-3 kg.m2.
 
 LES PIECES A IMPRIMER (STL dans ce dossier ; CadQuery : bras_50cm/robot/chassis_kart.py)
+  support ESP32                   67 x 32 mm, 4 plots de 5 mm
   platine kart                    181 x 118 mm (+ oreilles) ; flasques des moteurs et plots du L298N compris
                                   a imprimer retournee (dessus sur le plateau) : supports seulement sous les 4 plots du L298N
   tour du bras                    96 x 96 x 35 mm, ajouree ; a imprimer plateau sur le plateau de l'imprimante
@@ -42,7 +49,9 @@ LES PIECES A IMPRIMER (STL dans ce dossier ; CadQuery : bras_50cm/robot/chassis_
   berceau batteries kart          2 sieges, fentes pour 2 sangles velcro de 20 mm, 4 colonnes
   (roulette a bille (encombrement) : piece du commerce, ne pas imprimer)
 
-VISSERIE : 26 VIS + 30 ECROUS M3 (tout est dans l'assemblage, dossier "visserie")
+VISSERIE : 30 VIS M3 + 4 VIS M2 + 32 ECROUS M3 (tout est dans l'assemblage, dossier "visserie")
+  ATTENTION : le challenge fournit surtout des M3 en 8 et 10 mm ("se renseigner sur les longueurs disponibles") : demander
+  au responsable materiel les 4 M3 x 30 (traversant le moteur, d'autres groupes en ont eu), les M3 x 12 et M3 x 16.
   moteurs         4 vis M3 x 30 + 4 ecrous   tete cote roue, ecrou dans son logement sur la flasque (cote interieur)
   L298N           4 vis M3 x 12 + 4 ecrous   sur les 4 plots ; ecrous captifs sous la platine
   tour            4 vis M3 x 12 + 4 ecrous   dans les pattes ; ecrous captifs sous la platine
@@ -51,6 +60,8 @@ VISSERIE : 26 VIS + 30 ECROUS M3 (tout est dans l'assemblage, dossier "visserie"
   nez             3 vis M3 x 12 + 3 ecrous   depuis le dessus de la platine ; ecrous glisses dans les poteaux et le bloc
   capteurs        5 vis M3 x 8 + 5 ecrous    une par carte, ecrou sous la plaque
   roulette        2 vis M3 x 10 + 2 ecrous   par dessous ; ecrous glisses par l'arriere du bloc
+  support ESP32   2 vis M3 x 8 + 2 ecrous    ecrous captifs sous la platine ; ESP32 : 4 vis M2 x 8 dans les plots
+                                             (trous de la carte ~2,8 mm : position 43,9 x 23,4 a verifier sur la carte)
   (abaisseur : 2 trous M3 a ecrous captifs prevus, module pas dessine)
 
 ORDRE DE MONTAGE (chaque etape reste accessible)
@@ -62,6 +73,7 @@ ORDRE DE MONTAGE (chaque etape reste accessible)
      a cote du L298N.
   4. Nez : visser les 5 cartes et la roulette sur le nez (sur la table), passer chaque connecteur dans sa fente, glisser les 3
      ecrous, 3 vis M3 x 12 depuis le dessus.
+  4b. Support de l'ESP32 (2 vis M3 x 8), puis l'ESP32 retourne (4 vis M2 x 8).
   5. Tour : 4 vis M3 x 12 (le L298N reste visible par les grandes fenetres pour le cablage).
   6. Bras : 4 vis du socle sur le plateau de la tour.
 
@@ -74,3 +86,16 @@ NON VERIFIE / A FAIRE
 - Rien n'est imprime ni monte ; masses, diametre des batteries et cotes de la roulette non mesures.
 - Les vis du socle du bras sont reprises telles quelles de l'assemblage du robot (meme hauteur de socle).
 Script SolidWorks : 04_Simulation_Gazebo/bras_50cm/solidworks/chassis_kart_sw.ps1 (relancable, refait seulement ce dossier).
+
+COMPARAISON AVEC LE ROBOT ACTUEL (roue directrice + servo) - simulation, meme piste, memes trajets
+(03_Reseau_de_neurones/esp32/simulation_ligne/comparaison_kart_actuel.log ; robot actuel : 8 trajets, kart : 4)
+  vitesse   ACTUEL : reussis / ecart moyen / temps     KART v2 : reussis / ecart moyen / temps
+  0,30 m/s  8/8   2,7 mm  25,7 s                      0/4  (la roue interieure tombe sous le seuil de demarrage du moteur)
+  0,45 m/s  8/8   4,5 mm  17,2 s                      4/4   3,9 mm  16,3 s
+  0,60 m/s  8/8   6,1 mm  13,3 s                      4/4   2,3 mm  12,4 s
+  0,80 m/s  8/8  12,6 mm  12,0 s                      4/4   2,4 mm  11,0 s
+  1,00 m/s  7/8  20,6 mm  13,1 s                      4/4   3,6 mm   9,0 s
+  1,20 m/s  4/8  21,3 mm  10,3 s                      4/4  20,2 mm   8,2 s
+Le kart suit 3 a 6 fois mieux des 0,6 m/s et finit le trajet ~30 % plus vite ; le robot actuel est meilleur seulement
+a tres basse vitesse (le programme du kart devra autoriser la roue interieure a ralentir sous le seuil / tourner a l'envers).
+

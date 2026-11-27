@@ -11,9 +11,9 @@ $prop = Join-Path $racine '5_PROPOSITION robot kart compact (a part)'
 $visd = Join-Path $prop 'visserie'
 New-Item -ItemType Directory -Force $prop, $visd | Out-Null
 $src = '\\wsl.localhost\Ubuntu-22.04\home\amaury\kart_out2\'
-$noms = @('platine kart', 'tour du bras', 'nez 5 capteurs et roulette', 'berceau batteries kart', 'roulette a bille (encombrement)')
+$noms = @('platine kart', 'tour du bras', 'nez 5 capteurs et roulette', 'berceau batteries kart', 'roulette a bille (encombrement)', 'support ESP32')
 foreach ($n in $noms) { Copy-Item -LiteralPath ($src + $n + '.step') (Join-Path $prop ($n + '.step')) -Force; Copy-Item -LiteralPath ($src + $n + '.stl') (Join-Path $prop ($n + '.stl')) -Force }
-$types = @('kart vis M3x8', 'kart vis M3x10', 'kart vis M3x12', 'kart vis M3x16', 'kart vis M3x30', 'kart ecrou M3')   # noms propres : 'Vis M3x12' existe deja dans 1_VERSION_FINALE\Visserie
+$types = @('kart vis M3x8', 'kart vis M3x10', 'kart vis M3x12', 'kart vis M3x16', 'kart vis M3x30', 'kart vis M2x8', 'kart ecrou M3')   # noms propres : 'Vis M3x12' existe deja dans 1_VERSION_FINALE\Visserie
 foreach ($n in $types) { Copy-Item -LiteralPath ($src + $n + '.step') (Join-Path $visd ($n + '.step')) -Force }
 $json = Get-Content -Raw ($src + 'chassis_kart.json') | ConvertFrom-Json
 $inv = [Globalization.CultureInfo]::InvariantCulture
@@ -33,7 +33,7 @@ using SolidWorks.Interop.swconst;
 public static class Kart {
     // geometrie (mm) : voir chassis_kart.json
     const double XA = 164.25, ZM = 512.72, XE = 154.25, YE = 479.6, W_ROUE = 68.25, W_MOT = 51.7, Y_BAT = 470.1, W_BAT = 11.0, XC_BAT = 172.85;
-    const double X_RET = 261.75, X_L298N = 152.25, Y_PLOTS = 498.02;
+    const double X_RET = 261.75, X_L298N = 152.25, Y_PLOTS = 498.02, X_ESP = 263.25, Y_PLOTS_ESP = 502.52;
     class Pose { public string Fichier; public string Config = ""; public double[] Data; public double[] R; public double[] Centre; public double YMin = double.NaN; public string Nom; }
     static double[] Ident() { var d = new double[16]; d[0] = d[4] = d[8] = 1; d[12] = 1; return d; }
     static double[] VersData(double[] R, double[] t) { var d = new double[16]; for (int i = 0; i < 3; i++) for (int k = 0; k < 3; k++) d[3 * i + k] = R[3 * k + i]; d[9] = t[0]; d[10] = t[1]; d[11] = t[2]; d[12] = 1; return d; }
@@ -77,6 +77,11 @@ public static class Kart {
             double ox = (bl[0] + bl[3]) * 500 - 100.0, oz = (bl[2] + bl[5]) * 500 - (ZM - 56.22);
             j.AppendFormat("L298N : centre de la boite - centre des trous = {0:F2} / {1:F2} mm" + System.Environment.NewLine, ox, oz);
             poses.Add(new Pose { Fichier = l298.GetPathName(), R = RDe((double[])l298.Transform2.ArrayData), Centre = new[] { X_L298N + ox, double.NaN, ZM + oz }, YMin = Y_PLOTS, Nom = "L298N" });
+            // ESP32 seul (sans PCB), RETOURNE (broches en haut) sur les 4 plots du support, longueur en travers, USB vers -z
+            var esp = C("esp32_dev_kit_v1_asm-1"); var Re = RDe((double[])esp.Transform2.ArrayData);
+            double[] Rf = { 1, 0, 0, 0, -1, 0, 0, 0, -1 }, Ry = { 0, 0, 1, 0, 1, 0, -1, 0, 0 };
+            Func<double[], double[], double[]> Mul = (A, B) => { var M = new double[9]; for (int i = 0; i < 3; i++) for (int k = 0; k < 3; k++) for (int m = 0; m < 3; m++) M[3 * i + k] += A[3 * i + m] * B[3 * m + k]; return M; };
+            poses.Add(new Pose { Fichier = esp.GetPathName(), R = Mul(Ry, Mul(Rf, Re)), Centre = new[] { X_ESP, double.NaN, ZM }, YMin = Y_PLOTS_ESP - 2.9, Nom = "ESP32 (retourne)" });
             poses.Add(new Pose { Fichier = C("Bras 50cm-2").GetPathName(), Data = (double[])C("Bras 50cm-2").Transform2.ArrayData, Nom = "bras" });
             // vis du socle du bras : reprises d'Assemblage1v2 (meme socle, meme hauteur), a +-33 mm de l'axe du bras
             int nb = 0;

@@ -86,7 +86,7 @@ for sg in (-1, 1):
     masses.append(('roue', 12.0, np.array([XE, YE, ZM + sg * P['W_ROUE']])))
     masses.append(('batterie', 45.0, np.array([P['XC_BAT'], P['Y_BAT'], ZM + sg * P['W_BAT']])))
     pass
-masses += [('PCB + ESP32 + barrettes (place prevue devant la tour)', 35.0, np.array([XA + 75.0, P['YP1'] + 14.0, ZM])), ('roulette a bille', 15.0, np.array([P['X_ROUL'], YS + 10.0, ZM])),
+masses += [('ESP32 + support + fils Dupont', 20.0, np.array([P['esp32'][0], P['esp32'][1] + 4.0, ZM])), ('roulette a bille', 15.0, np.array([P['X_ROUL'], YS + 10.0, ZM])),
            ('L298N', 26.0, np.array([P['L298N'][0], P['L298N'][1] + 12.0, ZM])), ('abaisseur + interrupteur', 15.0, np.array([P['abaisseur'][0], P['abaisseur'][1] + 8.0, ZM])),
            ('5 cartes capteurs', 15.0, np.array([XE + P['L_CAPT'] - 12.0, YS + 19.0, ZM])), ('vis, ecrous', 25.0, np.array([XA, P['YP1'], ZM])),
            ('fils', 15.0, np.array([XA, P['YP1'] + 5.0, ZM]))]
