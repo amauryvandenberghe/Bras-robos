@@ -1,0 +1,24 @@
+﻿  bati(en cours)-1
+  mcc-1
+  mcc-2
+  roue arriere motrice-1
+  roue arriere motrice-2
+  capteur-1
+  capteur-2
+  capteur-3
+  capteur-4
+  colonne bille et capteurs-1
+  bille 16-1
+  etrier moteur gauche-1
+  etrier moteur droit-1
+  INTERFERENCE 3,04 mm3 : mcc-1 / roue arriere motrice-1
+  INTERFERENCE 3,04 mm3 : mcc-2 / roue arriere motrice-2
+  INTERFERENCE 3,04 mm3 : mcc-2 / roue arriere motrice-2
+  INTERFERENCE 3,04 mm3 : mcc-1 / roue arriere motrice-1
+  INTERFERENCE 1,11 mm3 : colonne bille et capteurs-1 / capteur-2/LineSensorAssy.step-1/Part 1.step-1
+  INTERFERENCE 1,11 mm3 : colonne bille et capteurs-1 / capteur-1/LineSensorAssy.step-1/Part 1.step-1
+  INTERFERENCE 1,11 mm3 : colonne bille et capteurs-1 / capteur-3/LineSensorAssy.step-1/Part 1.step-1
+  INTERFERENCE 1,11 mm3 : colonne bille et capteurs-1 / capteur-4/LineSensorAssy.step-1/Part 1.step-1
+interferences : 8
+enregistre : True err 0
+

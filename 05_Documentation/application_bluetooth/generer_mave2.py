@@ -33,7 +33,7 @@ def comp(nom, typ, version, enfants=None, **props):
 
 BLANC, ROUGE, VERT, GRIS, BLEU = '&HFFFFFFFF', '&HFFE53935', '&HFF43A047', '&HFFEEEEEE', '&HFF1E88E5'
 REGLAGES = [  # (nom de la case, libelle, valeur par defaut affichee avant lecture)
-    ('TbKp', 'Kp', '1.3'), ('TbKi', 'Ki', '2'), ('TbKd', 'Kd', '0.05'), ('TbTau', 'Lissage (s)', '0.1'),
+    ('TbKp', 'Kp', '2.0'), ('TbKi', 'Ki', '1.0'), ('TbKd', 'Kd', '0.05'), ('TbTau', 'Lissage (s)', '0.06'),
     ('TbVservo', 'Vit. servo (deg/s)', '257'), ('TbVmax', 'V max (m/s)', '0.3'), ('TbVmin', 'V min (m/s)', '0.2'),
     ('TbBrq', 'Braq. lent (deg)', '63.5'), ('TbEcart', 'Ecart lent (mm)', '33.6'), ('TbV255', 'v255 (m/s)', '1.5')]
 

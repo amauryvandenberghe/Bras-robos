@@ -1,1 +1,37 @@
 3 dispositions x 135 PID
+
+=== b_in 7.6 b_out 19.5 x_out 5.5 recul +8.0 h 8 : 10 meilleurs PID ===
+Kp 2.5 Ki 1.0 Kd 0.08 tau 0.10 | 16/16  RMS   3.1  max  19.5  servo  121  pertes  0.1  score 6.51
+Kp 2.0 Ki 1.0 Kd 0.05 tau 0.06 | 16/16  RMS   3.8  max  15.1  servo  111  pertes  0.0  score 6.78
+Kp 2.0 Ki 2.0 Kd 0.05 tau 0.04 | 16/16  RMS   3.6  max  15.5  servo  123  pertes  0.0  score 6.80
+Kp 2.0 Ki 2.0 Kd 0.08 tau 0.06 | 16/16  RMS   3.6  max  16.5  servo  117  pertes  0.0  score 6.80
+Kp 2.0 Ki 1.0 Kd 0.08 tau 0.06 | 16/16  RMS   3.8  max  14.2  servo  117  pertes  0.0  score 6.82
+Kp 2.0 Ki 1.0 Kd 0.03 tau 0.04 | 16/16  RMS   3.7  max  13.8  servo  120  pertes  0.0  score 6.83
+Kp 2.0 Ki 2.0 Kd 0.05 tau 0.06 | 16/16  RMS   3.7  max  18.9  servo  111  pertes  0.0  score 6.84
+Kp 2.0 Ki 1.0 Kd 0.05 tau 0.04 | 16/16  RMS   3.7  max  14.1  servo  121  pertes  0.0  score 6.85
+Kp 2.0 Ki 2.0 Kd 0.03 tau 0.04 | 16/16  RMS   3.6  max  17.3  servo  120  pertes  0.0  score 6.87
+Kp 2.0 Ki 3.5 Kd 0.08 tau 0.06 | 16/16  RMS   3.7  max  16.0  servo  119  pertes  0.0  score 6.90
+
+=== b_in 7.6 b_out 19.5 x_out 5.5 recul +16.0 h 8 : 10 meilleurs PID ===
+Kp 2.0 Ki 1.0 Kd 0.08 tau 0.10 | 16/16  RMS   3.8  max  16.8  servo   98  pertes  0.1  score 6.59
+Kp 2.5 Ki 1.0 Kd 0.08 tau 0.10 | 16/16  RMS   3.1  max  20.3  servo  127  pertes  0.1  score 6.68
+Kp 2.0 Ki 1.0 Kd 0.05 tau 0.10 | 16/16  RMS   3.9  max  17.0  servo  104  pertes  0.0  score 6.80
+Kp 2.0 Ki 2.0 Kd 0.08 tau 0.10 | 16/16  RMS   4.0  max  18.2  servo   99  pertes  0.0  score 6.87
+Kp 2.0 Ki 1.0 Kd 0.05 tau 0.06 | 16/16  RMS   3.7  max  19.4  servo  118  pertes  0.0  score 7.01
+Kp 2.0 Ki 1.0 Kd 0.03 tau 0.06 | 16/16  RMS   3.7  max  19.7  servo  117  pertes  0.0  score 7.04
+Kp 2.5 Ki 1.0 Kd 0.05 tau 0.10 | 16/16  RMS   3.3  max  19.8  servo  132  pertes  0.2  score 7.07
+Kp 2.0 Ki 1.0 Kd 0.03 tau 0.10 | 16/16  RMS   4.0  max  17.5  servo  110  pertes  0.1  score 7.12
+Kp 2.5 Ki 2.0 Kd 0.08 tau 0.10 | 16/16  RMS   3.7  max  18.8  servo  126  pertes  0.1  score 7.17
+Kp 2.0 Ki 2.0 Kd 0.03 tau 0.06 | 16/16  RMS   3.9  max  20.5  servo  117  pertes  0.0  score 7.23
+
+=== b_in 7.6 b_out 22.0 x_out 5.5 recul +8.0 h 8 : 10 meilleurs PID ===
+Kp 2.5 Ki 1.0 Kd 0.08 tau 0.10 | 16/16  RMS   3.4  max  19.1  servo  121  pertes  0.1  score 6.84
+Kp 2.5 Ki 2.0 Kd 0.08 tau 0.10 | 16/16  RMS   3.5  max  19.3  servo  118  pertes  0.1  score 6.86
+Kp 2.0 Ki 2.0 Kd 0.05 tau 0.06 | 16/16  RMS   3.9  max  16.6  servo  111  pertes  0.0  score 6.90
+Kp 2.0 Ki 2.0 Kd 0.08 tau 0.06 | 16/16  RMS   3.9  max  14.2  servo  118  pertes  0.0  score 6.93
+Kp 2.0 Ki 1.0 Kd 0.08 tau 0.06 | 16/16  RMS   3.9  max  12.2  servo  120  pertes  0.0  score 6.96
+Kp 2.0 Ki 3.5 Kd 0.08 tau 0.06 | 16/16  RMS   3.9  max  14.5  servo  119  pertes  0.0  score 6.99
+Kp 2.0 Ki 1.0 Kd 0.03 tau 0.04 | 16/16  RMS   3.9  max  13.3  servo  122  pertes  0.0  score 7.00
+Kp 2.0 Ki 1.0 Kd 0.05 tau 0.06 | 16/16  RMS   3.9  max  16.4  servo  112  pertes  0.0  score 7.00
+Kp 2.5 Ki 1.0 Kd 0.05 tau 0.10 | 16/16  RMS   3.5  max  20.1  servo  125  pertes  0.1  score 7.04
+Kp 2.5 Ki 1.0 Kd 0.08 tau 0.06 | 16/16  RMS   3.2  max  13.5  servo  159  pertes  0.0  score 7.05

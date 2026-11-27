@@ -1,0 +1,27 @@
+PROPOSITION (27/11/2026) : DIRECTION DIFFERENTIELLE - assemblage A PART, l'assemblage du robot (Assemblage1v2) n'est pas touche
+=========================================================================================================================
+
+Ouvrir : "Proposition direction differentielle.SLDASM" (images : Proposition (vue isometrique).png, (vue de dessous).png).
+
+L'IDEE : plus de bloc moteur qui pivote ni de servo de direction. Deux moteurs (le meme modele qu'aujourd'hui), chacun avec
+UNE roue, sur un essieu fixe a l'arriere (x 150, voie 150 mm). Le robot tourne en faisant aller une roue plus vite que l'autre.
+A l'avant : une bille porteuse (bille acier de 16 mm) sous une colonne vissee sous le bati, et les 4 capteurs EN FLECHE (meme
+disposition que sur le robot) fixes au bas de cette colonne, a ~150 mm devant l'essieu.
+Le L298N a deja une 2e voie libre (ENB, IN3, IN4) pour le 2e moteur. Il manque : 1 moteur + 1 roue + 1 bille (quelques euros).
+
+POURQUOI : le retard du servo de direction (il recoit une consigne toutes les 20 ms, tourne a ~300 deg/s) limite la vitesse.
+Simulation (03_Reseau_de_neurones/esp32/simulation_ligne/sim_differentiel.py, meme piste, memes capteurs, meme bruit) :
+   vitesse   actuelle (bloc pivotant, fleche sur le bloc)       differentielle (fleche fixe)
+   0,30 m/s  25,7 s, ecart moyen 2,7 mm                         24,1 s, 15,7 mm (gains mal regles a cette vitesse)
+   0,60 m/s  13,3 s, 6,1 mm, max 29 mm                          14,5 s, 6,7 mm, max 25 mm
+   0,80 m/s  12,0 s, 12,6 mm, max 50 mm                         11,0 s, 8,9 mm, max 20 mm
+   1,00 m/s  1 sortie de piste sur 8, 13,1 s, max 54 mm          0 sur 4, 9,0 s, 5,9 mm, max 20 mm
+=> jusqu'a ~0,6 m/s la direction actuelle (avec la fleche) suffit ; pour aller plus vite, la differentielle est meilleure.
+HYPOTHESES non mesurees : moteurs qui repondent en ~80 ms, pas de glissement des roues, memes capteurs. L'ecart n'est pas mesure
+au meme point dans les 2 modeles (roue avant pour l'actuelle, milieu de l'essieu pour la differentielle).
+
+A FAIRE si vous la retenez : placer batteries, L298N, ESP32 et bras (les embouts de batteries actuels sont au-dessus de
+l'essieu), programme (PID -> difference de vitesse des 2 roues, 2e voie du L298N), essai a vitesse moderee d'abord.
+Pieces CadQuery : bras_50cm/robot/proposition_differentiel.py (WSL) ; assemblage : solidworks/proposition_differentiel_sw.ps1.
+Controle SolidWorks : seules interferences, l'arbre moteur / roue (3 mm3, comme sur le robot) et ~1 mm3 par carte capteur
+avec sa plaque (picots du connecteur au bord de leur logement).

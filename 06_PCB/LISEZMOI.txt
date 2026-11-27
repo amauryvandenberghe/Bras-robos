@@ -1,0 +1,59 @@
+PCB DU ROBOT MAVE (27/11/2026) - carte d'accueil de l'ESP32 qui regroupe tous les branchements
+=====================================================================================================
+
+FICHIER A ENVOYER AU FABRICANT : MAVE_robot_gerber_JLCPCB.zip  (Gerber + percages, deja zippes)
+
+Commande (JLCPCB, PCBWay... ; exemple JLCPCB, jlcpcb.com > "Order now" > glisser le zip) :
+  - Layers 2, epaisseur 1.6 mm, 100 x 72 mm (detecte automatiquement), 5 exemplaires (le minimum ; quelques euros + port)
+  - PCB Color au choix, Surface Finish HASL (le moins cher), Outer copper weight 1 oz : tout le reste par defaut
+  - PAS de "PCB Assembly" : tout est traversant, a souder au fer
+  -> verifier l'apercu du site (les 2 faces doivent ressembler a apercu_dessus.png / apercu_dessous.png) avant de payer.
+
+AVANT DE COMMANDER - 2 verifications (5 minutes, avec un pied a coulisse) :
+  1. Ecart entre les 2 rangees de broches de VOTRE ESP32 (d'axe en axe) : 25,4 mm ou 22,86 mm. La carte a les deux :
+     la rangee de gauche est fixe, celle de droite existe aux 2 ecarts (souder la barrette femelle dans la bonne).
+     Brochage suppose : ESP32 DevKit V1 "DOIT" 30 broches, USB en bas, vu de dessus (le meme que sur la serigraphie) :
+       gauche de haut en bas : EN 36 39 34 35 32 33 25 26 27 14 12 13 GND VIN
+       droite de haut en bas : 23 22 TX RX 21 19 18 5 17 16 4 2 15 GND 3V3
+     Si les inscriptions de votre module sont differentes : NE PAS commander, me le dire.
+  2. Les capteurs TCRT5000 seront alimentes en 3,3 V (borne + des capteurs) : c'est voulu (leur sortie AO ne depassera
+     jamais 3,3 V, l'ESP32 ne supporte pas plus). Leur sensibilite se regle ensuite dans le programme, pas sur la carte.
+
+CE QUI SE BRANCHE (tout est ecrit sur la carte) :
+  CAPTEURS (gauche, 4 rangees "- + S") : C1 ext. gauche -> 36, C2 int. gauche -> 39, C3 int. droit -> 34, C4 ext. droit -> 35
+      (gauche / droite dans le sens de marche ; - = GND, + = 3V3, S = sortie AO du module ; DO n'est pas utilise)
+  L298N : IN2 (32), IN1 (33), ENA (25), GND. ENLEVER le cavalier ENA du L298N. Le L298N reste alimente directement
+      par la batterie 14 V (ses bornes de puissance ne passent pas par cette carte).
+  EXTENSION : 27, 14, 3V3, GND (libres, pour plus tard).
+  SERVOS (droite, rangees "S + -", prise du servo : fil orange/jaune sur S, rouge sur +, marron/noir sur -) :
+      POIGNET 22, BASE 21, DIRECTION 17, PINCE 16, EPAULE 4, COUDE 13
+  ALIM SERVOS (bornier) : sortie de l'abaisseur 5-6 V (+5V et GND). C1 1000 uF absorbe les pointes de courant des servos.
+  JP1 5V->VIN : cavalier en place = l'ESP32 est alimente par l'abaisseur. Pour televerser par USB avec l'abaisseur allume,
+      l'ENLEVER pendant le televersement (selon les modules, l'USB et VIN ne sont pas toujours separes par une diode).
+  Toutes les masses (ESP32, servos, capteurs, L298N, abaisseur) sont reliees par le plan de masse (face du dessous).
+
+NOMENCLATURE (traversant, ~5 EUR hors PCB) :
+  U1      2 barrettes FEMELLES 1 x 15, pas 2,54 (pour l'ESP32 : il reste demontable)
+  J1      3 barrettes males 1 x 4 (ou 12 broches de barrette male)      capteurs
+  J2, J3  2 barrettes males 1 x 4                                         L298N, extension
+  J4      barrette male 3 x 6 (ou 3 barrettes 1 x 6)                      servos
+  J5      bornier a vis 2 points, pas 5,08 mm                             alimentation des servos
+  JP1     barrette male 1 x 2 + 1 cavalier
+  C1      condensateur electrolytique 1000 uF 16 V (ou plus), radial, pas 5 mm, diametre <= 10 mm  (attention au sens : + = pastille carree)
+  C2      condensateur ceramique 100 nF, pas 5,08 mm
+  4 vis M3 (trous de fixation aux 4 coins, 3,2 mm)
+
+CARACTERISTIQUES : 2 couches, 100 x 72 mm, pistes de 0,25 a 2 mm (5 V : 2 mm et rails de 1,6 mm), ecarts >= 0,3 mm,
+  plan de masse sur la face du dessous, trous 1 mm (barrettes) / 1,3 mm (bornier) / 3,2 mm (fixations, non metallises).
+  Verifie par le script : ecarts entre pistes differentes, continuite de chaque liaison, ecart au bord ; Gerber relus par
+  un 2e programme (gerbonara) : 6 couches + 2 percages reconnus.
+  PAS verifie : fabrication reelle, brochage exact de votre ESP32 (voir plus haut), encombrement sur le robot (a poser
+  sur le bati a la place de la plaque d'essai actuelle ; a placer dans SolidWorks si besoin).
+
+FICHIERS :
+  MAVE_robot_gerber_JLCPCB.zip   a envoyer au fabricant
+  gerber/                        les memes fichiers, non zippes (GTL/GBL cuivre, GTS/GBS vernis, GTO serigraphie, GKO contour, DRL percages)
+  apercu_dessus.png / apercu_dessous.png   apercus
+  rendu_gerber_*.svg             rendu fait a partir des fichiers Gerber eux-memes (s'ouvre dans un navigateur)
+  liaisons.txt                   liste de toutes les liaisons (pour verifier le cablage)
+  pcb_mave.py (dans le projet, dossier 06_PCB) : le script qui genere tout ; modifier et relancer : python pcb_mave.py <dossier>

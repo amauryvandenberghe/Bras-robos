@@ -1,0 +1,41 @@
+APPLICATION BLUETOOTH MAVE2 (27/11/2026) - l'application MAVE + REGLAGES DU SUIVI DE LIGNE EN DIRECT
+=====================================================================================================
+
+INSTALLER (5 minutes, sur ai2.appinventor.mit.edu avec votre compte habituel) :
+  1. Projets > "Importer un projet (.aia) depuis mon ordinateur" > choisir MAVE2.aia (ce dossier).
+     (Projet NOUVEAU nomme MAVE2 : l'ancien projet MAVE n'est pas touche.)
+  2. Construire > "Android App (.apk)" > telecharger l'APK sur le telephone (ou le QR code) et l'installer.
+  3. Televerser le NOUVEAU programme dans l'ESP32 (sinon les reglages ne sont pas compris).
+  Si App Inventor affiche un avertissement en ouvrant les blocs, me le copier : le projet a ete ecrit par programme
+  (generer_mave2.py) et n'a pas pu etre ouvert dans App Inventor depuis ici.
+
+CE QUI N'A PAS CHANGE : Connexion, STOP, H, 1, N, curseur de direction (0 a 180), joystick (memes calculs, meme vitesse max 126),
+  et l'arret quand on lache le joystick (S).
+
+CE QUI EST NOUVEAU :
+  - Moins de retard ("ping") : l'ancienne appli envoyait 2 messages Bluetooth a chaque mouvement du doigt (des dizaines par
+    seconde) ; le telephone les mettait en file d'attente et le robot les executait en retard. Maintenant le joystick et le
+    curseur notent seulement la commande voulue, et l'appli envoie la DERNIERE toutes les 80 ms si elle a change. STOP, H, 1, N
+    partent immediatement. Le curseur envoie "O90;" : le ; fait executer la direction tout de suite (avant : 30 ms d'attente).
+  - Bouton "Tout droit" (direction a 90).
+  - Bouton "Reglages" : ouvre / ferme le panneau de reglages a droite :
+       Kp, Ki, Kd, Lissage (s), Vit. servo (deg/s)   -> PID de la direction
+       V max, V min (m/s), Braq. lent (deg), Ecart lent (mm)   -> vitesse en ligne droite / en virage
+       v255 (m/s)   -> vitesse reelle du robot a fond (sert a convertir les m/s en PWM)
+     "Lire"     : affiche les valeurs actuelles du robot (aussi fait automatiquement a la connexion)
+     "Envoyer"  : envoie TOUTES les cases au robot ; il les applique tout de suite, meme pendant le suivi de ligne,
+                  et renvoie ses valeurs (une case laissee vide ne change rien)
+     "Memoriser": le robot garde ces reglages apres extinction (jusqu'au prochain televersement du programme)
+     "Valeurs du code" : le robot oublie les reglages memorises et reprend ceux ecrits dans bras_robot.ino
+  - La ligne du bas affiche les messages du robot (etalonnage, ligne perdue, reglages recus...).
+
+CONSEILS POUR REGLER (une seule valeur a la fois, puis N) :
+  - zigzag rapide : baisser Kp (ou augmenter Lissage) ;   reagit trop tard dans les virages : augmenter Kp
+  - sort a la fin des longs virages : augmenter Ki ;      oscillation lente qui deborde : baisser Ki
+  - Kd : amortit ; trop grand = nerveux (bruit des capteurs)
+  - plus vite : augmenter V max par pas de 0,05 m/s ; si le robot cale dans les virages : augmenter V min
+  Quand c'est bien : "Memoriser", et me donner les valeurs pour les ecrire dans le programme.
+
+PROTOCOLE (pour info) : {G kp ki kd tau vit_servo} {T v_max v_min braq_lent ecart_lent} {K v255} {?} {W} {Z} ;
+  reponse du robot : "R kp ki kd tau vit_servo v_max v_min braq_lent ecart_lent v255". Aussi utilisable au moniteur serie.
+Fichiers : MAVE2.aia (projet App Inventor), generer_mave2.py (le script qui le fabrique).

@@ -49,10 +49,13 @@ BluetoothSerial SerialBT;
 // ############################################################################################################
 // --- PID de la direction. e = ecart de la ligne au capteur du milieu (mm, -ECART a +ECART ; + = ligne a droite).
 //     braquage (degres) = kp x e + ki x (somme de e dans le temps) + kd x (vitesse de variation de e)
-float kp = 1.3f;      // ce que les capteurs VOIENT maintenant : + grand = tourne plus fort vers la ligne (trop : zigzag)
-float ki = 2.0f;      // MEMOIRE des ecarts passes : aide dans les longs virages (trop : la roue "continue" et deborde, oscille lentement)
+float kp = 2.0f;      // ce que les capteurs VOIENT maintenant : + grand = tourne plus fort vers la ligne (trop : zigzag)
+float ki = 1.0f;      // MEMOIRE des ecarts passes : aide dans les longs virages (trop : la roue "continue" et deborde, oscille lentement)
 float kd = 0.05f;     // ANTICIPATION (vitesse a laquelle l'ecart change) : amortit (trop : nerveux, sensible aux parasites)
-float tau_dir = 0.10f;     // lissage de la consigne (s) : + grand = plus doux mais plus en retard
+float tau_dir = 0.06f;     // lissage de la consigne (s) : + grand = plus doux mais plus en retard
+// 27/11 (4 capteurs en fleche) : simulation etude_fleche_pid.log, 135 reglages : kp 2 ki 1 kd 0,05 tau 0,06 -> ecart RMS 3,8 mm,
+//   max 15 mm, servo 111 deg/s, 0 perte de ligne (3 capteurs a 22 mm avec kp 1,3 ki 2 kd 0,05 tau 0,1 : 6,8 mm, 289 deg/s, 169 pertes).
+//   A essayer ensuite depuis l'application : kp 2,5 ki 1 kd 0,08 tau 0,1 (3,1 mm en simulation, un peu plus nerveux).
 float vit_servo = 257.0f;  // vitesse maximale de rotation de la roue demandee au servo (degres / s)
 const float BRAQ_MAX = 45.0f;        // braquage maximal (degres) de part et d'autre du tout droit
 const int SIGNE_BRAQUAGE = 1;        // -1 si, au test M, la roue s'ecarte de la ligne au lieu d'aller vers elle
