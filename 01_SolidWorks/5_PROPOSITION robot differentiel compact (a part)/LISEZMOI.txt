@@ -1,0 +1,68 @@
+PROPOSITION (27/11/2026) : ROBOT DIFFERENTIEL COMPACT - assemblage A PART (Assemblage1v2 n'est pas touche)
+=====================================================================================================
+
+Ouvrir : "Robot differentiel compact.SLDASM" (images : Robot differentiel (vue ...).png).
+Il utilise les pieces de 1_VERSION_FINALE (a ouvrir) : mcc, roue arriere motrice, batterie, capteur, L298N, ESP32, Bras 50cm.
+Ne pas deplacer ces dossiers.
+
+L'IDEE
+- 2 moteurs jaunes (les MCC du robot), un a gauche, un a droite, chacun avec UNE roue sur le cote, a l'exterieur du bati.
+  Le robot tourne en faisant aller une roue plus vite que l'autre. Il n'y a plus de bloc pivotant ni de servo de direction.
+- 4 capteurs en fleche a l'avant (meme disposition que sur le robot : interieurs a +-7,6 mm, exterieurs a +-19,5 mm et 8 mm en
+  retrait, 8 mm du sol). Ils sont sur un NEZ fixe qui porte aussi les 2 billes avant : la hauteur des capteurs ne change pas.
+- Le robot tient dans le carre de 200 mm (196 x 200 roues comprises), centre sur l'axe du bras.
+- Le dessus du bati est a 80,1 mm du sol, comme aujourd'hui (le reseau du bras a ete entraine avec cette hauteur).
+- Le lourd est en bas et au centre : 2 batteries couchees dans l'axe, centrees sur l'essieu, a 9 mm du sol ; PCB + ESP32 juste
+  au-dessus, sous le bati ; moteurs au ras des roues. Le dessus du bati ne porte que le bras, le L298N et l'abaisseur.
+- L'essieu est 10 mm derriere l'axe du bras : le bras est presque au-dessus des roues et le robot pivote sur place sous le bras.
+
+LES CHIFFRES (calculs, a confirmer sur le vrai robot)
+- Suivi de ligne (03_Reseau_de_neurones/esp32/simulation_ligne/etude_chassis_diff*.log : meme piste et memes capteurs que les
+  autres etudes ; voie 186 mm ; capteurs a 102 mm devant l'essieu) : 4 essais sur 4 reussis a 0,45 / 0,6 / 0,8 / 1 m/s ;
+  ecart moyen 4,0 / 3,1 / 2,5 / 17 mm. Jusqu'a 0,8 m/s c'est tres precis ; 1 m/s passe mais en limite.
+  (Avec des capteurs plus pres de l'essieu, 70 a 95 mm, on rate a 1 m/s ; plus loin, 110 a 125 mm, le robot serait plus long.)
+- Equilibre (stabilite.log, stabilite_chassis_diff.py ; masses des pieces du commerce = valeurs typiques, NON pesees) :
+  890 g en tout, dont bras 346 g ; centre de gravite 12,5 mm devant l'essieu, a 107 mm de haut.
+  Les roues portent 87 % du poids (bonne adherence), les billes 13 %.
+  Sur 26 299 positions du bras (lacet -90..90, epaule, coude, poignet sur toute leur plage), le robot ne bascule JAMAIS :
+  la plus petite marge est de 41 mm, bras tendu droit devant.
+  Dans 8 % des positions (bras en arriere), le robot se pose sur les patins arriere, a 1 mm du sol : c'est fait pour.
+  Freinage a 3 m/s2 et virage a 0,8 m/s dans le rayon de 200 mm : marge d'environ 50 mm.
+- Inertie de lacet : 3,0e-3 kg.m2 (rayon de giration 58 mm), car le lourd est pres de l'axe de rotation.
+
+LES PIECES A IMPRIMER (STL dans ce dossier ; CadQuery : bras_50cm/robot/chassis_differentiel.py)
+  bati differentiel                 196 x 196 x 5 mm (+ nervures de 6 mm sur les cotes), environ 110 g
+  etrier moteur gauche / droit      flasque + collier ferme derriere la roue + semelle sous le bati
+  nez capteurs et billes            support des 4 cartes (le meme que sur le robot) + 2 colonnes a coupelle pour les billes
+  berceau batteries PCB et patins   2 sieges de batterie, 4 colonnes, 4 pattes pour le PCB, 2 patins arriere
+  (bille 16 gauche / droite et PCB MAVE (encombrement) : pour l'assemblage seulement, ne pas imprimer)
+Les billes : billes d'acier de 16 mm (ou billes de roulement 5/8"). Elles s'emboitent par le bas dans la coupelle fendue.
+
+VISSERIE (M3 partout)
+  moteurs      : 2 x M3 x 30 par moteur, a travers le moteur ; tete cote roue (dans le creux entre le moyeu et le voile),
+                 ecrou cote interieur ; la roue s'enleve pour visser.
+  etriers      : 2 x M3 x 10 par etrier, depuis le dessus du bati, ecrous dans la semelle.
+  nez          : 4 x M3 x 10, depuis le dessus du bati, ecrous dans les semelles des colonnes.
+  berceau      : 4 x M3 x 16, depuis le dessus du bati, ecrous glisses sur le cote des colonnes.
+  PCB          : 4 x M3 x 8 sur les pattes du berceau (ecrous dessous). Monter batteries + PCB sur le berceau AVANT de le visser
+                 sous le bati.
+  bras, L298N  : comme aujourd'hui (memes trous).
+  batteries    : 2 sangles velcro de 20 mm dans les fentes du berceau.
+
+CE QUI CHANGE AILLEURS
+- Budget : le servo MG996R de direction (10 unites) ne sert plus. Les 2 MCC sont deja au budget. Il faut 2 billes d'acier.
+- Cablage du 2e moteur : 2e voie du L298N (ENB, IN3, IN4), deja libre. Sur le PCB, sans le refaire :
+  ENB sur la broche 17 (connecteur du servo de direction, devenu libre), IN3 et IN4 sur 27 et 14 (connecteur d'extension).
+- Programme : PAS ECRIT. Le PID donnerait une difference de vitesse entre les 2 roues au lieu d'un angle de servo.
+  En simulation : Kp 0,025 m/s par mm, Ki 0, Kd 0,0005 a 0,002.
+
+NON VERIFIE / A FAIRE
+- Rien n'est imprime ni monte. Masses des composants et diametre reel des batteries non mesures.
+- Les vis M3 x 30 a travers le moteur : verifier sur le vrai moteur que la tete passe entre le moyeu et le voile de la roue.
+  Ecart prevu : 3,4 mm.
+- Composants qui ne sont pas dessines : abaisseur et interrupteur (place libre sur le dessus, a l'arriere droit), fils.
+- Les composants sont fixes dans l'assemblage, sans contraintes.
+- Controle SolidWorks : seules interferences, l'arbre de chaque moteur emmanche dans sa roue (20 mm3), les broches de l'ESP32
+  dans les barrettes du PCB, et 1 a 2 mm3 par carte capteur (picots du connecteur, comme sur le robot).
+Script SolidWorks : 04_Simulation_Gazebo/bras_50cm/solidworks/chassis_differentiel_sw.ps1. On peut le relancer : il refait
+seulement ce dossier.

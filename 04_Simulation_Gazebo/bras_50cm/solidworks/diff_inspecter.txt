@@ -1,0 +1,345 @@
+﻿ouverture err 0 avert 34
+composants de premier niveau : 114
+roue avant libre-2 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\roue avant libre.SLDPRT
+   R -0,9999 -0,0140 0,0000 -0,0140 0,9999 0,0000 0,0000 0,0000 -1,0000 | T(mm) 177,26 480,00 430,92
+   boite(mm) 146,8 449,6 422,9 207,7 510,4 430,9
+tige pour direction-1 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\tige pour direction.SLDPRT
+   R 0,0000 1,0000 0,0000 0,0017 0,0000 -1,0000 -1,0000 0,0000 -0,0017 | T(mm) 37,26 496,60 512,72
+   boite(mm) 33,3 496,6 508,7 41,3 554,6 516,7
+maitient roulement a bille-1 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\maitient roulement a bille.SLDPRT
+   R 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 | T(mm) 37,76 536,20 499,72
+   boite(mm) 22,3 530,2 484,7 48,3 536,2 540,7
+pièce moteur direction-1 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\pièce moteur direction.SLDPRT
+   R 0,0000 1,0000 0,0000 0,0017 0,0000 -1,0000 -1,0000 0,0000 -0,0017 | T(mm) 58,41 465,60 512,61
+   boite(mm) -7,4 460,6 464,7 89,5 511,6 560,7
+roue arriere motrice-2 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\roue arriere motrice.SLDPRT
+   R 0,0000 1,0000 0,0000 1,0000 0,0000 0,0017 0,0017 0,0000 -1,0000 | T(mm) 43,63 479,81 531,98
+   boite(mm) 13,6 449,8 522,9 73,6 509,8 536,5
+roulement à bille-1 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\roulement à bille.SLDPRT
+   R 0,9176 0,0000 -0,3976 0,3976 0,0000 0,9176 0,0000 -1,0000 0,0000 | T(mm) 37,26 536,70 512,72
+   boite(mm) 23,5 529,7 498,9 51,1 536,7 526,5
+roulement à bille-2 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\roulement à bille.SLDPRT
+   R 0,7065 0,7077 0,0000 0,7077 -0,7065 0,0000 0,0000 0,0000 -1,0000 | T(mm) 177,26 480,00 600,52
+   boite(mm) 162,4 465,1 593,5 192,1 494,8 600,5
+roue avant libre-1 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\roue avant libre.SLDPRT
+   R 0,8780 0,4786 0,0000 -0,4786 0,8780 0,0000 0,0000 0,0000 1,0000 | T(mm) 177,26 480,00 594,52
+   boite(mm) 136,6 439,3 594,5 218,0 520,7 602,5
+mcc-1 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\mcc.SLDPRT
+   R 0,0000 -1,0000 0,0000 0,0017 0,0000 -1,0000 1,0000 0,0000 0,0017 | T(mm) 43,66 479,81 512,58
+   boite(mm) 32,7 468,6 494,2 98,4 491,0 531,1
+piece avec les bites-1 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\piece avec les bites.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 -1,0000 0,0000 1,0000 0,0000 | T(mm) 177,26 487,50 512,72
+   boite(mm) 169,8 472,5 425,3 184,8 524,7 600,1
+roue arriere motrice-1 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\roue arriere motrice.SLDPRT
+   R -0,0057 -1,0000 0,0000 1,0000 -0,0057 0,0017 -0,0017 0,0000 1,0000 | T(mm) 43,69 479,81 493,18
+   boite(mm) 13,5 449,6 488,6 73,9 510,0 502,2
+roulement à bille-3 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\roulement à bille.SLDPRT
+   R -0,3945 0,9189 0,0000 -0,9189 -0,3945 0,0000 0,0000 0,0000 1,0000 | T(mm) 177,26 480,00 424,92
+   boite(mm) 163,5 466,2 424,9 191,1 493,8 431,9
+socket head cap screw_iso-9 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 42,26 533,20 532,72
+   boite(mm) 42,3 530,4 530,0 65,3 535,9 535,5
+hex nut style 1 gradeab_iso-3 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 0,0000 0,0000 -1,0000 0,0000 1,0000 0,0000 1,0000 0,0000 0,0000 | T(mm) 63,66 533,20 532,72
+   boite(mm) 61,3 530,0 530,0 63,7 536,4 535,5
+bati(en cours)-1 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\bati(en cours).SLDPRT
+   R 0,0000 0,0000 1,0000 1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 | T(mm) 112,26 524,70 512,72
+   boite(mm) 12,3 524,7 432,7 212,3 529,7 592,7
+hex nut style 1 gradeab_iso-7 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 0,9550 0,2965 0,0016 -0,2965 0,9550 -0,0005 -0,0017 0,0000 1,0000 | T(mm) 37,26 549,48 505,72
+   boite(mm) 33,7 545,6 503,3 40,8 553,3 505,7
+socket head cap screw_iso-23 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 1,0000 0,0000 0,0017 0,0000 1,0000 0,0000 -0,0017 0,0000 1,0000 | T(mm) 27,41 502,60 512,56
+   boite(mm) 27,4 499,8 509,8 46,4 505,3 515,3
+hex nut style 1 gradeab_iso-2 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 0,0000 0,0000 -1,0000 0,0000 1,0000 0,0000 1,0000 0,0000 0,0000 | T(mm) 63,66 533,20 492,72
+   boite(mm) 61,3 530,0 490,0 63,7 536,4 495,5
+socket head cap screw_iso-26 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 177,26 533,50 467,72
+   boite(mm) 174,5 518,5 465,0 180,0 533,5 470,5
+socket head cap screw_iso-27 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 177,26 533,50 557,72
+   boite(mm) 174,5 518,5 555,0 180,0 533,5 560,5
+L298N Motor Driver.step-1 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\L298N Motor Driver.step.SLDPRT
+   R -1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 -1,0000 | T(mm) 100,01 529,70 456,47
+   boite(mm) 78,3 529,7 434,7 121,8 555,7 478,2
+socket head cap screw_iso-32 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 54,76 540,50 548,22
+   boite(mm) 52,0 517,5 545,5 57,5 540,5 551,0
+esp32_dev_kit_v1_asm-1 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\esp32_dev_kit_v1_asm.SLDASM
+   R 0,0000 0,0000 -1,0000 -1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 | T(mm) 130,26 529,70 571,04
+   boite(mm) 78,8 519,2 557,0 130,3 534,2 585,1
+socket head cap screw_iso-10 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 42,26 533,20 492,72
+   boite(mm) 42,3 530,4 490,0 65,3 535,9 495,5
+socket head cap screw_iso-19 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0017 0,0000 -1,0000 0,0000 1,0000 0,0000 1,0000 0,0000 0,0017 | T(mm) 63,89 471,10 527,62
+   boite(mm) 61,1 468,3 499,6 66,7 473,8 527,6
+socket head cap screw_iso-24 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0017 0,0000 -1,0000 -0,9071 -0,4209 -0,0015 -0,4209 0,9071 -0,0007 | T(mm) 37,26 549,48 522,72
+   boite(mm) 33,6 545,8 499,7 41,0 553,1 522,7
+socket head cap screw_iso-34 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 81,26 534,20 437,72
+   boite(mm) 78,5 521,2 435,0 84,0 534,2 440,5
+socket head cap screw_iso-35 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 81,26 534,20 475,22
+   boite(mm) 78,5 521,2 472,5 84,0 534,2 478,0
+hex nut style 1 gradeab_iso-8 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 0,0011 0,7343 -0,6789 0,0012 -0,6789 -0,7343 -1,0000 0,0000 -0,0017 | T(mm) 44,41 502,60 512,59
+   boite(mm) 44,4 498,4 508,4 46,8 506,8 516,8
+hex nut style 1 gradeab_iso-10 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 177,26 516,50 467,72
+   boite(mm) 174,5 516,5 464,5 180,0 518,9 470,9
+socket head cap screw_iso-31 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 54,76 540,50 477,22
+   boite(mm) 52,0 517,5 474,5 57,5 540,5 480,0
+hex nut style 1 gradeab_iso-11 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 177,26 516,50 557,72
+   boite(mm) 174,5 516,5 554,5 180,0 518,9 560,9
+hex nut style 1 gradeab_iso-13 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 54,76 518,29 548,22
+   boite(mm) 52,0 518,3 545,0 57,5 520,7 551,4
+hex nut style 1 gradeab_iso-14 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 54,76 518,29 477,22
+   boite(mm) 52,0 518,3 474,0 57,5 520,7 480,4
+socket head cap screw_iso-36 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 118,76 534,20 437,72
+   boite(mm) 116,0 521,2 435,0 121,5 534,2 440,5
+hex nut style 1 gradeab_iso-16 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 81,26 522,30 475,22
+   boite(mm) 78,5 522,3 472,0 84,0 524,7 478,4
+hex nut style 1 gradeab_iso-22 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 0,8800 0,0000 0,4749 0,4749 0,0000 -0,8800 0,0000 1,0000 0,0000 | T(mm) 81,26 524,70 582,82
+   boite(mm) 77,3 522,3 578,7 85,2 524,7 586,9
+socket head cap screw_iso-37 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 118,76 534,20 475,22
+   boite(mm) 116,0 521,2 472,5 121,5 534,2 478,0
+plain washer large grade ac_iso-2 | fixe False | supprime False | c:\solidworks data\browser\iso\washers\plain washers\plain washer large grade ac_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 177,26 529,70 467,72
+   boite(mm) 172,8 529,7 463,2 181,8 530,5 472,2
+socket head cap screw_iso-42 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 127,76 534,30 559,27
+   boite(mm) 125,0 521,3 556,5 130,5 534,3 562,0
+hex nut style 1 gradeab_iso-17 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 81,26 522,30 437,72
+   boite(mm) 78,5 522,3 434,5 84,0 524,7 440,9
+socket head cap screw_iso-43 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 81,26 534,30 559,27
+   boite(mm) 78,5 521,3 556,5 84,0 534,3 562,0
+hex nut style 1 gradeab_iso-21 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 81,26 522,30 559,27
+   boite(mm) 78,5 522,3 556,1 84,0 524,7 562,4
+hex nut style 1 gradeab_iso-18 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 118,76 522,30 437,72
+   boite(mm) 116,0 522,3 434,5 121,5 524,7 440,9
+hex nut style 1 gradeab_iso-19 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 118,76 522,30 475,22
+   boite(mm) 116,0 522,3 472,0 121,5 524,7 478,4
+socket head cap screw_iso-40 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 81,26 534,30 582,82
+   boite(mm) 78,5 521,3 580,1 84,0 534,3 585,6
+socket head cap screw_iso-41 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 127,76 534,30 582,82
+   boite(mm) 125,0 521,3 580,1 130,5 534,3 585,6
+hex nut style 1 gradeab_iso-23 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 127,76 522,30 559,27
+   boite(mm) 125,0 522,3 556,1 130,5 524,7 562,4
+hex nut style 1 gradeab_iso-24 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 127,76 522,30 582,82
+   boite(mm) 125,0 522,3 579,6 130,5 524,7 586,0
+plain washer large grade ac_iso-4 | fixe False | supprime False | c:\solidworks data\browser\iso\washers\plain washers\plain washer large grade ac_iso.sldprt
+   R 0,0000 1,0000 0,0000 -1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 177,26 519,70 557,72
+   boite(mm) 172,8 518,9 553,2 181,8 519,7 562,2
+plain washer large grade ac_iso-6 | fixe False | supprime False | c:\solidworks data\browser\iso\washers\plain washers\plain washer large grade ac_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 54,76 536,70 477,22
+   boite(mm) 50,3 536,7 472,7 59,3 537,5 481,7
+plain washer large grade ac_iso-3 | fixe False | supprime False | c:\solidworks data\browser\iso\washers\plain washers\plain washer large grade ac_iso.sldprt
+   R 0,0000 1,0000 0,0000 -1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 177,26 519,70 467,72
+   boite(mm) 172,8 518,9 463,2 181,8 519,7 472,2
+plain washer large grade ac_iso-5 | fixe False | supprime False | c:\solidworks data\browser\iso\washers\plain washers\plain washer large grade ac_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 177,26 529,70 557,72
+   boite(mm) 172,8 529,7 553,2 181,8 530,5 562,2
+balle-1 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\balle.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 368,34 461,48 413,94
+   boite(mm) 356,8 450,0 402,4 379,8 473,0 425,4
+plain washer large grade ac_iso-9 | fixe False | supprime False | c:\solidworks data\browser\iso\washers\plain washers\plain washer large grade ac_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 54,76 536,70 548,22
+   boite(mm) 50,3 536,7 543,7 59,3 537,5 552,7
+socle balle-1 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\socle balle.SLDPRT
+   R 0,0000 0,0000 -1,0000 -1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 | T(mm) 383,34 446,12 628,94
+   boite(mm) 353,3 446,1 398,9 383,3 451,1 628,9
+balle-3 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\balle.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 368,34 461,48 513,94
+   boite(mm) 356,8 450,0 502,4 379,8 473,0 525,4
+socket head cap screw_iso-81 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 131,26 536,70 479,72
+   boite(mm) 128,5 521,7 477,0 134,0 536,7 482,5
+socket head cap screw_iso-83 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 131,26 536,70 545,72
+   boite(mm) 128,5 521,7 543,0 134,0 536,7 548,5
+balle-5 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\balle.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 368,34 461,48 613,94
+   boite(mm) 356,8 450,0 602,4 379,8 473,0 625,4
+balle-4 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\balle.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 368,34 461,48 563,94
+   boite(mm) 356,8 450,0 552,4 379,8 473,0 575,4
+entretoise direction-1 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\entretoise direction.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 0,00 0,00 0,00
+   boite(mm) 30,3 511,6 505,7 44,3 514,7 519,7
+Bras 50cm-2 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Bras 50cm.SLDASM
+   R 1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 164,26 449,70 512,72
+   boite(mm) 124,3 529,7 454,9 475,7 881,4 564,1
+hex nut style 1 gradeab_iso-45 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 131,26 522,30 479,72
+   boite(mm) 128,5 522,3 476,5 134,0 524,7 482,9
+hex nut style 1 gradeab_iso-46 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 197,26 522,30 479,72
+   boite(mm) 194,5 522,3 476,5 200,0 524,7 482,9
+socket head cap screw_iso-80 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 197,26 536,70 545,72
+   boite(mm) 194,5 521,7 543,0 200,0 536,7 548,5
+balle-2 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\balle.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 368,34 461,48 463,94
+   boite(mm) 356,8 450,0 452,4 379,8 473,0 475,4
+hex nut style 1 gradeab_iso-44 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 197,26 522,30 545,72
+   boite(mm) 194,5 522,3 542,5 200,0 524,7 548,9
+socket head cap screw_iso-82 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 197,26 536,70 479,72
+   boite(mm) 194,5 521,7 477,0 200,0 536,7 482,5
+hex nut style 1 gradeab_iso-47 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 131,26 522,30 545,72
+   boite(mm) 128,5 522,3 542,5 134,0 524,7 548,9
+support MG996R direction-1 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\support MG996R direction.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 0,00 0,00 0,00
+   boite(mm) 20,0 529,7 470,2 76,7 576,7 555,2
+cuve direction-1 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\cuve direction.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 0,00 0,00 0,00
+   boite(mm) 12,8 514,7 470,2 61,8 524,7 555,2
+liaison MG996R tige-1 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\liaison MG996R tige.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 0,00 0,00 0,00
+   boite(mm) 29,1 541,0 491,6 45,4 562,0 533,9
+Servo MG996R-1 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces bras\Servo MG996R.SLDPRT
+   R 1,0000 0,0008 -0,0001 0,0001 0,0002 1,0000 0,0008 -1,0000 0,0002 | T(mm) 47,44 599,48 512,72
+   boite(mm) 19,9 566,3 502,5 74,5 607,0 523,0
+Servo MG996R arm01-1 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces bras\Servo MG996R arm01.SLDPRT
+   R 0,0000 0,0000 1,0000 -1,0000 0,0000 0,0000 0,0000 -1,0000 0,0000 | T(mm) 37,26 565,50 512,72
+   boite(mm) 31,3 560,0 493,7 43,3 565,5 531,7
+Vis 2x8-1 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Visserie\Vis 2x8.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 -1,0000 0,0000 1,0000 0,0000 | T(mm) 37,26 555,20 523,22
+   boite(mm) 35,3 553,7 521,2 39,3 563,2 525,2
+Vis 2x8-2 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Visserie\Vis 2x8.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 -1,0000 0,0000 1,0000 0,0000 | T(mm) 37,26 555,20 529,22
+   boite(mm) 35,3 553,7 527,2 39,3 563,2 531,2
+Vis 2x8-3 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Visserie\Vis 2x8.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 -1,0000 0,0000 1,0000 0,0000 | T(mm) 37,26 555,20 502,22
+   boite(mm) 35,3 553,7 500,2 39,3 563,2 504,2
+hex nut style 1 gradeab_iso-50 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 72,24 571,85 507,74
+   boite(mm) 69,5 571,9 504,6 75,0 574,3 510,9
+roulement à bille-4 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\roulement à bille.SLDPRT
+   R 0,9176 0,0000 -0,3976 0,3976 0,0000 0,9176 0,0000 -1,0000 0,0000 | T(mm) 37,26 521,70 512,72
+   boite(mm) 23,5 514,7 498,9 51,1 521,7 526,5
+socket head cap screw_iso-84 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 22,74 582,05 507,74
+   boite(mm) 20,0 567,1 505,0 25,5 582,1 510,5
+socket head cap screw_iso-85 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 22,74 582,05 517,74
+   boite(mm) 20,0 567,1 515,0 25,5 582,1 520,5
+hex nut style 1 gradeab_iso-48 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 22,74 571,85 507,74
+   boite(mm) 20,0 571,9 504,6 25,5 574,3 510,9
+socket head cap screw_iso-86 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 72,24 582,05 507,74
+   boite(mm) 69,5 567,1 505,0 75,0 582,1 510,5
+capteur-7 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\capteur.SLDASM
+   R 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 | T(mm) -2,89 519,02 480,58
+   boite(mm) -1,5 457,6 465,8 12,6 479,6 497,0
+hex nut style 1 gradeab_iso-73 | fixe True | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 0,0000 0,0000 -1,0000 1,0000 0,0000 0,0000 0,0000 -1,0000 0,0000 | T(mm) 5,50 453,00 472,42
+   boite(mm) 3,2 453,0 470,4 7,8 454,6 474,4
+socket head cap screw_iso-114 | fixe True | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 0,0000 0,0000 1,0000 -1,0000 0,0000 0,0000 | T(mm) 5,50 461,10 553,02
+   boite(mm) 3,6 451,1 551,1 7,4 461,1 554,9
+hex nut style 1 gradeab_iso-49 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 22,74 571,85 517,74
+   boite(mm) 20,0 571,9 514,6 25,5 574,3 520,9
+Vis 2x8-4 | fixe False | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Visserie\Vis 2x8.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 -1,0000 0,0000 1,0000 0,0000 | T(mm) 37,26 555,20 496,22
+   boite(mm) 35,3 553,7 494,2 39,3 563,2 498,2
+hex nut style 1 gradeab_iso-51 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 72,24 571,85 517,74
+   boite(mm) 69,5 571,9 514,6 75,0 574,3 520,9
+batterie 18x110-4 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\batterie 18x110.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 17,80 0,00 0,00
+   boite(mm) 136,3 495,4 457,7 154,3 513,4 568,7
+socket head cap screw_iso-87 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 72,24 582,05 517,74
+   boite(mm) 69,5 567,1 515,0 75,0 582,1 520,5
+socket head cap screw_iso-88 | fixe False | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 18,26 532,70 512,72
+   boite(mm) 15,5 517,7 510,0 21,0 532,7 515,5
+hex nut style 1 gradeab_iso-52 | fixe False | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 18,26 518,29 512,72
+   boite(mm) 15,5 518,3 509,5 21,0 520,7 515,9
+batterie 18x110-3 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\batterie 18x110.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) -0,80 0,00 0,00
+   boite(mm) 117,7 495,4 457,7 135,7 513,4 568,7
+socket head cap screw_iso-113 | fixe True | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 0,0000 0,0000 -1,0000 1,0000 0,0000 0,0000 | T(mm) 5,50 461,10 472,42
+   boite(mm) 3,6 451,1 470,5 7,4 461,1 474,3
+capteur-8 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\capteur.SLDASM
+   R 0,0000 0,0000 -1,0000 0,0000 -1,0000 0,0000 -1,0000 0,0000 0,0000 | T(mm) 13,89 519,02 544,86
+   boite(mm) -1,6 457,6 528,4 12,5 479,6 559,6
+socket head cap screw_iso-116 | fixe True | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 0,0000 0,0000 -1,0000 1,0000 0,0000 0,0000 | T(mm) 112,00 461,10 472,42
+   boite(mm) 110,1 451,1 470,5 113,9 461,1 474,3
+socket head cap screw_iso-118 | fixe True | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 140,80 461,10 512,72
+   boite(mm) 138,9 451,1 510,8 142,7 461,1 514,6
+capteur-12 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\capteur.SLDASM
+   R -1,0000 0,0000 0,0000 0,0000 -1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 10,14 519,02 511,93
+   boite(mm) -6,3 457,6 513,3 24,9 479,6 527,4
+socket head cap screw_iso-117 | fixe True | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 0,0000 0,0000 1,0000 -1,0000 0,0000 0,0000 | T(mm) 112,00 461,10 553,02
+   boite(mm) 110,1 451,1 551,1 113,9 461,1 554,9
+hex nut style 1 gradeab_iso-79 | fixe True | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 136,00 511,00 449,72
+   boite(mm) 133,3 511,0 446,5 138,8 513,4 452,9
+capteur-9 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\capteur.SLDASM
+   R -1,0000 0,0000 0,0000 0,0000 -1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 10,14 519,02 496,73
+   boite(mm) -6,3 457,6 498,1 24,9 479,6 512,2
+hex nut style 1 gradeab_iso-75 | fixe True | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 17,30 453,00 512,72
+   boite(mm) 15,3 453,0 510,4 19,3 454,6 515,0
+hex nut style 1 gradeab_iso-78 | fixe True | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 140,80 453,00 512,72
+   boite(mm) 138,8 453,0 510,4 142,8 454,6 515,0
+hex nut style 1 gradeab_iso-76 | fixe True | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 0,0000 0,0000 -1,0000 1,0000 0,0000 0,0000 0,0000 -1,0000 0,0000 | T(mm) 112,00 453,00 472,42
+   boite(mm) 109,7 453,0 470,4 114,3 454,6 474,4
+hex nut style 1 gradeab_iso-74 | fixe True | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 0,0000 0,0000 1,0000 -1,0000 0,0000 0,0000 0,0000 -1,0000 0,0000 | T(mm) 5,50 453,00 553,02
+   boite(mm) 3,2 453,0 551,0 7,8 454,6 555,0
+socket head cap screw_iso-115 | fixe True | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 17,30 461,10 512,72
+   boite(mm) 15,4 451,1 510,8 19,2 461,1 514,6
+hex nut style 1 gradeab_iso-77 | fixe True | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 0,0000 0,0000 1,0000 -1,0000 0,0000 0,0000 0,0000 -1,0000 0,0000 | T(mm) 112,00 453,00 553,02
+   boite(mm) 109,7 453,0 551,0 114,3 454,6 555,0
+embout batteries-1 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\embout batteries.SLDPRT
+   R 1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 0,00 0,00 0,00
+   boite(mm) 112,2 490,8 444,2 159,8 524,7 465,7
+embout batteries-2 | fixe True | supprime False | C:\Users\amaur\Desktop\Bras robotisé\01_SolidWorks\1_VERSION_FINALE (a ouvrir)\Pieces robot\embout batteries.SLDPRT
+   R -1,0000 0,0000 0,0000 0,0000 1,0000 0,0000 0,0000 0,0000 -1,0000 | T(mm) 272,00 0,00 1025,44
+   boite(mm) 112,2 490,8 559,7 159,8 524,7 581,2
+socket head cap screw_iso-119 | fixe True | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 136,00 532,69 449,72
+   boite(mm) 133,3 509,7 447,0 138,8 532,7 452,5
+hex nut style 1 gradeab_iso-80 | fixe True | supprime False | c:\solidworks data\browser\iso\nuts\hex nuts\hex nut style 1 gradeab_iso.sldprt
+   R 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 0,0000 -1,0000 0,0000 | T(mm) 136,00 511,00 575,72
+   boite(mm) 133,3 511,0 572,5 138,8 513,4 578,9
+socket head cap screw_iso-120 | fixe True | supprime False | c:\solidworks data\browser\iso\bolts and screws\hexagon socket head screws\socket head cap screw_iso.sldprt
+   R 0,0000 -1,0000 0,0000 1,0000 0,0000 0,0000 0,0000 0,0000 1,0000 | T(mm) 136,00 532,69 575,72
+   boite(mm) 133,3 509,7 573,0 138,8 532,7 578,5
+
