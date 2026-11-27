@@ -41,7 +41,7 @@ X_L298N, H_PLOT = XA - 12.0, 3.0             # L298N (43 x 43, trous a +-18,75) 
 X_ABAISSEUR = XA + 22.5
 # ---------------------------------------------------------------- capteurs (5 en fleche)
 L_CAPT = 110.0                               # essieu -> element du milieu
-B1, R1, B2, R2 = 15.2, 4.0, 33.2, 8.0        # paire 1 (cartes le long du robot), paire 2 (cartes en travers)
+B1, R1, B2, R2 = 15.2, 0.0, 27.2, 4.0        # 28/11 soir : etude_complete + etude_pessimiste (avant : 15,2/4 et 33,2/8)
 H_ELEM = 8.0                                 # face des elements a 8 mm du sol
 Y_PL = (YS + H_ELEM + 10.0 - 4.0, YS + H_ELEM + 10.0)        # plaque des cartes (la carte repose dessus)
 CARTE_L, CARTE_AV, CARTE_AR, TROU_CARTE, PIQUES = 14.1, 3.8, 27.4, 20.3, (23.4, 26.2)
@@ -64,7 +64,7 @@ XP0, XP1 = XE - 40.0, X_ROUL + 14.0
 # ---------------------------------------------------------------- fixations du nez
 NEZ_AV = (X_ROUL, 0.0)                       # 1 vis dans le bloc de la roulette
 X_POTEAU = X_C - R2 - CARTE_L / 2 - JEU - 4.0                # 2 poteaux derriere les cartes de la paire 2
-NEZ_AR = (X_POTEAU, 36.0)
+NEZ_AR = (X_POTEAU, 40.0)                    # 40 : les tetes ne touchent pas le support de l ESP32
 Y_ECROU_NEZ = YP0 - 7.2                      # bas de l'ecrou des vis du nez (fentes laterales)
 # ---------------------------------------------------------------- ESP32 DevKit V1 30 broches (sans PCB), RETOURNE : broches en haut
 # carte 51,8 x 28,2 (mesures publiees, a verifier), 4 trous ~2,8 dans les coins : 43,9 x 23,4 (a verifier) -> vis M2 x 8
@@ -122,7 +122,7 @@ def connecteurs():
 # ------------------------------------------------------------------------------------------------ platine (+ flasques moteur)
 def platine():
     p = boite(XP0, XP1, YP0, YP1, ZM - W_PL, ZM + W_PL).edges('|Y').fillet(10.0)
-    for sg in (-1, 1):                                                       # oreilles au-dessus des connecteurs de la paire 2
+    for sg in (-1, 1) if B2 + 32.0 > W_PL + 2.0 else ():                     # oreilles au-dessus des connecteurs de la paire 2 (si besoin)
         x = X_C - R2
         p = p.union(boite(x - 9, x + 9, YP0, YP1, wz(sg, W_PL - 6), wz(sg, B2 + 25.0 + 7.0)).edges('|Y').fillet(4.0))
     # flasques moteur : 2 vis M3 x 30 a travers le moteur (tete cote roue, ecrou captif cote interieur)

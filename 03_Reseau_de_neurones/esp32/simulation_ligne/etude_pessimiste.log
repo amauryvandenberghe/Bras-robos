@@ -1,0 +1,15 @@
+=== 0.60 m/s (cas pessimiste), 3 meilleurs reglages ===
+kart    5 (15/27, 0/4)   L 110 | v 0.60 | 18/18  temps  14.7 s  RMS  10.6  max  25.9  pertes  0.0 | (0.025, 0.0, 0.002, 1.0)
+kart    5 (15/27, 0/4)   L 110 | v 0.60 | 18/18  temps  14.7 s  RMS  10.7  max  26.3  pertes  0.0 | (0.025, 0.0, 0.001, 1.0)
+kart    5 (15/27, 0/4)   L 110 | v 0.60 | 18/18  temps  14.7 s  RMS  11.6  max  29.0  pertes  0.0 | (0.025, 0.01, 0.001, 1.0)
+=== 0.80 m/s (cas pessimiste), 3 meilleurs reglages ===
+kart    5 (15/27, 0/4)   L 110 | v 0.80 | 18/18  temps  11.4 s  RMS   5.9  max  15.1  pertes  0.0 | (0.015, 0.0, 0.002, 1.0)
+kart    5 (15/27, 0/4)   L 110 | v 0.80 | 18/18  temps  11.4 s  RMS   9.0  max  23.0  pertes  0.0 | (0.025, 0.0, 0.002, 1.0)
+kart    5 (15/27, 0/4)   L 110 | v 0.80 | 18/18  temps  11.4 s  RMS   9.5  max  24.0  pertes  0.0 | (0.025, 0.01, 0.002, 1.0)
+=== 1.00 m/s (cas pessimiste), 3 meilleurs reglages ===
+kart    5 (15/27, 0/4)   L 110 | v 1.00 | 18/18  temps   9.6 s  RMS   6.8  max  18.3  pertes  2.4 | (0.015, 0.0, 0.004, 1.0)
+kart    5 (15/27, 0/4)   L 110 | v 1.00 | 18/18  temps   9.7 s  RMS   6.1  max  32.2  pertes  2.7 | (0.015, 0.01, 0.004, 1.0)
+kart    5 (15/27, 0/4)   L 110 | v 1.00 | 18/18  temps   9.8 s  RMS   9.9  max  29.2  pertes  5.4 | (0.008, 0.0, 0.004, 1.0)
+fleche 15/33 cas pessimiste 1.0 (0.015, 0.0, 0.004, 1.0) 16/18 temps 9.5 RMS 7.9 max 83.8 pertes 0.7
+fleche 15/33 cas pessimiste 0.8 (0.015, 0.0, 0.002, 1.0) 18/18 temps 11.6 RMS 5.2 max 14.3 pertes 0.1
+fleche 15/33 cas pessimiste 1.0 (0.025, 0.0, 0.002, 1.0) 14/18 temps 8.8 RMS 9.7 max 83.1 pertes 1.2

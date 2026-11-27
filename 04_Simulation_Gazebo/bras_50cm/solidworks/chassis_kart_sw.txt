@@ -1,27 +1,27 @@
 ﻿L298N : centre de la boite - centre des trous = 0,01 / -0,03 mm
 vis du socle du bras reprises : 4
-  capteur-1                                (capteur 33.2) boite x 249,2..263,3 y 457,6..479,6 z 542,1..573,3
-  capteur-2                                (capteur 15.2) boite x 232,8..264,0 y 457,6..479,6 z 520,9..535,0
+  capteur-1                                (capteur 27.2) boite x 253,2..267,3 y 457,6..479,6 z 536,1..567,3
+  capteur-2                                (capteur 15.2) boite x 236,8..268,0 y 457,6..479,6 z 520,9..535,0
   capteur-3                                (capteur 0) boite x 236,8..268,0 y 457,6..479,6 z 505,7..519,8
-  capteur-4                                (capteur -15.2) boite x 232,8..264,0 y 457,6..479,6 z 490,5..504,6
-  capteur-5                                (capteur -33.2) boite x 249,2..263,3 y 457,6..479,6 z 452,1..483,3
+  capteur-4                                (capteur -15.2) boite x 236,8..268,0 y 457,6..479,6 z 490,5..504,6
+  capteur-5                                (capteur -27.2) boite x 253,2..267,3 y 457,6..479,6 z 458,1..489,3
   L298N Motor Driver.step-1                (L298N) boite x 130,5..174,0 y 498,0..524,0 z 490,9..534,4
   esp32_dev_kit_v1_asm-1                   (ESP32 (retourne)) boite x 249,2..277,3 y 499,6..514,6 z 487,0..538,5
   Bras 50cm-1                              (bras) boite x 124,3..475,7 y 529,7..881,4 z 454,9..564,1
-  socket head cap screw_iso-1              (vis du socle du bras) boite x 128,5..134,0 y 521,7..536,7 z 477,0..482,5
-  socket head cap screw_iso-2              (vis du socle du bras) boite x 194,5..200,0 y 521,7..536,7 z 477,0..482,5
-  socket head cap screw_iso-3              (vis du socle du bras) boite x 128,5..134,0 y 521,7..536,7 z 543,0..548,5
-  socket head cap screw_iso-4              (vis du socle du bras) boite x 194,5..200,0 y 521,7..536,7 z 543,0..548,5
+  socket head cap screw_iso-1              (vis du socle du bras) boite x 194,5..200,0 y 521,7..536,7 z 477,0..482,5
+  socket head cap screw_iso-2              (vis du socle du bras) boite x 194,5..200,0 y 521,7..536,7 z 543,0..548,5
+  socket head cap screw_iso-3              (vis du socle du bras) boite x 128,5..134,0 y 521,7..536,7 z 477,0..482,5
+  socket head cap screw_iso-4              (vis du socle du bras) boite x 128,5..134,0 y 521,7..536,7 z 543,0..548,5
   mcc-1                                    (moteur gauche) boite x 143,3..209,0 y 468,4..490,8 z 546,0..582,8
   mcc-2                                    (moteur droit) boite x 143,3..209,0 y 468,4..490,8 z 442,6..479,4
   roue arriere motrice-1                   (roue gauche) boite x 124,3..184,3 y 449,6..509,6 z 574,2..587,7
   roue arriere motrice-2                   (roue droite) boite x 124,3..184,3 y 449,6..509,6 z 437,7..451,2
-  batterie 18x110-1                        (batterie) boite x 117,4..228,4 y 461,1..479,1 z 514,7..532,7
-  batterie 18x110-2                        (batterie) boite x 117,4..228,4 y 461,1..479,1 z 492,7..510,7
-  platine kart-1                           (platine kart) boite x 114,3..297,1 y 466,4..498,0 z 447,5..577,9
+  batterie 18x110-1                        (batterie) boite x 121,4..232,4 y 461,1..479,1 z 514,7..532,7
+  batterie 18x110-2                        (batterie) boite x 121,4..232,4 y 461,1..479,1 z 492,7..510,7
+  platine kart-1                           (platine kart) boite x 114,3..297,1 y 466,4..498,0 z 453,7..571,7
   tour du bras-1                           (tour du bras) boite x 115,3..213,3 y 495,0..529,7 z 463,7..561,7
-  nez 5 capteurs et roulette-1             (nez 5 capteurs et roulette) boite x 231,9..294,1 y 460,6..491,0 z 451,1..574,3
-  berceau batteries kart-1                 (berceau batteries kart) boite x 114,9..230,9 y 458,6..491,0 z 480,2..545,2
+  nez 5 capteurs et roulette-1             (nez 5 capteurs et roulette) boite x 235,9..294,1 y 460,6..491,0 z 457,1..568,3
+  berceau batteries kart-1                 (berceau batteries kart) boite x 118,9..234,9 y 458,6..491,0 z 480,2..545,2
   roulette a bille (encombrement)-1        (roulette a bille (encombrement)) boite x 272,1..294,1 y 449,6..469,6 z 493,7..531,7
   support ESP32-1                          (support ESP32) boite x 247,3..279,3 y 495,0..502,5 z 479,2..546,2
 visserie inseree : 64 pieces sur 64
@@ -30,9 +30,9 @@ visserie inseree : 64 pieces sur 64
   INTERFERENCE 19,63 mm3 : mcc-1 / roue arriere motrice-1
   INTERFERENCE 19,63 mm3 : mcc-2 / roue arriere motrice-2
   INTERFERENCE 3,82 mm3 : support ESP32-1 / kart vis M2x8-1
-  INTERFERENCE 3,82 mm3 : support ESP32-1 / kart vis M2x8-2
   INTERFERENCE 3,82 mm3 : support ESP32-1 / kart vis M2x8-3
   INTERFERENCE 3,82 mm3 : support ESP32-1 / kart vis M2x8-4
+  INTERFERENCE 3,82 mm3 : support ESP32-1 / kart vis M2x8-2
   INTERFERENCE 2,29 mm3 : esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PCB.stp-1 / kart vis M2x8-2
   INTERFERENCE 2,29 mm3 : esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PCB.stp-1 / kart vis M2x8-4
   INTERFERENCE 2,23 mm3 : esp32_dev_kit_v1_asm-1/esp32_dev_kit_v1_asm.stp-1/PCB.stp-1 / kart vis M2x8-1

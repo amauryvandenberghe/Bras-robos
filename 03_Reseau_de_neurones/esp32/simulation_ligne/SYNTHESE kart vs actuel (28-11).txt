@@ -1,0 +1,55 @@
+SYNTHESE DES SIMULATIONS DU 28/11/2026 : KART (2 moteurs a l'arriere) CONTRE ROBOT ACTUEL (roue directrice + servo)
+=======================================================================================================================
+Tout est en simulation (meme piste, memes capteurs TCRT5000, meme bruit). Rien n'est verifie sur un vrai kart.
+
+CONDITIONS (les memes pour les 2 robots)
+- 3 rayons de virage (170, 200, 230 mm) x 2 modeles de tache des capteurs x 3 tirages de bruit = 18 trajets ;
+  le robot actuel est en plus teste avec un servo normal ET un servo lent (36 trajets).
+- Robot actuel : modele deja realiste (servo rafraichi a 50 Hz, retard, inertie, zone morte ; moteur avec seuil, frein).
+- Kart : modele rendu aussi realiste le 28/11 : seuil de demarrage des moteurs (0,15 m/s), moteurs differents (+-8 %),
+  5 ms de retard de commande. (Correction : l'echec du kart a 0,30 m/s annonce plus tot venait d'un defaut du simulateur
+  a l'arrivee, pas du kart ; corrige : le kart passe a 0,30 m/s.)
+- Fichiers : etude_complete.py/.log (4320 reglages kart, 864 actuel), etude_robustesse.py/.log, etude_pessimiste.py/.log.
+
+1. MEILLEURS RESULTATS (meilleur reglage de chaque robot a chaque vitesse)
+   vitesse   ACTUEL (36 trajets)              KART capteurs a 110 mm (18 trajets)
+   0,30      36/36  25,5 s                    18/18  23,4 s
+   0,45      36/36  17,2 s                    18/18  15,7 s
+   0,60      36/36  13,4 s                    18/18  11,9 s
+   0,80      36/36  12,0 s                    18/18   9,1 s
+   1,00      36/36  12,6 s                    18/18   8,9 s
+   1,20      36/36  12,1 s                    13/18   7,2 s   (capteurs a 125 mm : 18/18 en 7,9 s)
+   -> le robot actuel plafonne a ~12 s par trajet (au-dela de 0,8 m/s son servo de direction ne suit plus : il ralentit
+      dans les virages) ; le kart descend a 8,9 s : environ 26 % plus rapide.
+   Ecart a la ligne : le robot actuel est plus precis a basse vitesse (3,4 mm a 0,30 m/s contre 10 pour le kart) ; mais
+   pour le kart l'ecart est mesure au milieu de l'essieu, qui coupe les virages quand les capteurs sont loin devant (c'est
+   geometrique, pas une erreur de suivi) : les temps et les trajets reussis sont les vrais criteres de comparaison.
+
+2. OU METTRE LES CAPTEURS DU KART (etude_complete.log, 3 dispositions x 4 distances)
+   - Distance essieu -> capteurs : 85 et 95 mm donnent des ecarts plus faibles a basse vitesse mais ratent a 1,2 m/s ;
+     110 mm est le bon compromis (18/18 jusqu'a 1 m/s) ; 125 mm est le seul a passer 1,2 m/s mais le robot serait plus long.
+     110 mm est aussi la valeur que la mecanique impose (place des batteries).
+   - Disposition retenue (mise dans la CAO le 28/11 soir) : 5 capteurs, milieu en pointe, 2 a +-15,2 mm SANS retrait,
+     2 a +-27,2 mm avec 4 mm de retrait. Les 4 capteurs actuels et la fleche +-15/33 font presque aussi bien en conditions
+     normales, mais dans le cas pessimiste a 1 m/s : +-15/27 18/18, +-15/33 16/18.
+
+3. ROBUSTESSE AUX DEFAUTS DU VRAI MATERIEL (etude_robustesse.log, a 1 m/s, reglage Kp 0,025 Kd 0,002 + ralentissement en virage)
+   KART : 18/18 avec des moteurs differents de 0 a 15 %, un seuil de demarrage jusqu'a 0,30 m/s, 20 ms de retard,
+          des moteurs rapides ; 16/18 avec des moteurs lents (150 ms) ; 11/18 avec 40 ms de retard.
+          Sans ralentissement en virage (reglage de 0,8 m/s) il est bien plus fragile : 11/18 des 20 ms de retard.
+   ACTUEL : 18/18 dans tous les cas (servo lent, retard 40 ms, 200 deg/s...), mais 11,8 a 13,4 s par trajet.
+   CAS PESSIMISTE (tous les defauts du kart a la fois : moteurs lents, 20 ms de retard, 10 % d'ecart, seuil 0,25 m/s),
+   apres nouveau reglage (etude_pessimiste.log) : 18/18 a 1 m/s en 9,6 s (Kp 0,015, Ki 0, Kd 0,004, ralentissement 1) ;
+   18/18 a 0,8 m/s en 11,4 s.
+
+4. CONCLUSION
+   - Le kart est le plus performant : 9 a 9,6 s par trajet contre 12 s, et il reste sur la ligne meme avec tous les defauts.
+   - Le robot actuel est plus tolerant (il marche avec n'importe quel servo et sans reglage fin) et plus precis a basse vitesse.
+   - Conditions pour que le kart tienne ses promesses (a mettre dans son programme) :
+       boucle de commande rapide : moins de 20 ms entre la lecture des capteurs et la commande des moteurs (viser 5 ms) ;
+       ralentir dans les virages : v = v_base / (1 + |dv| / v_base) ;
+       rampe d'acceleration (2 m/s2 au plus : au-dela de 2,4 m/s2 l'avant se leve, pas de patins) ;
+       PID sur l'ecart -> difference de vitesse des roues : Kp 0,015 a 0,025 m/s par mm, Ki 0, Kd 0,002 a 0,004 ;
+       vitesse 0,8 m/s pour commencer, 1 m/s ensuite.
+   - Calendrier : validation du suivi de ligne le 18/12. Le robot actuel est monte et regle ; le kart est a imprimer,
+     monter et programmer.

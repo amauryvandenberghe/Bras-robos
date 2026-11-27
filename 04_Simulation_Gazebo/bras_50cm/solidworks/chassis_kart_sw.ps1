@@ -32,7 +32,7 @@ using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 public static class Kart {
     // geometrie (mm) : voir chassis_kart.json
-    const double XA = 164.25, ZM = 512.72, XE = 154.25, YE = 479.6, W_ROUE = 68.25, W_MOT = 51.7, Y_BAT = 470.1, W_BAT = 11.0, XC_BAT = 172.85;
+    const double XA = 164.25, ZM = 512.72, XE = 154.25, YE = 479.6, W_ROUE = 68.25, W_MOT = 51.7, Y_BAT = 470.1, W_BAT = 11.0, XC_BAT = 176.85;   // = chassis_kart.json (a reporter si le berceau bouge)
     const double X_RET = 261.75, X_L298N = 152.25, Y_PLOTS = 498.02, X_ESP = 263.25, Y_PLOTS_ESP = 502.52;
     class Pose { public string Fichier; public string Config = ""; public double[] Data; public double[] R; public double[] Centre; public double YMin = double.NaN; public string Nom; }
     static double[] Ident() { var d = new double[16]; d[0] = d[4] = d[8] = 1; d[12] = 1; return d; }
@@ -65,9 +65,9 @@ public static class Kart {
             };
             // (capteur de reference, element de reference x/w en version 1, nouvel element x/w)
             var cap = new[] {
-                Tuple.Create("capteur-7", 256.25, 19.5, 256.25, 33.2), Tuple.Create("capteur-9", 264.25, 7.6, 260.25, 15.2),
-                Tuple.Create("capteur-9", 264.25, 7.6, 264.25, 0.0), Tuple.Create("capteur-12", 264.25, -7.6, 260.25, -15.2),
-                Tuple.Create("capteur-8", 256.25, -19.5, 256.25, -33.2) };
+                Tuple.Create("capteur-7", 256.25, 19.5, 260.25, 27.2), Tuple.Create("capteur-9", 264.25, 7.6, 264.25, 15.2),
+                Tuple.Create("capteur-9", 264.25, 7.6, 264.25, 0.0), Tuple.Create("capteur-12", 264.25, -7.6, 264.25, -15.2),
+                Tuple.Create("capteur-8", 256.25, -19.5, 260.25, -27.2) };     // 28/11 soir : +-15,2 sans retrait, +-27,2 retrait 4
             foreach (var c in cap) {
                 var d = V1(c.Item1); d[9] += (c.Item4 - c.Item2) / 1000; d[11] += (c.Item5 - c.Item3) / 1000;
                 poses.Add(new Pose { Fichier = C(c.Item1).GetPathName(), Data = d, Nom = "capteur " + c.Item5.ToString(CultureInfo.InvariantCulture) });
