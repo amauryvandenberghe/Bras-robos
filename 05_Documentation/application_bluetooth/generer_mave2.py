@@ -8,7 +8,7 @@ robot les execute avec du retard. Ici, le joystick et le curseur ne font que not
 la DERNIERE toutes les 80 ms, seulement si elle a change. STOP, H, 1, N partent tout de suite. La direction se termine par ;
 (O90;) : l'ESP32 l'execute sans attendre 30 ms.
 
-Usage : python generer_mave2.py  ->  MAVE2.aia (a importer dans ai2.appinventor.mit.edu : Projets > Importer un projet).
+Usage : python generer_mave2.py  ->  MAVE3.aia (a importer dans ai2.appinventor.mit.edu : Projets > Importer un projet).
 """
 import json
 import os
@@ -17,7 +17,7 @@ import zipfile
 from xml.sax.saxutils import escape
 
 ICI = os.path.dirname(os.path.abspath(__file__))
-PROJET = 'MAVE2'
+PROJET = 'MAVE3'                  # 28/11 : MAVE3 (panneau Reglages en plein ecran) ; un nom neuf pour l'import
 PAQUET = 'appinventor/ai_amaury_vandenberghe/' + PROJET
 random.seed(27112026)
 
@@ -39,8 +39,9 @@ REGLAGES = [  # (nom de la case, libelle, valeur par defaut affichee avant lectu
 
 table = []
 for i, (tb, lib, val) in enumerate(REGLAGES):
-    table.append(comp('Lb' + tb[2:], 'Label', 5, Column=0, Row=i, Text=lib, FontSize=13))
-    table.append(comp(tb, 'TextBox', 6, Column=1, Row=i, Text=val, NumbersOnly='True', Width=90, FontSize=14, Hint=lib))
+    col, lig = 2 * (i // 5), i % 5                 # 2 colonnes de 5 reglages : tout tient sur l'ecran en paysage
+    table.append(comp('Lb' + tb[2:], 'Label', 5, Column=col, Row=lig, Text=lib, FontSize=13))
+    table.append(comp(tb, 'TextBox', 6, Column=col + 1, Row=lig, Text=val, NumbersOnly='True', Width=80, FontSize=14, Hint=lib))
 
 ecran = comp('Screen1', 'Form', 27, [
     comp('Barre', 'HorizontalArrangement', 3, [
@@ -62,24 +63,25 @@ ecran = comp('Screen1', 'Form', 27, [
         ], Width=280, AlignHorizontal=3),
         comp('Cadre2', 'Canvas', 12, [comp('Balle2', 'Ball', 6, Radius=25, X=75, Y=75, PaintColor=BLEU)],
              Width=200, Height=200, BackgroundColor=GRIS),
-        comp('PanneauReglages', 'VerticalScrollArrangement', 2, [
-            comp('TableReglages', 'TableArrangement', 1, table, Columns=2, Rows=len(REGLAGES)),
-            comp('BoutonsReglages1', 'HorizontalArrangement', 3, [
-                comp('BoutonLire', 'Button', 6, Text='Lire', FontSize=13),
-                comp('BoutonEnvoyer', 'Button', 6, Text='Envoyer', FontSize=13, BackgroundColor=VERT, TextColor=BLANC),
-            ]),
-            comp('BoutonsReglages2', 'HorizontalArrangement', 3, [
-                comp('BoutonMemoriser', 'Button', 6, Text='Memoriser', FontSize=13),
-                comp('BoutonCode', 'Button', 6, Text='Valeurs du code', FontSize=13),
-            ]),
-        ], Width=-2, Height=-2, Visible='False'),
     ], Width=-2, Height=-2, BackgroundColor=BLANC),
+    # 28/11 : panneau en PLEIN ECRAN (avant : a droite du joystick, sans place en paysage -> rien ne s'affichait)
+    comp('PanneauReglages', 'VerticalScrollArrangement', 2, [
+        comp('LigneReglages', 'HorizontalArrangement', 3, [
+            comp('TableReglages', 'TableArrangement', 1, table, Columns=4, Rows=5),
+            comp('BoutonsReglages', 'VerticalArrangement', 3, [
+                comp('BoutonLire', 'Button', 6, Text='Lire', FontSize=14, Width=150),
+                comp('BoutonEnvoyer', 'Button', 6, Text='Envoyer', FontSize=14, Width=150, BackgroundColor=VERT, TextColor=BLANC),
+                comp('BoutonMemoriser', 'Button', 6, Text='Memoriser', FontSize=14, Width=150),
+                comp('BoutonCode', 'Button', 6, Text='Valeurs du code', FontSize=14, Width=150),
+            ]),
+        ], Width=-2),
+    ], Width=-2, Height=-2, Visible='False', BackgroundColor=BLANC),
     comp('LabelMessage', 'Label', 5, Text='', FontSize=12, Width=-2),
     comp('BluetoothClient1', 'BluetoothClient', 5),
     comp('Clock1', 'Clock', 3, TimerInterval=80),
     comp('Notifier1', 'Notifier', 5),
 ], AppName='MAVE', Title='M.A.V.E.', ScreenOrientation='landscape', Sizing='Responsive', Theme='Classic',
-    ShowListsAsJson='True', BackgroundColor=BLANC, VersionCode=2, VersionName='2.0')
+    ShowListsAsJson='True', BackgroundColor=BLANC, VersionCode=3, VersionName='3.0')
 
 scm = '#|\n$JSON\n' + json.dumps({'authURL': ['ai2.appinventor.mit.edu'], 'YaVersion': '208', 'Source': 'Form',
                                    'Properties': ecran}, ensure_ascii=False) + '\n|#'
@@ -327,8 +329,16 @@ def val(tb):
 
 
 # Reglages
-ajout(event('Button', 'BoutonReglages', 'Click', set_('VerticalScrollArrangement', 'PanneauReglages', 'Visible',
-            B('logic_negate', V('BOOL', get('VerticalScrollArrangement', 'PanneauReglages', 'Visible')))), X0, y), 2)
+vrai, faux = B('logic_boolean', F('BOOL', 'TRUE')), B('logic_boolean', F('BOOL', 'FALSE'))
+ajout(event('Button', 'BoutonReglages', 'Click', si(get('VerticalScrollArrangement', 'PanneauReglages', 'Visible'), suite(
+    set_('VerticalScrollArrangement', 'PanneauReglages', 'Visible', faux),
+    set_('HorizontalArrangement', 'Arrangement_horizontal1', 'Visible', vrai),
+    set_('Button', 'BoutonReglages', 'Text', txt('Reglages')),
+    call('Form', 'Screen1', 'HideKeyboard')), suite(
+    set_('HorizontalArrangement', 'Arrangement_horizontal1', 'Visible', faux),
+    set_('VerticalScrollArrangement', 'PanneauReglages', 'Visible', vrai),
+    set_('Button', 'BoutonReglages', 'Text', txt('Retour')),
+    set_('Label', 'LabelMessage', 'Text', txt('Reglages : Lire = valeurs du robot, Envoyer = appliquer, Memoriser = garder apres extinction')))), X0, y), 6)
 ajout(event('Button', 'BoutonLire', 'Click', bouton_commande('BoutonLire', '{?}'), X0, y), 2)
 ajout(event('Button', 'BoutonMemoriser', 'Click', bouton_commande('BoutonMemoriser', '{W}'), X0, y), 2)
 ajout(event('Button', 'BoutonCode', 'Click', bouton_commande('BoutonCode', '{Z}'), X0, y), 2)

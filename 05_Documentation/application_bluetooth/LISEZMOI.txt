@@ -2,8 +2,10 @@ APPLICATION BLUETOOTH MAVE2 (27/11/2026) - l'application MAVE + REGLAGES DU SUIV
 =====================================================================================================
 
 INSTALLER (5 minutes, sur ai2.appinventor.mit.edu avec votre compte habituel) :
-  1. Projets > "Importer un projet (.aia) depuis mon ordinateur" > choisir MAVE2.aia (ce dossier).
-     (Projet NOUVEAU nomme MAVE2 : l'ancien projet MAVE n'est pas touche.)
+  1. Projets > "Importer un projet (.aia) depuis mon ordinateur" > choisir MAVE3.aia (ce dossier).
+     (Projet NOUVEAU nomme MAVE3 : MAVE et MAVE2 ne sont pas touches. 28/11 : dans MAVE2, le bouton Reglages n'ouvrait rien
+     car le panneau etait a droite du joystick, sans place en paysage. Dans MAVE3, Reglages ouvre le panneau en plein ecran
+     (2 colonnes de 5 cases + Lire / Envoyer / Memoriser / Valeurs du code) et le bouton devient Retour.)
   2. Construire > "Android App (.apk)" > telecharger l'APK sur le telephone (ou le QR code) et l'installer.
   3. Televerser le NOUVEAU programme dans l'ESP32 (sinon les reglages ne sont pas compris).
   Si App Inventor affiche un avertissement en ouvrant les blocs, me le copier : le projet a ete ecrit par programme
@@ -38,4 +40,4 @@ CONSEILS POUR REGLER (une seule valeur a la fois, puis N) :
 
 PROTOCOLE (pour info) : {G kp ki kd tau vit_servo} {T v_max v_min braq_lent ecart_lent} {K v255} {?} {W} {Z} ;
   reponse du robot : "R kp ki kd tau vit_servo v_max v_min braq_lent ecart_lent v255". Aussi utilisable au moniteur serie.
-Fichiers : MAVE2.aia (projet App Inventor), generer_mave2.py (le script qui le fabrique).
+Fichiers : MAVE3.aia (projet App Inventor ; MAVE2.aia = ancienne version), generer_mave2.py (le script qui le fabrique).
