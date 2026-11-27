@@ -78,27 +78,34 @@ def piece(nom):
 
 
 masses = []          # (nom, g, xyz)
-PIECES = ('platine kart', 'tour du bras', 'nez capteurs et billes kart', 'berceau batteries kart')
+PIECES = ('platine kart', 'tour du bras', 'nez 5 capteurs et roulette', 'berceau batteries kart')
 for nom in PIECES:
     g, c = piece(nom); masses.append((nom, g, c))
 for sg in (-1, 1):
     masses.append(('moteur', 29.0, np.array([XE + 21.9, YE, ZM + sg * P['W_MOT']])))
     masses.append(('roue', 12.0, np.array([XE, YE, ZM + sg * P['W_ROUE']])))
     masses.append(('batterie', 45.0, np.array([P['XC_BAT'], P['Y_BAT'], ZM + sg * P['W_BAT']])))
-    masses.append(('bille acier 16', 16.7, np.array([P['X_BILLE'], P['Y_BILLE'], ZM + sg * P['W_BILLE']])))
-masses += [('PCB + ESP32 + barrettes', 35.0, np.array([P['PCB_X0'] + 40, P['PCB_Y'] + 6, ZM])),
+    pass
+masses += [('PCB + ESP32 + barrettes (place prevue devant la tour)', 35.0, np.array([XA + 75.0, P['YP1'] + 14.0, ZM])), ('roulette a bille', 15.0, np.array([P['X_ROUL'], YS + 10.0, ZM])),
            ('L298N', 26.0, np.array([P['L298N'][0], P['L298N'][1] + 12.0, ZM])), ('abaisseur + interrupteur', 15.0, np.array([P['abaisseur'][0], P['abaisseur'][1] + 8.0, ZM])),
-           ('4 cartes capteurs', 12.0, np.array([P['X_BILLE'] + 4.0, YS + 19.0, ZM])), ('vis, ecrous', 25.0, np.array([XA, P['YP1'], ZM])),
+           ('5 cartes capteurs', 15.0, np.array([XE + P['L_CAPT'] - 12.0, YS + 19.0, ZM])), ('vis, ecrous', 25.0, np.array([XA, P['YP1'], ZM])),
            ('fils', 15.0, np.array([XA, P['YP1'] + 5.0, ZM]))]
 m_robot = sum(g for _, g, _ in masses)
 c_robot = sum(g * c for _, g, c in masses) / m_robot
 
 # polygone d'appui (x, z) : billes avant, roues (milieu du pneu), patins arriere (a 1 mm du sol)
-xp, wp = P['patins'][0]
-APPUI = [(P['X_BILLE'], ZM + P['W_BILLE']), (XE, ZM + P['W_ROUE']), (xp, ZM + wp), (xp, ZM - wp), (XE, ZM - P['W_ROUE']), (P['X_BILLE'], ZM - P['W_BILLE'])]
-APPUI_NORMAL = [APPUI[0], APPUI[1], APPUI[4], APPUI[5]]
-if wp == 0:                                                       # un seul patin, au milieu
-    APPUI = APPUI[:2] + [(xp, ZM)] + APPUI[4:]            # sans les patins
+if 'appui' in P:                                                  # 28/11 : appuis donnes par chassis_kart.py (roues + roulette)
+    APPUI = [tuple(q) for q in P['appui']]
+    APPUI_NORMAL = APPUI
+else:
+    xp, wp = P['patins'][0]
+    APPUI = [(P['X_BILLE'], ZM + P['W_BILLE']), (XE, ZM + P['W_ROUE']), (xp, ZM + wp), (xp, ZM - wp), (XE, ZM - P['W_ROUE']), (P['X_BILLE'], ZM - P['W_BILLE'])]
+    APPUI_NORMAL = [APPUI[0], APPUI[1], APPUI[4], APPUI[5]]
+if os.environ.get('APPUI'):                                       # essai : "x1,z1;x2,z2;..." relatifs a l'essieu et au milieu
+    APPUI = [(XE + float(q.split(',')[0]), ZM + float(q.split(',')[1])) for q in os.environ['APPUI'].split(';')]
+    APPUI_NORMAL = APPUI
+if os.environ.get('DX_BRAS'):                                     # essai : bras deplace de DX_BRAS mm vers l'avant
+    XA = XA + float(os.environ['DX_BRAS'])
 
 
 def marge(pt, poly):
@@ -124,8 +131,8 @@ M = m_robot + mb
 c = (m_robot * c_robot + mb * cb) / M
 print('robot sans bras %.0f g, bras %.0f g, TOTAL %.0f g' % (m_robot, mb, M))
 print('centre de gravite, bras replie : %.1f mm devant l\'essieu, %.1f mm de haut, %.1f mm de cote' % (c[0] - XE, c[1] - YS, c[2] - ZM))
-part_billes = (c[0] - XE) / (P['X_BILLE'] - XE)
-print('  -> les billes avant portent %.0f %% du poids, les roues %.0f %% (adherence)' % (100 * part_billes, 100 * (1 - part_billes)))
+part_billes = (c[0] - XE) / (P['X_ROUL'] - XE)
+print('  -> la roulette avant porte %.0f %% du poids, les roues %.0f %% (adherence)' % (100 * part_billes, 100 * (1 - part_billes)))
 print('  marge de basculement (sans les patins) %.1f mm' % marge((c[0], c[2]), APPUI_NORMAL))
 h = c[1] - YS
 for nom, ax, az in (('freinage 3 m/s2', 3.0, 0.0), ('acceleration 3 m/s2', -3.0, 0.0), ('virage 0,8 m/s R 200 (3,2 m/s2)', 0.0, 3.2)):
@@ -135,7 +142,7 @@ for nom, ax, az in (('freinage 3 m/s2', 3.0, 0.0), ('acceleration 3 m/s2', -3.0,
 
 # domaine du bras
 lim = [(-1.5708, 1.5708), (-0.95, 2.19), (-0.05, 3.09), (-1.2, 1.94)]
-pire = (1e9, None); n_tot = 0; n_arriere = 0; pire_normal = (1e9, None)
+pire = (1e9, None); n_tot = 0; n_arriere = 0; pire_normal = (1e9, None); n_bascule = 0; bascule_lacet = {}
 for q2 in np.linspace(*lim[1], 17):
     for q3 in np.linspace(*lim[2], 17):
         for q4 in np.linspace(*lim[3], 7):
@@ -149,12 +156,15 @@ for q2 in np.linspace(*lim[1], 17):
                 mg = marge((cx, cz), APPUI)
                 if cx < XE:
                     n_arriere += 1
+                if mg < 0:
+                    k = int(round(np.degrees(q1))); n_bascule += 1; bascule_lacet[k] = bascule_lacet.get(k, 0) + 1
                 if mg < pire[0]:
                     pire = (mg, (np.degrees(q1), q2, q3, q4, cx - XE, cz - ZM))
 print('\n=== TOUT LE DOMAINE DU BRAS (%d positions, sans balle) ===' % n_tot)
 print('pire marge de basculement : %.1f mm (lacet %.0f deg, q2 %.2f q3 %.2f q4 %.2f rad ; centre de gravite %+.1f / %+.1f mm de l\'essieu)' % (
     pire[0], *pire[1]))
-print('positions ou le robot s\'appuie sur les patins arriere (centre derriere l\'essieu) : %.0f %%' % (100.0 * n_arriere / n_tot))
+print("positions ou le centre de gravite passe derriere l'essieu : %.0f %%" % (100.0 * n_arriere / n_tot))
+print('positions ou le robot BASCULE : %d sur %d (%.1f %%) ; par angle de lacet : %s' % (n_bascule, n_tot, 100.0 * n_bascule / n_tot, dict(sorted(bascule_lacet.items()))))
 
 # inertie de lacet (points + pieces imprimees en masse repartie)
 I = 0.0

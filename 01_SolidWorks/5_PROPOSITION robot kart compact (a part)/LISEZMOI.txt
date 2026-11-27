@@ -1,59 +1,76 @@
-PROPOSITION 2 (28/11/2026) : ROBOT "KART" COMPACT - assemblage A PART (Assemblage1v2 n'est pas touche)
-=====================================================================================================
-Remplace la proposition du 27/11 (robot differentiel 200 x 196, bati a 80 mm), jugee trop grande et trop haute.
-Elle est rangee dans "ancienne proposition 27-11 (differentiel large)".
+PROPOSITION 2 (28/11/2026) : ROBOT "KART" COMPACT, VERSION 2 - assemblage A PART (Assemblage1v2 n'est pas touche)
+=====================================================================================================================
+Ouvrir : "Robot kart compact.SLDASM" (images : Robot kart (vue ...).png). Toutes les vis et tous les ecrous y sont.
+Il reprend de 1_VERSION_FINALE : mcc, roue arriere motrice, batterie, capteur, L298N, Bras 50cm et les 4 vis du socle du bras.
+L'ancienne proposition (differentiel large du 27/11) est rangee dans "ancienne proposition 27-11 (differentiel large)".
 
-Ouvrir : "Robot kart compact.SLDASM" (images : Robot kart (vue ...).png).
-Il utilise les pieces de 1_VERSION_FINALE (a ouvrir) : mcc, roue arriere motrice, batterie, capteur, L298N, ESP32, Bras 50cm.
+CE QUI A CHANGE PAR RAPPORT A LA VERSION 1 (demandes du 28/11)
+- Plus de billes avant ni de patins arriere : UNE roulette a bille, au centre, juste devant la pointe des capteurs.
+- 5 capteurs en fleche (au lieu de 4), place et ecartement choisis par simulation (voir plus bas).
+- Le PCB et l'ESP32 ne sont plus dessines (on s'en occupera plus tard) : la place devant la tour reste libre.
+- Plus de grandes fenetres : une petite fente par capteur (12 x 4 mm, juste au-dessus du connecteur de la carte, assez pour
+  passer le connecteur Dupont), 2 trous pour les fils des moteurs, 1 trou pour les fils des batteries.
+- Toute la visserie est dessinee ; les ecrous sont captifs ou glisses dans des fentes (pas besoin de les tenir a la pince).
 
-L'IDEE (style robot suiveur de ligne de competition : moteurs a l'arriere, roues collees aux moteurs, le minimum de bati)
-- 2 moteurs jaunes SOUS une platine basse : la platine est posee sur les moteurs (dessous a 41 mm du sol, dessus a 45 mm).
-  Les flasques des moteurs font partie de la platine : une seule piece au lieu de bati + 2 etriers.
-- Roues juste a cote des moteurs : voie 136 mm, largeur hors tout 150 mm, longueur 172 mm (avant : 200 x 196).
-- Le bras est pose sur une petite TOUR ajouree (35 mm) qui remet son socle a 80,1 mm du sol, comme aujourd'hui :
-  le reseau de neurones du bras reste valable. Le L298N et l'abaisseur sont DANS la tour (place perdue sinon).
-  (Sans la tour, le bras serait a 45 mm du sol : il faudrait reentrainer le reseau.)
-- 2 batteries couchees ENTRE les 2 moteurs, a 9 mm du sol (berceau visse sous la platine).
-- PCB + ESP32 sur la platine, devant la tour, port USB accessible.
-- NEZ visse sous la platine : les 4 capteurs EN FLECHE (meme disposition que sur le robot, 8 mm du sol), elements interieurs
-  110 mm devant l'essieu, + 2 billes d'acier de 16 mm. 2 patins arriere a 1 mm du sol.
+LA ROULETTE : A VERIFIER
+Aucun modele de roulette dans le projet, et l'Excel du materiel n'est plus dans Telechargements : j'ai dessine une roulette a
+bille standard (bille 15 mm, boitier 22 mm, 20 mm du sol au-dessus de sa platine, 2 trous M3 a 26 mm). Si la vraie est
+differente : mesurer hauteur, entraxe et taille de la platine, les mettre dans chassis_kart.py (R_BILLE, R_BOITIER, H_ROUL,
+R_PLAT, R_ENTRAXE), relancer le script CadQuery puis chassis_kart_sw.ps1 : le bloc du nez s'adapte tout seul.
 
 LES CHIFFRES (calculs, a confirmer sur le vrai robot)
-- Suivi de ligne (03_Reseau_de_neurones/esp32/simulation_ligne/etude_kart_voie136.log, meme piste et memes capteurs que les autres
-  etudes) : 4 trajets sur 4 reussis a 0,45 / 0,6 / 0,8 / 1 m/s, ecart moyen 4,8 / 5,0 / 4,3 / 4,1 mm.
-  La voie plus etroite aide (le differentiel large ratait 1 m/s avec des capteurs a moins de 102 mm).
-  Capteurs a 95 mm : encore un peu mieux, mais le nez tombe alors sur les batteries ; 110 mm retenu.
-- Equilibre (stabilite.log ; masses des composants = valeurs typiques, NON pesees) : 797 g (avant 890 g), dont bras 346 g ;
-  centre de gravite 27 mm devant l'essieu ; les roues portent 73 % du poids (adherence), les billes 27 %.
-  Sur 26 299 positions du bras, le robot ne bascule JAMAIS ; plus petite marge 18,6 mm, bras tendu sur le cote
-  (avant : 41 mm avec la voie de 186 : c'est le prix de la largeur de 150 mm).
-  Freinage 3 m/s2 : marge 41 mm ; virage 0,8 m/s dans 200 mm de rayon : marge 31 mm.
-- Inertie de lacet 1,9e-3 kg.m2 (avant 3,0e-3) : le robot tourne plus vite.
+- Taille : 181 x 150 mm (roulette devant comprise), dessus de la platine a 45 mm du sol, socle du bras a 80,1 mm (inchange).
+- 5 capteurs (03_Reseau_de_neurones/esp32/simulation_ligne/etude_kart5.log) : 36 dispositions essayees. Retenue :
+  capteur du milieu en pointe a 110 mm devant l'essieu, 2 capteurs a +-15,2 mm (4 mm en retrait), 2 a +-33,2 mm (8 mm en retrait).
+  4 trajets sur 4 de 0,45 a 1 m/s, ecart moyen 2,3 a 3,9 mm. Honnetement : les 4 capteurs actuels font presque aussi bien en
+  simulation ; le 5e elargit surtout la zone ou la ligne est vue (+-41 mm au lieu de +-27), utile dans les virages serres.
+- Equilibre (stabilite.log ; masses des composants = valeurs typiques, NON pesees) : 801 g, centre de gravite 27 mm devant l'essieu,
+  roues 79 % du poids (bonne adherence), roulette 21 %.
+  Roulette DEVANT les capteurs : le robot ne bascule que dans 1,3 % des positions du bras, toutes avec le bras replie VERS
+  L'ARRIERE ; il se pose alors sur l'arriere du berceau (9 mm du sol). Si la roulette etait derriere les capteurs, il basculerait
+  dans 29 % des positions (bras tendu sur le cote) : c'est pour ca qu'elle est devant.
+  Sans patins arriere, une acceleration de plus de 2,4 m/s2 leve l'avant : le programme devra monter la vitesse progressivement
+  (0 -> 1 m/s en au moins 0,5 s).
+- Inertie de lacet 1,8e-3 kg.m2.
 
 LES PIECES A IMPRIMER (STL dans ce dossier ; CadQuery : bras_50cm/robot/chassis_kart.py)
-  platine kart                    170 x 136 mm, flasques des moteurs et 4 entretoises du PCB comprises (environ 47 g)
-                                  a imprimer retournee (dessus sur le plateau), supports seulement sous les 4 entretoises
-  tour du bras                    96 x 96 x 35 mm, ajouree
-  nez capteurs et billes kart     support des 4 cartes (le meme que sur le robot) + 2 coupelles a billes
-  berceau batteries kart          2 sieges, fentes pour 2 sangles velcro, 4 colonnes, 2 patins arriere
-  (bille 16 gauche / droite et PCB MAVE (encombrement) : pour l'assemblage seulement, ne pas imprimer)
+  platine kart                    181 x 118 mm (+ oreilles) ; flasques des moteurs et plots du L298N compris
+                                  a imprimer retournee (dessus sur le plateau) : supports seulement sous les 4 plots du L298N
+  tour du bras                    96 x 96 x 35 mm, ajouree ; a imprimer plateau sur le plateau de l'imprimante
+  nez 5 capteurs et roulette      plaque des 5 cartes + 2 poteaux + bloc de la roulette ; a imprimer a l'envers (dessus des
+                                  poteaux et du bloc sur le plateau), supports sous la plaque des cartes
+  berceau batteries kart          2 sieges, fentes pour 2 sangles velcro de 20 mm, 4 colonnes
+  (roulette a bille (encombrement) : piece du commerce, ne pas imprimer)
 
-VISSERIE (M3 partout) - ordre de montage
-  1. moteurs   : 2 x M3 x 30 par moteur, a travers le moteur et la flasque ; tete cote roue, ecrou cote interieur.
-  2. berceau   : batteries sanglees, puis 4 x M3 x 16 depuis le dessus de la platine (ecrous glisses dans les colonnes).
-                 Les 2 vis arriere sont sous la tour : les mettre AVANT la tour.
-  3. L298N (4 x M3 + entretoises) et abaisseur (2 x M3) sur la platine, dans l'emprise de la tour.
-  4. tour      : 4 x M3 x 10 dans les pattes des coins (ecrous sous la platine).
-  5. bras      : 4 x M3 sur le plateau de la tour (ecrous dans les logements sous le plateau), comme aujourd'hui.
-  6. nez       : 4 x M3 x 10 depuis le dessus de la platine. PCB : 4 x M3 x 12 sur les entretoises imprimees.
+VISSERIE : 26 VIS + 30 ECROUS M3 (tout est dans l'assemblage, dossier "visserie")
+  moteurs         4 vis M3 x 30 + 4 ecrous   tete cote roue, ecrou dans son logement sur la flasque (cote interieur)
+  L298N           4 vis M3 x 12 + 4 ecrous   sur les 4 plots ; ecrous captifs sous la platine
+  tour            4 vis M3 x 12 + 4 ecrous   dans les pattes ; ecrous captifs sous la platine
+  bras            4 vis du socle (comme aujourd'hui) + 4 ecrous captifs sous le plateau de la tour
+  berceau         4 vis M3 x 16 + 4 ecrous   depuis le dessus de la platine ; ecrous glisses dans les colonnes (par l'arriere / l'avant)
+  nez             3 vis M3 x 12 + 3 ecrous   depuis le dessus de la platine ; ecrous glisses dans les poteaux et le bloc
+  capteurs        5 vis M3 x 8 + 5 ecrous    une par carte, ecrou sous la plaque
+  roulette        2 vis M3 x 10 + 2 ecrous   par dessous ; ecrous glisses par l'arriere du bloc
+  (abaisseur : 2 trous M3 a ecrous captifs prevus, module pas dessine)
+
+ORDRE DE MONTAGE (chaque etape reste accessible)
+  0. Enfoncer les ecrous captifs (L298N, tour, abaisseur sous la platine ; bras sous le plateau de la tour ; moteurs dans les
+     flasques) : un petit coup de fer a souder ou un serrage avec une vis les met en place.
+  1. Moteurs : vis M3 x 30 depuis le cote roue, roues enlevees ; puis remettre les roues.
+  2. L298N et abaisseur sur la platine (la tour n'est pas encore la : tout est accessible).
+  3. Berceau : batteries sanglees, ecrous glisses dans les colonnes, 4 vis M3 x 16 depuis le dessus. Fils des batteries par le trou
+     a cote du L298N.
+  4. Nez : visser les 5 cartes et la roulette sur le nez (sur la table), passer chaque connecteur dans sa fente, glisser les 3
+     ecrous, 3 vis M3 x 12 depuis le dessus.
+  5. Tour : 4 vis M3 x 12 (le L298N reste visible par les grandes fenetres pour le cablage).
+  6. Bras : 4 vis du socle sur le plateau de la tour.
 
 CE QUI CHANGE AILLEURS
-- Budget : le servo MG996R de direction ne sert plus. 2 billes d'acier de 16 mm en plus.
-- Cablage du 2e moteur : 2e voie du L298N : ENB sur la broche 17 (ancien servo de direction), IN3 27, IN4 14.
-- Programme : PAS ECRIT (le PID donne une difference de vitesse entre les 2 roues ; en simulation Kp 0,015 a 0,025 m/s par mm).
+- Budget : plus de servo MG996R de direction ; 1 roulette (deja dans la liste du groupe).
+- Cablage du 2e moteur : ENB broche 17, IN3 27, IN4 14. 5e capteur : une entree analogique libre en plus (a choisir avec le PCB).
+- Programme : PAS ECRIT (PID sur la difference de vitesse des 2 roues, Kp 0,015 a 0,04 m/s par mm en simulation ; rampe d'acceleration).
 
 NON VERIFIE / A FAIRE
-- Rien n'est imprime ni monte ; masses et diametre reel des batteries non mesures.
-- Hauteur reelle du L298N avec son radiateur dans la tour (30 mm de place) : voir le controle d'interferences SolidWorks.
-- Interrupteur et fils non dessines (passages prevus dans la platine).
+- Rien n'est imprime ni monte ; masses, diametre des batteries et cotes de la roulette non mesures.
+- Les vis du socle du bras sont reprises telles quelles de l'assemblage du robot (meme hauteur de socle).
 Script SolidWorks : 04_Simulation_Gazebo/bras_50cm/solidworks/chassis_kart_sw.ps1 (relancable, refait seulement ce dossier).

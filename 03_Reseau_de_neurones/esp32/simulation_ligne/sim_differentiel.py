@@ -32,7 +32,7 @@ def simuler_diff(pid, v_base, graine, rayon, modele, tmax=60.0):
     npts = len(pts)
     sig = S.sigma_tache(8.0, modele); amp = S.amplitude(8.0)
     nrnd = np.random.default_rng(graine)
-    gains = 1.0 + 0.05 * nrnd.standard_normal(4)
+    gains = 1.0 + 0.05 * nrnd.standard_normal(len(CAPT))
     bruit_n = 18.0 / (3000.0 * amp)
     est = S.Estimateur(CAPT, 'bary2')
     dt = 0.005
@@ -45,7 +45,7 @@ def simuler_diff(pid, v_base, graine, rayon, modele, tmax=60.0):
         c, s = math.cos(psi), math.sin(psi)
         q = np.array([(x + a * c - b * s, y + a * s + b * c) for a, b in CAPT])
         dist, _ = arbre.query(q)
-        n = np.clip(gains * S.F(dist, sig) + bruit_n * nrnd.standard_normal(4), 0.0, 1.0)
+        n = np.clip(gains * S.F(dist, sig) + bruit_n * nrnd.standard_normal(len(CAPT)), 0.0, 1.0)
         vu, e = est(n)            # e : + = ligne a GAUCHE
         if vu:
             t_vue = t
