@@ -1,13 +1,14 @@
-﻿vis du socle du bras reprises : 4
+﻿L298N : centre de la boite - centre des trous = 0,01 / -0,03 mm
+vis du socle du bras reprises : 4
   capteur-1                                (capteur 33.2) boite x 249,2..263,3 y 457,6..479,6 z 542,1..573,3
   capteur-2                                (capteur 15.2) boite x 232,8..264,0 y 457,6..479,6 z 520,9..535,0
   capteur-3                                (capteur 0) boite x 236,8..268,0 y 457,6..479,6 z 505,7..519,8
   capteur-4                                (capteur -15.2) boite x 232,8..264,0 y 457,6..479,6 z 490,5..504,6
   capteur-5                                (capteur -33.2) boite x 249,2..263,3 y 457,6..479,6 z 452,1..483,3
-  L298N Motor Driver.step-1                (L298N) boite x 130,5..174,0 y 498,0..524,0 z 491,0..534,5
+  L298N Motor Driver.step-1                (L298N) boite x 130,5..174,0 y 498,0..524,0 z 490,9..534,4
   Bras 50cm-1                              (bras) boite x 124,3..475,7 y 529,7..881,4 z 454,9..564,1
-  socket head cap screw_iso-1              (vis du socle du bras) boite x 194,5..200,0 y 521,7..536,7 z 477,0..482,5
-  socket head cap screw_iso-2              (vis du socle du bras) boite x 128,5..134,0 y 521,7..536,7 z 477,0..482,5
+  socket head cap screw_iso-1              (vis du socle du bras) boite x 128,5..134,0 y 521,7..536,7 z 477,0..482,5
+  socket head cap screw_iso-2              (vis du socle du bras) boite x 194,5..200,0 y 521,7..536,7 z 477,0..482,5
   socket head cap screw_iso-3              (vis du socle du bras) boite x 128,5..134,0 y 521,7..536,7 z 543,0..548,5
   socket head cap screw_iso-4              (vis du socle du bras) boite x 194,5..200,0 y 521,7..536,7 z 543,0..548,5
   mcc-1                                    (moteur gauche) boite x 143,3..209,0 y 468,4..490,8 z 546,0..582,8
@@ -22,99 +23,10 @@
   berceau batteries kart-1                 (berceau batteries kart) boite x 114,9..230,9 y 458,6..491,0 z 480,2..545,2
   roulette a bille (encombrement)-1        (roulette a bille (encombrement)) boite x 272,1..294,1 y 449,6..469,6 z 493,7..531,7
 visserie inseree : 56 pieces sur 56
-  INTERFERENCE 60,68 mm3 : platine kart-1 / Vis M3x16-1
-  INTERFERENCE 51,21 mm3 : platine kart-1 / Vis M3x16-2
-  INTERFERENCE 51,21 mm3 : platine kart-1 / Vis M3x16-4
-  INTERFERENCE 51,21 mm3 : platine kart-1 / Vis M3x16-3
-  INTERFERENCE 37,74 mm3 : capteur-4/LineSensorAssy.step-1/Part 1.step-1 / Vis M3x8-4
-  INTERFERENCE 37,74 mm3 : capteur-2/LineSensorAssy.step-1/Part 1.step-1 / Vis M3x8-2
-  INTERFERENCE 37,74 mm3 : capteur-3/LineSensorAssy.step-1/Part 1.step-1 / Vis M3x8-3
-  INTERFERENCE 37,07 mm3 : platine kart-1 / Vis M3x12-9
-  INTERFERENCE 37,07 mm3 : platine kart-1 / Vis M3x12-10
-  INTERFERENCE 37,07 mm3 : platine kart-1 / Vis M3x12-11
-  INTERFERENCE 34,67 mm3 : L298N Motor Driver.step-1 / Vis M3x12-1
-  INTERFERENCE 34,67 mm3 : L298N Motor Driver.step-1 / Vis M3x12-3
-  INTERFERENCE 29,54 mm3 : capteur-5/LineSensorAssy.step-1/Part 1.step-1 / Vis M3x8-5
-  INTERFERENCE 28,37 mm3 : capteur-1/LineSensorAssy.step-1/Part 1.step-1 / Vis M3x8-1
-  INTERFERENCE 23,78 mm3 : tour du bras-1 / Vis M3x12-6
-  INTERFERENCE 23,78 mm3 : platine kart-1 / Vis M3x12-10
-  INTERFERENCE 23,78 mm3 : tour du bras-1 / Vis M3x12-5
-  INTERFERENCE 23,78 mm3 : platine kart-1 / Vis M3x16-3
-  INTERFERENCE 23,78 mm3 : platine kart-1 / Vis M3x16-4
-  INTERFERENCE 23,78 mm3 : tour du bras-1 / Vis M3x12-8
-  INTERFERENCE 23,78 mm3 : platine kart-1 / Vis M3x12-9
-  INTERFERENCE 23,78 mm3 : platine kart-1 / Vis M3x16-2
-  INTERFERENCE 23,78 mm3 : platine kart-1 / Vis M3x16-1
-  INTERFERENCE 23,78 mm3 : tour du bras-1 / Vis M3x12-7
-  INTERFERENCE 23,78 mm3 : platine kart-1 / Vis M3x12-11
   INTERFERENCE 19,63 mm3 : mcc-1 / roue arriere motrice-1
   INTERFERENCE 19,63 mm3 : mcc-2 / roue arriere motrice-2
   INTERFERENCE 19,63 mm3 : mcc-1 / roue arriere motrice-1
   INTERFERENCE 19,63 mm3 : mcc-2 / roue arriere motrice-2
-  INTERFERENCE 18,96 mm3 : socket head cap screw_iso-1 / Ecrou M3-22
-  INTERFERENCE 18,96 mm3 : socket head cap screw_iso-2 / Ecrou M3-20
-  INTERFERENCE 18,96 mm3 : socket head cap screw_iso-4 / Ecrou M3-23
-  INTERFERENCE 18,96 mm3 : socket head cap screw_iso-3 / Ecrou M3-21
-  INTERFERENCE 17,88 mm3 : capteur-1/LineSensorAssy.step-1/Part 1.step-1 / Vis M3x8-1
-  INTERFERENCE 17,87 mm3 : L298N Motor Driver.step-1 / Vis M3x12-4
-  INTERFERENCE 17,87 mm3 : L298N Motor Driver.step-1 / Vis M3x12-2
-  INTERFERENCE 17,87 mm3 : L298N Motor Driver.step-1 / Vis M3x12-1
-  INTERFERENCE 17,87 mm3 : L298N Motor Driver.step-1 / Vis M3x12-3
-  INTERFERENCE 17,84 mm3 : capteur-5/LineSensorAssy.step-1/Part 1.step-1 / Vis M3x8-5
-  INTERFERENCE 15,86 mm3 : tour du bras-1 / Vis M3x12-7
-  INTERFERENCE 15,86 mm3 : tour du bras-1 / Vis M3x12-8
-  INTERFERENCE 15,86 mm3 : tour du bras-1 / Vis M3x12-6
-  INTERFERENCE 15,86 mm3 : tour du bras-1 / Vis M3x12-5
-  INTERFERENCE 10,60 mm3 : tour du bras-1 / Vis M3x16-3
-  INTERFERENCE 9,48 mm3 : vis M3x30-1 / Ecrou M3-1
-  INTERFERENCE 9,48 mm3 : vis M3x30-4 / Ecrou M3-4
-  INTERFERENCE 9,48 mm3 : vis M3x30-2 / Ecrou M3-2
-  INTERFERENCE 9,48 mm3 : vis M3x30-3 / Ecrou M3-3
-  INTERFERENCE 9,48 mm3 : vis M3x30-4 / Ecrou M3-4
-  INTERFERENCE 9,48 mm3 : vis M3x30-3 / Ecrou M3-3
-  INTERFERENCE 9,48 mm3 : vis M3x30-2 / Ecrou M3-2
-  INTERFERENCE 9,48 mm3 : vis M3x10-2 / Ecrou M3-30
-  INTERFERENCE 9,48 mm3 : vis M3x30-1 / Ecrou M3-1
-  INTERFERENCE 9,48 mm3 : vis M3x10-1 / Ecrou M3-29
-  INTERFERENCE 8,42 mm3 : L298N Motor Driver.step-1 / Vis M3x12-1
-  INTERFERENCE 8,42 mm3 : L298N Motor Driver.step-1 / Vis M3x12-1
-  INTERFERENCE 8,42 mm3 : L298N Motor Driver.step-1 / Vis M3x12-3
-  INTERFERENCE 8,42 mm3 : L298N Motor Driver.step-1 / Vis M3x12-3
-  INTERFERENCE 6,22 mm3 : nez 5 capteurs et roulette-1 / Vis M3x8-5
-  INTERFERENCE 6,22 mm3 : nez 5 capteurs et roulette-1 / Vis M3x8-4
-  INTERFERENCE 6,22 mm3 : nez 5 capteurs et roulette-1 / Vis M3x8-3
-  INTERFERENCE 6,22 mm3 : nez 5 capteurs et roulette-1 / Vis M3x8-2
-  INTERFERENCE 6,22 mm3 : nez 5 capteurs et roulette-1 / Vis M3x8-1
-  INTERFERENCE 6,20 mm3 : platine kart-1 / Vis M3x12-3
-  INTERFERENCE 6,20 mm3 : platine kart-1 / Vis M3x12-1
-  INTERFERENCE 6,20 mm3 : platine kart-1 / Vis M3x12-2
-  INTERFERENCE 6,20 mm3 : platine kart-1 / Vis M3x12-4
-  INTERFERENCE 5,56 mm3 : L298N Motor Driver.step-1 / Vis M3x12-2
-  INTERFERENCE 5,56 mm3 : L298N Motor Driver.step-1 / Vis M3x12-4
-  INTERFERENCE 5,10 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-15
-  INTERFERENCE 5,10 mm3 : berceau batteries kart-1 / Ecrou M3-16
-  INTERFERENCE 5,10 mm3 : berceau batteries kart-1 / Ecrou M3-17
-  INTERFERENCE 5,10 mm3 : berceau batteries kart-1 / Ecrou M3-14
-  INTERFERENCE 5,10 mm3 : berceau batteries kart-1 / Ecrou M3-13
-  INTERFERENCE 5,10 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-18
-  INTERFERENCE 5,10 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-19
-  INTERFERENCE 5,10 mm3 : berceau batteries kart-1 / Ecrou M3-13
-  INTERFERENCE 5,10 mm3 : berceau batteries kart-1 / Ecrou M3-14
-  INTERFERENCE 5,10 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-15
-  INTERFERENCE 5,10 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-19
-  INTERFERENCE 5,10 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-18
-  INTERFERENCE 5,10 mm3 : berceau batteries kart-1 / Ecrou M3-16
-  INTERFERENCE 5,10 mm3 : berceau batteries kart-1 / Ecrou M3-17
-  INTERFERENCE 4,74 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-29
-  INTERFERENCE 4,74 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-30
-  INTERFERENCE 4,74 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-30
-  INTERFERENCE 4,74 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-29
-  INTERFERENCE 2,97 mm3 : tour du bras-1 / Ecrou M3-22
-  INTERFERENCE 2,97 mm3 : tour du bras-1 / Ecrou M3-23
-  INTERFERENCE 2,97 mm3 : tour du bras-1 / Ecrou M3-21
-  INTERFERENCE 2,97 mm3 : tour du bras-1 / Ecrou M3-20
-  INTERFERENCE 2,83 mm3 : vis M3x10-2 / Ecrou M3-30
-  INTERFERENCE 2,83 mm3 : vis M3x10-1 / Ecrou M3-29
   INTERFERENCE 1,11 mm3 : nez 5 capteurs et roulette-1 / capteur-1/LineSensorAssy.step-1/Part 1.step-1
   INTERFERENCE 1,11 mm3 : nez 5 capteurs et roulette-1 / capteur-3/LineSensorAssy.step-1/Part 1.step-1
   INTERFERENCE 1,11 mm3 : nez 5 capteurs et roulette-1 / capteur-2/LineSensorAssy.step-1/Part 1.step-1
@@ -122,130 +34,17 @@ visserie inseree : 56 pieces sur 56
   INTERFERENCE 1,11 mm3 : nez 5 capteurs et roulette-1 / capteur-4/LineSensorAssy.step-1/Part 1.step-1
   INTERFERENCE 0,51 mm3 : nez 5 capteurs et roulette-1 / roulette a bille (encombrement)-1
   INTERFERENCE 0,51 mm3 : nez 5 capteurs et roulette-1 / roulette a bille (encombrement)-1
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-12
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-10
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-6
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-8
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-9
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-5
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-7
-  INTERFERENCE 0,18 mm3 : tour du bras-1 / Ecrou M3-20
-  INTERFERENCE 0,18 mm3 : tour du bras-1 / Ecrou M3-23
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-11
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-8
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-6
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-11
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-7
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-5
-  INTERFERENCE 0,18 mm3 : tour du bras-1 / Ecrou M3-21
-  INTERFERENCE 0,18 mm3 : tour du bras-1 / Ecrou M3-22
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-12
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-10
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-9
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-9
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-11
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-12
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-10
-  INTERFERENCE 0,18 mm3 : tour du bras-1 / Ecrou M3-22
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-7
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-5
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-8
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-6
-  INTERFERENCE 0,18 mm3 : tour du bras-1 / Ecrou M3-23
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-8
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-6
-  INTERFERENCE 0,18 mm3 : tour du bras-1 / Ecrou M3-21
-  INTERFERENCE 0,18 mm3 : tour du bras-1 / Ecrou M3-20
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-7
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-5
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-9
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-11
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-10
-  INTERFERENCE 0,18 mm3 : platine kart-1 / Ecrou M3-12
-  INTERFERENCE 0,15 mm3 : platine kart-1 / Ecrou M3-2
-  INTERFERENCE 0,15 mm3 : platine kart-1 / Ecrou M3-1
-  INTERFERENCE 0,15 mm3 : platine kart-1 / Ecrou M3-3
-  INTERFERENCE 0,15 mm3 : platine kart-1 / Ecrou M3-4
-  INTERFERENCE 0,15 mm3 : platine kart-1 / Ecrou M3-3
-  INTERFERENCE 0,15 mm3 : platine kart-1 / Ecrou M3-4
-  INTERFERENCE 0,15 mm3 : platine kart-1 / Ecrou M3-2
-  INTERFERENCE 0,15 mm3 : platine kart-1 / Ecrou M3-1
-  INTERFERENCE 0,15 mm3 : platine kart-1 / Ecrou M3-3
-  INTERFERENCE 0,15 mm3 : platine kart-1 / Ecrou M3-4
-  INTERFERENCE 0,15 mm3 : platine kart-1 / Ecrou M3-1
-  INTERFERENCE 0,15 mm3 : platine kart-1 / Ecrou M3-2
-  INTERFERENCE 0,15 mm3 : platine kart-1 / Ecrou M3-4
-  INTERFERENCE 0,15 mm3 : platine kart-1 / Ecrou M3-2
-  INTERFERENCE 0,15 mm3 : platine kart-1 / Ecrou M3-3
-  INTERFERENCE 0,15 mm3 : platine kart-1 / Ecrou M3-1
-  INTERFERENCE 0,13 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-29
-  INTERFERENCE 0,13 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-25
-  INTERFERENCE 0,13 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-26
-  INTERFERENCE 0,13 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-27
-  INTERFERENCE 0,13 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-28
-  INTERFERENCE 0,13 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-30
-  INTERFERENCE 0,13 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-24
-  INTERFERENCE 0,13 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-29
-  INTERFERENCE 0,13 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-24
-  INTERFERENCE 0,13 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-28
-  INTERFERENCE 0,13 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-27
-  INTERFERENCE 0,13 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-30
-  INTERFERENCE 0,13 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-25
-  INTERFERENCE 0,13 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-26
-  INTERFERENCE 0,08 mm3 : platine kart-1 / Ecrou M3-9
-  INTERFERENCE 0,08 mm3 : platine kart-1 / Ecrou M3-5
-  INTERFERENCE 0,08 mm3 : berceau batteries kart-1 / Ecrou M3-16
-  INTERFERENCE 0,08 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-19
-  INTERFERENCE 0,08 mm3 : platine kart-1 / Ecrou M3-6
-  INTERFERENCE 0,08 mm3 : platine kart-1 / Ecrou M3-7
-  INTERFERENCE 0,08 mm3 : berceau batteries kart-1 / Ecrou M3-17
-  INTERFERENCE 0,08 mm3 : platine kart-1 / Ecrou M3-12
-  INTERFERENCE 0,08 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-15
-  INTERFERENCE 0,08 mm3 : platine kart-1 / Ecrou M3-8
-  INTERFERENCE 0,08 mm3 : platine kart-1 / Ecrou M3-11
-  INTERFERENCE 0,08 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-18
-  INTERFERENCE 0,08 mm3 : berceau batteries kart-1 / Ecrou M3-14
-  INTERFERENCE 0,08 mm3 : platine kart-1 / Ecrou M3-10
-  INTERFERENCE 0,08 mm3 : berceau batteries kart-1 / Ecrou M3-13
-  INTERFERENCE 0,08 mm3 : tour du bras-1 / Ecrou M3-23
-  INTERFERENCE 0,08 mm3 : tour du bras-1 / Ecrou M3-22
-  INTERFERENCE 0,08 mm3 : tour du bras-1 / Ecrou M3-20
-  INTERFERENCE 0,08 mm3 : tour du bras-1 / Ecrou M3-21
-  INTERFERENCE 0,08 mm3 : berceau batteries kart-1 / Ecrou M3-17
-  INTERFERENCE 0,08 mm3 : berceau batteries kart-1 / Ecrou M3-16
-  INTERFERENCE 0,08 mm3 : platine kart-1 / Ecrou M3-6
-  INTERFERENCE 0,08 mm3 : platine kart-1 / Ecrou M3-8
-  INTERFERENCE 0,08 mm3 : platine kart-1 / Ecrou M3-10
-  INTERFERENCE 0,08 mm3 : platine kart-1 / Ecrou M3-12
-  INTERFERENCE 0,08 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-18
-  INTERFERENCE 0,08 mm3 : berceau batteries kart-1 / Ecrou M3-14
-  INTERFERENCE 0,08 mm3 : berceau batteries kart-1 / Ecrou M3-13
-  INTERFERENCE 0,08 mm3 : platine kart-1 / Ecrou M3-7
-  INTERFERENCE 0,08 mm3 : platine kart-1 / Ecrou M3-5
-  INTERFERENCE 0,08 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-15
-  INTERFERENCE 0,08 mm3 : platine kart-1 / Ecrou M3-11
-  INTERFERENCE 0,08 mm3 : nez 5 capteurs et roulette-1 / Ecrou M3-19
-  INTERFERENCE 0,08 mm3 : platine kart-1 / Ecrou M3-9
-  INTERFERENCE 0,08 mm3 : tour du bras-1 / Ecrou M3-21
-  INTERFERENCE 0,08 mm3 : tour du bras-1 / Ecrou M3-23
-  INTERFERENCE 0,08 mm3 : tour du bras-1 / Ecrou M3-22
-  INTERFERENCE 0,08 mm3 : tour du bras-1 / Ecrou M3-20
-  INTERFERENCE 0,02 mm3 : platine kart-1 / Ecrou M3-4
-  INTERFERENCE 0,02 mm3 : platine kart-1 / Ecrou M3-3
-  INTERFERENCE 0,02 mm3 : platine kart-1 / Ecrou M3-4
-  INTERFERENCE 0,02 mm3 : platine kart-1 / Ecrou M3-3
-  INTERFERENCE 0,02 mm3 : platine kart-1 / Ecrou M3-3
-  INTERFERENCE 0,02 mm3 : platine kart-1 / Ecrou M3-4
-  INTERFERENCE 0,02 mm3 : platine kart-1 / Ecrou M3-4
-  INTERFERENCE 0,02 mm3 : platine kart-1 / Ecrou M3-3
-  INTERFERENCE 0,02 mm3 : platine kart-1 / Ecrou M3-2
-  INTERFERENCE 0,02 mm3 : platine kart-1 / Ecrou M3-1
-  INTERFERENCE 0,02 mm3 : platine kart-1 / Ecrou M3-1
-  INTERFERENCE 0,02 mm3 : platine kart-1 / Ecrou M3-2
-  INTERFERENCE 0,02 mm3 : platine kart-1 / Ecrou M3-2
-  INTERFERENCE 0,02 mm3 : platine kart-1 / Ecrou M3-1
-  INTERFERENCE 0,02 mm3 : platine kart-1 / Ecrou M3-1
-  INTERFERENCE 0,02 mm3 : platine kart-1 / Ecrou M3-2
-interferences : 224
+  INTERFERENCE 0,31 mm3 : platine kart-1 / kart ecrou M3-1
+  INTERFERENCE 0,31 mm3 : platine kart-1 / kart ecrou M3-3
+  INTERFERENCE 0,13 mm3 : L298N Motor Driver.step-1 / kart vis M3x12-1
+  INTERFERENCE 0,13 mm3 : L298N Motor Driver.step-1 / kart vis M3x12-2
+  INTERFERENCE 0,13 mm3 : L298N Motor Driver.step-1 / kart vis M3x12-3
+  INTERFERENCE 0,13 mm3 : L298N Motor Driver.step-1 / kart vis M3x12-4
+  INTERFERENCE 0,02 mm3 : capteur-1/LineSensorAssy.step-1/Part 1.step-1 / kart vis M3x8-1
+  INTERFERENCE 0,02 mm3 : capteur-4/LineSensorAssy.step-1/Part 1.step-1 / kart vis M3x8-4
+  INTERFERENCE 0,02 mm3 : capteur-3/LineSensorAssy.step-1/Part 1.step-1 / kart vis M3x8-3
+  INTERFERENCE 0,02 mm3 : capteur-2/LineSensorAssy.step-1/Part 1.step-1 / kart vis M3x8-2
+  INTERFERENCE 0,02 mm3 : capteur-5/LineSensorAssy.step-1/Part 1.step-1 / kart vis M3x8-5
+interferences : 22
 enregistre : True err 0
 
