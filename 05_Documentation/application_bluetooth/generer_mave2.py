@@ -110,8 +110,18 @@ def suite(*blocs):
     """Enchaine des blocs d'instructions (chacun sans <next>) : b1 -> b2 -> ..."""
     blocs = [b for b in blocs if b]
     out = ''
+    fin = '</next></block>'
     for b in reversed(blocs):
-        out = b[:-len('</block>')] + ('<next>%s</next>' % out if out else '') + '</block>'
+        if out:
+            # b peut deja etre une suite : accrocher au DERNIER bloc de sa chaine (sinon double <next>,
+            # « Next statement is already connected » et App Inventor ne charge pas les blocs)
+            k = 0
+            while b.endswith(fin * (k + 1)):
+                k += 1
+            tete = b[:len(b) - len(fin) * k]
+            out = tete[:-len('</block>')] + '<next>%s</next>' % out + '</block>' + fin * k
+        else:
+            out = b
     return out
 
 
@@ -312,11 +322,11 @@ ajout(proc('decouper', [], B('controls_while', V('TEST', compare('GT', pos, num(
 
 # Une ligne du robot : "R kp ki kd tau vservo vmax vmin brqlent ecalent v255" remplit les cases ; sinon elle s'affiche
 item = lambda i: B('lists_select_item', V('LIST', lvar('mots')) + V('NUM', num(i)))
-remplir = suite(*[set_('TextBox', tb, 'Text', item(i + 2)) for i, (tb, _, _) in enumerate(REGLAGES)])
+remplir = [set_('TextBox', tb, 'Text', item(i + 2)) for i, (tb, _, _) in enumerate(REGLAGES)]   # liste : suite() ne doit pas recevoir une suite (double <next>)
 ajout(proc('traiter_ligne', ['ligne'], si(
     B('logic_operation', F('OP', 'AND') + V('A', compare('EQ', B('text_starts_at', V('TEXT', lvar('ligne')) + V('PIECE', txt('R '))), num(1))) +
       V('B', compare('GTE', B('lists_length', V('LIST', B('text_split_at_spaces', V('TEXT', lvar('ligne'))))), num(len(REGLAGES) + 1)))),
-    local('mots', B('text_split_at_spaces', V('TEXT', lvar('ligne'))), suite(remplir, set_('Label', 'LabelMessage', 'Text', txt('Reglages du robot recus')))),
+    local('mots', B('text_split_at_spaces', V('TEXT', lvar('ligne'))), suite(*remplir, set_('Label', 'LabelMessage', 'Text', txt('Reglages du robot recus')))),
     si(B('logic_negate', V('BOOL', B('text_isEmpty', V('VALUE', lvar('ligne'))))), set_('Label', 'LabelMessage', 'Text', lvar('ligne')))), X0, y), 8)
 
 # Case vide -> "x" : l'ESP32 s'arrete de lire a cet endroit et garde les valeurs suivantes (jamais de decalage)
